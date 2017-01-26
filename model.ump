@@ -1,0 +1,71 @@
+namespace ca.mcgill.ecse223.tileo.model;
+
+class Player {
+    name;
+    1..* -- 1 PlayerRole role;
+}
+
+class PlayerRole {
+    
+}
+
+class Designer {
+    isA PlayerRole;
+}
+
+class RegularPlayer {
+    isA PlayerRole;
+}
+
+class PlayerPiece {
+    Integer[] startingPosition;
+    String color;
+    Boolean isBlocked;
+    
+    1 -- 0..1 Tile tile;
+    1 -- 1 RegularPlayer;
+}
+
+class Layout {
+    Integer nColumns;
+    Integer nRows;
+    1 <@>- * Tile tiles;
+}
+
+class Tile {
+    Integer[] position;
+    Boolean isActivated;
+    const Boolean ISWIN = false;
+}
+
+class HiddenTile {
+    isA Tile;
+    const Boolean ISWIN = true;
+}
+
+class ActionTile {
+    isA Tile;
+    Integer normalForNTurns;
+    Integer normalTurnsLeft;
+}
+
+class Connection {
+    0..4 -- 2 Tile;
+}
+
+class BoardGame {
+    Integer nSpareConnections = 32;
+  
+    0..1 -- 1 Designer designer;
+    0..1 -- 2..4 PlayerPiece pieces;
+    1 -- 1 Deck deck;
+    1 -- 1 Layout grid;
+}
+
+class Deck {
+    1 <@>- * Card cards;
+}
+
+class Card {
+  descrition;
+}
