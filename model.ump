@@ -6,7 +6,7 @@ class Player {
 }
 
 class PlayerRole {
-    
+    abstract;
 }
 
 class Designer {
