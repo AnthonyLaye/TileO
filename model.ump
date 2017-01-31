@@ -18,7 +18,8 @@ class RegularPlayer {
 }
 
 class PlayerPiece {
-    Integer[] startingPosition;
+    Integer startingX;
+    Integer startingY;
     String color;
     Boolean isBlocked;
     
@@ -33,9 +34,12 @@ class Layout {
 }
 
 class Tile {
-    Integer[] position;
+    Integer x;
+    Integer y;
     Boolean isActivated;
     const Boolean ISWIN = false;
+
+    0..4 connectedTiles -- * Tile; 
 }
 
 class HiddenTile {
@@ -47,10 +51,6 @@ class ActionTile {
     isA Tile;
     Integer normalForNTurns;
     Integer normalTurnsLeft;
-}
-
-class Connection {
-    0..4 -- 2 Tile;
 }
 
 class BoardGame {
@@ -67,5 +67,6 @@ class Deck {
 }
 
 class Card {
-  descrition;
+    CardAction {RollDie{} AddConnection{} RemoveConnection{} MovePiece{} LoseTurn{}};
+    CardAction action; 
 }
