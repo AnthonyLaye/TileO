@@ -2,29 +2,15 @@ namespace ca.mcgill.ecse223.tileo.model;
 
 class Player {
     name;
-    1..* -- 1 PlayerRole role;
-}
-
-class PlayerRole {
-    abstract;
-}
-
-class Designer {
-    isA PlayerRole;
-}
-
-class RegularPlayer {
-    isA PlayerRole;
+    1 -- 0..1 PlayerPiece;
 }
 
 class PlayerPiece {
     Integer startingX;
     Integer startingY;
-    String color;
+    Color color;
     Boolean isBlocked;
     
-    1 -- 0..1 Tile tile;
-    1 -- 1 RegularPlayer;
 }
 
 class Layout {
@@ -33,13 +19,17 @@ class Layout {
     1 <@>- * Tile tiles;
 }
 
+class Connection {
+	0..4 connections -- 2 Tile;
+}
+
 class Tile {
     Integer x;
     Integer y;
     Boolean isActivated;
     const Boolean ISWIN = false;
-
-    0..4 connectedTiles -- * Tile; 
+    
+    1 -- 0..1 PlayerPiece playerPiece;
 }
 
 class HiddenTile {
@@ -56,8 +46,7 @@ class ActionTile {
 class BoardGame {
     Integer nSpareConnections = 32;
   
-    0..1 -- 1 Designer designer;
-    0..1 -- 2..4 PlayerPiece pieces;
+    1 -- 2..4 PlayerPiece pieces;
     1 -- 1 Deck deck;
     1 -- 1 Layout grid;
 }
