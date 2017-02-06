@@ -1,73 +1,52 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
+/*This code was generated using the UMPLE 1.25.0-980fc67 modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 
-// line 58 "../../../../../model.ump"
-public class Card
+// line 61 "../../../../../../../../ump/tmp527783/model.ump"
+// line 149 "../../../../../../../../ump/tmp527783/model.ump"
+public abstract class ActionCard
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //Card Attributes
-  private CardAction action;
+  //ActionCard Attributes
+  private String instructions;
 
-  //Card State Machines
-  public enum CardAction { RollDie, AddConnection, RemoveConnection, MovePiece, LoseTurn }
-  private CardAction cardAction;
-
-  //Card Associations
+  //ActionCard Associations
   private Deck deck;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Card(CardAction aAction, Deck aDeck)
+  public ActionCard(String aInstructions, Deck aDeck)
   {
-    action = aAction;
+    instructions = aInstructions;
     boolean didAddDeck = setDeck(aDeck);
     if (!didAddDeck)
     {
       throw new RuntimeException("Unable to create card due to deck");
     }
-    setCardAction(CardAction.RollDie);
   }
 
   //------------------------
   // INTERFACE
   //------------------------
 
-  public boolean setAction(CardAction aAction)
+  public boolean setInstructions(String aInstructions)
   {
     boolean wasSet = false;
-    action = aAction;
+    instructions = aInstructions;
     wasSet = true;
     return wasSet;
   }
 
-  public CardAction getAction()
+  public String getInstructions()
   {
-    return action;
-  }
-
-  public String getCardActionFullName()
-  {
-    String answer = cardAction.toString();
-    return answer;
-  }
-
-  public CardAction getCardAction()
-  {
-    return cardAction;
-  }
-
-  public boolean setCardAction(CardAction aCardAction)
-  {
-    cardAction = aCardAction;
-    return true;
+    return instructions;
   }
 
   public Deck getDeck()
@@ -116,10 +95,8 @@ public class Card
 
   public String toString()
   {
-    String outputString = "";
-    return super.toString() + "["+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "action" + "=" + (getAction() != null ? !getAction().equals(this)  ? getAction().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "deck = "+(getDeck()!=null?Integer.toHexString(System.identityHashCode(getDeck())):"null")
-     + outputString;
+    return super.toString() + "["+
+            "instructions" + ":" + getInstructions()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "deck = "+(getDeck()!=null?Integer.toHexString(System.identityHashCode(getDeck())):"null");
   }
 }

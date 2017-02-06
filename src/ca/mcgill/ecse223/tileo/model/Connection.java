@@ -1,10 +1,11 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
+/*This code was generated using the UMPLE 1.25.0-980fc67 modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 import java.util.*;
 
-// line 22 "../../../../../model.ump"
+// line 53 "../../../../../../../../ump/tmp527783/model.ump"
+// line 137 "../../../../../../../../ump/tmp527783/model.ump"
 public class Connection
 {
 
@@ -13,20 +14,31 @@ public class Connection
   //------------------------
 
   //Connection Associations
+  private Game game;
   private List<Tile> tiles;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Connection()
+  public Connection(Game aGame)
   {
+    boolean didAddGame = setGame(aGame);
+    if (!didAddGame)
+    {
+      throw new RuntimeException("Unable to create connection due to game");
+    }
     tiles = new ArrayList<Tile>();
   }
 
   //------------------------
   // INTERFACE
   //------------------------
+
+  public Game getGame()
+  {
+    return game;
+  }
 
   public Tile getTile(int index)
   {
@@ -56,6 +68,25 @@ public class Connection
   {
     int index = tiles.indexOf(aTile);
     return index;
+  }
+
+  public boolean setGame(Game aGame)
+  {
+    boolean wasSet = false;
+    if (aGame == null)
+    {
+      return wasSet;
+    }
+
+    Game existingGame = game;
+    game = aGame;
+    if (existingGame != null && !existingGame.equals(aGame))
+    {
+      existingGame.removeConnection(this);
+    }
+    game.addConnection(this);
+    wasSet = true;
+    return wasSet;
   }
 
   public boolean isNumberOfTilesValid()
@@ -136,6 +167,9 @@ public class Connection
 
   public void delete()
   {
+    Game placeholderGame = game;
+    this.game = null;
+    placeholderGame.removeConnection(this);
     ArrayList<Tile> copyOfTiles = new ArrayList<Tile>(tiles);
     tiles.clear();
     for(Tile aTile : copyOfTiles)

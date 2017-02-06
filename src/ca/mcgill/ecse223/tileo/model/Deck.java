@@ -1,10 +1,11 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
+/*This code was generated using the UMPLE 1.25.0-980fc67 modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 import java.util.*;
 
-// line 54 "../../../../../model.ump"
+// line 56 "../../../../../../../../ump/tmp527783/model.ump"
+// line 142 "../../../../../../../../ump/tmp527783/model.ump"
 public class Deck
 {
 
@@ -13,42 +14,43 @@ public class Deck
   //------------------------
 
   //Deck Associations
-  private List<Card> cards;
-  private BoardGame boardGame;
+  private List<ActionCard> cards;
+  private ActionCard currentCard;
+  private Game game;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Deck(BoardGame aBoardGame)
+  public Deck(Game aGame)
   {
-    cards = new ArrayList<Card>();
-    if (aBoardGame == null || aBoardGame.getDeck() != null)
+    cards = new ArrayList<ActionCard>();
+    if (aGame == null || aGame.getDeck() != null)
     {
-      throw new RuntimeException("Unable to create Deck due to aBoardGame");
+      throw new RuntimeException("Unable to create Deck due to aGame");
     }
-    boardGame = aBoardGame;
+    game = aGame;
   }
 
-  public Deck(Layout aGridForBoardGame)
+  public Deck(int aCurrentConnectionPiecesForGame, Die aDieForGame, TileO aTileOForGame)
   {
-    cards = new ArrayList<Card>();
-    boardGame = new BoardGame(this, aGridForBoardGame);
+    cards = new ArrayList<ActionCard>();
+    game = new Game(aCurrentConnectionPiecesForGame, this, aDieForGame, aTileOForGame);
   }
 
   //------------------------
   // INTERFACE
   //------------------------
 
-  public Card getCard(int index)
+  public ActionCard getCard(int index)
   {
-    Card aCard = cards.get(index);
+    ActionCard aCard = cards.get(index);
     return aCard;
   }
 
-  public List<Card> getCards()
+  public List<ActionCard> getCards()
   {
-    List<Card> newCards = Collections.unmodifiableList(cards);
+    List<ActionCard> newCards = Collections.unmodifiableList(cards);
     return newCards;
   }
 
@@ -64,31 +66,31 @@ public class Deck
     return has;
   }
 
-  public int indexOfCard(Card aCard)
+  public int indexOfCard(ActionCard aCard)
   {
     int index = cards.indexOf(aCard);
     return index;
   }
 
-  public BoardGame getBoardGame()
+  public ActionCard getCurrentCard()
   {
-    return boardGame;
+    return currentCard;
   }
 
-  public boolean isNumberOfCardsValid()
+  public boolean hasCurrentCard()
   {
-    boolean isValid = numberOfCards() >= minimumNumberOfCards() && numberOfCards() <= maximumNumberOfCards();
-    return isValid;
+    boolean has = currentCard != null;
+    return has;
   }
 
-  public static int requiredNumberOfCards()
+  public Game getGame()
   {
-    return 32;
+    return game;
   }
 
   public static int minimumNumberOfCards()
   {
-    return 32;
+    return 0;
   }
 
   public static int maximumNumberOfCards()
@@ -96,7 +98,19 @@ public class Deck
     return 32;
   }
 
-  public boolean addCard(Card aCard)
+//  public ActionCard addCard(String aInstructions)
+//  {
+//    if (numberOfCards() >= maximumNumberOfCards())
+//    {
+//      return null;
+//    }
+//    else
+//    {
+//      return new ActionCard(aInstructions, this);
+//    }
+//  }
+
+  public boolean addCard(ActionCard aCard)
   {
     boolean wasAdded = false;
     if (cards.contains(aCard)) { return false; }
@@ -107,12 +121,6 @@ public class Deck
 
     Deck existingDeck = aCard.getDeck();
     boolean isNewDeck = existingDeck != null && !this.equals(existingDeck);
-
-    if (isNewDeck && existingDeck.numberOfCards() <= minimumNumberOfCards())
-    {
-      return wasAdded;
-    }
-
     if (isNewDeck)
     {
       aCard.setDeck(this);
@@ -125,39 +133,73 @@ public class Deck
     return wasAdded;
   }
 
-  public boolean removeCard(Card aCard)
+  public boolean removeCard(ActionCard aCard)
   {
     boolean wasRemoved = false;
     //Unable to remove aCard, as it must always have a deck
-    if (this.equals(aCard.getDeck()))
+    if (!this.equals(aCard.getDeck()))
     {
-      return wasRemoved;
+      cards.remove(aCard);
+      wasRemoved = true;
     }
-
-    //deck already at minimum (32)
-    if (numberOfCards() <= minimumNumberOfCards())
-    {
-      return wasRemoved;
-    }
-    cards.remove(aCard);
-    wasRemoved = true;
     return wasRemoved;
+  }
+
+  public boolean addCardAt(ActionCard aCard, int index)
+  {  
+    boolean wasAdded = false;
+    if(addCard(aCard))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfCards()) { index = numberOfCards() - 1; }
+      cards.remove(aCard);
+      cards.add(index, aCard);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveCardAt(ActionCard aCard, int index)
+  {
+    boolean wasAdded = false;
+    if(cards.contains(aCard))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfCards()) { index = numberOfCards() - 1; }
+      cards.remove(aCard);
+      cards.add(index, aCard);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addCardAt(aCard, index);
+    }
+    return wasAdded;
+  }
+
+  public boolean setCurrentCard(ActionCard aNewCurrentCard)
+  {
+    boolean wasSet = false;
+    currentCard = aNewCurrentCard;
+    wasSet = true;
+    return wasSet;
   }
 
   public void delete()
   {
     while (cards.size() > 0)
     {
-      Card aCard = cards.get(cards.size() - 1);
+      ActionCard aCard = cards.get(cards.size() - 1);
       aCard.delete();
       cards.remove(aCard);
     }
     
-    BoardGame existingBoardGame = boardGame;
-    boardGame = null;
-    if (existingBoardGame != null)
+    currentCard = null;
+    Game existingGame = game;
+    game = null;
+    if (existingGame != null)
     {
-      existingBoardGame.delete();
+      existingGame.delete();
     }
   }
 

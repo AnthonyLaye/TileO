@@ -1,18 +1,13 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
+/*This code was generated using the UMPLE 1.25.0-980fc67 modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 import java.util.*;
 
-// line 26 "../../../../../model.ump"
-public class Tile
+// line 29 "../../../../../../../../ump/tmp527783/model.ump"
+// line 115 "../../../../../../../../ump/tmp527783/model.ump"
+public abstract class Tile
 {
-
-  //------------------------
-  // STATIC VARIABLES
-  //------------------------
-
-  public static final boolean ISWIN = false;
 
   //------------------------
   // MEMBER VARIABLES
@@ -21,28 +16,27 @@ public class Tile
   //Tile Attributes
   private int x;
   private int y;
-  private boolean isActivated;
+  private boolean hasBeenVisited;
 
   //Tile Associations
-  private PlayerPiece playerPiece;
-  private Layout layout;
   private List<Connection> connections;
+  private Game game;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Tile(int aX, int aY, boolean aIsActivated, Layout aLayout)
+  public Tile(int aX, int aY, Game aGame)
   {
     x = aX;
     y = aY;
-    isActivated = aIsActivated;
-    boolean didAddLayout = setLayout(aLayout);
-    if (!didAddLayout)
-    {
-      throw new RuntimeException("Unable to create tile due to layout");
-    }
+    hasBeenVisited = false;
     connections = new ArrayList<Connection>();
+    boolean didAddGame = setGame(aGame);
+    if (!didAddGame)
+    {
+      throw new RuntimeException("Unable to create tile due to game");
+    }
   }
 
   //------------------------
@@ -65,10 +59,10 @@ public class Tile
     return wasSet;
   }
 
-  public boolean setIsActivated(boolean aIsActivated)
+  public boolean setHasBeenVisited(boolean aHasBeenVisited)
   {
     boolean wasSet = false;
-    isActivated = aIsActivated;
+    hasBeenVisited = aHasBeenVisited;
     wasSet = true;
     return wasSet;
   }
@@ -83,30 +77,14 @@ public class Tile
     return y;
   }
 
-  public boolean getIsActivated()
+  public boolean getHasBeenVisited()
   {
-    return isActivated;
+    return hasBeenVisited;
   }
 
-  public boolean isIsActivated()
+  public boolean isHasBeenVisited()
   {
-    return isActivated;
-  }
-
-  public PlayerPiece getPlayerPiece()
-  {
-    return playerPiece;
-  }
-
-  public boolean hasPlayerPiece()
-  {
-    boolean has = playerPiece != null;
-    return has;
-  }
-
-  public Layout getLayout()
-  {
-    return layout;
+    return hasBeenVisited;
   }
 
   public Connection getConnection(int index)
@@ -139,50 +117,9 @@ public class Tile
     return index;
   }
 
-  public boolean setPlayerPiece(PlayerPiece aNewPlayerPiece)
+  public Game getGame()
   {
-    boolean wasSet = false;
-    if (playerPiece != null && !playerPiece.equals(aNewPlayerPiece) && equals(playerPiece.getTile()))
-    {
-      //Unable to setPlayerPiece, as existing playerPiece would become an orphan
-      return wasSet;
-    }
-
-    playerPiece = aNewPlayerPiece;
-    Tile anOldTile = aNewPlayerPiece != null ? aNewPlayerPiece.getTile() : null;
-
-    if (!this.equals(anOldTile))
-    {
-      if (anOldTile != null)
-      {
-        anOldTile.playerPiece = null;
-      }
-      if (playerPiece != null)
-      {
-        playerPiece.setTile(this);
-      }
-    }
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setLayout(Layout aLayout)
-  {
-    boolean wasSet = false;
-    if (aLayout == null)
-    {
-      return wasSet;
-    }
-
-    Layout existingLayout = layout;
-    layout = aLayout;
-    if (existingLayout != null && !existingLayout.equals(aLayout))
-    {
-      existingLayout.removeTile(this);
-    }
-    layout.addTile(this);
-    wasSet = true;
-    return wasSet;
+    return game;
   }
 
   public static int minimumNumberOfConnections()
@@ -277,17 +214,27 @@ public class Tile
     return wasAdded;
   }
 
+  public boolean setGame(Game aGame)
+  {
+    boolean wasSet = false;
+    if (aGame == null)
+    {
+      return wasSet;
+    }
+
+    Game existingGame = game;
+    game = aGame;
+    if (existingGame != null && !existingGame.equals(aGame))
+    {
+      existingGame.removeTile(this);
+    }
+    game.addTile(this);
+    wasSet = true;
+    return wasSet;
+  }
+
   public void delete()
   {
-    PlayerPiece existingPlayerPiece = playerPiece;
-    playerPiece = null;
-    if (existingPlayerPiece != null)
-    {
-      existingPlayerPiece.delete();
-    }
-    Layout placeholderLayout = layout;
-    this.layout = null;
-    placeholderLayout.removeTile(this);
     ArrayList<Connection> copyOfConnections = new ArrayList<Connection>(connections);
     connections.clear();
     for(Connection aConnection : copyOfConnections)
@@ -301,18 +248,18 @@ public class Tile
         aConnection.removeTile(this);
       }
     }
+    Game placeholderGame = game;
+    this.game = null;
+    placeholderGame.removeTile(this);
   }
 
 
   public String toString()
   {
-    String outputString = "";
     return super.toString() + "["+
             "x" + ":" + getX()+ "," +
             "y" + ":" + getY()+ "," +
-            "isActivated" + ":" + getIsActivated()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "playerPiece = "+(getPlayerPiece()!=null?Integer.toHexString(System.identityHashCode(getPlayerPiece())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "layout = "+(getLayout()!=null?Integer.toHexString(System.identityHashCode(getLayout())):"null")
-     + outputString;
+            "hasBeenVisited" + ":" + getHasBeenVisited()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null");
   }
 }

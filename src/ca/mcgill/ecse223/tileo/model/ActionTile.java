@@ -1,10 +1,11 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
+/*This code was generated using the UMPLE 1.25.0-980fc67 modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 import java.util.*;
 
-// line 40 "../../../../../model.ump"
+// line 38 "../../../../../../../../ump/tmp527783/model.ump"
+// line 121 "../../../../../../../../ump/tmp527783/model.ump"
 public class ActionTile extends Tile
 {
 
@@ -13,48 +14,40 @@ public class ActionTile extends Tile
   //------------------------
 
   //ActionTile Attributes
-  private int normalForNTurns;
-  private int normalTurnsLeft;
+  private int inactivityPeriod;
+  private int turnsUntilActive;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public ActionTile(int aX, int aY, boolean aIsActivated, Layout aLayout, int aNormalForNTurns, int aNormalTurnsLeft)
+  public ActionTile(int aX, int aY, Game aGame, int aInactivityPeriod)
   {
-    super(aX, aY, aIsActivated, aLayout);
-    normalForNTurns = aNormalForNTurns;
-    normalTurnsLeft = aNormalTurnsLeft;
+    super(aX, aY, aGame);
+    inactivityPeriod = aInactivityPeriod;
+    turnsUntilActive = 0;
   }
 
   //------------------------
   // INTERFACE
   //------------------------
 
-  public boolean setNormalForNTurns(int aNormalForNTurns)
+  public boolean setTurnsUntilActive(int aTurnsUntilActive)
   {
     boolean wasSet = false;
-    normalForNTurns = aNormalForNTurns;
+    turnsUntilActive = aTurnsUntilActive;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setNormalTurnsLeft(int aNormalTurnsLeft)
+  public int getInactivityPeriod()
   {
-    boolean wasSet = false;
-    normalTurnsLeft = aNormalTurnsLeft;
-    wasSet = true;
-    return wasSet;
+    return inactivityPeriod;
   }
 
-  public int getNormalForNTurns()
+  public int getTurnsUntilActive()
   {
-    return normalForNTurns;
-  }
-
-  public int getNormalTurnsLeft()
-  {
-    return normalTurnsLeft;
+    return turnsUntilActive;
   }
 
   public void delete()
@@ -65,10 +58,8 @@ public class ActionTile extends Tile
 
   public String toString()
   {
-    String outputString = "";
     return super.toString() + "["+
-            "normalForNTurns" + ":" + getNormalForNTurns()+ "," +
-            "normalTurnsLeft" + ":" + getNormalTurnsLeft()+ "]"
-     + outputString;
+            "inactivityPeriod" + ":" + getInactivityPeriod()+ "," +
+            "turnsUntilActive" + ":" + getTurnsUntilActive()+ "]";
   }
 }
