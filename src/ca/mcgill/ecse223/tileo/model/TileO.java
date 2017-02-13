@@ -1,11 +1,10 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-980fc67 modeling language!*/
+/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 import java.util.*;
 
-// line 4 "../../../../../../../../ump/tmp527783/model.ump"
-// line 91 "../../../../../../../../ump/tmp527783/model.ump"
+// line 3 "../../../../../TileO.ump"
 public class TileO
 {
 
@@ -15,6 +14,7 @@ public class TileO
 
   //TileO Associations
   private List<Game> games;
+  private Game currentGame;
 
   //------------------------
   // CONSTRUCTOR
@@ -57,6 +57,17 @@ public class TileO
   {
     int index = games.indexOf(aGame);
     return index;
+  }
+
+  public Game getCurrentGame()
+  {
+    return currentGame;
+  }
+
+  public boolean hasCurrentGame()
+  {
+    boolean has = currentGame != null;
+    return has;
   }
 
   public static int minimumNumberOfGames()
@@ -131,6 +142,14 @@ public class TileO
     return wasAdded;
   }
 
+  public boolean setCurrentGame(Game aNewCurrentGame)
+  {
+    boolean wasSet = false;
+    currentGame = aNewCurrentGame;
+    wasSet = true;
+    return wasSet;
+  }
+
   public void delete()
   {
     while (games.size() > 0)
@@ -140,6 +159,7 @@ public class TileO
       games.remove(aGame);
     }
     
+    currentGame = null;
   }
 
 }

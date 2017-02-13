@@ -1,11 +1,10 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-980fc67 modeling language!*/
+/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 import java.util.*;
 
-// line 8 "../../../../../../../../ump/tmp527783/model.ump"
-// line 96 "../../../../../../../../ump/tmp527783/model.ump"
+// line 8 "../../../../../TileO.ump"
 public class Game
 {
 
@@ -14,6 +13,7 @@ public class Game
   //------------------------
 
   public static final int SpareConnectionPieces = 32;
+  public static final int NumberOfActionCards = 32;
 
   //------------------------
   // MEMBER VARIABLES
@@ -23,7 +23,7 @@ public class Game
   private int currentConnectionPieces;
 
   //Game State Machines
-  public enum Mode { DESIGN, GAME }
+  public enum Mode { DESIGN, GAME, GAME_WON, GAME_ROLLDIEACTIONCARD, GAME_CONNECTTILESACTIONCARD, GAME_REMOVECONNECTIONACTIONCARD, GAME_TELEPORTACTIONCARD, GAME_LOSETURNACTIONCARD }
   private Mode mode;
 
   //Game Associations
@@ -353,10 +353,10 @@ public class Game
     return 0;
   }
 
-//  public Tile addTile(int aX, int aY)
-//  {
-//    return new Tile(aX, aY, this);
-//  }
+  /*public Tile addTile(int aX, int aY)
+  {
+    return new Tile(aX, aY, this);
+  }*/
 
   public boolean addTile(Tile aTile)
   {
@@ -572,12 +572,14 @@ public class Game
 
   public String toString()
   {
+    String outputString = "";
     return super.toString() + "["+
             "currentConnectionPieces" + ":" + getCurrentConnectionPieces()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "deck = "+(getDeck()!=null?Integer.toHexString(System.identityHashCode(getDeck())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "die = "+(getDie()!=null?Integer.toHexString(System.identityHashCode(getDie())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "currentPlayer = "+(getCurrentPlayer()!=null?Integer.toHexString(System.identityHashCode(getCurrentPlayer())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "winTile = "+(getWinTile()!=null?Integer.toHexString(System.identityHashCode(getWinTile())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "tileO = "+(getTileO()!=null?Integer.toHexString(System.identityHashCode(getTileO())):"null");
+            "  " + "tileO = "+(getTileO()!=null?Integer.toHexString(System.identityHashCode(getTileO())):"null")
+     + outputString;
   }
 }

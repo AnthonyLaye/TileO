@@ -1,10 +1,9 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-980fc67 modeling language!*/
+/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 
-// line 61 "../../../../../../../../ump/tmp527783/model.ump"
-// line 149 "../../../../../../../../ump/tmp527783/model.ump"
+// line 62 "../../../../../TileO.ump"
 public abstract class ActionCard
 {
 
@@ -35,14 +34,6 @@ public abstract class ActionCard
   //------------------------
   // INTERFACE
   //------------------------
-
-  public boolean setInstructions(String aInstructions)
-  {
-    boolean wasSet = false;
-    instructions = aInstructions;
-    wasSet = true;
-    return wasSet;
-  }
 
   public String getInstructions()
   {
@@ -95,8 +86,10 @@ public abstract class ActionCard
 
   public String toString()
   {
+    String outputString = "";
     return super.toString() + "["+
             "instructions" + ":" + getInstructions()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "deck = "+(getDeck()!=null?Integer.toHexString(System.identityHashCode(getDeck())):"null");
+            "  " + "deck = "+(getDeck()!=null?Integer.toHexString(System.identityHashCode(getDeck())):"null")
+     + outputString;
   }
 }

@@ -1,11 +1,10 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-980fc67 modeling language!*/
+/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 import java.util.*;
 
-// line 56 "../../../../../../../../ump/tmp527783/model.ump"
-// line 142 "../../../../../../../../ump/tmp527783/model.ump"
+// line 57 "../../../../../TileO.ump"
 public class Deck
 {
 
@@ -98,17 +97,17 @@ public class Deck
     return 32;
   }
 
-//  public ActionCard addCard(String aInstructions)
-//  {
-//    if (numberOfCards() >= maximumNumberOfCards())
-//    {
-//      return null;
-//    }
-//    else
-//    {
-//      return new ActionCard(aInstructions, this);
-//    }
-//  }
+  /*public ActionCard addCard(String aInstructions)
+  {
+    if (numberOfCards() >= maximumNumberOfCards())
+    {
+      return null;
+    }
+    else
+    {
+      return new ActionCard(aInstructions, this);
+    }
+  }*/
 
   public boolean addCard(ActionCard aCard)
   {

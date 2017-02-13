@@ -1,11 +1,10 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-980fc67 modeling language!*/
+/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 import java.util.*;
 
-// line 21 "../../../../../../../../ump/tmp527783/model.ump"
-// line 108 "../../../../../../../../ump/tmp527783/model.ump"
+// line 22 "../../../../../TileO.ump"
 public class Player
 {
 
@@ -203,11 +202,13 @@ public class Player
 
   public String toString()
   {
+    String outputString = "";
     return super.toString() + "["+
             "number" + ":" + getNumber()+ "," +
             "turnsUntilActive" + ":" + getTurnsUntilActive()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "startingTile = "+(getStartingTile()!=null?Integer.toHexString(System.identityHashCode(getStartingTile())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "currentTile = "+(getCurrentTile()!=null?Integer.toHexString(System.identityHashCode(getCurrentTile())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null");
+            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null")
+     + outputString;
   }
 }

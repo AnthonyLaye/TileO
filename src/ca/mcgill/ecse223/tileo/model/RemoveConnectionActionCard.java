@@ -1,10 +1,9 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-980fc67 modeling language!*/
+/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 
-// line 75 "../../../../../../../../ump/tmp527783/model.ump"
-// line 164 "../../../../../../../../ump/tmp527783/model.ump"
+// line 76 "../../../../../TileO.ump"
 public class RemoveConnectionActionCard extends ActionCard
 {
 

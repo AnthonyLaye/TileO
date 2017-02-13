@@ -1,11 +1,10 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-980fc67 modeling language!*/
+/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 import java.util.*;
 
-// line 29 "../../../../../../../../ump/tmp527783/model.ump"
-// line 115 "../../../../../../../../ump/tmp527783/model.ump"
+// line 30 "../../../../../TileO.ump"
 public abstract class Tile
 {
 
@@ -256,10 +255,12 @@ public abstract class Tile
 
   public String toString()
   {
+    String outputString = "";
     return super.toString() + "["+
             "x" + ":" + getX()+ "," +
             "y" + ":" + getY()+ "," +
             "hasBeenVisited" + ":" + getHasBeenVisited()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null");
+            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null")
+     + outputString;
   }
 }
