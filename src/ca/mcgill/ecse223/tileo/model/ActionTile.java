@@ -2,9 +2,11 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 39 "../../../../../TileO.ump"
+// line 27 "../../../../../TileOPersistence.ump"
+// line 41 "../../../../../TileO.ump"
 public class ActionTile extends Tile
 {
 
@@ -62,5 +64,13 @@ public class ActionTile extends Tile
             "inactivityPeriod" + ":" + getInactivityPeriod()+ "," +
             "turnsUntilActive" + ":" + getTurnsUntilActive()+ "]"
      + outputString;
-  }
+  }  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 30 ../../../../../TileOPersistence.ump
+  private static final long serialVersionUID = 8565684981117074687L ;
+
+  
 }
