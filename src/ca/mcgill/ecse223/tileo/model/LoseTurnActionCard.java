@@ -2,8 +2,10 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+import java.io.Serializable;
 
-// line 84 "../../../../../TileO.ump"
+// line 87 "../../../../../TileOPersistence.ump"
+// line 86 "../../../../../TileO.ump"
 public class LoseTurnActionCard extends ActionCard
 {
 
@@ -28,5 +30,13 @@ public class LoseTurnActionCard extends ActionCard
   {
     super.delete();
   }
+  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 90 ../../../../../TileOPersistence.ump
+  private static final long serialVersionUID = -4548100986646590925L ;
 
+  
 }

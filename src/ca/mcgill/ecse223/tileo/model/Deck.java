@@ -2,10 +2,12 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 57 "../../../../../TileO.ump"
-public class Deck
+// line 51 "../../../../../TileOPersistence.ump"
+// line 59 "../../../../../TileO.ump"
+public class Deck implements Serializable
 {
 
   //------------------------
@@ -41,6 +43,15 @@ public class Deck
   // INTERFACE
   //------------------------
 
+  public void shuffle() {
+    Random rand = new Random();
+    for (int i=0; i<100; ++i){
+        ActionCard card = getCard(0);
+        addOrMoveCardAt(card, rand.nextInt(Game.NumberOfActionCards));
+    }
+    setCurrentCard(getCard(0));
+  }
+  
   public ActionCard getCard(int index)
   {
     ActionCard aCard = cards.get(index);
@@ -201,5 +212,13 @@ public class Deck
       existingGame.delete();
     }
   }
+  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 54 ../../../../../TileOPersistence.ump
+  private static final long serialVersionUID = 1693774402081599849L ;
 
+  
 }

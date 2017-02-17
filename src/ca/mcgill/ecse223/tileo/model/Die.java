@@ -2,9 +2,11 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+import java.io.Serializable;
 
-// line 88 "../../../../../TileO.ump"
-public class Die
+// line 93 "../../../../../TileOPersistence.ump"
+// line 90 "../../../../../TileO.ump"
+public class Die implements Serializable
 {
 
   //------------------------
@@ -50,5 +52,13 @@ public class Die
       existingGame.delete();
     }
   }
+  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 96 ../../../../../TileOPersistence.ump
+  private static final long serialVersionUID = -8415971554267069479L ;
 
+  
 }

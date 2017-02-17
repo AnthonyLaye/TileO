@@ -2,10 +2,12 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 54 "../../../../../TileO.ump"
-public class Connection
+// line 45 "../../../../../TileOPersistence.ump"
+// line 56 "../../../../../TileO.ump"
+public class Connection implements Serializable
 {
 
   //------------------------
@@ -176,5 +178,13 @@ public class Connection
       aTile.removeConnection(this);
     }
   }
+  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 48 ../../../../../TileOPersistence.ump
+  private static final long serialVersionUID = -4706969448162468811L ;
 
+  
 }

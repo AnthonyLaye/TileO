@@ -1,7 +1,5 @@
 .project
 .classpath
-*.ui
 /bin/
-/mockups/
-/diagrams/
 *.swp
+/savedGames/

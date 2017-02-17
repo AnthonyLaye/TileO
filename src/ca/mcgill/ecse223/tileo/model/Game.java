@@ -2,10 +2,12 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 8 "../../../../../TileO.ump"
-public class Game
+// line 9 "../../../../../TileOPersistence.ump"
+// line 10 "../../../../../TileO.ump"
+public class Game implements Serializable
 {
 
   //------------------------
@@ -581,5 +583,13 @@ public class Game
             "  " + "winTile = "+(getWinTile()!=null?Integer.toHexString(System.identityHashCode(getWinTile())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "tileO = "+(getTileO()!=null?Integer.toHexString(System.identityHashCode(getTileO())):"null")
      + outputString;
-  }
+  }  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 12 ../../../../../TileOPersistence.ump
+  private static final long serialVersionUID = -4871491228092496389L ;
+
+  
 }

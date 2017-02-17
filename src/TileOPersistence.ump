@@ -1,0 +1,97 @@
+external interface Serializable {}
+
+class TileO {
+	depend java.io.Serializable;
+	isA Serializable;
+	private static final long serialVersionUID = -1402467009912279401L; 
+}
+
+class Game {
+  	depend java.io.Serializable;
+	isA Serializable;
+	private static final long serialVersionUID = -4871491228092496389L;
+}
+
+class Player {
+	depend java.io.Serializable;
+	isA Serializable;
+	private static final long serialVersionUID = 3679478658515911317L;
+}
+
+class Tile {
+	depend java.io.Serializable;
+	isA Serializable;
+	private static final long serialVersionUID = 4853757344933261749L;
+}
+
+class ActionTile {
+	depend java.io.Serializable;
+	isA Serializable;
+	private static final long serialVersionUID = 8565684981117074687L;	
+}
+
+class NormalTile {
+	depend java.io.Serializable;
+	isA Serializable;
+	private static final long serialVersionUID = -2291031409983159043L;
+}
+
+class WinTile {
+	depend java.io.Serializable;
+	isA Serializable;
+	private static final long serialVersionUID = 9004047970838151833L;
+}
+
+class Connection {
+	depend java.io.Serializable;
+	isA Serializable;
+    private static final long serialVersionUID = -4706969448162468811L;
+}
+
+class Deck {
+	depend java.io.Serializable;
+	isA Serializable;
+ 	private static final long serialVersionUID = 1693774402081599849L;
+}
+
+class ActionCard {
+	depend java.io.Serializable;
+	isA Serializable;
+	private static final long serialVersionUID = 7658061743228147507L;
+}
+
+class RollDieActionCard {
+	depend java.io.Serializable;
+	isA Serializable;
+	private static final long serialVersionUID = 7274690872707643783L;
+}
+
+class ConnectTilesActionCard {
+	depend java.io.Serializable;
+	isA Serializable;
+	private static final long serialVersionUID = 4457855681344552983L;
+}
+
+class RemoveConnectionActionCard {
+	depend java.io.Serializable;
+	isA Serializable;
+	private static final long serialVersionUID = 2790427058276976033L;
+}
+
+class TeleportActionCard {
+	depend java.io.Serializable;
+	isA Serializable;
+	private static final long serialVersionUID = -7103632970539771717L;
+}
+
+class LoseTurnActionCard {
+	depend java.io.Serializable;
+	isA Serializable;
+	private static final long serialVersionUID = -4548100986646590925L;
+}
+
+class Die {
+	depend java.io.Serializable;
+	isA Serializable;
+	private static final long serialVersionUID = -8415971554267069479L;	
+}

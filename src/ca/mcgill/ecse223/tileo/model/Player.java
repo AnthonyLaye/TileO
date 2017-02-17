@@ -2,10 +2,12 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 22 "../../../../../TileO.ump"
-public class Player
+// line 15 "../../../../../TileOPersistence.ump"
+// line 24 "../../../../../TileO.ump"
+public class Player implements Serializable
 {
 
   //------------------------
@@ -53,7 +55,12 @@ public class Player
   //------------------------
   // INTERFACE
   //------------------------
-
+    
+  public static void resetMap() {
+    //I had problems with tests (Vincent)
+    playersByNumber = new HashMap<Integer, Player>();
+  }
+  
   public boolean setNumber(int aNumber)
   {
     boolean wasSet = false;
@@ -210,5 +217,13 @@ public class Player
             "  " + "currentTile = "+(getCurrentTile()!=null?Integer.toHexString(System.identityHashCode(getCurrentTile())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null")
      + outputString;
-  }
+  }  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 18 ../../../../../TileOPersistence.ump
+  private static final long serialVersionUID = 3679478658515911317L ;
+
+  
 }
