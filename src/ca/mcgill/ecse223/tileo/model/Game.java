@@ -23,6 +23,7 @@ public class Game implements Serializable
 
   //Game Attributes
   private int currentConnectionPieces;
+  private String filename;
 
   //Game State Machines
   public enum Mode { DESIGN, GAME, GAME_WON, GAME_ROLLDIEACTIONCARD, GAME_CONNECTTILESACTIONCARD, GAME_REMOVECONNECTIONACTIONCARD, GAME_TELEPORTACTIONCARD, GAME_LOSETURNACTIONCARD }
@@ -84,6 +85,19 @@ public class Game implements Serializable
   //------------------------
   // INTERFACE
   //------------------------
+    
+  public boolean setFilename(String aFilename) 
+  {
+    boolean wasSet = false;
+    filename = aFilename;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public String getFilename() 
+  {
+    return filename;
+  }
 
   public boolean setCurrentConnectionPieces(int aCurrentConnectionPieces)
   {

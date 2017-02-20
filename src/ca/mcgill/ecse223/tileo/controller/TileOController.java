@@ -26,6 +26,8 @@ public class TileOController {
             error+="There is no WinTile selected ";
         if (selectedGame.numberOfPlayers() < selectedGame.minimumNumberOfPlayers())
             error+="Needs minimum two players ";
+        if (selectedGame.numberOfPlayers() > selectedGame.maximumNumberOfPlayers())
+            error+="Too many players ";
         for (Player aPlayer : selectedGame.getPlayers())
             if (aPlayer.getStartingTile()==null)
                 error+="Missing starting tile for player "+aPlayer.getNumber()+" ";
@@ -33,7 +35,6 @@ public class TileOController {
         if (!error.equals(""))
             throw new InvalidInputException(error.trim());
 
-        TileOApplication.setCurrentGame(selectedGame);
         deck.shuffle();
         for (Tile aTile : selectedGame.getTiles()) aTile.setHasBeenVisited(false);
         for (Player aPlayer : selectedGame.getPlayers()) {

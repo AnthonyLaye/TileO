@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.util.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,11 +20,13 @@ import ca.mcgill.ecse223.tileo.model.WinTile;
 import ca.mcgill.ecse223.tileo.model.Player;
 import ca.mcgill.ecse223.tileo.model.RollDieActionCard;
 import ca.mcgill.ecse223.tileo.model.Deck;
+import ca.mcgill.ecse223.tileo.model.Tile;
+import ca.mcgill.ecse223.tileo.model.Connection;
 
 public class TileOControllerTest {
 
-	private static String saveFName = "test";
-	private static String loadFName = TileOApplication.SavedFolder + "test.game";
+	private static String saveFName = "allo";
+	private static String loadFName = TileOApplication.SavedFolder + "allo.game";
 	/*
     @BeforeClass
     public static void setUpOnce() {
@@ -44,12 +47,14 @@ public class TileOControllerTest {
         TileO tileo = TileOApplication.getTileO();
         Game game = createGame(10, 32, 5, 2, true, tileo, controller);
         game.setMode(Game.Mode.GAME);
-        TileOApplication.setCurrentGame(game);
+        tileo.setCurrentGame(game);
         
         // save the game
         controller.saveGame(saveFName);
         File f = new File(loadFName);
+        
         assertTrue(f.exists());
+        assertEquals(loadFName, game.getFilename());
         
         // now load the saved game
         try {
@@ -66,7 +71,7 @@ public class TileOControllerTest {
 		assertEquals(loadedGame.getCurrentConnectionPieces(), connPieces);
 		assertEquals(loadedGame.getMode(), mode);
 		assertEquals(loadedGame.numberOfPlayers(), nPlayers);
-		assertEquals(loadedGame.numberOfTiles(), nTiles+1); //+1 is the WinTile
+		assertEquals(loadedGame.numberOfTiles(), nTiles);
 		assertNotNull(loadedGame.getDeck());
 		assertNotNull(loadedGame.getDie());
 	}
@@ -126,6 +131,32 @@ public class TileOControllerTest {
         
     }
     
+    @Test
+    public void playTurnTest() {
+        // Only checks for the possible moves,
+        // TODO complete test when the controller method is implemented
+    	TileOController controller = new TileOController();
+    	TileO tileo = TileOApplication.getTileO();
+    	Game game = createGame(10, 31, 5, 2, true, tileo, controller);
+    	Player p = game.getPlayer(0);
+    	p.setCurrentTile(game.getTile(0));
+
+    	List<Tile> possibleMoves = p.getPossibleMoves(2);
+        List<Tile> legalMoves = new ArrayList<Tile>();
+        legalMoves.add(game.getTile(2));
+        legalMoves.add(game.getTile(6));
+        legalMoves.add(game.getTile(10));
+
+    	for (Tile aTile : possibleMoves) {
+            if (!legalMoves.contains(aTile))
+                fail();
+            legalMoves.remove(aTile);
+        }
+    	
+    	if (legalMoves.size()!=0) fail();
+    }
+    
+    
     public Game createGame(int nConn, int nCards, int nRows, int nPlayers, boolean swt, TileO tileo, TileOController controller) {
         // Helper to create a game with certain characteristics, useful for errors check
 
@@ -134,18 +165,36 @@ public class TileOControllerTest {
         Deck d = game.getDeck(); // populate deck
         for(int i=0; i<nCards; ++i)
             new RollDieActionCard("", d);
-        NormalTile[][] tiles = new NormalTile[nRows][nRows];
-        for (int i=0; i<nRows; ++i){ // add tiles
-            for (int j=0; j<nRows; ++j)
-                tiles[i][j] = new NormalTile(i,j,game);
+        Tile[][] tiles = new Tile[nRows][nRows];
+        for (int y=0; y<nRows; ++y){ // add tiles
+            for (int x=0; x<nRows; ++x)
+                tiles[x][y] = new NormalTile(x,y,game);
         }
         if (swt) {
-            WinTile wt = new WinTile(nRows-1,nRows-1,game);
+        	WinTile wt;
+        	tiles[nRows-1][nRows-1].delete();
+            tiles[nRows-1][nRows-1] = wt = new WinTile(nRows-1,nRows-1,game);
             game.setWinTile(wt);
         }
         for (int i=0; i<nPlayers; ++i) // add players
             game.addPlayer(i);
-
+        // connect everything from
+        for (int y=0; y<nRows; ++y) {
+        	for (int x=0; x<nRows; ++x) {
+        		Connection conn;
+        		
+        		if (x < nRows-1){
+        			conn = new Connection(game); // left-right
+        			conn.addTile(tiles[x][y]);
+        			conn.addTile(tiles[x+1][y]);
+        		}
+        		if (y < nRows-1){
+        			conn = new Connection(game); // top-down
+        			conn.addTile(tiles[x][y]);
+        			conn.addTile(tiles[x][y+1]);
+        		}
+        	}
+        }
         return game;
     }
 }

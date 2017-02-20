@@ -19,6 +19,7 @@ class Game {
   const Integer SpareConnectionPieces = 32;
   Integer currentConnectionPieces;
   const Integer NumberOfActionCards = 32;
+  String lazy filename;
 }
 
 class Player {
