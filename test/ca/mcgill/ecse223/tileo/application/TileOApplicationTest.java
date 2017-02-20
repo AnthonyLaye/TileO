@@ -5,10 +5,11 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.mcgill.ecse2233.tileo.controller.TileOController;
+import java.io.File;
+
+import ca.mcgill.ecse223.tileo.controller.TileOController;
 import ca.mcgill.ecse223.tileo.model.TileO;
 import ca.mcgill.ecse223.tileo.model.Game;
-import ca.mcgill.ecse223.tileo.exception.InvalidFilenameException;
 
 public class TileOApplicationTest {
 
@@ -19,7 +20,7 @@ public class TileOApplicationTest {
     public void setUp() {
         File f = new File(loadFName);
         f.delete();
-        TileO t TileOApplication.getTileO();
+        TileO t = TileOApplication.getTileO();
         t.delete();
     }
 
