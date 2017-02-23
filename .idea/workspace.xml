@@ -2,17 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a1d84f45-8c3c-435a-a989-5c6b3528f362" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/controller/TileOController.java" afterPath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/controller/TileOController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/ActionCard.java" afterPath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/ActionCard.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/ActionTile.java" afterPath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/ActionTile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/ConnectTilesActionCard.java" afterPath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/ConnectTilesActionCard.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/LoseTurnActionCard.java" afterPath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/LoseTurnActionCard.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/NormalTile.java" afterPath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/NormalTile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/RemoveConnectionActionCard.java" afterPath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/RemoveConnectionActionCard.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/RollDieActionCard.java" afterPath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/RollDieActionCard.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/TeleportActionCard.java" afterPath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/TeleportActionCard.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Tile.java" afterPath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Tile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/WinTile.java" afterPath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/WinTile.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -46,7 +37,7 @@
       <file leaf-file-name="TileOApplication.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/application/TileOApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
+            <state relative-caret-position="280">
               <caret line="9" column="13" lean-forward="false" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
               <folding />
             </state>
@@ -89,7 +80,7 @@
         <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/WinTile.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="800">
-              <caret line="37" column="44" lean-forward="true" selection-start-line="37" selection-start-column="44" selection-end-line="37" selection-end-column="44" />
+              <caret line="37" column="44" lean-forward="false" selection-start-line="37" selection-start-column="44" selection-end-line="37" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -121,10 +112,10 @@
         <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/ConnectTilesActionCard.java" />
         <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/RemoveConnectionActionCard.java" />
         <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/controller/TileOController.java" />
-        <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/WinTile.java" />
         <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/NormalTile.java" />
         <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/ActionTile.java" />
         <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Tile.java" />
+        <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/WinTile.java" />
       </list>
     </option>
   </component>
@@ -732,7 +723,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/application/TileOApplication.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
+        <state relative-caret-position="280">
           <caret line="9" column="13" lean-forward="false" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
           <folding />
         </state>
@@ -785,7 +776,7 @@
     <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/WinTile.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="800">
-          <caret line="37" column="44" lean-forward="true" selection-start-line="37" selection-start-column="44" selection-end-line="37" selection-end-column="44" />
+          <caret line="37" column="44" lean-forward="false" selection-start-line="37" selection-start-column="44" selection-end-line="37" selection-end-column="44" />
           <folding />
         </state>
       </provider>

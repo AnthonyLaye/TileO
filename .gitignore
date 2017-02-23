@@ -1,5 +1,8 @@
 .project
 .classpath
+.iml
+.xml
+/.idea/
 /bin/
 *.swp
 /savedGames/
