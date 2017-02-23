@@ -26,6 +26,11 @@ public class LoseTurnActionCard extends ActionCard
   // INTERFACE
   //------------------------
 
+  public Game.Mode getActionCardMode(){
+
+    return Game.Mode.GAME_LOSETURNACTIONCARD;
+  }
+
   public void delete()
   {
     super.delete();

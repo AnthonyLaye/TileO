@@ -27,6 +27,17 @@ public class NormalTile extends Tile
   // INTERFACE
   //------------------------
 
+  public void land(){
+
+    Game currentGame = this.getGame();
+    Player currentPlayer = currentGame.getCurrentPlayer();
+    currentPlayer.setCurrentTile(this);
+
+    currentGame.setCurrentPlayer(currentGame.getPlayer(currentGame.indexOfPlayer(currentPlayer) + 1));
+    currentGame.setMode(Game.Mode.GAME);
+
+  }
+
   public void delete()
   {
     super.delete();

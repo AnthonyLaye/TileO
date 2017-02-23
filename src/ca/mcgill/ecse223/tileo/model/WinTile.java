@@ -27,6 +27,17 @@ public class WinTile extends Tile
   // INTERFACE
   //------------------------
 
+  public void land(){
+    /* Called when a player lands on the Win Tile */
+
+    Game currentGame = getGame();
+    Player currentPlayer = currentGame.getCurrentPlayer();
+
+    currentGame.setCurrentPlayer(currentGame.getPlayer(currentGame.indexOfPlayer(currentPlayer) + 1));
+    currentPlayer.setCurrentTile(this);
+    currentGame.setMode(Game.Mode.GAME_WON);
+
+  }
   public void delete()
   {
     super.delete();
@@ -39,5 +50,4 @@ public class WinTile extends Tile
   // line 42 ../../../../../TileOPersistence.ump
   private static final long serialVersionUID = 9004047970838151833L ;
 
-  
 }

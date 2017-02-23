@@ -60,6 +60,8 @@ public abstract class Tile implements Serializable
     return wasSet;
   }
 
+  public abstract void land();
+
   public boolean setHasBeenVisited(boolean aHasBeenVisited)
   {
     boolean wasSet = false;
@@ -272,5 +274,4 @@ public abstract class Tile implements Serializable
   // line 24 ../../../../../TileOPersistence.ump
   private static final long serialVersionUID = 4853757344933261749L ;
 
-  
 }

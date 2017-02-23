@@ -46,6 +46,12 @@ public class TileOController {
         selectedGame.setMode(Game.Mode.GAME);
     }
 
+    public void land(Tile tile) throws InvalidInputException{
+        /* Initiates when a player lands on a tile */
+
+        tile.land();
+    }
+
     public boolean saveGame(String filename) {
         /* Saves the current game  */
 

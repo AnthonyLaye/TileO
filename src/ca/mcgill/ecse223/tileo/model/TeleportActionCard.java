@@ -26,6 +26,11 @@ public class TeleportActionCard extends ActionCard
   // INTERFACE
   //------------------------
 
+  public Game.Mode getActionCardMode(){
+
+    return Game.Mode.GAME_TELEPORTACTIONCARD;
+  }
+
   public void delete()
   {
     super.delete();
