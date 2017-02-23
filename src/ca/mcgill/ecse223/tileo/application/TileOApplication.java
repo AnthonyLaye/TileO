@@ -2,8 +2,8 @@ package ca.mcgill.ecse223.tileo.application;
 
 import ca.mcgill.ecse223.tileo.model.Game;
 import ca.mcgill.ecse223.tileo.model.TileO;
-
 import ca.mcgill.ecse223.tileo.persistence.PersistenceObjectStream;
+import ca.mcgill.ecse223.tileo.view.TileOPage;
 
 import java.io.*;
 
@@ -13,8 +13,11 @@ public class TileOApplication {
     public static final String SavedFolder = "savedGames/";
 
     public static void main(String args[]) {
-    
-    
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new TileOPage().setVisible(true);
+            }
+        });  
     }
 
 
