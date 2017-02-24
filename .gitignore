@@ -2,6 +2,7 @@
 .classpath
 .iml
 .xml
+/out/
 /.idea/
 /bin/
 *.swp

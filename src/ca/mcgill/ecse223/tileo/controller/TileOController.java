@@ -52,6 +52,51 @@ public class TileOController {
         tile.land();
     }
 
+    public void addRegularTile(int x, int y, Game game){
+
+        TileO tileO = TileOApplication.getTileO();
+
+        try{
+            tileO.addNormalTile(x, y, game);
+            //TileOApplication.save();
+        }catch (RuntimeException e){
+
+            System.out.print("Error");
+        }
+    }
+
+    public void addActionTile(int x, int y, Game game, int inactivityPeriod){
+
+        TileO tileO = TileOApplication.getTileO();
+
+        try{
+            tileO.addActionTile(x, y, game, inactivityPeriod);
+            //TileOApplication.save();
+        }catch (RuntimeException e){
+
+            System.out.print("Error");
+        }
+    }
+
+    public void addHiddenTile(int x, int y, Game game){
+
+        TileO tileO = TileOApplication.getTileO();
+
+        try{
+            tileO.addWinTile(x, y, game);
+            //TileOApplication.save();
+        }catch (RuntimeException e){
+
+            System.out.print("Error");
+        }
+    }
+
+    public void removeTile(Tile tile){
+
+        TileO tileO = TileOApplication.getTileO();
+        tileO.removeTile(tile);
+    }
+
     public boolean saveGame(String filename) {
         /* Saves the current game  */
 
@@ -77,4 +122,5 @@ public class TileOController {
 
         return loadedGame;
     }
+
 }
