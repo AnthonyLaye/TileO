@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a1d84f45-8c3c-435a-a989-5c6b3528f362" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/WinTile.java" afterPath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/WinTile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/view/TileOPage.java" afterPath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/view/TileOPage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/controller/TileOController.java" afterPath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/controller/TileOController.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,10 +22,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
-      <file leaf-file-name="TileOPage.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TileOPage.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/view/TileOPage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="40">
+            <state relative-caret-position="1676">
               <caret line="491" column="0" lean-forward="false" selection-start-line="491" selection-start-column="0" selection-end-line="491" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -34,11 +34,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TileOController.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TileOController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/controller/TileOController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1840">
-              <caret line="52" column="5" lean-forward="false" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
+            <state relative-caret-position="6360">
+              <caret line="120" column="43" lean-forward="false" selection-start-line="120" selection-start-column="43" selection-end-line="120" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -124,11 +124,11 @@
         <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/RemoveConnectionActionCard.java" />
         <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/NormalTile.java" />
         <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Tile.java" />
-        <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/controller/TileOController.java" />
         <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/ActionTile.java" />
         <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/WinTile.java" />
         <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/TileO.java" />
         <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/view/TileOPage.java" />
+        <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/controller/TileOController.java" />
       </list>
     </option>
   </component>
@@ -153,9 +153,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -392,6 +391,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -659,7 +659,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-16" y="-16" width="3232" height="1756" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1116,16 +1116,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/controller/TileOController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1840">
-          <caret line="52" column="5" lean-forward="false" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/TileO.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3480">
@@ -1160,8 +1150,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/view/TileOPage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
+        <state relative-caret-position="1676">
           <caret line="491" column="0" lean-forward="false" selection-start-line="491" selection-start-column="0" selection-end-line="491" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/controller/TileOController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6360">
+          <caret line="120" column="43" lean-forward="false" selection-start-line="120" selection-start-column="43" selection-end-line="120" selection-end-column="43" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
