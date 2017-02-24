@@ -13,12 +13,9 @@ import javax.swing.WindowConstants;
 import javax.swing.SwingConstants;
 
 import ca.mcgill.ecse223.tileo.exception.InvalidInputException;
-import ca.mcgill.ecse223.tileo.model.Connection;
-import ca.mcgill.ecse223.tileo.model.Game;
+import ca.mcgill.ecse223.tileo.model.*;
 
 import ca.mcgill.ecse223.tileo.controller.TileOController;
-import ca.mcgill.ecse223.tileo.model.Tile;
-import ca.mcgill.ecse223.tileo.model.TileO;
 
 
 public class TileOPage extends JFrame{
@@ -489,6 +486,9 @@ public class TileOPage extends JFrame{
     }
     private void drawCardActionPerformed(java.awt.event.ActionEvent e) {
 
+        TileOController tileOController = new TileOController();
+        ActionCard actionCard = (ActionCard) e.getSource();
+
 
     }  
     private void nextTurnActionPerformed(java.awt.event.ActionEvent e) {
@@ -536,6 +536,11 @@ public class TileOPage extends JFrame{
         //tileOController.addConnection(connection);
     }
     private void removeConnectionActionPerformed(java.awt.event.ActionEvent e) {
+
+        TileOController tileOController = new TileOController();
+        Connection connection = (Connection) e.getSource();
+
+        //tileOController.removeConnection(connection);
     }
     private void removeTileActionPerformed(java.awt.event.ActionEvent e) {
 
@@ -546,7 +551,17 @@ public class TileOPage extends JFrame{
     }
     private void setStartingTileActionPerformed(java.awt.event.ActionEvent e, int n) {
     }
+
     private void startGameActionPerformed(java.awt.event.ActionEvent e) {
+
+        TileOController tileOController = new TileOController();
+        Game game = (Game) e.getSource();
+
+        try {
+            tileOController.startGame(game);
+        } catch (InvalidInputException e1) {
+            e1.printStackTrace();
+        }
     }
     private void clearDesignActionPerformed(java.awt.event.ActionEvent e) {
     }

@@ -31,10 +31,7 @@ public class WinTile extends Tile
     /* Called when a player lands on the Win Tile */
 
     Game currentGame = getGame();
-    Player currentPlayer = currentGame.getCurrentPlayer();
-
-    currentGame.setCurrentPlayer(currentGame.getPlayer(currentGame.indexOfPlayer(currentPlayer) + 1));
-    currentPlayer.setCurrentTile(this);
+    this.setHasBeenVisited(true);
     currentGame.setMode(Game.Mode.GAME_WON);
 
   }
