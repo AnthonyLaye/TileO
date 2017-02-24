@@ -1115,12 +1115,12 @@ public class TileOPage extends JFrame{
         TileOController tileOController = new TileOController();
 
         try{
-            Game game = (Game) e.getSource();
-            tileOController.startGame(game);
+            Game game = tileOController.newGame(4); // add a spinner
+            renderLayout(game);
         }
-        catch(InvalidInputException e1){
+        catch(InvalidInputException err){
 
-            System.out.print("Error invalid Game");
+            System.out.print(err.getMessage());
         }
 
     }
