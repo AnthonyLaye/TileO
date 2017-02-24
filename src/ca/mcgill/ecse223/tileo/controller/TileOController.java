@@ -136,5 +136,19 @@ public class TileOController {
 
         return loadedGame;
     }
+    
+    public Game newGame(int nPlayer) throws InvalidInputException{
+    	if (nPlayer < Game.minimumNumberOfPlayers())
+    		throw new InvalidInputException("Not enough players");
+    	if (nPlayer > Game.maximumNumberOfPlayers())
+    		throw new InvalidInputException("Too many players");
+    	
+    	TileO tileo = TileOApplication.getTileO();
+    	
+    	Game game = new Game(0, tileo);
+    	game.setMode(Game.Mode.DESIGN);
+    	tileo.setCurrentGame(game);
+    	return game;
+    }
 
 }
