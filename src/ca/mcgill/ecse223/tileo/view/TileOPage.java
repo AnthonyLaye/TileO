@@ -11,6 +11,9 @@ import javax.swing.JSpinner;
 import javax.swing.GroupLayout;
 import javax.swing.WindowConstants;
 import javax.swing.SwingConstants;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.SpinnerNumberModel;
 
 import ca.mcgill.ecse223.tileo.exception.InvalidInputException;
 import ca.mcgill.ecse223.tileo.model.Connection;
@@ -24,8 +27,9 @@ import ca.mcgill.ecse223.tileo.model.TileO;
 public class TileOPage extends JFrame{
     
 	private static final long serialVersionUID = -6882114745313007613L;
+    private static final int NumberOfCards = Game.NumberOfActionCards;
 	
-	// welcome
+    // welcome
     private JButton welNewGameButton;
     private JButton welLoadDesignButton;
     private JButton welLoadGameButton;
@@ -49,6 +53,7 @@ public class TileOPage extends JFrame{
             private JButton addConnectionCardButton;
             private JButton rollDieCardButton;
         // design
+        private JTabbedPane designTabbedPane;
             // tile
             private JButton addRegularTileButton;
             private JButton addActionTileButton;
@@ -76,9 +81,10 @@ public class TileOPage extends JFrame{
             private JLabel numberOfCardsLabel;
 
 
+
     // control
     private JButton saveButton;
-    private JButton quitButton;
+    private JButton menuButton;
         // design
         private JButton startGameButton;
         private JButton clearDesignButton;
@@ -90,17 +96,45 @@ public class TileOPage extends JFrame{
     private JLabel currentPlayerLabel;
     private JLabel currentPlayerNameLabel;
     private JLabel board;
+    
 
-    private static final int NumberOfCards = Game.NumberOfActionCards;
+
+    // data elements
+    private int selectedTile = -1;
 
     
     public TileOPage() {
         init();
-        renderGame();
+        welcome();
     }
     
     private void init() {
-        
+    	
+    	// welcome
+    	welNewGameButton = new JButton("New game");
+        welLoadDesignButton = new JButton("Load a design");
+        welLoadGameButton = new JButton("Load a game");
+        welExitButton = new JButton("Exit");
+        welNewGameButton.addActionListener(new java.awt.event.ActionListener(){
+        	public void actionPerformed(java.awt.event.ActionEvent e) {
+        		newGameActionPerformed(e);
+        	}
+        });
+        welLoadDesignButton.addActionListener(new java.awt.event.ActionListener(){
+        	public void actionPerformed(java.awt.event.ActionEvent e) {
+        		loadDesignActionPerformed(e);
+        	}
+        });
+        welLoadGameButton.addActionListener(new java.awt.event.ActionListener(){
+        	public void actionPerformed(java.awt.event.ActionEvent e) {
+        		loadGameActionPerformed(e);
+        	}
+        });
+        welExitButton.addActionListener(new java.awt.event.ActionListener(){
+        	public void actionPerformed(java.awt.event.ActionEvent e){
+        		System.exit(0);
+        	}
+        });
         
         // mode
         modeLabel = new JLabel();
@@ -134,21 +168,36 @@ public class TileOPage extends JFrame{
                 setStartingTile4Button = new JButton();
                 // deck
                 extraTurnCardLabel = new JLabel();
-                extraTurnCardSpinner = new JSpinner();
                 newConnectionCardLabel = new JLabel();
-                newConnectionCardSpinner = new JSpinner();;
                 removeConnectionCardLabel = new JLabel();
-                removeConnectionCardSpinner  = new JSpinner();
                 teleportCardLabel = new JLabel();
-                teleportCardSpinner = new JSpinner();
                 loseTurnCardLabel = new JLabel();
-                loseTurnCardSpinner = new JSpinner();
                 totalCardLabel = new JLabel();
                 numberOfCardsLabel = new JLabel();
-
+                extraTurnCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
+                newConnectionCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
+                removeConnectionCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
+                teleportCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
+                loseTurnCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
+                JSpinner[] spinners = {extraTurnCardSpinner, newConnectionCardSpinner, removeConnectionCardSpinner, teleportCardSpinner, loseTurnCardSpinner};
+                for (int i=0; i<5; ++i){
+                	spinners[i].addChangeListener(new javax.swing.event.ChangeListener(){
+                		public void stateChanged(javax.swing.event.ChangeEvent e){
+                			int n = updateNumberOfCards();
+                			if (n > NumberOfCards) {
+                				JSpinner sp = (JSpinner)e.getSource();
+                				sp.setValue((int)sp.getValue()-n+NumberOfCards);
+                			}
+                			updateNumberOfCards();
+                		}
+                	});
+                }
+                
+                
+            designTabbedPane = makeDesignPane();
         // control
         saveButton = new JButton();
-        quitButton = new JButton();
+        menuButton = new JButton();
             // design
             startGameButton = new JButton();
             clearDesignButton = new JButton();
@@ -298,7 +347,7 @@ public class TileOPage extends JFrame{
         
         // control
         saveButton.setText("Save");
-        quitButton.setText("Quit");
+        menuButton.setText("Menu");
         newGameButton.setText("New game");
         restartButton.setText("Restart game");
         startGameButton.setText("Start game");
@@ -308,9 +357,9 @@ public class TileOPage extends JFrame{
                 saveActionPerformed(e);
             }
         });
-        quitButton.addActionListener(new java.awt.event.ActionListener() {
+        menuButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                quitActionPerformed(e);
+                welcome();
             }
         });
         newGameButton.addActionListener(new java.awt.event.ActionListener() {
@@ -334,80 +383,15 @@ public class TileOPage extends JFrame{
             }
         });
 
-        
         // board
         currentPlayerLabel.setText("Current player: ");
-        board.setText("Imagine a nice board if you can");
-
-        // layout
-        GroupLayout layout = new GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
-
-        layout.setHorizontalGroup(
-            layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup()
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(currentPlayerLabel)
-                    .addComponent(currentPlayerNameLabel)
-                )
-                .addComponent(board)
-            )
-            .addComponent(modeLabel)
-            .addGroup(layout.createParallelGroup()
-                .addComponent(actionLabel)
-                .addComponent(rollDieButton)
-                .addComponent(actionStatusLabel)
-                .addComponent(actionTipLabel)
-                .addComponent(newGameButton)
-                .addComponent(restartButton)
-                .addComponent(saveButton)
-                .addComponent(quitButton)
-            )
-        );
-
-        layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[] {rollDieButton, newGameButton, saveButton, restartButton, quitButton});
-        
-
-        layout.setVerticalGroup(
-            layout.createSequentialGroup()
-            .addComponent(modeLabel)
-            .addGroup(layout.createParallelGroup()
-                .addGroup(layout.createSequentialGroup()
-                    .addGroup(layout.createParallelGroup()
-                        .addComponent(currentPlayerLabel)
-                        .addComponent(currentPlayerNameLabel)
-                    )
-                    .addComponent(board)
-                )
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(actionLabel)
-                    .addComponent(rollDieButton)
-                    .addComponent(actionStatusLabel)
-                    .addComponent(actionTipLabel)
-                    .addComponent(newGameButton)
-                    .addComponent(restartButton)
-                    .addComponent(saveButton)
-                    .addComponent(quitButton)
-                )
-            )
-        );
-        
-        pack();
+        board.setText("Imagine a nice board if you can");       
     }
-
-
+    
     private void welcome() {    
-
-        // INITIALIZATION
-        welNewGameButton = new JButton("New game");
-        welLoadDesignButton = new JButton("Load a design");
-        welLoadGameButton = new JButton("Load a game");
-        welExitButton = new JButton("Exit");
-
-
         // LAYOUT
+    	getContentPane().removeAll();
+    	
         GroupLayout layout = new GroupLayout(getContentPane());  
         getContentPane().setLayout(layout);
         layout.setAutoCreateGaps(true);
@@ -433,11 +417,679 @@ public class TileOPage extends JFrame{
 
         pack(); 
     }
-    
-    private void renderGame() {
-        modeLabel.setText("Game mode");
+
+
+    private void renderLayout(Game game) {
+        modeLabel.setText(game.getMode().toString());
+        currentPlayerNameLabel.setText("Player "+game.indexOfPlayer(game.getCurrentPlayer()));
+        game.setMode(Game.Mode.DESIGN);
+        
+        switch (game.getMode()) {      
+            case GAME:
+                renderGame(game);
+                break;
+            case GAME_WON:
+                renderGameWon(game);
+                break;
+            case GAME_ROLLDIEACTIONCARD:
+                renderRollCard(game);
+                break;
+            case GAME_CONNECTTILESACTIONCARD:
+            	renderConnectCard(game);
+                break;
+            case GAME_REMOVECONNECTIONACTIONCARD:
+            	renderRemoveCard(game);
+                break;
+            case GAME_TELEPORTACTIONCARD:
+            	renderTeleportCard(game);
+                break;
+            case GAME_LOSETURNACTIONCARD:
+                renderLoseTurnCard(game);
+            	break;
+            case DESIGN:
+            	renderDesign(game);
+            	break;
+        }
+    }
+
+    private void renderGame(Game game) {
+        getContentPane().removeAll();
+        
+        currentPlayerNameLabel.setText("Player :"+game.indexOfPlayer(game.getCurrentPlayer()));
         actionTipLabel.setText("Roll the die !");
-        currentPlayerNameLabel.setText("Player 1");
+
+        GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+        
+        layout.setHorizontalGroup(
+            layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(currentPlayerLabel)
+                    .addComponent(currentPlayerNameLabel)
+                )
+                .addComponent(board)
+            )
+            .addComponent(modeLabel)
+            .addGroup(layout.createParallelGroup()
+                .addComponent(actionLabel)
+                .addComponent(rollDieButton)
+                .addComponent(actionStatusLabel)
+                .addComponent(actionTipLabel)
+                .addComponent(newGameButton)
+                .addComponent(restartButton)
+                .addComponent(saveButton)
+                .addComponent(menuButton)
+            )
+        );
+
+        layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[]
+        {rollDieButton, newGameButton, saveButton, restartButton, menuButton});
+        
+
+        layout.setVerticalGroup(
+            layout.createSequentialGroup()
+            .addComponent(modeLabel)
+            .addGroup(layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup()
+                        .addComponent(currentPlayerLabel)
+                        .addComponent(currentPlayerNameLabel)
+                    )
+                    .addComponent(board)
+                )
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(actionLabel)
+                    .addComponent(rollDieButton)
+                    .addComponent(actionStatusLabel)
+                    .addComponent(actionTipLabel)
+                    .addComponent(newGameButton)
+                    .addComponent(restartButton)
+                    .addComponent(saveButton)
+                    .addComponent(menuButton)
+                )
+            )
+        );
+        pack();
+    }
+
+    private void renderGameWon(Game game) {
+        getContentPane().removeAll();
+        
+        modeLabel.setText("Game won !");
+        currentPlayerNameLabel.setText("Player :None");
+        actionStatusLabel.setText("Player "+game.indexOfPlayer(game.getCurrentPlayer())+" won !");
+        actionTipLabel.setText("");
+
+        GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+        
+        layout.setHorizontalGroup(
+            layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(currentPlayerLabel)
+                    .addComponent(currentPlayerNameLabel)
+                )
+                .addComponent(board)
+            )
+            .addComponent(modeLabel)
+            .addGroup(layout.createParallelGroup()
+                .addComponent(actionLabel)
+                .addComponent(actionStatusLabel)
+                .addComponent(actionTipLabel)
+                .addComponent(newGameButton)
+                .addComponent(restartButton)
+                .addComponent(menuButton)
+            )
+        );
+
+        layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[]
+        {newGameButton, restartButton, menuButton});
+        
+
+        layout.setVerticalGroup(
+            layout.createSequentialGroup()
+            .addComponent(modeLabel)
+            .addGroup(layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup()
+                        .addComponent(currentPlayerLabel)
+                        .addComponent(currentPlayerNameLabel)
+                    )
+                    .addComponent(board)
+                )
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(actionLabel)
+                    .addComponent(actionStatusLabel)
+                    .addComponent(actionTipLabel)
+                    .addComponent(newGameButton)
+                    .addComponent(restartButton)
+                    .addComponent(menuButton)
+                )
+            )
+        );
+        pack();
+        
+    }
+    
+    public void renderRollCard(Game game){
+        getContentPane().removeAll();
+        
+        modeLabel.setText("Game mode");
+        currentPlayerNameLabel.setText("Player :"+game.indexOfPlayer(game.getCurrentPlayer()));
+        actionStatusLabel.setText("Roll die action card");
+        actionTipLabel.setText("Roll the die");
+        
+        GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+        
+        layout.setHorizontalGroup(
+            layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(currentPlayerLabel)
+                    .addComponent(currentPlayerNameLabel)
+                )
+                .addComponent(board)
+            )
+            .addComponent(modeLabel)
+            .addGroup(layout.createParallelGroup()
+                .addComponent(actionLabel)
+                .addComponent(rollDieCardButton)
+                .addComponent(actionStatusLabel)
+                .addComponent(actionTipLabel)
+                .addComponent(newGameButton)
+                .addComponent(restartButton)
+                .addComponent(saveButton)
+                .addComponent(menuButton)
+            )
+        );
+
+        layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[]
+        {newGameButton, saveButton, restartButton, menuButton, rollDieCardButton});
+        
+
+        layout.setVerticalGroup(
+            layout.createSequentialGroup()
+            .addComponent(modeLabel)
+            .addGroup(layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup()
+                        .addComponent(currentPlayerLabel)
+                        .addComponent(currentPlayerNameLabel)
+                    )
+                    .addComponent(board)
+                )
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(actionLabel)
+                    .addComponent(rollDieCardButton)
+                    .addComponent(actionStatusLabel)
+                    .addComponent(actionTipLabel)
+                    .addComponent(newGameButton)
+                    .addComponent(restartButton)
+                    .addComponent(saveButton)
+                    .addComponent(menuButton)
+                )
+            )
+        );
+        
+        pack();
+    }
+    
+    private void renderConnectCard(Game game) {
+    	getContentPane().removeAll();
+        
+        modeLabel.setText("Game mode");
+        currentPlayerNameLabel.setText("Player :"+game.indexOfPlayer(game.getCurrentPlayer()));
+        actionStatusLabel.setText("Connect tiles card");
+        actionTipLabel.setText("Select two tiles you want to connect");
+    	
+    	GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+
+        layout.setHorizontalGroup(
+            layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(currentPlayerLabel)
+                    .addComponent(currentPlayerNameLabel)
+                )
+                .addComponent(board)
+            )
+            .addComponent(modeLabel)
+            .addGroup(layout.createParallelGroup()
+                .addComponent(actionLabel)
+                .addComponent(addConnectionCardButton)
+                .addComponent(actionStatusLabel)
+                .addComponent(actionTipLabel)
+                .addComponent(newGameButton)
+                .addComponent(restartButton)
+                .addComponent(saveButton)
+                .addComponent(menuButton)
+            )
+        );
+
+        layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[]
+        {newGameButton, saveButton, restartButton, menuButton, addConnectionCardButton});
+        
+
+        layout.setVerticalGroup(
+            layout.createSequentialGroup()
+            .addComponent(modeLabel)
+            .addGroup(layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup()
+                        .addComponent(currentPlayerLabel)
+                        .addComponent(currentPlayerNameLabel)
+                    )
+                    .addComponent(board)
+                )
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(actionLabel)
+                    .addComponent(addConnectionCardButton)
+                    .addComponent(actionStatusLabel)
+                    .addComponent(actionTipLabel)
+                    .addComponent(newGameButton)
+                    .addComponent(restartButton)
+                    .addComponent(saveButton)
+                    .addComponent(menuButton)
+                )
+            )
+        );
+        
+        pack();
+    }
+    
+    public void renderRemoveCard(Game game) {
+    	getContentPane().removeAll();
+        
+        modeLabel.setText("Game mode");
+        currentPlayerNameLabel.setText("Player :"+game.indexOfPlayer(game.getCurrentPlayer()));
+        actionStatusLabel.setText("Remove a connection card");
+        actionTipLabel.setText("Select two tiles you want to disconnect");
+    	
+    	GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+
+        layout.setHorizontalGroup(
+            layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(currentPlayerLabel)
+                    .addComponent(currentPlayerNameLabel)
+                )
+                .addComponent(board)
+            )
+            .addComponent(modeLabel)
+            .addGroup(layout.createParallelGroup()
+                .addComponent(actionLabel)
+                .addComponent(removeConnectionCardButton)
+                .addComponent(actionStatusLabel)
+                .addComponent(actionTipLabel)
+                .addComponent(newGameButton)
+                .addComponent(restartButton)
+                .addComponent(saveButton)
+                .addComponent(menuButton)
+            )
+        );
+
+        layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[]
+        {newGameButton, saveButton, restartButton, menuButton, removeConnectionCardButton});
+        
+
+        layout.setVerticalGroup(
+            layout.createSequentialGroup()
+            .addComponent(modeLabel)
+            .addGroup(layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup()
+                        .addComponent(currentPlayerLabel)
+                        .addComponent(currentPlayerNameLabel)
+                    )
+                    .addComponent(board)
+                )
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(actionLabel)
+                    .addComponent(removeConnectionCardButton)
+                    .addComponent(actionStatusLabel)
+                    .addComponent(actionTipLabel)
+                    .addComponent(newGameButton)
+                    .addComponent(restartButton)
+                    .addComponent(saveButton)
+                    .addComponent(menuButton)
+                )
+            )
+        );
+        
+        pack();
+    }
+    
+    public void renderLoseTurnCard(Game game) {
+    	getContentPane().removeAll();
+        
+        modeLabel.setText("Game mode");
+        currentPlayerNameLabel.setText("Player :"+game.indexOfPlayer(game.getCurrentPlayer()));
+        actionStatusLabel.setText("Lose a turn card");
+        actionTipLabel.setText("You lose you next turn...");
+    	
+    	GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+
+        layout.setHorizontalGroup(
+            layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(currentPlayerLabel)
+                    .addComponent(currentPlayerNameLabel)
+                )
+                .addComponent(board)
+            )
+            .addComponent(modeLabel)
+            .addGroup(layout.createParallelGroup()
+                .addComponent(actionLabel)
+                .addComponent(nextTurnButton)
+                .addComponent(actionStatusLabel)
+                .addComponent(actionTipLabel)
+                .addComponent(newGameButton)
+                .addComponent(restartButton)
+                .addComponent(saveButton)
+                .addComponent(menuButton)
+            )
+        );
+
+        layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[]
+        {newGameButton, saveButton, restartButton, menuButton, nextTurnButton});
+        
+
+        layout.setVerticalGroup(
+            layout.createSequentialGroup()
+            .addComponent(modeLabel)
+            .addGroup(layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup()
+                        .addComponent(currentPlayerLabel)
+                        .addComponent(currentPlayerNameLabel)
+                    )
+                    .addComponent(board)
+                )
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(actionLabel)
+                    .addComponent(nextTurnButton)
+                    .addComponent(actionStatusLabel)
+                    .addComponent(actionTipLabel)
+                    .addComponent(newGameButton)
+                    .addComponent(restartButton)
+                    .addComponent(saveButton)
+                    .addComponent(menuButton)
+                )
+            )
+        );
+        
+        pack();
+    }
+    
+    public void renderTeleportCard(Game game) {
+    	getContentPane().removeAll();
+        
+        modeLabel.setText("Game mode");
+        currentPlayerNameLabel.setText("Player :"+game.indexOfPlayer(game.getCurrentPlayer()));
+        actionStatusLabel.setText("Teleport card");
+        actionTipLabel.setText("Select a new tile");
+    	
+    	GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+
+        layout.setHorizontalGroup(
+            layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(currentPlayerLabel)
+                    .addComponent(currentPlayerNameLabel)
+                )
+                .addComponent(board)
+            )
+            .addComponent(modeLabel)
+            .addGroup(layout.createParallelGroup()
+                .addComponent(actionLabel)
+                .addComponent(teleportCardButton)
+                .addComponent(actionStatusLabel)
+                .addComponent(actionTipLabel)
+                .addComponent(newGameButton)
+                .addComponent(restartButton)
+                .addComponent(saveButton)
+                .addComponent(menuButton)
+            )
+        );
+
+        layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[]
+        {newGameButton, saveButton, restartButton, menuButton, teleportCardButton});
+        
+
+        layout.setVerticalGroup(
+            layout.createSequentialGroup()
+            .addComponent(modeLabel)
+            .addGroup(layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup()
+                        .addComponent(currentPlayerLabel)
+                        .addComponent(currentPlayerNameLabel)
+                    )
+                    .addComponent(board)
+                )
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(actionLabel)
+                    .addComponent(teleportCardButton)
+                    .addComponent(actionStatusLabel)
+                    .addComponent(actionTipLabel)
+                    .addComponent(newGameButton)
+                    .addComponent(restartButton)
+                    .addComponent(saveButton)
+                    .addComponent(menuButton)
+                )
+            )
+        );
+        
+        pack();
+    }
+    
+    public void renderDesign(Game game) {
+    	getContentPane().removeAll();
+        
+        modeLabel.setText("Designer mode");
+        currentPlayerNameLabel.setText("Designer");
+        actionStatusLabel.setText("");
+        actionTipLabel.setText("");
+        
+        GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setAutoCreateGaps(true);
+        layout.setAutoCreateContainerGaps(true);
+
+        layout.setHorizontalGroup(
+            layout.createSequentialGroup()
+            .addGroup(layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(currentPlayerLabel)
+                    .addComponent(currentPlayerNameLabel)
+                )
+                .addComponent(board)
+            )
+            .addComponent(modeLabel)
+            .addGroup(layout.createParallelGroup()
+                .addComponent(actionLabel)
+                .addComponent(designTabbedPane)              
+                .addComponent(actionStatusLabel)
+                .addComponent(actionTipLabel)
+                .addComponent(startGameButton)
+                .addComponent(clearDesignButton)
+                .addComponent(saveButton)
+                .addComponent(menuButton)
+            )
+        );
+
+        layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[]
+        {startGameButton, saveButton, clearDesignButton, menuButton});
+        
+
+        layout.setVerticalGroup(
+            layout.createSequentialGroup()
+            .addComponent(modeLabel)
+            .addGroup(layout.createParallelGroup()
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup()
+                        .addComponent(currentPlayerLabel)
+                        .addComponent(currentPlayerNameLabel)
+                    )
+                    .addComponent(board)
+                )
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(actionLabel)
+                    .addComponent(designTabbedPane)                   
+                    .addComponent(actionStatusLabel)
+                    .addComponent(actionTipLabel)
+                    .addComponent(startGameButton)
+                    .addComponent(clearDesignButton)
+                    .addComponent(saveButton)
+                    .addComponent(menuButton)
+                )
+            )
+        );
+        
+        pack();
+    	
+    }
+    
+    private JTabbedPane makeDesignPane() {
+    	JTabbedPane tabbed = new JTabbedPane();
+    	JPanel tilePanel = new JPanel();
+    	JPanel playerPanel = new JPanel();
+    	JPanel deckPanel = new JPanel();
+    	JPanel boardPanel = new JPanel();
+    	
+    	GroupLayout tileLayout = new GroupLayout(tilePanel);
+    	tilePanel.setLayout(tileLayout);
+    	tileLayout.setAutoCreateGaps(true);
+        tileLayout.setAutoCreateContainerGaps(true);
+    	tileLayout.setHorizontalGroup(tileLayout.createSequentialGroup()
+    		.addGroup(tileLayout.createParallelGroup()
+    			.addComponent(addRegularTileButton)
+    			.addComponent(addActionTileButton)
+    			.addComponent(addHiddenTileButton)
+    			.addComponent(addConnectionButton)
+    		)
+    		.addGroup(tileLayout.createParallelGroup()
+    			.addComponent(removeTileButton)
+    			.addComponent(removeConnectionButton)
+    		)    		
+    	);
+    	tileLayout.setVerticalGroup(tileLayout.createSequentialGroup()
+    		.addGroup(tileLayout.createParallelGroup()
+    			.addComponent(addRegularTileButton)
+    			.addComponent(removeTileButton)
+    		)
+    		.addGroup(tileLayout.createParallelGroup()
+        			.addComponent(addActionTileButton)
+        			.addComponent(removeConnectionButton)
+        	)
+    		.addComponent(addHiddenTileButton)
+    		.addComponent(addConnectionButton)
+    	);
+    	
+    	GroupLayout playerLayout = new GroupLayout(playerPanel);
+    	playerPanel.setLayout(playerLayout);
+    	playerLayout.setAutoCreateGaps(true);
+    	playerLayout.setAutoCreateContainerGaps(true);
+    	playerLayout.setHorizontalGroup(playerLayout.createSequentialGroup()
+    	    .addGroup(playerLayout.createParallelGroup()
+    	    	.addComponent(setStartingTile1Button)
+    	    	.addComponent(setStartingTile2Button)
+    	    	.addComponent(setStartingTile3Button)
+    	    	.addComponent(setStartingTile4Button)
+    	    )
+    	);
+    	playerLayout.setVerticalGroup(playerLayout.createSequentialGroup()
+    		.addComponent(setStartingTile1Button)
+    		.addComponent(setStartingTile2Button)
+    		.addComponent(setStartingTile3Button)
+    		.addComponent(setStartingTile4Button)
+    	);
+    	
+    	GroupLayout deckLayout = new GroupLayout(deckPanel);
+    	deckPanel.setLayout(deckLayout);
+    	deckLayout.setAutoCreateGaps(true);
+    	deckLayout.setAutoCreateContainerGaps(true);
+    	deckLayout.setHorizontalGroup(deckLayout.createSequentialGroup()
+    		.addGroup(deckLayout.createParallelGroup()
+    			.addComponent(extraTurnCardLabel)
+    			.addComponent(newConnectionCardLabel)
+    			.addComponent(removeConnectionCardLabel)
+    			.addComponent(teleportCardLabel)
+    			.addComponent(loseTurnCardLabel)
+    			.addComponent(totalCardLabel)
+    		)
+    		.addGroup(deckLayout.createParallelGroup()
+    			.addComponent(extraTurnCardSpinner)
+    			.addComponent(newConnectionCardSpinner)
+    			.addComponent(removeConnectionCardSpinner)
+    			.addComponent(teleportCardSpinner)
+    			.addComponent(loseTurnCardSpinner)
+    			.addComponent(numberOfCardsLabel)
+    		)
+    	);
+    	deckLayout.setVerticalGroup(deckLayout.createSequentialGroup()
+    		.addGroup(deckLayout.createParallelGroup()
+    			.addComponent(extraTurnCardLabel)
+    			.addComponent(extraTurnCardSpinner)
+    		)
+    		.addGroup(deckLayout.createParallelGroup()
+        			.addComponent(newConnectionCardLabel)
+        			.addComponent(newConnectionCardSpinner)
+        	)
+    		.addGroup(deckLayout.createParallelGroup()
+        			.addComponent(removeConnectionCardLabel)
+        			.addComponent(removeConnectionCardSpinner)
+        	)
+    		.addGroup(deckLayout.createParallelGroup()
+        			.addComponent(teleportCardLabel)
+        			.addComponent(teleportCardSpinner)
+        	)
+    		.addGroup(deckLayout.createParallelGroup()
+        			.addComponent(loseTurnCardLabel)
+        			.addComponent(loseTurnCardSpinner)
+       		)
+    		.addGroup(deckLayout.createParallelGroup()
+        			.addComponent(totalCardLabel)
+        			.addComponent(numberOfCardsLabel)
+       		)
+    	);
+               
+    	tabbed.addTab("Tile", tilePanel);
+    	tabbed.addTab("Player", playerPanel);
+    	tabbed.addTab("Deck", deckPanel);
+    	tabbed.addTab("Board", boardPanel);
+    	 	
+    	return tabbed;
+    }
+    
+    private int updateNumberOfCards() {
+    	int n = (int)extraTurnCardSpinner.getValue() + (int)newConnectionCardSpinner.getValue() + (int)removeConnectionCardSpinner.getValue() + (int)teleportCardSpinner.getValue() + (int)loseTurnCardSpinner.getValue();
+    	numberOfCardsLabel.setText(n+"/"+NumberOfCards);
+    	return n;
     }
 
 
@@ -549,5 +1201,9 @@ public class TileOPage extends JFrame{
     private void startGameActionPerformed(java.awt.event.ActionEvent e) {
     }
     private void clearDesignActionPerformed(java.awt.event.ActionEvent e) {
+    }
+    private void loadGameActionPerformed(java.awt.event.ActionEvent e){
+    }
+    private void loadDesignActionPerformed(java.awt.event.ActionEvent e){
     }
 }
