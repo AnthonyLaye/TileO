@@ -9,6 +9,7 @@ import ca.mcgill.ecse223.tileo.model.RollDieActionCard;
 import ca.mcgill.ecse223.tileo.model.Tile;
 import ca.mcgill.ecse223.tileo.model.TileO;
 import ca.mcgill.ecse223.tileo.model.WinTile;
+import ca.mcgill.ecse223.tileo.model.ActionTile;
 
 public class TileOUtil {
 	public  static Game createGame(int nConn, int nCards, int nRows, int nPlayers, boolean swt, TileO tileo, TileOController controller) {
@@ -30,6 +31,9 @@ public class TileOUtil {
             tiles[nRows-1][nRows-1] = wt = new WinTile(nRows-1,nRows-1,game);
             game.setWinTile(wt);
         }
+        tiles[0][0].delete();
+        tiles[0][0] = new ActionTile(0,0, game, 4);
+        
         for (int i=0; i<nPlayers; ++i) // add players
             game.addPlayer(i);
         // connect everything from
