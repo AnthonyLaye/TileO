@@ -1,5 +1,6 @@
 package ca.mcgill.ecse223.tileo.controller;
 
+
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.exception.InvalidInputException; 
 import ca.mcgill.ecse223.tileo.model.TileO;
@@ -19,7 +20,7 @@ public class TileOController {
         
         String error = "";
         Deck deck = selectedGame.getDeck();
-        
+        System.out.println(deck.numberOfCards() + "  "+Game.NumberOfActionCards);
         if (deck.numberOfCards() != Game.NumberOfActionCards)
             error+= "The deck needs to have 32 cards ";
         if (selectedGame.getWinTile() == null)
@@ -133,6 +134,15 @@ public class TileOController {
     	TileO tileo = TileOApplication.getTileO();
     	
     	Game game = new Game(0, tileo);
+    	int n = 0;
+    	while (nPlayer > 0){
+    		try {
+    			new Player(n, game);
+    			nPlayer--;
+    		}
+    		catch (RuntimeException e) {}
+    		n++;
+    	}
     	game.setMode(Game.Mode.DESIGN);
     	tileo.setCurrentGame(game);
     	return game;
