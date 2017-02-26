@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import ca.mcgill.ecse223.tileo.controller.TileOController;
+import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.model.Tile;
 import ca.mcgill.ecse223.tileo.model.WinTile;
 import ca.mcgill.ecse223.tileo.model.ActionTile;
@@ -28,6 +30,8 @@ class BoardVisualizer extends JPanel {
     
     // ui
     private List<Rectangle2D> rectangles = new ArrayList<Rectangle2D>();
+    private List<Rectangle2D> bgRectangles = new ArrayList<Rectangle2D>();
+    private HashMap<Player.Color, Color> pieceColors;
     
     private static final int LINEX = 30;
     private static final int LINEY = 30;
@@ -43,16 +47,27 @@ class BoardVisualizer extends JPanel {
     private Game game;
     private HashMap<Rectangle2D, Tile> tiles;
     private Tile selectedTile;
+    private boolean waitForTile = false;
+    private boolean waitForConn = false;
+    private boolean waitForCoord = false;
+    private int size = 5;
+    private Tile tileForConn1 = null;
+    private Tile tileForConn2 = null;
 
-    public BoardVisualizer(Game game) {
+    public BoardVisualizer() {
         super();
-        init(game);
+        init();
     }
 
-    public void init(Game game) {
-        this.game = game;
+    public void init() {
+        game = null;;
         tiles = new HashMap<Rectangle2D, Tile>();
         selectedTile = null;
+        pieceColors = new HashMap<Player.Color, Color>();
+        pieceColors.put(Player.Color.BLUE, Color.BLUE);
+        pieceColors.put(Player.Color.GREEN, Color.GREEN);
+        pieceColors.put(Player.Color.RED, Color.RED);
+        pieceColors.put(Player.Color.YELLOW, Color.YELLOW);
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e){
@@ -64,9 +79,73 @@ class BoardVisualizer extends JPanel {
                         break;
                     }
                 }
-                repaint();
+                int tX = -1;
+                int tY = -1;
+                for (Rectangle2D rect: bgRectangles) {
+                    if (rect.contains(x,y)) {
+                        tX = (x-LINEX)/(TILEW+SPACING);
+                        tY = (y-LINEY)/(TILEH+SPACING);
+                        break;
+                    }
+                }
+                
+                if (waitForCoord) {
+                	if (selectedTile!=null){
+                		tX=-1;
+                		tY=-1;
+                		System.out.println("blocked new tile");
+                	}
+                    TileOApplication.getTileOPage().coordSignal(tX, tY);
+                    waitForCoord = false;
+                }
+                
+                if (waitForConn) {
+                	if (tileForConn1==null)
+                		tileForConn1 = selectedTile;
+                	else {
+                		tileForConn2 = selectedTile;
+                		TileOApplication.getTileOPage().connSignal(tileForConn1, tileForConn2);
+                		tileForConn1 = null;
+                		tileForConn2 = null;
+                		waitForConn = false;
+                	}
+                }
+                
+                if (waitForTile) {
+                	TileOApplication.getTileOPage().tileSignal(selectedTile);
+                	waitForTile = false;
+                }
             }
         });
+    }
+
+    public void setBoardSize(int s) {
+        size = s;
+        repaint();
+    }
+    public int getBoardSize() {
+        return size;
+    }
+    public void setWaitForTile(boolean b) {
+        if (b) {
+        	waitForConn = false;
+        	waitForCoord = false;
+        }
+        waitForTile = b;
+    }
+    public void setWaitForConn(boolean b) {
+    	if (b) {
+    		waitForTile = false;
+    		waitForCoord = false;
+    	}
+    	waitForConn = b;
+    }
+    public void setWaitForCoord(boolean b) {
+    	if (b) {
+    		waitForTile = false;
+    		waitForConn = false;
+    	}
+    	waitForCoord = b;
     }
     
     public void setGame(Game game) {
@@ -85,7 +164,28 @@ class BoardVisualizer extends JPanel {
 
         rectangles.clear();
         tiles.clear();
+        bgRectangles.clear();
         
+        // background rects
+        if (game.getMode() == Game.Mode.DESIGN) {
+            for (int x=0; x<size; ++x){
+                for (int y=0; y<size; ++y) {
+                    Rectangle2D rect = new Rectangle2D.Float(
+                        LINEX+x*(TILEW+SPACING),
+                        LINEY+y*(TILEH+SPACING),
+                        TILEW,TILEH
+                    );    
+                    bgRectangles.add(rect);
+                    g2d.setColor(Color.WHITE);
+                    g2d.fill(rect);
+                    g2d.draw(rect);
+                }         
+            }
+        }
+
+
+
+        // tiles
         for (Tile tile: game.getTiles()) {
             int x = tile.getX();
             int y = tile.getY();
@@ -164,7 +264,27 @@ class BoardVisualizer extends JPanel {
             	g2d.fill(connPiece);
             	g2d.draw(connPiece);  
             }
-        }        
+        }  
+        
+        //players
+        for (Player player: game.getPlayers()){
+        	Tile t;
+        	if (game.getMode() == Game.Mode.DESIGN)
+        		t = player.getStartingTile();
+        	else
+        		t = player.getCurrentTile();
+        	
+        	if (t!=null){
+        		Ellipse2D piece = new Ellipse2D.Float(
+        			LINEX+t.getX()*(TILEW+SPACING),
+        			LINEY+t.getY()*(TILEH+SPACING),
+        			TILEW, TILEH
+        		);
+        		g2d.setColor(pieceColors.get(player.getColor()));
+        		g2d.fill(piece);
+        		g2d.draw(piece);
+        	}
+        }
     }
 
     @Override
