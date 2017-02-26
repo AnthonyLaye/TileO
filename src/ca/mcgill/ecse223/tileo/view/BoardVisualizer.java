@@ -121,6 +121,13 @@ class BoardVisualizer extends JPanel {
 
     public void setBoardSize(int s) {
         size = s;
+        TileOController tileOController = new TileOController();
+
+        for(Tile tile: tiles.values() ){
+
+            if(tile.getX() >= s || tile.getY() >= s)
+                tileOController.removeTile(tile, game);
+        }
         repaint();
     }
     public int getBoardSize() {
