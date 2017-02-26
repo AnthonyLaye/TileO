@@ -5,6 +5,8 @@ package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 import java.util.*;
 
+import ca.mcgill.ecse223.tileo.exception.InvalidInputException;
+
 // line 9 "../../../../../TileOPersistence.ump"
 // line 10 "../../../../../TileO.ump"
 public class Game implements Serializable
@@ -85,6 +87,41 @@ public class Game implements Serializable
   //------------------------
   // INTERFACE
   //------------------------
+  
+  public boolean connectTiles(Tile t1, Tile t2) {
+	boolean wasAdded = false;
+	int dx = t1.getX() - t2.getX();
+  	int dy = t1.getY() - t2.getY();
+  	
+  	if (((dx==0&&(dy==1||dy==-1))||(dy==0&&(dx==1||dx==-1))) && t1!=t2 && t1!=null && t2!=null) {
+  		Connection conn = new Connection(this);
+  		conn.addTile(t1);
+  		conn.addTile(t2);
+  		wasAdded = true;
+  	}
+  	return wasAdded;
+  }
+  
+  public boolean disconnectTiles(Tile t1, Tile t2) {
+	Connection conn = null;
+	boolean wasDeleted = false;
+  	int dx = t1.getX() - t2.getX();
+  	int dy = t1.getY() - t2.getY();
+  	
+  	if (((dx==0&&(dy==1||dy==-1))||(dy==0&&(dx==1||dx==-1))) && t1!=t2 && t1!=null && t2!=null) {
+  		for (Connection c: t1.getConnections()){
+  			if (t2 == c.getTile(0) || t2 == c.getTile(1)){
+  				conn = c;
+  				break;
+  			}
+  		}
+  	}   	
+  	if (conn!=null){
+  		conn.delete();
+  		wasDeleted = true;
+  	}
+  	return wasDeleted;
+  }
     
   public boolean setFilename(String aFilename) 
   {

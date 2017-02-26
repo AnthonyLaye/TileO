@@ -99,37 +99,13 @@ public class TileOController {
     }
     
     public void addConnection(Tile t1, Tile t2, Game game) throws InvalidInputException {
-    	int dx = t1.getX() - t2.getX();
-    	int dy = t1.getY() - t2.getY();
-    	
-    	if (((dx==0&&(dy==1||dy==-1))||(dy==0&&(dx==1||dx==-1))) && t1!=t2 && t1!=null && t2!=null) {
-    		Connection conn = new Connection(game);
-    		conn.addTile(t1);
-    		conn.addTile(t2);
-    	}
-    	else{
+    	if (!game.connectTiles(t1, t2))
     		throw new InvalidInputException("Selected tiles are not adjacent");
-    	}
     }
     
     public void removeConnection(Tile t1, Tile t2, Game game) throws InvalidInputException {
-    	Connection conn = null;
-    	
-    	int dx = t1.getX() - t2.getX();
-    	int dy = t1.getY() - t2.getY();
-    	
-    	if (((dx==0&&(dy==1||dy==-1))||(dy==0&&(dx==1||dx==-1))) && t1!=t2 && t1!=null && t2!=null) {
-    		for (Connection c: t1.getConnections()){
-    			if (t2 == c.getTile(0) || t2 == c.getTile(1)){
-    				conn = c;
-    				break;
-    			}
-    		}
-    	}   	
-    	if (conn == null)
+    	if (!game.disconnectTiles(t1, t2))
     		throw new InvalidInputException("These tiles are not connected");
-    	else
-    		conn.delete();	
     }
     
     public void setStartingTile(int nPlayer, Tile t, Game game) throws InvalidInputException {
