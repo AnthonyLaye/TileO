@@ -588,8 +588,6 @@ public class TileOPage extends JFrame{
         
         modeLabel.setText("Designer mode");
         currentPlayerNameLabel.setText("Designer");
-        actionStatusLabel.setText("");
-        actionTipLabel.setText("");
         
         designTabbedPane = makeDesignPane(game.numberOfPlayers());
         
@@ -818,7 +816,6 @@ public class TileOPage extends JFrame{
         	Game game = TileOApplication.getTileO().getCurrentGame();
             TileOController tileOController = new TileOController();            
             tileOController.addRegularTile(x, y, game);
-            setWaitingFor("");
             renderLayout(game);
         }
     }
@@ -835,7 +832,6 @@ public class TileOPage extends JFrame{
     		Game game = TileOApplication.getTileO().getCurrentGame();
     		TileOController toc = new TileOController();
     		toc.addActionTile(x, y, game, (int)inactivitySpinner.getValue());
-    		setWaitingFor("");
     		renderLayout(game);
     	}
         
@@ -856,7 +852,6 @@ public class TileOPage extends JFrame{
     		Game game = TileOApplication.getTileO().getCurrentGame();
     		TileOController tileOController = new TileOController();
     		tileOController.addHiddenTile(x, y, game);
-    		setWaitingFor("");
     		renderLayout(game);
     	}
     }
@@ -872,7 +867,6 @@ public class TileOPage extends JFrame{
     			Game game = TileOApplication.getTileO().getCurrentGame();
     			TileOController toc = new TileOController();
     			toc.addConnection(t1, t2, game);
-    			setWaitingFor("");
     			renderLayout(game);
     		}
     		catch (InvalidInputException err) {
@@ -892,7 +886,6 @@ public class TileOPage extends JFrame{
     			Game game = TileOApplication.getTileO().getCurrentGame();
     			TileOController toc = new TileOController();
     			toc.removeConnection(t1, t2, game);
-    			setWaitingFor("");
     			renderLayout(game);
     		}
     		catch (InvalidInputException err) {
@@ -912,7 +905,6 @@ public class TileOPage extends JFrame{
     		Game game = TileOApplication.getTileO().getCurrentGame();
     		TileOController toc = new TileOController();
     		toc.removeTile(t, game);
-    		setWaitingFor("");
 			renderLayout(game);
     		
     	}
@@ -930,7 +922,6 @@ public class TileOPage extends JFrame{
     			Game game = TileOApplication.getTileO().getCurrentGame();
     			TileOController toc = new TileOController();
     			toc.setStartingTile(n-1, t, game);
-    			setWaitingFor("");
     			renderLayout(game);
     		}
     		catch (InvalidInputException err) {
@@ -1038,8 +1029,6 @@ public class TileOPage extends JFrame{
             	addActionTileActionPerformed(null, true, x, y);
         
         }
-        actionTipLabel.setText("");
-        setWaitingFor("");
     }
     
     public void tileSignal(Tile t) {
@@ -1055,8 +1044,6 @@ public class TileOPage extends JFrame{
     		if (waitingFor.equals("player4"))
     			setStartingTileActionPerformed(null, true, 4, t);
     	}
-    	actionTipLabel.setText("");
-    	setWaitingFor("");
     }
     
     public void connSignal(Tile t1, Tile t2) {
@@ -1067,14 +1054,13 @@ public class TileOPage extends JFrame{
     			removeConnectionActionPerformed(null, true, t1, t2);
     		
     	}
-    	actionTipLabel.setText("");
-    	setWaitingFor("");
     }
     
     private void setWaitingFor(String s) {
     	if (waitingFor.equals("action") && !s.equals("action")){
     		inactivitySpinner.setVisible(false);
     	}
+    	System.out.println("from:" + waitingFor + "  to:" + s);
     	waitingFor = s;
     }
 

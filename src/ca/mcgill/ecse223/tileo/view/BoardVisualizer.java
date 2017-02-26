@@ -93,10 +93,8 @@ class BoardVisualizer extends JPanel {
                 	if (selectedTile!=null){
                 		tX=-1;
                 		tY=-1;
-                		System.out.println("blocked new tile");
                 	}
                     TileOApplication.getTileOPage().coordSignal(tX, tY);
-                    waitForCoord = false;
                 }
                 
                 if (waitForConn) {
@@ -107,13 +105,11 @@ class BoardVisualizer extends JPanel {
                 		TileOApplication.getTileOPage().connSignal(tileForConn1, tileForConn2);
                 		tileForConn1 = null;
                 		tileForConn2 = null;
-                		waitForConn = false;
                 	}
                 }
                 
                 if (waitForTile) {
                 	TileOApplication.getTileOPage().tileSignal(selectedTile);
-                	waitForTile = false;
                 }
             }
         });
@@ -145,6 +141,8 @@ class BoardVisualizer extends JPanel {
     		waitForTile = false;
     		waitForCoord = false;
     	}
+    	tileForConn1 = null;
+    	tileForConn2 = null;
     	waitForConn = b;
     }
     public void setWaitForCoord(boolean b) {
@@ -236,6 +234,8 @@ class BoardVisualizer extends JPanel {
             
             // Connections
             for (Connection conn: tile.getConnections()) {
+            	
+            	System.out.println("conn: "+waitForConn+" tile: "+waitForTile+" coord: "+waitForCoord);
             	// drawing connections twice but im fucking tired so...
             	
             	Tile other = tile == conn.getTile(0) ? conn.getTile(1):conn.getTile(0);
