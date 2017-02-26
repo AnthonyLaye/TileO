@@ -10,12 +10,14 @@ import java.io.*;
 public class TileOApplication {
     
     private static TileO tileo;
+    private static TileOPage page;
     public static final String SavedFolder = "savedGames/";
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TileOPage().setVisible(true);
+            	page = new TileOPage();
+                page.setVisible(true);
             }
         });  
     }
@@ -25,6 +27,10 @@ public class TileOApplication {
         if (tileo==null)
             return tileo = new TileO();
         return tileo;
+    }
+    
+    public static TileOPage getTileOPage() {
+    	return page;
     }
 
     public static void setCurrentGame(Game aGame) {

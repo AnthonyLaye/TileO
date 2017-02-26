@@ -7,8 +7,15 @@ import ca.mcgill.ecse223.tileo.model.TileO;
 import ca.mcgill.ecse223.tileo.model.Game;
 import ca.mcgill.ecse223.tileo.model.Deck;
 import ca.mcgill.ecse223.tileo.model.Tile;
+import ca.mcgill.ecse223.tileo.model.WinTile;
 import ca.mcgill.ecse223.tileo.model.Player;
-
+import ca.mcgill.ecse223.tileo.model.Connection;
+import ca.mcgill.ecse223.tileo.model.ActionCard;
+import ca.mcgill.ecse223.tileo.model.ConnectTilesActionCard;
+import ca.mcgill.ecse223.tileo.model.LoseTurnActionCard;
+import ca.mcgill.ecse223.tileo.model.RemoveConnectionActionCard;
+import ca.mcgill.ecse223.tileo.model.RollDieActionCard;
+import ca.mcgill.ecse223.tileo.model.TeleportActionCard;
 
 public class TileOController {
     
@@ -59,7 +66,6 @@ public class TileOController {
 
         try{
             tileO.addNormalTile(x, y, game);
-            //TileOApplication.save();
         }catch (RuntimeException e){
 
             System.out.print("Error");
@@ -72,7 +78,6 @@ public class TileOController {
 
         try{
             tileO.addActionTile(x, y, game, inactivityPeriod);
-            //TileOApplication.save();
         }catch (RuntimeException e){
 
             System.out.print("Error");
@@ -84,17 +89,65 @@ public class TileOController {
         TileO tileO = TileOApplication.getTileO();
 
         try{
-            tileO.addWinTile(x, y, game);
-            //TileOApplication.save();
+            WinTile wt = new WinTile(x, y, game);
+            game.setWinTile(wt);
+            
         }catch (RuntimeException e){
 
             System.out.print("Error");
         }
     }
+    
+    public void addConnection(Tile t1, Tile t2, Game game) throws InvalidInputException {
+    	int dx = t1.getX() - t2.getX();
+    	int dy = t1.getY() - t2.getY();
+    	
+    	if (((dx==0&&(dy==1||dy==-1))||(dy==0&&(dx==1||dx==-1))) && t1!=t2 && t1!=null && t2!=null) {
+    		Connection conn = new Connection(game);
+    		conn.addTile(t1);
+    		conn.addTile(t2);
+    	}
+    	else{
+    		throw new InvalidInputException("Selected tiles are not adjacent");
+    	}
+    }
+    
+    public void removeConnection(Tile t1, Tile t2, Game game) throws InvalidInputException {
+    	Connection conn = null;
+    	
+    	int dx = t1.getX() - t2.getX();
+    	int dy = t1.getY() - t2.getY();
+    	
+    	if (((dx==0&&(dy==1||dy==-1))||(dy==0&&(dx==1||dx==-1))) && t1!=t2 && t1!=null && t2!=null) {
+    		for (Connection c: t1.getConnections()){
+    			if (t2 == c.getTile(0) || t2 == c.getTile(1)){
+    				conn = c;
+    				break;
+    			}
+    		}
+    	}   	
+    	if (conn == null)
+    		throw new InvalidInputException("These tiles are not connected");
+    	else
+    		conn.delete();	
+    }
+    
+    public void setStartingTile(int nPlayer, Tile t, Game game) throws InvalidInputException {
+    	if (game.getWinTile()!=null)
+    		System.out.println(game.getWinTile().getX()+"-"+game.getWinTile().getY());
+    	if (t!=null && t!=game.getWinTile()) {
+    		Player p = game.getPlayer(nPlayer);
+        	p.setStartingTile(t);
+    	}
+    	else
+    		throw new InvalidInputException("Invalid tile");
+    }
 
-    public void removeTile(Tile tile){
+    public void removeTile(Tile tile, Game game){
 
         TileO tileO = TileOApplication.getTileO();
+        if (tile instanceof WinTile)
+        	tileO.getCurrentGame().setWinTile(null);
         tileO.removeTile(tile);
     }
 
@@ -132,13 +185,16 @@ public class TileOController {
     	if (nPlayer > Game.maximumNumberOfPlayers())
     		throw new InvalidInputException("Too many players");
     	
-    	TileO tileo = TileOApplication.getTileO();
-    	
+    	TileO tileo = TileOApplication.getTileO();    	
     	Game game = new Game(0, tileo);
+    	
+    	Player.Color[] colors = {Player.Color.RED, Player.Color.BLUE, Player.Color.GREEN, Player.Color.YELLOW};
+    	Player.resetMap();
     	int n = 0;
     	while (nPlayer > 0){
     		try {
-    			new Player(n, game);
+    			Player p = new Player(n, game);
+    			p.setColor(colors[n]);
     			nPlayer--;
     		}
     		catch (RuntimeException e) {}
@@ -148,5 +204,25 @@ public class TileOController {
     	tileo.setCurrentGame(game);
     	return game;
     }
-
+    
+    public void createDeck(int nExtraTurn, int nNewConn, int nRmConn, int nTel, int nLoseTurn, Game game) throws InvalidInputException{
+    	if (nExtraTurn+nNewConn+nRmConn+nTel+nLoseTurn != 32) 
+    		throw new InvalidInputException("Wrong number of action cards");
+    
+    	Deck d = game.getDeck();
+    	
+    	for (ActionCard card: d.getCards())
+    		card.delete();
+    	
+    	for (int i=0;i<nExtraTurn;++i)
+    		new RollDieActionCard("Roll the die for an extra turn", d);
+    	for (int i=0;i<nNewConn;++i)
+    		new ConnectTilesActionCard("Connect two tiles", d);
+    	for (int i=0;i<nRmConn;++i)
+    		new RemoveConnectionActionCard("Remove a connection", d);
+    	for (int i=0;i<nTel;++i)
+    		new TeleportActionCard("Move your piece to a new tile", d);
+    	for (int i=0;i<nLoseTurn;++i)
+    		new LoseTurnActionCard("Lose your next turn", d);
+    }
 }
