@@ -162,8 +162,6 @@ public class TileOController {
         }
     }
 
-
->>>>>>> 3e1b6bcd79cc6cf9aebe203622ca70ed3cde7799
     public Game loadGame(String filename) throws InvalidInputException {
         /* Loads a game  */
         
