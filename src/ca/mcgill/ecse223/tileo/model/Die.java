@@ -3,6 +3,7 @@
 
 package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
+import java.util.Random;
 
 // line 93 "../../../../../TileOPersistence.ump"
 // line 90 "../../../../../TileO.ump"
@@ -15,6 +16,7 @@ public class Die implements Serializable
 
   //Die Associations
   private Game game;
+  private Random rand;
 
   //------------------------
   // CONSTRUCTOR
@@ -27,6 +29,7 @@ public class Die implements Serializable
       throw new RuntimeException("Unable to create Die due to aGame");
     }
     game = aGame;
+    rand = new Random();
   }
 
   public Die(int aCurrentConnectionPiecesForGame, Deck aDeckForGame, TileO aTileOForGame)
@@ -37,6 +40,10 @@ public class Die implements Serializable
   //------------------------
   // INTERFACE
   //------------------------
+  
+  public int roll() {
+	  return rand.nextInt(6)+1;
+  }
 
   public Game getGame()
   {

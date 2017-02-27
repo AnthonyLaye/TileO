@@ -122,6 +122,13 @@ public class Game implements Serializable
   	}
   	return wasDeleted;
   }
+  
+  public ArrayList<Tile> rollDie() {
+	int n = getDie().roll();
+  	System.out.println("Die: "+n);
+  	ArrayList<Tile> possibleTiles = getCurrentPlayer().getPossibleMoves(n);
+  	return possibleTiles;
+  }
     
   public boolean setFilename(String aFilename) 
   {

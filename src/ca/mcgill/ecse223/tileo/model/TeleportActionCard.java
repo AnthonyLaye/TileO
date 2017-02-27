@@ -25,6 +25,10 @@ public class TeleportActionCard extends ActionCard
   //------------------------
   // INTERFACE
   //------------------------
+  
+  public void play(Tile t) {
+	  t.land();
+  }
 
   public Game.Mode getActionCardMode(){
 

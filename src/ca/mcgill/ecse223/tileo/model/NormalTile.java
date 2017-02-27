@@ -33,8 +33,9 @@ public class NormalTile extends Tile
     Player currentPlayer = currentGame.getCurrentPlayer();
     currentPlayer.setCurrentTile(this);
 
-    currentGame.setCurrentPlayer(currentGame.getPlayer(currentGame.indexOfPlayer(currentPlayer) + 1));
+    currentGame.setCurrentPlayer(currentGame.getPlayer((currentGame.indexOfPlayer(currentPlayer) + 1)%currentGame.numberOfPlayers()));
     currentGame.setMode(Game.Mode.GAME);
+    setHasBeenVisited(true);
 
   }
 

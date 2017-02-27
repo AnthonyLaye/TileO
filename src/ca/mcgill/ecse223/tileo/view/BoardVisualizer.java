@@ -53,6 +53,7 @@ class BoardVisualizer extends JPanel {
     private int size = 5;
     private Tile tileForConn1 = null;
     private Tile tileForConn2 = null;
+    private ArrayList<Tile> possibleTiles;
 
     public BoardVisualizer() {
         super();
@@ -153,6 +154,11 @@ class BoardVisualizer extends JPanel {
     	waitForCoord = b;
     }
     
+    public void setPossibleTiles(ArrayList<Tile> possibleTiles) {
+    	this.possibleTiles = possibleTiles;
+    	repaint();
+    }
+    
     public void setGame(Game game) {
         this.game = game;
         tiles = new HashMap<Rectangle2D, Tile>();
@@ -207,7 +213,7 @@ class BoardVisualizer extends JPanel {
             // Choose color
             g2d.setColor(Color.WHITE);
             if (tile instanceof WinTile){
-            	if (game.getMode() == Game.Mode.DESIGN)
+            	if (game.getMode() == Game.Mode.DESIGN || game.getMode()==Game.Mode.GAME_WON)
             		g2d.setColor(Color.YELLOW);
             }
             if (tile instanceof ActionTile){
@@ -216,6 +222,11 @@ class BoardVisualizer extends JPanel {
             }
             if (tile.getHasBeenVisited())
             	g2d.setColor(Color.LIGHT_GRAY);
+            
+            if (possibleTiles!=null && possibleTiles.contains(tile))
+            	g2d.setColor(Color.ORANGE);
+            
+            
             g2d.fill(rect);
             g2d.setColor(Color.BLACK);
             g2d.draw(rect);
@@ -235,7 +246,6 @@ class BoardVisualizer extends JPanel {
             // Connections
             for (Connection conn: tile.getConnections()) {
             	
-            	System.out.println("conn: "+waitForConn+" tile: "+waitForTile+" coord: "+waitForCoord);
             	// drawing connections twice but im fucking tired so...
             	
             	Tile other = tile == conn.getTile(0) ? conn.getTile(1):conn.getTile(0);

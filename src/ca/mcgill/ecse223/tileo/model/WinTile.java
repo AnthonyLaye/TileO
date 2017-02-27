@@ -32,6 +32,7 @@ public class WinTile extends Tile
 
     Game currentGame = getGame();
     this.setHasBeenVisited(true);
+    currentGame.getCurrentPlayer().setCurrentTile(this);
     currentGame.setMode(Game.Mode.GAME_WON);
 
   }
