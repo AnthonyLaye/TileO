@@ -18,7 +18,6 @@ import ca.mcgill.ecse223.tileo.model.RollDieActionCard;
 import ca.mcgill.ecse223.tileo.model.TeleportActionCard;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class TileOController {
     
@@ -27,29 +26,8 @@ public class TileOController {
     
     // Design
     public Game newGame(int nPlayer) throws InvalidInputException{
-    	if (nPlayer < Game.minimumNumberOfPlayers())
-    		throw new InvalidInputException("Not enough players");
-    	if (nPlayer > Game.maximumNumberOfPlayers())
-    		throw new InvalidInputException("Too many players");
-    	
-    	TileO tileo = TileOApplication.getTileO();    	
-    	Game game = new Game(0, tileo);
-    	
-    	Player.Color[] colors = {Player.Color.RED, Player.Color.BLUE, Player.Color.GREEN, Player.Color.YELLOW};
-    	Player.resetMap();
-    	int n = 0;
-    	while (nPlayer > 0){
-    		try {
-    			Player p = new Player(n, game);
-    			p.setColor(colors[n]);
-    			nPlayer--;
-    		}
-    		catch (RuntimeException e) {}
-    		n++;
-    	}
-    	game.setMode(Game.Mode.DESIGN);
-    	tileo.setCurrentGame(game);
-    	return game;
+    	// YOUNES
+    	throw new InvalidInputException("Not implemented");
     }
     
     public void addRegularTile(int x, int y, Game game){
@@ -99,42 +77,23 @@ public class TileOController {
     }
     
     public void addConnection(Tile t1, Tile t2, Game game) throws InvalidInputException {
-    	if (!game.connectTiles(t1, t2))
-    		throw new InvalidInputException("Selected tiles are not adjacent");
+    	// JAMES
+    	throw new InvalidInputException("Not implemented");
     }
     
     public void removeConnection(Tile t1, Tile t2, Game game) throws InvalidInputException {
-    	if (!game.disconnectTiles(t1, t2))
-    		throw new InvalidInputException("These tiles are not connected");
+    	// JAMES
+    	throw new InvalidInputException("Not implemented");
     }
     
     public void setStartingTile(int nPlayer, Tile t, Game game) throws InvalidInputException {
-    	if (game.getWinTile()!=null)
-    		System.out.println(game.getWinTile().getX()+"-"+game.getWinTile().getY());
-    	if (t!=null && t!=game.getWinTile()) {
-    		Player p = game.getPlayer(nPlayer);
-        	p.setStartingTile(t);
-    	}
-    	else
-    		throw new InvalidInputException("Invalid tile");
+    	// YOUNES
+    	throw new InvalidInputException("Not implemented");
     }
     
     public void createDeck(int nExtraTurn, int nNewConn, int nRmConn, int nTel, Game game) throws InvalidInputException{
-    	if (nExtraTurn+nNewConn+nRmConn+nTel != 32) 
-    		throw new InvalidInputException("Wrong number of action cards");
-    	
-    	Deck d = game.getDeck();
-    	for (ActionCard card: d.getCards())
-    		d.removeCard(card);
-    	
-    	for (int i=0;i<nExtraTurn;++i)
-    		new RollDieActionCard("Roll the die for an extra turn", d);
-    	for (int i=0;i<nNewConn;++i)
-    		new ConnectTilesActionCard("Connect two tiles", d);
-    	for (int i=0;i<nRmConn;++i)
-    		new RemoveConnectionActionCard("Remove a connection", d);
-    	for (int i=0;i<nTel;++i)
-    		new TeleportActionCard("Move your piece to a new tile", d);
+    	// GABRIEL
+    	throw new InvalidInputException("Not implemented");
     }
     
     
@@ -173,8 +132,8 @@ public class TileOController {
     }
     
     public ArrayList<Tile> rollDie() {
-    	Game game = TileOApplication.getTileO().getCurrentGame();
-    	return game.rollDie();
+    	// GABRIEL
+    	return null;
     }
 
     public void land(Tile tile) throws InvalidInputException{
@@ -184,86 +143,24 @@ public class TileOController {
     }
     
     public ArrayList<Tile> playRollDieActionCard() throws InvalidInputException {
-    	Game game = TileOApplication.getTileO().getCurrentGame();
-    	Deck d = game.getDeck();
-    	ActionCard c = d.getCurrentCard();
-    	if (!(c instanceof RollDieActionCard))
-    		throw new InvalidInputException("Card type doesn't match");
-    	
-    	if (d.indexOfCard(c)==d.numberOfCards()-1){
-    		d.shuffle();
-    		d.setCurrentCard(d.getCard(0));
-    	}
-    	else
-    		d.setCurrentCard(d.getCard(d.indexOfCard(c)+1));
-    	game.setMode(Game.Mode.GAME);
-    	
-    	ArrayList<Tile> possibleTiles = ((RollDieActionCard)c).play();
-    	return possibleTiles;
+    	// SAM
+    	throw new InvalidInputException("Not implemented");
     	
     }
     
     public void playConnectTilesActionCard(Tile t1, Tile t2) throws InvalidInputException {
-    	Game game = TileOApplication.getTileO().getCurrentGame();
-    	Deck d = game.getDeck();
-    	ActionCard c = d.getCurrentCard();
-    	if (!(c instanceof ConnectTilesActionCard))
-    		throw new InvalidInputException("Card type doesn't match");
-    	if (!(game.getTiles().contains(t1) && game.getTiles().contains(t2)))
-    		throw new InvalidInputException("Invalid tiles");
-    	if (game.getCurrentConnectionPieces()==0)
-    		throw new InvalidInputException("No more connection pieces");    	
-    	if (!((ConnectTilesActionCard)c).play(t1, t2))
-    		throw new InvalidInputException("Tiles not adjacent");
-    	
-    	game.setCurrentPlayer(game.getPlayer((game.indexOfPlayer(game.getCurrentPlayer()) + 1)%game.numberOfPlayers()));
-    	if (d.indexOfCard(c)==d.numberOfCards()-1){
-    		d.shuffle();
-    		d.setCurrentCard(d.getCard(0));
-    	}
-    	else
-    		d.setCurrentCard(d.getCard(d.indexOfCard(c)+1));
-    	game.setMode(Game.Mode.GAME);
+    	// SAM
+    	throw new InvalidInputException("Not implemented");
     }
     
     public void playRemoveConnectionActionCard(Tile t1, Tile t2) throws InvalidInputException {
-    	Game game = TileOApplication.getTileO().getCurrentGame();
-    	Deck d = game.getDeck();
-    	ActionCard c = d.getCurrentCard();
-    	if (!(c instanceof RemoveConnectionActionCard))
-    		throw new InvalidInputException("Card type doesn't match");
-    	if (!(game.getTiles().contains(t1) && game.getTiles().contains(t2)))
-    		throw new InvalidInputException("Invalid tiles");
-    	if (!((RemoveConnectionActionCard)c).play(t1, t2))
-    		throw new InvalidInputException("Tiles are not connected");
-    	
-    	game.setCurrentPlayer(game.getPlayer((game.indexOfPlayer(game.getCurrentPlayer()) + 1)%game.numberOfPlayers()));
-    	if (d.indexOfCard(c)==d.numberOfCards()-1){
-    		d.shuffle();
-    		d.setCurrentCard(d.getCard(0));
-    	}
-    	else
-    		d.setCurrentCard(d.getCard(d.indexOfCard(c)+1));
-    	game.setMode(Game.Mode.GAME);
+    	// SAM
+    	throw new InvalidInputException("Not implemented");
     }
     
     public void playTeleportActionCard(Tile t) throws InvalidInputException {
-    	Game game = TileOApplication.getTileO().getCurrentGame();
-    	Deck d = game.getDeck();
-    	ActionCard c = d.getCurrentCard();
-    	if (!game.getTiles().contains(t))
-    		throw new InvalidInputException("Invalid tile");
-    	if (!(c instanceof TeleportActionCard))
-    		throw new InvalidInputException("Card type doesn't match");
-    	
-    	if (d.indexOfCard(c)==d.numberOfCards()-1){
-    		d.shuffle();
-    		d.setCurrentCard(d.getCard(0));
-    	}
-    	else
-    		d.setCurrentCard(d.getCard(d.indexOfCard(c)+1));
-    	
-    	((TeleportActionCard)c).play(t);
+    	// SAM
+    	throw new InvalidInputException("Not implemented");
     }
 
     
