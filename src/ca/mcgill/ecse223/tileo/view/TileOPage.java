@@ -1,7 +1,6 @@
 package ca.mcgill.ecse223.tileo.view;
 
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.util.HashMap;
 
 import javax.swing.JFrame;
@@ -110,15 +109,21 @@ public class TileOPage extends JFrame{
     // data elements
     private String waitingFor = "";
 
-    
+
     public TileOPage() {
         init();
         welcome();
     }
-    
+
+
     private void init() {
-    	
+
     	// welcome
+
+        getContentPane().setBackground(Color.CYAN);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH); //Makes game  fullscreen
+        this.setUndecorated(true); // This would remove the option to minimize, exit.. etc
+
     	welNewGameButton = new JButton("New game");
         welLoadDesignButton = new JButton("Load a design");
         welLoadGameButton = new JButton("Load a game");
@@ -416,6 +421,8 @@ public class TileOPage extends JFrame{
     // Welcome page rendering
     private void welcome() {    
     	getContentPane().removeAll();
+
+    	getContentPane().setLayout(new GridBagLayout());
     	
         GroupLayout layout = new GroupLayout(getContentPane());  
         getContentPane().setLayout(layout);
@@ -467,11 +474,13 @@ public class TileOPage extends JFrame{
             .addComponent(welExitButton)
         );
 
-        pack(); 
+        pack();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     // Create basic game layout
     private void initGameLayout(){
+
     	getContentPane().removeAll();
 
         GroupLayout layout = new GroupLayout(getContentPane());
@@ -530,15 +539,15 @@ public class TileOPage extends JFrame{
         );
         pack();
     }
-    	
-    
+
     
     private void renderLayout(Game game) {
+
         modeLabel.setText(game.getMode().toString());
         currentPlayerNameLabel.setText("Player "+game.indexOfPlayer(game.getCurrentPlayer()));
         gameButtonsPanel.removeAll();
         board.setGame(game);
-        
+
         switch (game.getMode()) {      
             case GAME:
             	actionTipLabel.setText("Roll the die !");
@@ -584,8 +593,9 @@ public class TileOPage extends JFrame{
     
     // Design rendering
     public void renderDesign(Game game) {
+
     	getContentPane().removeAll();
-        
+
         modeLabel.setText("Designer mode");
         currentPlayerNameLabel.setText("Designer");
         
@@ -644,9 +654,9 @@ public class TileOPage extends JFrame{
                 )
             )
         );
-        
+
         pack();
-    	
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
     
     private JTabbedPane makeDesignPane(int nPlayers) {

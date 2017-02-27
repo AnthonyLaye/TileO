@@ -63,6 +63,9 @@ class BoardVisualizer extends JPanel {
         game = null;;
         tiles = new HashMap<Rectangle2D, Tile>();
         selectedTile = null;
+
+        setBackground(Color.pink);
+
         pieceColors = new HashMap<Player.Color, Color>();
         pieceColors.put(Player.Color.BLUE, Color.BLUE);
         pieceColors.put(Player.Color.GREEN, Color.GREEN);
@@ -187,7 +190,6 @@ class BoardVisualizer extends JPanel {
                 }         
             }
         }
-
 
 
         // tiles
