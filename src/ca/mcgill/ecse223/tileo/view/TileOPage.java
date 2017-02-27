@@ -1,7 +1,6 @@
 package ca.mcgill.ecse223.tileo.view;
 
 import java.awt.*;
-import java.util.HashMap;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -115,7 +114,6 @@ public class TileOPage extends JFrame{
     private void init() {
 
     	// welcome
-
         getContentPane().setBackground(Color.CYAN);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); //Makes game  fullscreen
         this.setUndecorated(true); // This would remove the option to minimize, exit.. etc
@@ -245,6 +243,7 @@ public class TileOPage extends JFrame{
         // basic game actions
         actionLabel.setText("Actions");
         actionError.setForeground(Color.RED);
+        
         rollDieButton.setText("Roll die");
         rollDieButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -545,12 +544,15 @@ public class TileOPage extends JFrame{
         currentPlayerNameLabel.setText("Player "+game.indexOfPlayer(game.getCurrentPlayer()));
         gameButtonsPanel.removeAll();
         board.setGame(game);
+        
+        actionError.setText("");
 
         switch (game.getMode()) {      
             case GAME:
             	actionTipLabel.setText("Roll the die !");
             	actionStatusLabel.setText("");
             	gameButtonsPanel.add(rollDieButton);
+            	rollDieButton.setVisible(true);
                 break;
             case GAME_WON:
             	modeLabel.setText("Game won !");
@@ -562,6 +564,7 @@ public class TileOPage extends JFrame{
             	actionTipLabel.setText("Roll the die");
             	actionStatusLabel.setText("Roll die action card");
             	gameButtonsPanel.add(rollDieCardButton);
+            	rollDieCardButton.setVisible(true);
                 break;
             case GAME_CONNECTTILESACTIONCARD:
             	actionTipLabel.setText("Select two tiles you want to connect");
@@ -579,7 +582,7 @@ public class TileOPage extends JFrame{
             	actionTipLabel.setText("Select a new tile");
             	actionStatusLabel.setText("Teleport action card");
             	board.setWaitForTile(true);
-            	setWaitingFor("newtilecard");
+            	setWaitingFor("teleportcard");
             	break;
             case DESIGN:
             	renderDesign(game);
@@ -701,7 +704,6 @@ public class TileOPage extends JFrame{
     		)
     		.addComponent(addConnectionButton)
     	);
-    	inactivitySpinner.setVisible(false);
     	
     	
     	// PLAYER
@@ -810,6 +812,8 @@ public class TileOPage extends JFrame{
     private void addRegularTileActionPerformed(java.awt.event.ActionEvent e, boolean
     selected, int x, int y) {
         actionError.setText("");
+        actionTipLabel.setText("");
+        actionStatusLabel.setText("");
     	if (!selected) { 
             actionTipLabel.setText("Select an empty square to add a tile");
             board.setWaitForCoord(true);
@@ -825,11 +829,12 @@ public class TileOPage extends JFrame{
     
     private void addActionTileActionPerformed(java.awt.event.ActionEvent e, boolean selected, int x, int y) {
         actionError.setText("");
+        actionTipLabel.setText("");
+        actionStatusLabel.setText("");
     	if (!selected){
     		actionTipLabel.setText("Add an action tile, you can change the inactivity period");
     		board.setWaitForCoord(true);
     		setWaitingFor("action");
-    		inactivitySpinner.setVisible(true);
     		inactivitySpinner.setValue(5);
     	}
     	else {
@@ -843,6 +848,8 @@ public class TileOPage extends JFrame{
     
     private void addHiddenTileActionPerformed(java.awt.event.ActionEvent e, boolean selected, int x, int y) {
         actionError.setText("");
+        actionTipLabel.setText("");
+        actionStatusLabel.setText("");
     	if (TileOApplication.getTileO().getCurrentGame().getWinTile()!=null) {
     		actionError.setText("The win tile is already selected, delete it first");
     		return;
@@ -863,6 +870,8 @@ public class TileOPage extends JFrame{
     
     private void addConnectionActionPerformed(java.awt.event.ActionEvent e, boolean selected, Tile t1, Tile t2) {
         actionError.setText("");
+        actionTipLabel.setText("");
+        actionStatusLabel.setText("");
     	if (!selected) {
     		actionTipLabel.setText("Select two adjacent tiles to connect them");
     		board.setWaitForConn(true);
@@ -883,6 +892,8 @@ public class TileOPage extends JFrame{
     
     private void removeConnectionActionPerformed(java.awt.event.ActionEvent e, boolean selected, Tile t1, Tile t2) {
         actionError.setText("");
+        actionTipLabel.setText("");
+        actionStatusLabel.setText("");
     	if (!selected) {
     		actionTipLabel.setText("Select two connected tiles to remove a connection");
     		board.setWaitForConn(true);
@@ -903,6 +914,8 @@ public class TileOPage extends JFrame{
     
     private void removeTileActionPerformed(java.awt.event.ActionEvent e, boolean selected, Tile t) {
         actionError.setText("");
+        actionTipLabel.setText("");
+        actionStatusLabel.setText("");
     	if (!selected) {
     		actionTipLabel.setText("Select a tile to delete");
     		board.setWaitForTile(true);
@@ -919,6 +932,8 @@ public class TileOPage extends JFrame{
     
     private void setStartingTileActionPerformed(java.awt.event.ActionEvent e, boolean selected, int n, Tile t) {
         actionError.setText("");
+        actionTipLabel.setText("");
+        actionStatusLabel.setText("");
     	if (!selected) {
     		actionTipLabel.setText("Select a starting tile for player "+n);
     		board.setWaitForTile(true);
@@ -959,26 +974,35 @@ public class TileOPage extends JFrame{
     private void rollDieActionPerformed(java.awt.event.ActionEvent e) {
         TileOController tileOController = new TileOController();
         possibleTiles = tileOController.rollDie();
-        actionStatusLabel.setText(""); // die number ?
-        actionTipLabel.setText("Select a new tile");
-        board.setPossibleTiles(possibleTiles);
-        board.setWaitForTile(true);
-        setWaitingFor("move");
+        
+        if (possibleTiles.size()==0) {
+        	actionStatusLabel.setText("No possible moves, skip your turn");
+        	landActionPerformed(null, TileOApplication.getTileO().getCurrentGame().getCurrentPlayer().getCurrentTile());
+        }
+        else {
+        	actionStatusLabel.setText(""); // die number ?
+        	actionTipLabel.setText("Select a new tile");
+        	actionError.setText("");
+        	board.setPossibleTiles(possibleTiles);
+        	board.setWaitForTile(true);
+        	setWaitingFor("move");
+        	rollDieButton.setVisible(false);
+        }
     }
     
     private void landActionPerformed(java.awt.event.ActionEvent e, Tile t) {
-    	if (possibleTiles.contains(t)){
-    		possibleTiles = null;
-    		board.setPossibleTiles(null);
-    		setWaitingFor("");
-    		
+    	if (possibleTiles.contains(t) || possibleTiles.size()==0){
     		try {
     			TileOController toc = new TileOController();
         		toc.land(t);
+        		possibleTiles = null;
+        		board.setPossibleTiles(null);
+        		setWaitingFor("");
+        		actionError.setText("");
         		renderLayout(t.getGame());
     		}
     		catch (InvalidInputException err) {
-    			System.out.println(err.getMessage());
+    			actionError.setText(err.getMessage());
     		}
     	}
     	else {
@@ -991,6 +1015,7 @@ public class TileOPage extends JFrame{
     		TileOController toc = new TileOController();
     		toc.playTeleportActionCard(t);
     		setWaitingFor("");
+    		actionError.setText("");
     		renderLayout(TileOApplication.getTileO().getCurrentGame());
     	}
     	catch (InvalidInputException err) {
@@ -1002,6 +1027,7 @@ public class TileOPage extends JFrame{
     		TileOController toc = new TileOController();
     		toc.playRemoveConnectionActionCard(t1, t2);
     		setWaitingFor("");
+    		actionError.setText("");
     		renderLayout(TileOApplication.getTileO().getCurrentGame());
     	}
     	catch (InvalidInputException err) {
@@ -1013,6 +1039,7 @@ public class TileOPage extends JFrame{
     		TileOController toc = new TileOController();
     		toc.playConnectTilesActionCard(t1, t2);
     		setWaitingFor("");
+    		actionError.setText("");
     		renderLayout(TileOApplication.getTileO().getCurrentGame());
     	}
     	catch (InvalidInputException err) {
@@ -1023,11 +1050,19 @@ public class TileOPage extends JFrame{
     	try {
     		TileOController toc = new TileOController();
     		possibleTiles = toc.playRollDieActionCard();
-    	    actionStatusLabel.setText(""); // die number ?
-    	    actionTipLabel.setText("Select a new tile");
-    	    board.setPossibleTiles(possibleTiles);
-    	    board.setWaitForTile(true);
-    	    setWaitingFor("move");
+    		
+    		if (possibleTiles.size()==0) {
+            	actionStatusLabel.setText("No possible moves, skip your turn");
+            	landActionPerformed(null, TileOApplication.getTileO().getCurrentGame().getCurrentPlayer().getCurrentTile());
+            }
+    		else {
+    			actionStatusLabel.setText(""); // die number ?
+    	    	actionTipLabel.setText("Select a new tile");
+    	    	board.setPossibleTiles(possibleTiles);
+    	    	board.setWaitForTile(true);
+    	    	setWaitingFor("move");
+    	    	rollDieCardButton.setVisible(false);
+    		}
     	}
     	catch (InvalidInputException err) {
     		actionError.setText(err.getMessage());
@@ -1059,6 +1094,7 @@ public class TileOPage extends JFrame{
     	try {
     		TileOController toc = new TileOController();
     		toc.saveGame("");
+    		actionStatusLabel.setText("Game saved");
     	}
     	catch (Exception err) {
     		actionError.setText(err.getMessage());
@@ -1103,7 +1139,7 @@ public class TileOPage extends JFrame{
     			setStartingTileActionPerformed(null, true, 4, t);
     		if (waitingFor.equals("move"))
     			landActionPerformed(null, t);
-    		if (waitingFor.equals("newtilecard"))
+    		if (waitingFor.equals("teleportcard"))
     			teleportCardActionPerformed(null, t);
     	}
     }
@@ -1123,9 +1159,6 @@ public class TileOPage extends JFrame{
     }
     
     private void setWaitingFor(String s) {
-    	if (waitingFor.equals("action") && !s.equals("action")){
-    		inactivitySpinner.setVisible(false);
-    	}
     	waitingFor = s;
     }
 

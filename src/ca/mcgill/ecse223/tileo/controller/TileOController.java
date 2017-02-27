@@ -179,7 +179,6 @@ public class TileOController {
 
     public void land(Tile tile) throws InvalidInputException{
         /* Initiates when a player lands on a tile */
-
         tile.land();
     }
     
