@@ -140,7 +140,7 @@ public class TileOPage extends JFrame{
         ((JSpinner.DefaultEditor) welBoardSizeSpinner.getEditor()).getTextField().setEditable(false);
         welBoardSizeLabel = new JLabel("Board size");
 
-        tileOLabel = new JLabel("  Tile-O");
+        tileOLabel = new JLabel("Tile-O");
         welNewGameButton.addActionListener(new java.awt.event.ActionListener(){
         	public void actionPerformed(java.awt.event.ActionEvent e) {
         		newGameActionPerformed(e);
@@ -425,19 +425,19 @@ public class TileOPage extends JFrame{
         layout.setHorizontalGroup(
             layout.createSequentialGroup()
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                .addComponent(tileOLabel, 400, 500, 600)
+                .addComponent(tileOLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createSequentialGroup()
-                    .addComponent(numberOfPlayerLabel, 400, 500, 600)
-                    .addComponent(welBoardSizeLabel,  400, 500, 600)
+                    .addComponent(numberOfPlayerLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(welBoardSizeLabel,  GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 )
                 .addGroup(layout.createSequentialGroup()
-                    .addComponent(numberOfPlayerSpinner, 100, 200, 300)
-                    .addComponent(welBoardSizeSpinner, 100, 200, 300)
+                    .addComponent(numberOfPlayerSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(welBoardSizeSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 )
-            	.addComponent(welNewGameButton, 400, 500, 600)
-                .addComponent(welLoadDesignButton, 400, 500, 600)
-                .addComponent(welLoadGameButton,  400, 500, 600)
-                .addComponent(welExitButton,  400, 500, 600)
+            	.addComponent(welNewGameButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(welLoadDesignButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(welLoadGameButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(welExitButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             )
         );
         
@@ -454,19 +454,19 @@ public class TileOPage extends JFrame{
         
         layout.setVerticalGroup(
             layout.createSequentialGroup()
-            .addComponent(tileOLabel, 250, 300, 350)
-            .addComponent(welNewGameButton, 150, 200 , 250)
+            .addComponent(tileOLabel,GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+            .addComponent(welNewGameButton,GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             .addGroup(layout.createParallelGroup()
-                .addComponent(numberOfPlayerLabel, 150, 200 , 250)
-                .addComponent(welBoardSizeLabel, 150, 200 , 250)
+                .addComponent(numberOfPlayerLabel,GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(welBoardSizeLabel,GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             )
             .addGroup(layout.createParallelGroup()
-                .addComponent(numberOfPlayerSpinner, 100, 200, 300)
-                .addComponent(welBoardSizeSpinner, 100, 200, 300)
+                .addComponent(numberOfPlayerSpinner,GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(welBoardSizeSpinner,GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             )
-           	.addComponent(welLoadDesignButton, 150, 200 , 250)
-            .addComponent(welLoadGameButton, 150, 200 , 250)
-            .addComponent(welExitButton, 150, 200 , 250)
+           	.addComponent(welLoadDesignButton,GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+            .addComponent(welLoadGameButton,GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+            .addComponent(welExitButton,GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
