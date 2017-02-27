@@ -3,6 +3,7 @@
 
 package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 // line 63 "../../../../../TileOPersistence.ump"
 // line 70 "../../../../../TileO.ump"
@@ -25,6 +26,10 @@ public class RollDieActionCard extends ActionCard
   //------------------------
   // INTERFACE
   //------------------------
+  
+  public ArrayList<Tile> play() {
+	  return getDeck().getGame().rollDie();
+  }
 
   public Game.Mode getActionCardMode(){
 

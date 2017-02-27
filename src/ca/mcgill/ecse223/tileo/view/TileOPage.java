@@ -2,6 +2,7 @@ package ca.mcgill.ecse223.tileo.view;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,7 +18,6 @@ import javax.swing.SpinnerNumberModel;
 
 import ca.mcgill.ecse223.tileo.exception.InvalidInputException;
 import ca.mcgill.ecse223.tileo.model.*;
-import ca.mcgill.ecse223.tileo.util.TileOUtil;
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.controller.TileOController;
 
@@ -44,16 +44,11 @@ public class TileOPage extends JFrame{
     private JLabel actionLabel;
     private JLabel actionStatusLabel;
     private JLabel actionTipLabel;
+    private JLabel actionError;
         // game
     	private JPanel gameButtonsPanel;
         private JButton rollDieButton;
-        private JButton moveButton;
-        private JButton drawCardButton;
-        private JButton nextTurnButton;
             // card
-            private JButton teleportCardButton;
-            private JButton removeConnectionCardButton;
-            private JButton addConnectionCardButton;
             private JButton rollDieCardButton;
         // design
         private JTabbedPane designTabbedPane;
@@ -80,8 +75,6 @@ public class TileOPage extends JFrame{
             private JSpinner removeConnectionCardSpinner;
             private JLabel teleportCardLabel;
             private JSpinner teleportCardSpinner;
-            private JLabel loseTurnCardLabel;
-            private JSpinner loseTurnCardSpinner;
             private JLabel totalCardLabel;
             private JLabel numberOfCardsLabel;
             // board
@@ -108,6 +101,7 @@ public class TileOPage extends JFrame{
 
     // data elements
     private String waitingFor = "";
+    private ArrayList<Tile> possibleTiles = null;
 
 
     public TileOPage() {
@@ -160,16 +154,11 @@ public class TileOPage extends JFrame{
         actionLabel = new JLabel();
         actionStatusLabel = new JLabel();
         actionTipLabel = new JLabel();
+        actionError = new JLabel();
             // game
         	gameButtonsPanel = new JPanel();
             rollDieButton = new JButton();
-            moveButton = new JButton();
-            drawCardButton = new JButton();
-            nextTurnButton = new JButton();
                 // card
-                teleportCardButton = new JButton();
-                removeConnectionCardButton = new JButton();
-                addConnectionCardButton = new JButton();
                 rollDieCardButton = new JButton();
             // design
                 // tile
@@ -192,16 +181,14 @@ public class TileOPage extends JFrame{
                 newConnectionCardLabel = new JLabel();
                 removeConnectionCardLabel = new JLabel();
                 teleportCardLabel = new JLabel();
-                loseTurnCardLabel = new JLabel();
                 totalCardLabel = new JLabel();
                 numberOfCardsLabel = new JLabel();
                 extraTurnCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
                 newConnectionCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
                 removeConnectionCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
                 teleportCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
-                loseTurnCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
-                JSpinner[] spinners = {extraTurnCardSpinner, newConnectionCardSpinner, removeConnectionCardSpinner, teleportCardSpinner, loseTurnCardSpinner};
-                for (int i=0; i<5; ++i){
+                JSpinner[] spinners = {extraTurnCardSpinner, newConnectionCardSpinner, removeConnectionCardSpinner, teleportCardSpinner};
+                for (int i=0; i<4; ++i){
                 	spinners[i].addChangeListener(new javax.swing.event.ChangeListener(){
                 		public void stateChanged(javax.swing.event.ChangeEvent e){
                 			int n = updateNumberOfCards();
@@ -242,51 +229,16 @@ public class TileOPage extends JFrame{
 
         // basic game actions
         actionLabel.setText("Actions");
+        actionError.setForeground(Color.RED);
         rollDieButton.setText("Roll die");
-        moveButton.setText("Move");
-        drawCardButton.setText("Draw");
-        nextTurnButton.setText("Finish turn");
         rollDieButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 rollDieActionPerformed(e);
             }
         });
-        moveButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                moveActionPerformed(e);
-            }
-        });
-        drawCardButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                drawCardActionPerformed(e);
-            }
-        });
-        nextTurnButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                nextTurnActionPerformed(e);
-            }
-        });
         
         // action cards
-        teleportCardButton.setText("Teleport");
-        removeConnectionCardButton.setText("Remove connection");
-        addConnectionCardButton.setText("Add connection");
         rollDieCardButton.setText("Roll die");
-        teleportCardButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                teleportCardActionPerformed(e);
-            }
-        });
-        removeConnectionCardButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                removeConnectionCardActionPerformed(e);
-            }
-        });
-        addConnectionCardButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                addConnectionCardCardActionPerformed(e);
-            }
-        });
         rollDieCardButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 rollDieCardActionPerformed(e);
@@ -362,7 +314,6 @@ public class TileOPage extends JFrame{
         newConnectionCardLabel.setText("New connection");
         removeConnectionCardLabel.setText("Remove connection");
         teleportCardLabel.setText("Teleport");
-        loseTurnCardLabel.setText("Lose turn");
         totalCardLabel.setText("Total");
         numberOfCardsLabel.setText("0/"+NumberOfCards);
 
@@ -502,6 +453,7 @@ public class TileOPage extends JFrame{
             	.addComponent(actionLabel)
                 .addComponent(gameButtonsPanel)
                 .addComponent(actionStatusLabel)
+                .addComponent(actionError)
                 .addComponent(actionTipLabel)
                 .addComponent(newGameButton)
                 .addComponent(restartButton)
@@ -530,6 +482,7 @@ public class TileOPage extends JFrame{
                     .addComponent(gameButtonsPanel)
                     .addComponent(actionStatusLabel)
                     .addComponent(actionTipLabel)
+                    .addComponent(actionError)
                     .addComponent(newGameButton)
                     .addComponent(restartButton)
                     .addComponent(saveButton)
@@ -568,22 +521,20 @@ public class TileOPage extends JFrame{
             case GAME_CONNECTTILESACTIONCARD:
             	actionTipLabel.setText("Select two tiles you want to connect");
             	actionStatusLabel.setText("Add a connection action card");
-            	gameButtonsPanel.add(addConnectionCardButton);
+            	board.setWaitForConn(true);
+            	setWaitingFor("newconncard");
             	break;
             case GAME_REMOVECONNECTIONACTIONCARD:
             	actionTipLabel.setText("Select two tiles you want to disconnect");
             	actionStatusLabel.setText("Remove a connection action card");
-            	gameButtonsPanel.add(removeConnectionCardButton);
-                break;
-            case GAME_LOSETURNACTIONCARD:
-            	actionTipLabel.setText("You lose your next turn ...");
-            	actionStatusLabel.setText("Lose a turn action card");
-            	gameButtonsPanel.add(nextTurnButton);
+            	board.setWaitForConn(true);
+            	setWaitingFor("rmconncard");
                 break;
             case GAME_TELEPORTACTIONCARD:
             	actionTipLabel.setText("Select a new tile");
             	actionStatusLabel.setText("Teleport action card");
-            	gameButtonsPanel.add(teleportCardButton);
+            	board.setWaitForTile(true);
+            	setWaitingFor("newtilecard");
             	break;
             case DESIGN:
             	renderDesign(game);
@@ -620,6 +571,7 @@ public class TileOPage extends JFrame{
                 .addComponent(actionLabel)
                 .addComponent(designTabbedPane)              
                 .addComponent(actionStatusLabel)
+                .addComponent(actionError)
                 .addComponent(actionTipLabel)
                 .addComponent(startGameButton)
                 .addComponent(clearDesignButton)
@@ -646,6 +598,7 @@ public class TileOPage extends JFrame{
                     .addComponent(actionLabel)
                     .addComponent(designTabbedPane)                   
                     .addComponent(actionStatusLabel)
+                    .addComponent(actionError)
                     .addComponent(actionTipLabel)
                     .addComponent(startGameButton)
                     .addComponent(clearDesignButton)
@@ -733,7 +686,6 @@ public class TileOPage extends JFrame{
     			.addComponent(newConnectionCardLabel)
     			.addComponent(removeConnectionCardLabel)
     			.addComponent(teleportCardLabel)
-    			.addComponent(loseTurnCardLabel)
     			.addComponent(totalCardLabel)
     		)
     		.addGroup(deckLayout.createParallelGroup()
@@ -741,14 +693,13 @@ public class TileOPage extends JFrame{
     			.addComponent(newConnectionCardSpinner)
     			.addComponent(removeConnectionCardSpinner)
     			.addComponent(teleportCardSpinner)
-    			.addComponent(loseTurnCardSpinner)
     			.addComponent(numberOfCardsLabel)
     		)
     	);
     	deckLayout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[]
-    	        {extraTurnCardLabel, newConnectionCardLabel, removeConnectionCardLabel, teleportCardLabel, loseTurnCardLabel, totalCardLabel, extraTurnCardSpinner, newConnectionCardSpinner, removeConnectionCardSpinner, teleportCardSpinner, loseTurnCardSpinner, numberOfCardsLabel});
+    	        {extraTurnCardLabel, newConnectionCardLabel, removeConnectionCardLabel, teleportCardLabel, totalCardLabel, extraTurnCardSpinner, newConnectionCardSpinner, removeConnectionCardSpinner, teleportCardSpinner, numberOfCardsLabel});
         deckLayout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[]
-    	        {extraTurnCardLabel, newConnectionCardLabel, removeConnectionCardLabel, teleportCardLabel, loseTurnCardLabel, totalCardLabel, extraTurnCardSpinner, newConnectionCardSpinner, removeConnectionCardSpinner, teleportCardSpinner, loseTurnCardSpinner, numberOfCardsLabel});
+    	        {extraTurnCardLabel, newConnectionCardLabel, removeConnectionCardLabel, teleportCardLabel, totalCardLabel, extraTurnCardSpinner, newConnectionCardSpinner, removeConnectionCardSpinner, teleportCardSpinner, numberOfCardsLabel});
     	deckLayout.setVerticalGroup(deckLayout.createSequentialGroup()
     		.addGroup(deckLayout.createParallelGroup()
     			.addComponent(extraTurnCardLabel)
@@ -766,10 +717,6 @@ public class TileOPage extends JFrame{
         			.addComponent(teleportCardLabel)
         			.addComponent(teleportCardSpinner)
         	)
-    		.addGroup(deckLayout.createParallelGroup()
-        			.addComponent(loseTurnCardLabel)
-        			.addComponent(loseTurnCardSpinner)
-       		)
     		.addGroup(deckLayout.createParallelGroup()
         			.addComponent(totalCardLabel)
         			.addComponent(numberOfCardsLabel)
@@ -806,7 +753,7 @@ public class TileOPage extends JFrame{
     }
     
     private int updateNumberOfCards() {
-    	int n = (int)extraTurnCardSpinner.getValue() + (int)newConnectionCardSpinner.getValue() + (int)removeConnectionCardSpinner.getValue() + (int)teleportCardSpinner.getValue() + (int)loseTurnCardSpinner.getValue();
+    	int n = (int)extraTurnCardSpinner.getValue() + (int)newConnectionCardSpinner.getValue() + (int)removeConnectionCardSpinner.getValue() + (int)teleportCardSpinner.getValue();
     	numberOfCardsLabel.setText(n+"/"+NumberOfCards);
     	return n;
     }
@@ -817,7 +764,8 @@ public class TileOPage extends JFrame{
     // design
     private void addRegularTileActionPerformed(java.awt.event.ActionEvent e, boolean
     selected, int x, int y) {
-        if (!selected) { 
+        actionError.setText("");
+    	if (!selected) { 
             actionTipLabel.setText("Select an empty square to add a tile");
             board.setWaitForCoord(true);
             setWaitingFor("regular");
@@ -831,6 +779,7 @@ public class TileOPage extends JFrame{
     }
     
     private void addActionTileActionPerformed(java.awt.event.ActionEvent e, boolean selected, int x, int y) {
+        actionError.setText("");
     	if (!selected){
     		actionTipLabel.setText("Add an action tile, you can change the inactivity period");
     		board.setWaitForCoord(true);
@@ -848,8 +797,9 @@ public class TileOPage extends JFrame{
     }
     
     private void addHiddenTileActionPerformed(java.awt.event.ActionEvent e, boolean selected, int x, int y) {
+        actionError.setText("");
     	if (TileOApplication.getTileO().getCurrentGame().getWinTile()!=null) {
-    		actionTipLabel.setText("The win tile is already selected, delete it first");
+    		actionError.setText("The win tile is already selected, delete it first");
     		return;
     	}
     	
@@ -867,6 +817,7 @@ public class TileOPage extends JFrame{
     }
     
     private void addConnectionActionPerformed(java.awt.event.ActionEvent e, boolean selected, Tile t1, Tile t2) {
+        actionError.setText("");
     	if (!selected) {
     		actionTipLabel.setText("Select two adjacent tiles to connect them");
     		board.setWaitForConn(true);
@@ -880,12 +831,13 @@ public class TileOPage extends JFrame{
     			renderLayout(game);
     		}
     		catch (InvalidInputException err) {
-    			System.out.println(err.getMessage());
+    			actionError.setText(err.getMessage());
     		}
     	}
     }
     
     private void removeConnectionActionPerformed(java.awt.event.ActionEvent e, boolean selected, Tile t1, Tile t2) {
+        actionError.setText("");
     	if (!selected) {
     		actionTipLabel.setText("Select two connected tiles to remove a connection");
     		board.setWaitForConn(true);
@@ -899,13 +851,13 @@ public class TileOPage extends JFrame{
     			renderLayout(game);
     		}
     		catch (InvalidInputException err) {
-    			System.out.println(err.getMessage());
+    			actionError.setText(err.getMessage());
     		}
     	}
     }
     
     private void removeTileActionPerformed(java.awt.event.ActionEvent e, boolean selected, Tile t) {
-    	
+        actionError.setText("");
     	if (!selected) {
     		actionTipLabel.setText("Select a tile to delete");
     		board.setWaitForTile(true);
@@ -921,7 +873,7 @@ public class TileOPage extends JFrame{
     }
     
     private void setStartingTileActionPerformed(java.awt.event.ActionEvent e, boolean selected, int n, Tile t) {
-    	
+        actionError.setText("");
     	if (!selected) {
     		actionTipLabel.setText("Select a starting tile for player "+n);
     		board.setWaitForTile(true);
@@ -935,68 +887,106 @@ public class TileOPage extends JFrame{
     			renderLayout(game);
     		}
     		catch (InvalidInputException err) {
-    			System.out.println(err.getMessage());
+    			actionError.setText(err.getMessage());
     		}
     	}
     }
     
-
-    
-    
+   
     // game
     private void startGameActionPerformed(java.awt.event.ActionEvent e) {
         try {
         	TileOController toc = new TileOController();
         	Game game = TileOApplication.getTileO().getCurrentGame();
         	
-        	toc.createDeck((int)extraTurnCardSpinner.getValue(), (int)newConnectionCardSpinner.getValue(), (int)removeConnectionCardSpinner.getValue(), (int)teleportCardSpinner.getValue(), (int)loseTurnCardSpinner.getValue(), game);
+        	toc.createDeck((int)extraTurnCardSpinner.getValue(), (int)newConnectionCardSpinner.getValue(), (int)removeConnectionCardSpinner.getValue(), (int)teleportCardSpinner.getValue(), game);
         	
             toc.startGame(game);
             board.setGame(game);
+            actionError.setText("");
             initGameLayout();
             renderLayout(game);
         } catch (InvalidInputException err) {
-            System.out.println(err.getMessage());
+        	actionError.setText(err.getMessage());
         }
     }
     
     private void rollDieActionPerformed(java.awt.event.ActionEvent e) {
-
         TileOController tileOController = new TileOController();
-
-        //tileOController.rollDie();
-
+        possibleTiles = tileOController.rollDie();
+        actionStatusLabel.setText(""); // die number ?
+        actionTipLabel.setText("Select a new tile");
+        board.setPossibleTiles(possibleTiles);
+        board.setWaitForTile(true);
+        setWaitingFor("move");
     }
     
-    private void moveActionPerformed(java.awt.event.ActionEvent e) {
-
-        TileOController tileOController = new TileOController();
-
-        Tile tile = (Tile) e.getSource();
-
-        try{
-            tileOController.land(tile);
-        }
-        catch (InvalidInputException e1){
-            System.out.print("Error");
-        }
+    private void landActionPerformed(java.awt.event.ActionEvent e, Tile t) {
+    	if (possibleTiles.contains(t)){
+    		possibleTiles = null;
+    		board.setPossibleTiles(null);
+    		setWaitingFor("");
+    		
+    		try {
+    			TileOController toc = new TileOController();
+        		toc.land(t);
+        		renderLayout(t.getGame());
+    		}
+    		catch (InvalidInputException err) {
+    			System.out.println(err.getMessage());
+    		}
+    	}
+    	else {
+    		actionError.setText("Select a legal tile");
+    	}
     }
     
-    private void drawCardActionPerformed(java.awt.event.ActionEvent e) {
-
-        TileOController tileOController = new TileOController();
-        ActionCard actionCard = (ActionCard) e.getSource();
-    }  
-    
-    private void teleportCardActionPerformed(java.awt.event.ActionEvent e) {
+    private void teleportCardActionPerformed(java.awt.event.ActionEvent e, Tile t) {
+    	try {
+    		TileOController toc = new TileOController();
+    		toc.playTeleportActionCard(t);
+    		setWaitingFor("");
+    		renderLayout(TileOApplication.getTileO().getCurrentGame());
+    	}
+    	catch (InvalidInputException err) {
+    		actionError.setText(err.getMessage());
+    	}
     }
-    private void removeConnectionCardActionPerformed(java.awt.event.ActionEvent e) {
+    private void removeConnectionCardActionPerformed(java.awt.event.ActionEvent e, Tile t1, Tile t2) {
+    	try {
+    		TileOController toc = new TileOController();
+    		toc.playRemoveConnectionActionCard(t1, t2);
+    		setWaitingFor("");
+    		renderLayout(TileOApplication.getTileO().getCurrentGame());
+    	}
+    	catch (InvalidInputException err) {
+    		actionError.setText(err.getMessage());
+    	}
     }
-    private void addConnectionCardCardActionPerformed(java.awt.event.ActionEvent e) {
+    private void addConnectionCardActionPerformed(java.awt.event.ActionEvent e, Tile t1, Tile t2) {
+    	try {
+    		TileOController toc = new TileOController();
+    		toc.playConnectTilesActionCard(t1, t2);
+    		setWaitingFor("");
+    		renderLayout(TileOApplication.getTileO().getCurrentGame());
+    	}
+    	catch (InvalidInputException err) {
+    		actionError.setText(err.getMessage());
+    	}
     }
     private void rollDieCardActionPerformed(java.awt.event.ActionEvent e) {
-    }
-    private void nextTurnActionPerformed(java.awt.event.ActionEvent e) {
+    	try {
+    		TileOController toc = new TileOController();
+    		possibleTiles = toc.playRollDieActionCard();
+    	    actionStatusLabel.setText(""); // die number ?
+    	    actionTipLabel.setText("Select a new tile");
+    	    board.setPossibleTiles(possibleTiles);
+    	    board.setWaitForTile(true);
+    	    setWaitingFor("move");
+    	}
+    	catch (InvalidInputException err) {
+    		actionError.setText(err.getMessage());
+    	}
     }
     
     
@@ -1006,8 +996,14 @@ public class TileOPage extends JFrame{
         	TileOController toc = new TileOController();
         	int nPlayers = (int) numberOfPlayerSpinner.getValue();
             Game game = toc.newGame(nPlayers);
+            actionStatusLabel.setText("");
             board.setBoardSize((int)welBoardSizeSpinner.getValue());
             boardSizeSpinner.setValue((int)welBoardSizeSpinner.getValue());
+            extraTurnCardSpinner.setValue(0);
+            newConnectionCardSpinner.setValue(0);
+            removeConnectionCardSpinner.setValue(0);
+            teleportCardSpinner.setValue(0);
+            numberOfCardsLabel.setText("0/"+NumberOfCards);
             renderLayout(game);
         }
         catch(InvalidInputException err){
@@ -1053,6 +1049,10 @@ public class TileOPage extends JFrame{
     			setStartingTileActionPerformed(null, true, 3, t);
     		if (waitingFor.equals("player4"))
     			setStartingTileActionPerformed(null, true, 4, t);
+    		if (waitingFor.equals("move"))
+    			landActionPerformed(null, t);
+    		if (waitingFor.equals("newtilecard"))
+    			teleportCardActionPerformed(null, t);
     	}
     }
     
@@ -1062,6 +1062,10 @@ public class TileOPage extends JFrame{
     			addConnectionActionPerformed(null, true, t1, t2);
     		else if(waitingFor.equals("rmconn"))
     			removeConnectionActionPerformed(null, true, t1, t2);
+    		else if(waitingFor.equals("newconncard"))
+				addConnectionCardActionPerformed(null, t1, t2);
+    		else if(waitingFor.equals("rmconncard"))
+    			removeConnectionCardActionPerformed(null, t1, t2);
     		
     	}
     }
@@ -1070,7 +1074,6 @@ public class TileOPage extends JFrame{
     	if (waitingFor.equals("action") && !s.equals("action")){
     		inactivitySpinner.setVisible(false);
     	}
-    	System.out.println("from:" + waitingFor + "  to:" + s);
     	waitingFor = s;
     }
 

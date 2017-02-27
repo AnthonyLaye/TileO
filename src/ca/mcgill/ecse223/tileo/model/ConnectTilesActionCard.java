@@ -25,6 +25,10 @@ public class ConnectTilesActionCard extends ActionCard
   //------------------------
   // INTERFACE
   //------------------------
+  
+  public boolean play(Tile t1, Tile t2){
+	  return getDeck().getGame().connectTiles(t1, t2);
+  }
 
   public Game.Mode getActionCardMode(){
 

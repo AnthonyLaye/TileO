@@ -38,6 +38,7 @@ public class ActionTile extends Tile
     Game currentGame = getGame();
     Player currentPlayer = currentGame.getCurrentPlayer();
     currentPlayer.setCurrentTile(this);
+    setHasBeenVisited(true);
 
     Deck deck = currentGame.getDeck();
     ActionCard currentCard = deck.getCurrentCard();

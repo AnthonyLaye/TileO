@@ -57,7 +57,7 @@ public class Player implements Serializable
   // INTERFACE
   //------------------------
   
-  public List<Tile> getPossibleMoves(int depth){
+  public ArrayList<Tile> getPossibleMoves(int depth){
       // Depth first search with limited depth, Iterate over the possible children
       // Cannot go back but loops are allowed
       Stack<Node> fringe = new Stack<Node>();

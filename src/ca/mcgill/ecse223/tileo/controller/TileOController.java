@@ -17,49 +17,41 @@ import ca.mcgill.ecse223.tileo.model.RemoveConnectionActionCard;
 import ca.mcgill.ecse223.tileo.model.RollDieActionCard;
 import ca.mcgill.ecse223.tileo.model.TeleportActionCard;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TileOController {
     
     public TileOController() {
     }
     
-    public void startGame(Game selectedGame) throws InvalidInputException {
-        /* Starts the selected game if it respects the rules */    
-        
-        String error = "";
-        Deck deck = selectedGame.getDeck();
-        System.out.println(deck.numberOfCards() + "  "+Game.NumberOfActionCards);
-        if (deck.numberOfCards() != Game.NumberOfActionCards)
-            error+= "The deck needs to have 32 cards ";
-        if (selectedGame.getWinTile() == null)
-            error+="There is no WinTile selected ";
-        if (selectedGame.numberOfPlayers() < selectedGame.minimumNumberOfPlayers())
-            error+="Needs minimum two players ";
-        if (selectedGame.numberOfPlayers() > selectedGame.maximumNumberOfPlayers())
-            error+="Too many players ";
-        for (Player aPlayer : selectedGame.getPlayers())
-            if (aPlayer.getStartingTile()==null)
-                error+="Missing starting tile for player "+aPlayer.getNumber()+" ";
-        
-        if (!error.equals(""))
-            throw new InvalidInputException(error.trim());
-
-        deck.shuffle();
-        for (Tile aTile : selectedGame.getTiles()) aTile.setHasBeenVisited(false);
-        for (Player aPlayer : selectedGame.getPlayers()) {
-            aPlayer.setCurrentTile(aPlayer.getStartingTile());
-            aPlayer.getCurrentTile().setHasBeenVisited(true);
-        }
-        selectedGame.setCurrentPlayer(selectedGame.getPlayers().get(0));
-        selectedGame.setCurrentConnectionPieces(Game.SpareConnectionPieces);
-        selectedGame.setMode(Game.Mode.GAME);
+    // Design
+    public Game newGame(int nPlayer) throws InvalidInputException{
+    	if (nPlayer < Game.minimumNumberOfPlayers())
+    		throw new InvalidInputException("Not enough players");
+    	if (nPlayer > Game.maximumNumberOfPlayers())
+    		throw new InvalidInputException("Too many players");
+    	
+    	TileO tileo = TileOApplication.getTileO();    	
+    	Game game = new Game(0, tileo);
+    	
+    	Player.Color[] colors = {Player.Color.RED, Player.Color.BLUE, Player.Color.GREEN, Player.Color.YELLOW};
+    	Player.resetMap();
+    	int n = 0;
+    	while (nPlayer > 0){
+    		try {
+    			Player p = new Player(n, game);
+    			p.setColor(colors[n]);
+    			nPlayer--;
+    		}
+    		catch (RuntimeException e) {}
+    		n++;
+    	}
+    	game.setMode(Game.Mode.DESIGN);
+    	tileo.setCurrentGame(game);
+    	return game;
     }
-
-    public void land(Tile tile) throws InvalidInputException{
-        /* Initiates when a player lands on a tile */
-
-        tile.land();
-    }
-
+    
     public void addRegularTile(int x, int y, Game game){
 
         TileO tileO = TileOApplication.getTileO();
@@ -98,6 +90,14 @@ public class TileOController {
         }
     }
     
+    public void removeTile(Tile tile, Game game){
+
+        TileO tileO = TileOApplication.getTileO();
+        if (tile instanceof WinTile)
+        	tileO.getCurrentGame().setWinTile(null);
+        tileO.removeTile(tile);
+    }
+    
     public void addConnection(Tile t1, Tile t2, Game game) throws InvalidInputException {
     	if (!game.connectTiles(t1, t2))
     		throw new InvalidInputException("Selected tiles are not adjacent");
@@ -118,18 +118,157 @@ public class TileOController {
     	else
     		throw new InvalidInputException("Invalid tile");
     }
+    
+    public void createDeck(int nExtraTurn, int nNewConn, int nRmConn, int nTel, Game game) throws InvalidInputException{
+    	if (nExtraTurn+nNewConn+nRmConn+nTel != 32) 
+    		throw new InvalidInputException("Wrong number of action cards");
+    	
+    	Deck d = game.getDeck();
+    	for (ActionCard card: d.getCards())
+    		d.removeCard(card);
+    	
+    	for (int i=0;i<nExtraTurn;++i)
+    		new RollDieActionCard("Roll the die for an extra turn", d);
+    	for (int i=0;i<nNewConn;++i)
+    		new ConnectTilesActionCard("Connect two tiles", d);
+    	for (int i=0;i<nRmConn;++i)
+    		new RemoveConnectionActionCard("Remove a connection", d);
+    	for (int i=0;i<nTel;++i)
+    		new TeleportActionCard("Move your piece to a new tile", d);
+    }
+    
+    
+    // Game
+    public void startGame(Game selectedGame) throws InvalidInputException {
+        /* Starts the selected game if it respects the rules */    
+        
+        String error = "";
+        Deck deck = selectedGame.getDeck();
+        System.out.println(deck.numberOfCards() + "  "+Game.NumberOfActionCards);
+        if (deck.numberOfCards() != Game.NumberOfActionCards)
+            error+= "The deck needs to have 32 cards ";
+        if (selectedGame.getWinTile() == null)
+            error+="There is no WinTile selected ";
+        if (selectedGame.numberOfPlayers() < selectedGame.minimumNumberOfPlayers())
+            error+="Needs minimum two players ";
+        if (selectedGame.numberOfPlayers() > selectedGame.maximumNumberOfPlayers())
+            error+="Too many players ";
+        for (Player aPlayer : selectedGame.getPlayers())
+            if (aPlayer.getStartingTile()==null)
+                error+="Missing starting tile for player "+aPlayer.getNumber()+" ";
+        
+        if (!error.equals(""))
+            throw new InvalidInputException(error.trim());
 
-    public void removeTile(Tile tile, Game game){
-
-        TileO tileO = TileOApplication.getTileO();
-        if (tile instanceof WinTile)
-        	tileO.getCurrentGame().setWinTile(null);
-        tileO.removeTile(tile);
+        deck.shuffle();
+        deck.setCurrentCard(deck.getCard(0));
+        for (Tile aTile : selectedGame.getTiles()) aTile.setHasBeenVisited(false);
+        for (Player aPlayer : selectedGame.getPlayers()) {
+            aPlayer.setCurrentTile(aPlayer.getStartingTile());
+            aPlayer.getCurrentTile().setHasBeenVisited(true);
+        }
+        selectedGame.setCurrentPlayer(selectedGame.getPlayers().get(0));
+        selectedGame.setCurrentConnectionPieces(Game.SpareConnectionPieces);
+        selectedGame.setMode(Game.Mode.GAME);
+    }
+    
+    public ArrayList<Tile> rollDie() {
+    	Game game = TileOApplication.getTileO().getCurrentGame();
+    	return game.rollDie();
     }
 
-    public boolean saveGame(String filename) {
-        /* Saves the current game  */
+    public void land(Tile tile) throws InvalidInputException{
+        /* Initiates when a player lands on a tile */
 
+        tile.land();
+    }
+    
+    public ArrayList<Tile> playRollDieActionCard() throws InvalidInputException {
+    	Game game = TileOApplication.getTileO().getCurrentGame();
+    	Deck d = game.getDeck();
+    	ActionCard c = d.getCurrentCard();
+    	if (!(c instanceof RollDieActionCard))
+    		throw new InvalidInputException("Card type doesn't match");
+    	
+    	if (d.indexOfCard(c)==d.numberOfCards()-1){
+    		d.shuffle();
+    		d.setCurrentCard(d.getCard(0));
+    	}
+    	else
+    		d.setCurrentCard(d.getCard(d.indexOfCard(c)+1));
+    	game.setMode(Game.Mode.GAME);
+    	
+    	ArrayList<Tile> possibleTiles = ((RollDieActionCard)c).play();
+    	return possibleTiles;
+    	
+    }
+    
+    public void playConnectTilesActionCard(Tile t1, Tile t2) throws InvalidInputException {
+    	Game game = TileOApplication.getTileO().getCurrentGame();
+    	Deck d = game.getDeck();
+    	ActionCard c = d.getCurrentCard();
+    	if (!(c instanceof ConnectTilesActionCard))
+    		throw new InvalidInputException("Card type doesn't match");
+    	if (!(game.getTiles().contains(t1) && game.getTiles().contains(t2)))
+    		throw new InvalidInputException("Invalid tiles");
+    	if (game.getCurrentConnectionPieces()==0)
+    		throw new InvalidInputException("No more connection pieces");    	
+    	if (!((ConnectTilesActionCard)c).play(t1, t2))
+    		throw new InvalidInputException("Tiles not adjacent");
+    	
+    	game.setCurrentPlayer(game.getPlayer((game.indexOfPlayer(game.getCurrentPlayer()) + 1)%game.numberOfPlayers()));
+    	if (d.indexOfCard(c)==d.numberOfCards()-1){
+    		d.shuffle();
+    		d.setCurrentCard(d.getCard(0));
+    	}
+    	else
+    		d.setCurrentCard(d.getCard(d.indexOfCard(c)+1));
+    	game.setMode(Game.Mode.GAME);
+    }
+    
+    public void playRemoveConnectionActionCard(Tile t1, Tile t2) throws InvalidInputException {
+    	Game game = TileOApplication.getTileO().getCurrentGame();
+    	Deck d = game.getDeck();
+    	ActionCard c = d.getCurrentCard();
+    	if (!(c instanceof RemoveConnectionActionCard))
+    		throw new InvalidInputException("Card type doesn't match");
+    	if (!(game.getTiles().contains(t1) && game.getTiles().contains(t2)))
+    		throw new InvalidInputException("Invalid tiles");
+    	if (!((RemoveConnectionActionCard)c).play(t1, t2))
+    		throw new InvalidInputException("Tiles are not connected");
+    	
+    	game.setCurrentPlayer(game.getPlayer((game.indexOfPlayer(game.getCurrentPlayer()) + 1)%game.numberOfPlayers()));
+    	if (d.indexOfCard(c)==d.numberOfCards()-1){
+    		d.shuffle();
+    		d.setCurrentCard(d.getCard(0));
+    	}
+    	else
+    		d.setCurrentCard(d.getCard(d.indexOfCard(c)+1));
+    	game.setMode(Game.Mode.GAME);
+    }
+    
+    public void playTeleportActionCard(Tile t) throws InvalidInputException {
+    	Game game = TileOApplication.getTileO().getCurrentGame();
+    	Deck d = game.getDeck();
+    	ActionCard c = d.getCurrentCard();
+    	if (!game.getTiles().contains(t))
+    		throw new InvalidInputException("Invalid tile");
+    	if (!(c instanceof TeleportActionCard))
+    		throw new InvalidInputException("Card type doesn't match");
+    	
+    	if (d.indexOfCard(c)==d.numberOfCards()-1){
+    		d.shuffle();
+    		d.setCurrentCard(d.getCard(0));
+    	}
+    	else
+    		d.setCurrentCard(d.getCard(d.indexOfCard(c)+1));
+    	
+    	((TeleportActionCard)c).play(t);
+    }
+
+    
+    // Controls
+    public boolean saveGame(String filename) {
         try {
             TileOApplication.save(filename);
             return true;
@@ -139,8 +278,6 @@ public class TileOController {
     }
 
     public Game loadGame(String filename) throws InvalidInputException {
-        /* Loads a game  */
-        
         TileO tileo = TileOApplication.getTileO();
         Game loadedGame = TileOApplication.load(filename);
 
@@ -151,52 +288,5 @@ public class TileOController {
         tileo.setCurrentGame(loadedGame);
 
         return loadedGame;
-    }
-    
-    public Game newGame(int nPlayer) throws InvalidInputException{
-    	if (nPlayer < Game.minimumNumberOfPlayers())
-    		throw new InvalidInputException("Not enough players");
-    	if (nPlayer > Game.maximumNumberOfPlayers())
-    		throw new InvalidInputException("Too many players");
-    	
-    	TileO tileo = TileOApplication.getTileO();    	
-    	Game game = new Game(0, tileo);
-    	
-    	Player.Color[] colors = {Player.Color.RED, Player.Color.BLUE, Player.Color.GREEN, Player.Color.YELLOW};
-    	Player.resetMap();
-    	int n = 0;
-    	while (nPlayer > 0){
-    		try {
-    			Player p = new Player(n, game);
-    			p.setColor(colors[n]);
-    			nPlayer--;
-    		}
-    		catch (RuntimeException e) {}
-    		n++;
-    	}
-    	game.setMode(Game.Mode.DESIGN);
-    	tileo.setCurrentGame(game);
-    	return game;
-    }
-
-    public void createDeck(int nExtraTurn, int nNewConn, int nRmConn, int nTel, int nLoseTurn, Game game) throws InvalidInputException{
-    	if (nExtraTurn+nNewConn+nRmConn+nTel+nLoseTurn != 32) 
-    		throw new InvalidInputException("Wrong number of action cards");
-    
-    	Deck d = game.getDeck();
-    	
-    	for (ActionCard card: d.getCards())
-    		card.delete();
-    	
-    	for (int i=0;i<nExtraTurn;++i)
-    		new RollDieActionCard("Roll the die for an extra turn", d);
-    	for (int i=0;i<nNewConn;++i)
-    		new ConnectTilesActionCard("Connect two tiles", d);
-    	for (int i=0;i<nRmConn;++i)
-    		new RemoveConnectionActionCard("Remove a connection", d);
-    	for (int i=0;i<nTel;++i)
-    		new TeleportActionCard("Move your piece to a new tile", d);
-    	for (int i=0;i<nLoseTurn;++i)
-    		new LoseTurnActionCard("Lose your next turn", d);
     }
 }
