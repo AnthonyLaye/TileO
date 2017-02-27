@@ -1011,6 +1011,13 @@ public class TileOPage extends JFrame{
         }
     }
     private void saveActionPerformed(java.awt.event.ActionEvent e) {
+    	try {
+    		TileOController toc = new TileOController();
+    		toc.saveGame("");
+    	}
+    	catch (Exception err) {
+    		actionError.setText(err.getMessage());
+    	}
     }
     private void loadGameActionPerformed(java.awt.event.ActionEvent e){
     }

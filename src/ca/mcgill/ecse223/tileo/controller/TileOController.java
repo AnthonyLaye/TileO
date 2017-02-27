@@ -268,13 +268,8 @@ public class TileOController {
 
     
     // Controls
-    public boolean saveGame(String filename) {
-        try {
-            TileOApplication.save(filename);
-            return true;
-        } catch (RuntimeException e) {
-            return false;
-        }
+    public void saveGame(String filename) {
+        TileOApplication.save(filename);
     }
 
     public Game loadGame(String filename) throws InvalidInputException {
