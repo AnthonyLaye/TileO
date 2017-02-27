@@ -980,7 +980,9 @@ public class TileOPage extends JFrame{
         	landActionPerformed(null, TileOApplication.getTileO().getCurrentGame().getCurrentPlayer().getCurrentTile());
         }
         else {
-        	actionStatusLabel.setText(""); // die number ?
+            Game game = TileOApplication.getTileO().getCurrentGame();
+            String dieNumber = game.dieNumber;
+            actionStatusLabel.setText("Roll: " + dieNumber); // die number
         	actionTipLabel.setText("Select a new tile");
         	actionError.setText("");
         	board.setPossibleTiles(possibleTiles);

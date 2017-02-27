@@ -4,6 +4,7 @@
 package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 import java.util.*;
+import java.util.prefs.Preferences;
 
 import ca.mcgill.ecse223.tileo.exception.InvalidInputException;
 
@@ -26,6 +27,7 @@ public class Game implements Serializable
   //Game Attributes
   private int currentConnectionPieces;
   private String filename;
+  public  String dieNumber;
 
   //Game State Machines
   public enum Mode { DESIGN, GAME, GAME_WON, GAME_ROLLDIEACTIONCARD, GAME_CONNECTTILESACTIONCARD, GAME_REMOVECONNECTIONACTIONCARD, GAME_TELEPORTACTIONCARD, GAME_LOSETURNACTIONCARD }
@@ -125,6 +127,7 @@ public class Game implements Serializable
   
   public ArrayList<Tile> rollDie() {
 	int n = getDie().roll();
+	dieNumber = Integer.toString(n);
   	System.out.println("Die: "+n);
   	ArrayList<Tile> possibleTiles = getCurrentPlayer().getPossibleMoves(n);
   	return possibleTiles;
