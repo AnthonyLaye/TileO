@@ -959,7 +959,11 @@ public class TileOPage extends JFrame{
     private void rollDieActionPerformed(java.awt.event.ActionEvent e) {
         TileOController tileOController = new TileOController();
         possibleTiles = tileOController.rollDie();
-        actionStatusLabel.setText(""); // die number ?
+
+        Game game = TileOApplication.getTileO().getCurrentGame();
+        String dieNumber = game.dieNumber;
+        actionStatusLabel.setText("Roll: " + dieNumber); // die number
+
         actionTipLabel.setText("Select a new tile");
         board.setPossibleTiles(possibleTiles);
         board.setWaitForTile(true);
