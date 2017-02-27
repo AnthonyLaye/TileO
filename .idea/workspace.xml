@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a1d84f45-8c3c-435a-a989-5c6b3528f362" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Tile-O.iml" afterPath="$PROJECT_DIR$/Tile-O.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/view/BoardVisualizer.java" afterPath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/view/BoardVisualizer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/view/TileOPage.java" afterPath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/view/TileOPage.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -27,14 +25,9 @@
       <file leaf-file-name="TileOPage.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/view/TileOPage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="3" column="25" lean-forward="true" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
-              <folding>
-                <element signature="e#15950#15951#0" expanded="true" />
-                <element signature="e#16004#16005#0" expanded="true" />
-                <element signature="e#16163#16164#0" expanded="true" />
-                <element signature="e#16204#16205#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="240">
+              <caret line="6" column="26" lean-forward="true" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -42,12 +35,9 @@
       <file leaf-file-name="BoardVisualizer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/view/BoardVisualizer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-6738">
-              <caret line="64" column="28" lean-forward="true" selection-start-line="64" selection-start-column="28" selection-end-line="64" selection-end-column="28" />
-              <folding>
-                <element signature="e#4272#4273#0" expanded="true" />
-                <element signature="e#4299#4300#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="1720">
+              <caret line="65" column="28" lean-forward="false" selection-start-line="65" selection-start-column="28" selection-end-line="65" selection-end-column="28" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -83,9 +73,9 @@
         <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/controller/TileOController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="6640">
-              <caret line="180" column="0" lean-forward="false" selection-start-line="180" selection-start-column="0" selection-end-line="180" selection-end-column="0" />
+              <caret line="290" column="0" lean-forward="false" selection-start-line="290" selection-start-column="0" selection-end-line="290" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="false" />
+                <marker date="1488213902939" expanded="true" signature="10380:10387" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -94,9 +84,41 @@
       <file leaf-file-name="Player.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1322">
-              <caret line="191" column="18" lean-forward="false" selection-start-line="191" selection-start-column="18" selection-end-line="191" selection-end-column="18" />
-              <folding />
+            <state relative-caret-position="6560">
+              <caret line="192" column="3" lean-forward="false" selection-start-line="192" selection-start-column="3" selection-end-line="192" selection-end-column="3" />
+              <folding>
+                <marker date="1488213902971" expanded="true" signature="1475:2626" ph="{...}" />
+                <marker date="1488213902971" expanded="true" signature="1483:1605" ph="//..." />
+                <marker date="1488213902971" expanded="true" signature="2665:2766" ph="{...}" />
+                <marker date="1488213902971" expanded="true" signature="2812:3125" ph="{...}" />
+                <marker date="1488213902971" expanded="true" signature="3189:3302" ph="{...}" />
+                <marker date="1488213902971" expanded="false" signature="3328:3337" ph=" { " />
+                <marker date="1488213902971" expanded="false" signature="3351:3355" ph=" }" />
+                <marker date="1488213902971" expanded="false" signature="3406:3415" ph=" { " />
+                <marker date="1488213902971" expanded="false" signature="3451:3455" ph=" }" />
+                <marker date="1488213902971" expanded="false" signature="3507:3516" ph=" { " />
+                <marker date="1488213902971" expanded="false" signature="3554:3558" ph=" }" />
+                <marker date="1488213902971" expanded="false" signature="3594:3603" ph=" { " />
+                <marker date="1488213902971" expanded="false" signature="3627:3631" ph=" }" />
+                <marker date="1488213902971" expanded="true" signature="3670:3732" ph="{...}" />
+                <marker date="1488213902971" expanded="false" signature="3759:3768" ph=" { " />
+                <marker date="1488213902971" expanded="false" signature="3781:3785" ph=" }" />
+                <marker date="1488213902971" expanded="true" signature="3829:3871" ph="{...}" />
+                <marker date="1488213902971" expanded="false" signature="3904:3913" ph=" { " />
+                <marker date="1488213902971" expanded="false" signature="3933:3937" ph=" }" />
+                <marker date="1488213902971" expanded="true" signature="3976:4037" ph="{...}" />
+                <marker date="1488213902971" expanded="false" signature="4069:4078" ph=" { " />
+                <marker date="1488213902971" expanded="false" signature="4097:4101" ph=" }" />
+                <marker date="1488213902971" expanded="true" signature="4139:4199" ph="{...}" />
+                <marker date="1488213902971" expanded="false" signature="4224:4233" ph=" { " />
+                <marker date="1488213902971" expanded="false" signature="4245:4249" ph=" }" />
+                <marker date="1488213902971" expanded="true" signature="4309:4417" ph="{...}" />
+                <marker date="1488213902971" expanded="true" signature="4475:4581" ph="{...}" />
+                <marker date="1488213902971" expanded="true" signature="4622:5218" ph="{...}" />
+                <marker date="1488213902971" expanded="true" signature="5245:5435" ph="{...}" />
+                <marker date="1488213902971" expanded="true" signature="5467:6218" ph="{...}" />
+                <marker date="1488213902971" expanded="true" signature="6223:6315" ph="//..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -270,8 +292,8 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -615,13 +637,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/application/TileOApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="9" column="13" lean-forward="false" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Tile.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2400">
@@ -655,7 +670,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="false" />
+            <marker date="1488213902939" expanded="true" signature="10380:10387" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -693,7 +708,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="false" />
+            <marker date="1488213902939" expanded="true" signature="10380:10387" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -724,7 +739,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="false" />
+            <marker date="1488213902939" expanded="true" signature="10380:10387" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -783,7 +798,7 @@
         <state relative-caret-position="760">
           <caret line="19" column="26" lean-forward="false" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
           <folding>
-            <element signature="imports" expanded="false" />
+            <marker date="1488213902939" expanded="true" signature="10380:10387" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -807,7 +822,7 @@
         <state relative-caret-position="429">
           <caret line="19" column="26" lean-forward="true" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
           <folding>
-            <element signature="imports" expanded="false" />
+            <marker date="1488213902939" expanded="true" signature="10380:10387" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -928,9 +943,9 @@
     <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/controller/TileOController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6640">
-          <caret line="180" column="0" lean-forward="false" selection-start-line="180" selection-start-column="0" selection-end-line="180" selection-end-column="0" />
+          <caret line="290" column="0" lean-forward="false" selection-start-line="290" selection-start-column="0" selection-end-line="290" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="false" />
+            <marker date="1488213902939" expanded="true" signature="10380:10387" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -964,9 +979,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="760">
           <caret line="23" column="28" lean-forward="false" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
-          <folding>
-            <marker date="1488154547878" expanded="false" signature="158:199" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -974,7 +986,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="560">
           <caret line="15" column="28" lean-forward="false" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -982,7 +993,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1040">
           <caret line="30" column="49" lean-forward="false" selection-start-line="30" selection-start-column="49" selection-end-line="30" selection-end-column="49" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -990,39 +1000,70 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1322">
           <caret line="95" column="22" lean-forward="false" selection-start-line="95" selection-start-column="22" selection-end-line="95" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1322">
-          <caret line="191" column="18" lean-forward="false" selection-start-line="191" selection-start-column="18" selection-end-line="191" selection-end-column="18" />
-          <folding />
+        <state relative-caret-position="6560">
+          <caret line="192" column="3" lean-forward="false" selection-start-line="192" selection-start-column="3" selection-end-line="192" selection-end-column="3" />
+          <folding>
+            <marker date="1488213902971" expanded="true" signature="1475:2626" ph="{...}" />
+            <marker date="1488213902971" expanded="true" signature="1483:1605" ph="//..." />
+            <marker date="1488213902971" expanded="true" signature="2665:2766" ph="{...}" />
+            <marker date="1488213902971" expanded="true" signature="2812:3125" ph="{...}" />
+            <marker date="1488213902971" expanded="true" signature="3189:3302" ph="{...}" />
+            <marker date="1488213902971" expanded="false" signature="3328:3337" ph=" { " />
+            <marker date="1488213902971" expanded="false" signature="3351:3355" ph=" }" />
+            <marker date="1488213902971" expanded="false" signature="3406:3415" ph=" { " />
+            <marker date="1488213902971" expanded="false" signature="3451:3455" ph=" }" />
+            <marker date="1488213902971" expanded="false" signature="3507:3516" ph=" { " />
+            <marker date="1488213902971" expanded="false" signature="3554:3558" ph=" }" />
+            <marker date="1488213902971" expanded="false" signature="3594:3603" ph=" { " />
+            <marker date="1488213902971" expanded="false" signature="3627:3631" ph=" }" />
+            <marker date="1488213902971" expanded="true" signature="3670:3732" ph="{...}" />
+            <marker date="1488213902971" expanded="false" signature="3759:3768" ph=" { " />
+            <marker date="1488213902971" expanded="false" signature="3781:3785" ph=" }" />
+            <marker date="1488213902971" expanded="true" signature="3829:3871" ph="{...}" />
+            <marker date="1488213902971" expanded="false" signature="3904:3913" ph=" { " />
+            <marker date="1488213902971" expanded="false" signature="3933:3937" ph=" }" />
+            <marker date="1488213902971" expanded="true" signature="3976:4037" ph="{...}" />
+            <marker date="1488213902971" expanded="false" signature="4069:4078" ph=" { " />
+            <marker date="1488213902971" expanded="false" signature="4097:4101" ph=" }" />
+            <marker date="1488213902971" expanded="true" signature="4139:4199" ph="{...}" />
+            <marker date="1488213902971" expanded="false" signature="4224:4233" ph=" { " />
+            <marker date="1488213902971" expanded="false" signature="4245:4249" ph=" }" />
+            <marker date="1488213902971" expanded="true" signature="4309:4417" ph="{...}" />
+            <marker date="1488213902971" expanded="true" signature="4475:4581" ph="{...}" />
+            <marker date="1488213902971" expanded="true" signature="4622:5218" ph="{...}" />
+            <marker date="1488213902971" expanded="true" signature="5245:5435" ph="{...}" />
+            <marker date="1488213902971" expanded="true" signature="5467:6218" ph="{...}" />
+            <marker date="1488213902971" expanded="true" signature="6223:6315" ph="//..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/view/BoardVisualizer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6738">
-          <caret line="64" column="28" lean-forward="true" selection-start-line="64" selection-start-column="28" selection-end-line="64" selection-end-column="28" />
-          <folding>
-            <element signature="e#4272#4273#0" expanded="true" />
-            <element signature="e#4299#4300#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="1720">
+          <caret line="65" column="28" lean-forward="false" selection-start-line="65" selection-start-column="28" selection-end-line="65" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/javax/swing/GroupLayout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="1115" column="0" lean-forward="false" selection-start-line="1115" selection-start-column="0" selection-end-line="1115" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/view/TileOPage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="3" column="25" lean-forward="true" selection-start-line="3" selection-start-column="25" selection-end-line="3" selection-end-column="25" />
-          <folding>
-            <element signature="e#15950#15951#0" expanded="true" />
-            <element signature="e#16004#16005#0" expanded="true" />
-            <element signature="e#16163#16164#0" expanded="true" />
-            <element signature="e#16204#16205#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="240">
+          <caret line="6" column="26" lean-forward="true" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
+          <folding />
         </state>
       </provider>
     </entry>

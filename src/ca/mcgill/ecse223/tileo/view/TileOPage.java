@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.border.LineBorder;
 
 import ca.mcgill.ecse223.tileo.exception.InvalidInputException;
 import ca.mcgill.ecse223.tileo.model.*;
@@ -36,6 +37,7 @@ public class TileOPage extends JFrame{
     private JLabel numberOfPlayerLabel;
     private JSpinner welBoardSizeSpinner;
     private JLabel welBoardSizeLabel;
+    private JLabel tileOLabel;
     
     // mode
     private JLabel modeLabel;
@@ -119,13 +121,26 @@ public class TileOPage extends JFrame{
         this.setUndecorated(true); // This would remove the option to minimize, exit.. etc
 
     	welNewGameButton = new JButton("New game");
+        welNewGameButton.setBorder((new LineBorder(Color.BLACK)));
+
         welLoadDesignButton = new JButton("Load a design");
+        welLoadDesignButton.setBorder((new LineBorder(Color.BLACK)));
+
         welLoadGameButton = new JButton("Load a game");
+        welLoadGameButton.setBorder((new LineBorder(Color.BLACK)));
+
         welExitButton = new JButton("Exit");
+        welExitButton.setBorder((new LineBorder(Color.BLACK)));
+
         numberOfPlayerSpinner = new JSpinner(new SpinnerNumberModel(2,2,4,1));
-        numberOfPlayerLabel = new JLabel("Number of player");
+        ((JSpinner.DefaultEditor) numberOfPlayerSpinner.getEditor()).getTextField().setEditable(false);
+        numberOfPlayerLabel = new JLabel("Number of players");
+
         welBoardSizeSpinner = new JSpinner(new SpinnerNumberModel(10,5,20,1));
+        ((JSpinner.DefaultEditor) welBoardSizeSpinner.getEditor()).getTextField().setEditable(false);
         welBoardSizeLabel = new JLabel("Board size");
+
+        tileOLabel = new JLabel("  Tile-O");
         welNewGameButton.addActionListener(new java.awt.event.ActionListener(){
         	public void actionPerformed(java.awt.event.ActionEvent e) {
         		newGameActionPerformed(e);
@@ -373,28 +388,56 @@ public class TileOPage extends JFrame{
     private void welcome() {    
     	getContentPane().removeAll();
 
+    	JPanel center = new JPanel();
+
     	getContentPane().setLayout(new GridBagLayout());
-    	
-        GroupLayout layout = new GroupLayout(getContentPane());  
-        getContentPane().setLayout(layout);
+
+        add(center);
+        center.add(tileOLabel);
+        center.add(numberOfPlayerLabel);
+        center.add(welBoardSizeLabel);
+        center.add(welLoadDesignButton);
+        center.add(welLoadGameButton);
+        center.add(welExitButton);
+        center.add(welNewGameButton);
+        center.add(numberOfPlayerSpinner);
+        center.add(welBoardSizeSpinner);
+
+        center.setBackground(Color.pink);
+
+        GroupLayout layout = new GroupLayout(center);
+        center.setLayout(layout);
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
-        
+
+        tileOLabel.setFont(new Font("Serif", Font.PLAIN, 150));
+        numberOfPlayerLabel.setFont(new Font("Serif", Font.PLAIN, 45));
+        welBoardSizeLabel.setFont(new Font("Serif", Font.PLAIN, 45));
+        welLoadDesignButton.setFont(new Font("Serif", Font.PLAIN, 45));
+        welLoadGameButton.setFont(new Font("Serif", Font.PLAIN, 45));
+        welExitButton.setFont(new Font("Serif", Font.PLAIN, 45));
+        welNewGameButton.setFont(new Font("Serif", Font.PLAIN, 45));
+
+        numberOfPlayerSpinner.setFont(new Font("Serif", Font.PLAIN, 80));
+        welBoardSizeSpinner.setFont(new Font("Serif", Font.PLAIN, 80));
+
+
         layout.setHorizontalGroup(
             layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup()
+            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                .addComponent(tileOLabel, 400, 500, 600)
                 .addGroup(layout.createSequentialGroup()
-                    .addComponent(numberOfPlayerLabel)
-                    .addComponent(welBoardSizeLabel)
+                    .addComponent(numberOfPlayerLabel, 400, 500, 600)
+                    .addComponent(welBoardSizeLabel,  400, 500, 600)
                 )
                 .addGroup(layout.createSequentialGroup()
-                    .addComponent(numberOfPlayerSpinner)
-                    .addComponent(welBoardSizeSpinner)
+                    .addComponent(numberOfPlayerSpinner, 100, 200, 300)
+                    .addComponent(welBoardSizeSpinner, 100, 200, 300)
                 )
-            	.addComponent(welNewGameButton)
-                .addComponent(welLoadDesignButton)
-                .addComponent(welLoadGameButton)
-                .addComponent(welExitButton)
+            	.addComponent(welNewGameButton, 400, 500, 600)
+                .addComponent(welLoadDesignButton, 400, 500, 600)
+                .addComponent(welLoadGameButton,  400, 500, 600)
+                .addComponent(welExitButton,  400, 500, 600)
             )
         );
         
@@ -411,18 +454,19 @@ public class TileOPage extends JFrame{
         
         layout.setVerticalGroup(
             layout.createSequentialGroup()
-            .addComponent(welNewGameButton)
+            .addComponent(tileOLabel, 250, 300, 350)
+            .addComponent(welNewGameButton, 150, 200 , 250)
             .addGroup(layout.createParallelGroup()
-                .addComponent(numberOfPlayerLabel)
-                .addComponent(welBoardSizeLabel)
+                .addComponent(numberOfPlayerLabel, 150, 200 , 250)
+                .addComponent(welBoardSizeLabel, 150, 200 , 250)
             )
             .addGroup(layout.createParallelGroup()
-                .addComponent(numberOfPlayerSpinner)
-                .addComponent(welBoardSizeSpinner)
+                .addComponent(numberOfPlayerSpinner, 100, 200, 300)
+                .addComponent(welBoardSizeSpinner, 100, 200, 300)
             )
-           	.addComponent(welLoadDesignButton)		     
-            .addComponent(welLoadGameButton)
-            .addComponent(welExitButton)
+           	.addComponent(welLoadDesignButton, 150, 200 , 250)
+            .addComponent(welLoadGameButton, 150, 200 , 250)
+            .addComponent(welExitButton, 150, 200 , 250)
         );
 
         pack();
@@ -491,6 +535,7 @@ public class TileOPage extends JFrame{
             )
         );
         pack();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     
@@ -551,7 +596,7 @@ public class TileOPage extends JFrame{
         currentPlayerNameLabel.setText("Designer");
         
         designTabbedPane = makeDesignPane(game.numberOfPlayers());
-        
+
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setAutoCreateGaps(true);
