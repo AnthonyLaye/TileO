@@ -50,6 +50,8 @@ public class TileOPage extends JFrame{
         // game
     	private JPanel gameButtonsPanel;
         private JButton rollDieButton;
+        //private JLabel playerColour;
+        private JPanel playerColour;
             // card
             private JButton rollDieCardButton;
         // design
@@ -144,6 +146,10 @@ public class TileOPage extends JFrame{
         welBoardSizeLabel = new JLabel("Board size");
 
         tileOLabel = new JLabel("Tile-O");
+
+        playerColour = new JPanel();
+        playerColour.setOpaque(true);
+
         welNewGameButton.addActionListener(new java.awt.event.ActionListener(){
         	public void actionPerformed(java.awt.event.ActionEvent e) {
         		newGameActionPerformed(e);
@@ -248,6 +254,8 @@ public class TileOPage extends JFrame{
         // basic game actions
         actionLabel.setText("Actions");
         actionError.setForeground(Color.RED);
+
+        playerColour.setPreferredSize(new Dimension(20, 20));
         
         rollDieButton.setText("Roll die");
         rollDieButton.addActionListener(new java.awt.event.ActionListener() {
@@ -495,6 +503,7 @@ public class TileOPage extends JFrame{
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(currentPlayerLabel)
                     .addComponent(currentPlayerNameLabel)
+                    .addComponent(playerColour, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 )
                 .addComponent(board)
             )
@@ -524,6 +533,7 @@ public class TileOPage extends JFrame{
                     .addGroup(layout.createParallelGroup()
                         .addComponent(currentPlayerLabel)
                         .addComponent(currentPlayerNameLabel)
+                        .addComponent(playerColour, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                     )
                     .addComponent(board)
                 )
@@ -548,10 +558,21 @@ public class TileOPage extends JFrame{
     private void renderLayout(Game game) {
 
         modeLabel.setText(game.getMode().toString());
-        currentPlayerNameLabel.setText("Player "+game.indexOfPlayer(game.getCurrentPlayer()));
+        currentPlayerNameLabel.setText("Player "+ (game.indexOfPlayer(game.getCurrentPlayer())+ 1));
         gameButtonsPanel.removeAll();
         board.setGame(game);
-        
+
+        if(game.hasCurrentPlayer()){
+            String colour = String.valueOf(game.getCurrentPlayer().getColor());
+            if(colour.equals("RED"))
+                playerColour.setBackground(Color.RED);
+            if(colour.equals("BLUE"))
+                playerColour.setBackground(Color.BLUE);
+            if(colour.equals("GREEN"))
+                playerColour.setBackground(Color.GREEN);
+            if(colour.equals("YELLOW"))
+                playerColour.setBackground(Color.YELLOW);
+        }
         actionError.setText("");
 
         switch (game.getMode()) {      
@@ -618,6 +639,7 @@ public class TileOPage extends JFrame{
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(currentPlayerLabel)
                     .addComponent(currentPlayerNameLabel)
+                    .addComponent(playerColour , GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 )
                 .addComponent(board)
             )
@@ -646,6 +668,7 @@ public class TileOPage extends JFrame{
                     .addGroup(layout.createParallelGroup()
                         .addComponent(currentPlayerLabel)
                         .addComponent(currentPlayerNameLabel)
+                        .addComponent(playerColour, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                     )
                     .addComponent(board)
                 )
