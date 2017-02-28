@@ -182,69 +182,69 @@ public class TileOController {
     
     public ArrayList<Tile> playRollDieActionCard() throws InvalidInputException {
 
-		Game currentGame= TileOApplication.getTileO().getCurrentGame();
-		ArrayList<Tile> availableTiles=null;
-		currentGame.setMode(Game.Mode.GAME_ROLLDIEACTIONCARD);
-		Deck currentDeck= currentGame.getDeck();
-		Player currentPlayer= currentGame.getCurrentPlayer();
-		ActionCard currentCard = currentDeck.getCurrentCard();
-		if(currentCard instanceof RollDieActionCard){
-			RollDieActionCard playCard = (RollDieActionCard) currentCard;
-			availableTiles= playCard.play();
-		}
-		currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
-		//currentGame.setMode(Mode.GAME);
-		return availableTiles;
+        Game currentGame= TileOApplication.getTileO().getCurrentGame();
+        ArrayList<Tile> availableTiles=null;
+        currentGame.setMode(Game.Mode.GAME_ROLLDIEACTIONCARD);
+        Deck currentDeck= currentGame.getDeck();
+        Player currentPlayer= currentGame.getCurrentPlayer();
+        ActionCard currentCard = currentDeck.getCurrentCard();
+        if(currentCard instanceof RollDieActionCard){
+        	RollDieActionCard playCard = (RollDieActionCard) currentCard;
+        	availableTiles= playCard.play();
+        }
+        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+        //currentGame.setMode(Mode.GAME);
+        return availableTiles;
         
     }
     
     public void playConnectTilesActionCard(Tile t1, Tile t2) throws InvalidInputException {
 
         Game currentGame = TileOApplication.getTileO().getCurrentGame();
-		currentGame.setMode(Game.Mode.GAME_CONNECTTILESACTIONCARD);
-		Player currentPlayer= currentGame.getCurrentPlayer();
-		Deck currentDeck = currentGame.getDeck();
-		ActionCard currentCard= currentDeck.getCurrentCard();
-		if(currentCard instanceof ConnectTilesActionCard){
-			ConnectTilesActionCard playCard = (ConnectTilesActionCard) currentCard;
-			playCard.play(t1, t2);
-		}
-		currentGame.setCurrentPlayer(currentGame.getPlayer(currentGame.indexOfPlayer(currentPlayer)+1));
-		currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
-		currentGame.setMode(Game.Mode.GAME);
+        currentGame.setMode(Game.Mode.GAME_CONNECTTILESACTIONCARD);
+        Player currentPlayer= currentGame.getCurrentPlayer();
+        Deck currentDeck = currentGame.getDeck();
+        ActionCard currentCard= currentDeck.getCurrentCard();
+        if(currentCard instanceof ConnectTilesActionCard){
+            ConnectTilesActionCard playCard = (ConnectTilesActionCard) currentCard;
+            playCard.play(t1, t2);
+        }
+        currentGame.setCurrentPlayer(currentGame.getPlayer(currentGame.indexOfPlayer(currentPlayer)+1));
+        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+        currentGame.setMode(Game.Mode.GAME);
 
     }
     
     public void playRemoveConnectionActionCard(Tile t1, Tile t2) throws InvalidInputException {
     	
         Game currentGame = TileOApplication.getTileO().getCurrentGame();
-		currentGame.setMode(Game.Mode.GAME_REMOVECONNECTIONACTIONCARD);
+        currentGame.setMode(Game.Mode.GAME_REMOVECONNECTIONACTIONCARD);
 
-		Player currentPlayer=currentGame.getCurrentPlayer();
-		Deck currentDeck = currentGame.getDeck();
-		ActionCard currentCard= currentDeck.getCurrentCard();
-		if(currentCard instanceof RemoveConnectionActionCard){
-			RemoveConnectionActionCard playCard = (RemoveConnectionActionCard) currentCard;
-			playCard.play(t1, t2);
-		}
+        Player currentPlayer=currentGame.getCurrentPlayer();
+        Deck currentDeck = currentGame.getDeck();
+        ActionCard currentCard= currentDeck.getCurrentCard();
+        if(currentCard instanceof RemoveConnectionActionCard){
+            RemoveConnectionActionCard playCard = (RemoveConnectionActionCard) currentCard;
+            playCard.play(t1, t2);
+        }
 
-		currentGame.setCurrentPlayer(currentGame.getPlayer(currentGame.indexOfPlayer(currentPlayer)+1));
-		currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
-		currentGame.setMode(Game.Mode.GAME);
+        currentGame.setCurrentPlayer(currentGame.getPlayer(currentGame.indexOfPlayer(currentPlayer)+1));
+        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+        currentGame.setMode(Game.Mode.GAME);
     }
     
     public void playTeleportActionCard(Tile t) throws InvalidInputException {
 
         Game currentGame = TileOApplication.getTileO().getCurrentGame();
-		currentGame.setMode(Game.Mode.GAME_REMOVECONNECTIONACTIONCARD);
-		Deck currentDeck = currentGame.getDeck();
-		ActionCard currentCard= currentDeck.getCurrentCard();
-		if (currentCard instanceof TeleportActionCard){
-			TeleportActionCard playCard = (TeleportActionCard) currentCard;
-			playCard.play(t);
-		}
-		currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
-		currentGame.setMode(Game.Mode.GAME);
+        currentGame.setMode(Game.Mode.GAME_REMOVECONNECTIONACTIONCARD);
+        Deck currentDeck = currentGame.getDeck();
+        ActionCard currentCard= currentDeck.getCurrentCard();
+        if (currentCard instanceof TeleportActionCard){
+        	TeleportActionCard playCard = (TeleportActionCard) currentCard;
+        	playCard.play(t);
+        }
+        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+        currentGame.setMode(Game.Mode.GAME);
 
     }
 
