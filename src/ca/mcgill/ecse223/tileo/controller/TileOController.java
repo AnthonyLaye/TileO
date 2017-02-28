@@ -193,7 +193,7 @@ public class TileOController {
         	availableTiles= playCard.play();
         }
         currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
-        //currentGame.setMode(Mode.GAME);
+        currentGame.setMode(Game.Mode.GAME);
         return availableTiles;
         
     }
