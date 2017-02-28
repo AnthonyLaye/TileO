@@ -195,6 +195,13 @@ public class TileOController {
         	availableTiles= playCard.play();
         }
         currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+        if (currentDeck.indexOfCard(currentCard)==currentDeck.numberOfCards()-1){
+        currentDeck.shuffle();
+        currentDeck.setCurrentCard(currentDeck.getCard(0));
+        }
+        else{
+        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(c)+1));
+        }
         currentGame.setMode(Game.Mode.GAME);
         return availableTiles;
         
@@ -213,8 +220,14 @@ public class TileOController {
             ConnectTilesActionCard playCard = (ConnectTilesActionCard) currentCard;
             playCard.play(t1, t2);
         }
-        currentGame.setCurrentPlayer(currentGame.getPlayer(currentGame.indexOfPlayer(currentPlayer)+1));
-        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+        currentGame.setCurrentPlayer(currentGame.getPlayer((currentGame.indexOfPlayer(currentGame.getCurrentPlayer()) + 1)%currentGame.numberOfPlayers()));
+        if (currentDeck.indexOfCard(currentCard)==currentDeck.numberOfCards()-1){
+        currentDeck.shuffle();
+        currentDeck.setCurrentCard(currentDeck.getCard(0));
+        }
+        else{
+        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(c)+1));
+        }
         currentGame.setMode(Game.Mode.GAME);
 
     }
@@ -231,9 +244,14 @@ public class TileOController {
             RemoveConnectionActionCard playCard = (RemoveConnectionActionCard) currentCard;
             playCard.play(t1, t2);
         }
-
-        currentGame.setCurrentPlayer(currentGame.getPlayer(currentGame.indexOfPlayer(currentPlayer)+1));
-        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+        currentGame.setCurrentPlayer(currentGame.getPlayer((currentGame.indexOfPlayer(currentGame.getCurrentPlayer()) + 1)%currentGame.numberOfPlayers()));
+        if (currentDeck.indexOfCard(currentCard)==currentDeck.numberOfCards()-1){
+        currentDeck.shuffle();
+        currentDeck.setCurrentCard(currentDeck.getCard(0));
+        }
+        else{
+        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(c)+1));
+        }
         currentGame.setMode(Game.Mode.GAME);
     }
     
@@ -247,7 +265,14 @@ public class TileOController {
         	TeleportActionCard playCard = (TeleportActionCard) currentCard;
         	playCard.play(t);
         }
-        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+        currentGame.setCurrentPlayer(currentGame.getPlayer((currentGame.indexOfPlayer(currentGame.getCurrentPlayer()) + 1)%currentGame.numberOfPlayers()));
+        if (currentDeck.indexOfCard(currentCard)==currentDeck.numberOfCards()-1){
+        currentDeck.shuffle();
+        currentDeck.setCurrentCard(currentDeck.getCard(0));
+        }
+        else{
+        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(c)+1));
+        }
         currentGame.setMode(Game.Mode.GAME);
 
     }
