@@ -1148,6 +1148,7 @@ public class TileOPage extends JFrame{
     	}
     }
     private void loadGameActionPerformed(java.awt.event.ActionEvent e){
+    	TileOApplication.initDir();
     	FileDialog fd = new FileDialog(this, "Choose a game", FileDialog.LOAD);
     	String savedFolder = TileOApplication.SavedFolder;
     	fd.setDirectory(savedFolder);
@@ -1167,6 +1168,7 @@ public class TileOPage extends JFrame{
     	}
     }
     private void loadDesignActionPerformed(java.awt.event.ActionEvent e){
+    	TileOApplication.initDir();
     	FileDialog fd = new FileDialog(this, "Choose a design", FileDialog.LOAD);
     	String savedFolder = TileOApplication.SavedFolder;
     	fd.setDirectory(savedFolder);

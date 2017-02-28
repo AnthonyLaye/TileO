@@ -39,6 +39,7 @@ public class TileOApplication {
 
     public static void save(String filename) {
     	Game game = tileo.getCurrentGame();
+    	initDir();
         
         if (filename.equals("")) {
             if (game.getFilename() == null){ // first time this game is saved
@@ -56,6 +57,7 @@ public class TileOApplication {
     }
 
     public static Game load(String filename) {
+    	initDir();
         PersistenceObjectStream.setFilename(filename);
         Game game = (Game) PersistenceObjectStream.deserialize();
         return game;
@@ -89,5 +91,18 @@ public class TileOApplication {
                 return SavedFolder+base+i+ext;
             ++i;
         }
+    }
+    
+    public static void initDir() {
+    	File f = new File(SavedFolder);
+    	if (!f.exists()) {
+    		try {
+    			f.mkdir();
+    			System.out.println("SavedGames folder created");
+    		}
+    		catch (SecurityException err) {
+    			System.out.println("Could not create savedGames folder");
+    		}
+    	}
     }
 }

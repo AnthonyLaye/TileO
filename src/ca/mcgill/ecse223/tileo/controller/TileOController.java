@@ -109,8 +109,6 @@ public class TileOController {
     }
     
     public void setStartingTile(int nPlayer, Tile t, Game game) throws InvalidInputException {
-    	if (game.getWinTile()!=null)
-    		System.out.println(game.getWinTile().getX()+"-"+game.getWinTile().getY());
     	if (t!=null && t!=game.getWinTile()) {
     		Player p = game.getPlayer(nPlayer);
         	p.setStartingTile(t);
@@ -183,86 +181,71 @@ public class TileOController {
     }
     
     public ArrayList<Tile> playRollDieActionCard() throws InvalidInputException {
-    	Game game = TileOApplication.getTileO().getCurrentGame();
-    	Deck d = game.getDeck();
-    	ActionCard c = d.getCurrentCard();
-    	if (!(c instanceof RollDieActionCard))
-    		throw new InvalidInputException("Card type doesn't match");
-    	
-    	if (d.indexOfCard(c)==d.numberOfCards()-1){
-    		d.shuffle();
-    		d.setCurrentCard(d.getCard(0));
-    	}
-    	else
-    		d.setCurrentCard(d.getCard(d.indexOfCard(c)+1));
-    	game.setMode(Game.Mode.GAME);
-    	
-    	ArrayList<Tile> possibleTiles = ((RollDieActionCard)c).play();
-    	return possibleTiles;
-    	
+
+		Game currentGame= TileOApplication.getTileO().getCurrentGame();
+		ArrayList<Tile> availableTiles=null;
+		currentGame.setMode(Game.Mode.GAME_ROLLDIEACTIONCARD);
+		Deck currentDeck= currentGame.getDeck();
+		Player currentPlayer= currentGame.getCurrentPlayer();
+		ActionCard currentCard = currentDeck.getCurrentCard();
+		if(currentCard instanceof RollDieActionCard){
+			RollDieActionCard playCard = (RollDieActionCard) currentCard;
+			availableTiles= playCard.play();
+		}
+		currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+		//currentGame.setMode(Mode.GAME);
+		return availableTiles;
+        
     }
     
     public void playConnectTilesActionCard(Tile t1, Tile t2) throws InvalidInputException {
-    	Game game = TileOApplication.getTileO().getCurrentGame();
-    	Deck d = game.getDeck();
-    	ActionCard c = d.getCurrentCard();
-    	if (!(c instanceof ConnectTilesActionCard))
-    		throw new InvalidInputException("Card type doesn't match");
-    	if (!(game.getTiles().contains(t1) && game.getTiles().contains(t2)))
-    		throw new InvalidInputException("Invalid tiles");
-    	if (game.getCurrentConnectionPieces()==0)
-    		throw new InvalidInputException("No more connection pieces");    	
-    	if (!((ConnectTilesActionCard)c).play(t1, t2))
-    		throw new InvalidInputException("Tiles not adjacent");
-    	
-    	game.setCurrentPlayer(game.getPlayer((game.indexOfPlayer(game.getCurrentPlayer()) + 1)%game.numberOfPlayers()));
-    	if (d.indexOfCard(c)==d.numberOfCards()-1){
-    		d.shuffle();
-    		d.setCurrentCard(d.getCard(0));
-    	}
-    	else
-    		d.setCurrentCard(d.getCard(d.indexOfCard(c)+1));
-    	game.setMode(Game.Mode.GAME);
+
+        Game currentGame = TileOApplication.getTileO().getCurrentGame();
+		currentGame.setMode(Game.Mode.GAME_CONNECTTILESACTIONCARD);
+		Player currentPlayer= currentGame.getCurrentPlayer();
+		Deck currentDeck = currentGame.getDeck();
+		ActionCard currentCard= currentDeck.getCurrentCard();
+		if(currentCard instanceof ConnectTilesActionCard){
+			ConnectTilesActionCard playCard = (ConnectTilesActionCard) currentCard;
+			playCard.play(t1, t2);
+		}
+		currentGame.setCurrentPlayer(currentGame.getPlayer(currentGame.indexOfPlayer(currentPlayer)+1));
+		currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+		currentGame.setMode(Game.Mode.GAME);
+
     }
     
     public void playRemoveConnectionActionCard(Tile t1, Tile t2) throws InvalidInputException {
-    	Game game = TileOApplication.getTileO().getCurrentGame();
-    	Deck d = game.getDeck();
-    	ActionCard c = d.getCurrentCard();
-    	if (!(c instanceof RemoveConnectionActionCard))
-    		throw new InvalidInputException("Card type doesn't match");
-    	if (!(game.getTiles().contains(t1) && game.getTiles().contains(t2)))
-    		throw new InvalidInputException("Invalid tiles");
-    	if (!((RemoveConnectionActionCard)c).play(t1, t2))
-    		throw new InvalidInputException("Tiles are not connected");
     	
-    	game.setCurrentPlayer(game.getPlayer((game.indexOfPlayer(game.getCurrentPlayer()) + 1)%game.numberOfPlayers()));
-    	if (d.indexOfCard(c)==d.numberOfCards()-1){
-    		d.shuffle();
-    		d.setCurrentCard(d.getCard(0));
-    	}
-    	else
-    		d.setCurrentCard(d.getCard(d.indexOfCard(c)+1));
-    	game.setMode(Game.Mode.GAME);
+        Game currentGame = TileOApplication.getTileO().getCurrentGame();
+		currentGame.setMode(Game.Mode.GAME_REMOVECONNECTIONACTIONCARD);
+
+		Player currentPlayer=currentGame.getCurrentPlayer();
+		Deck currentDeck = currentGame.getDeck();
+		ActionCard currentCard= currentDeck.getCurrentCard();
+		if(currentCard instanceof RemoveConnectionActionCard){
+			RemoveConnectionActionCard playCard = (RemoveConnectionActionCard) currentCard;
+			playCard.play(t1, t2);
+		}
+
+		currentGame.setCurrentPlayer(currentGame.getPlayer(currentGame.indexOfPlayer(currentPlayer)+1));
+		currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+		currentGame.setMode(Game.Mode.GAME);
     }
     
     public void playTeleportActionCard(Tile t) throws InvalidInputException {
-    	Game game = TileOApplication.getTileO().getCurrentGame();
-    	Deck d = game.getDeck();
-    	ActionCard c = d.getCurrentCard();
-    	if (!game.getTiles().contains(t))
-    		throw new InvalidInputException("Invalid tile");
-    	if (!(c instanceof TeleportActionCard))
-    		throw new InvalidInputException("Card type doesn't match");
-    	
-    	if (d.indexOfCard(c)==d.numberOfCards()-1){
-    		d.shuffle();
-    		d.setCurrentCard(d.getCard(0));
-    	}
-    	else
-    		d.setCurrentCard(d.getCard(d.indexOfCard(c)+1));
-    	
-    	((TeleportActionCard)c).play(t);
+
+        Game currentGame = TileOApplication.getTileO().getCurrentGame();
+		currentGame.setMode(Game.Mode.GAME_REMOVECONNECTIONACTIONCARD);
+		Deck currentDeck = currentGame.getDeck();
+		ActionCard currentCard= currentDeck.getCurrentCard();
+		if (currentCard instanceof TeleportActionCard){
+			TeleportActionCard playCard = (TeleportActionCard) currentCard;
+			playCard.play(t);
+		}
+		currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+		currentGame.setMode(Game.Mode.GAME);
+
     }
 
     
