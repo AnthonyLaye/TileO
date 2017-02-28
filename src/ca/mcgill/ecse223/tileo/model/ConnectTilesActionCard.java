@@ -27,7 +27,7 @@ public class ConnectTilesActionCard extends ActionCard
   //------------------------
   
   public boolean play(Tile t1, Tile t2){
-	return getDeck().getGame().connectTiles(t1, t2)&&((t1.getX()+t1.getY()==t2.getX()+t2.getY()-1))||(t1.getX()+t1.getY()==t2.getX()+t2.getY()+1));
+	return getDeck().getGame().connectTiles(t1, t2);
   
 
   }
