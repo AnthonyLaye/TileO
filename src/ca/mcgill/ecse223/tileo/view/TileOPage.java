@@ -32,6 +32,7 @@ public class TileOPage extends JFrame{
     private JButton welLoadDesignButton;
     private JButton welLoadGameButton;
     private JButton welExitButton;
+    private JLabel welError;
     private JSpinner numberOfPlayerSpinner;
     private JLabel numberOfPlayerLabel;
     private JSpinner welBoardSizeSpinner;
@@ -129,6 +130,10 @@ public class TileOPage extends JFrame{
 
         welExitButton = new JButton("Exit");
         welExitButton.setBorder((new LineBorder(Color.BLACK)));
+        
+        welError = new JLabel();
+        welError.setText("");
+        welError.setForeground(Color.RED);
 
         numberOfPlayerSpinner = new JSpinner(new SpinnerNumberModel(2,2,4,1));
         ((JSpinner.DefaultEditor) numberOfPlayerSpinner.getEditor()).getTextField().setEditable(false);
@@ -437,18 +442,19 @@ public class TileOPage extends JFrame{
                 .addComponent(welLoadDesignButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(welLoadGameButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(welExitButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(welError, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             )
         );
         
         layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[]
                 {numberOfPlayerLabel, numberOfPlayerSpinner, welNewGameButton,
                 welLoadDesignButton, welLoadGameButton, welExitButton, welBoardSizeLabel,
-                welBoardSizeSpinner});
+                welBoardSizeSpinner, welError});
 
         layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[]
                 {numberOfPlayerLabel, numberOfPlayerSpinner, welNewGameButton,
                 welLoadDesignButton, welLoadGameButton, welExitButton,
-                welBoardSizeSpinner, welBoardSizeLabel});
+                welBoardSizeSpinner, welBoardSizeLabel, welError});
 
         
         layout.setVerticalGroup(
@@ -466,6 +472,7 @@ public class TileOPage extends JFrame{
            	.addComponent(welLoadDesignButton,GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             .addComponent(welLoadGameButton,GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             .addComponent(welExitButton,GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+            .addComponent(welError, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -1058,7 +1065,9 @@ public class TileOPage extends JFrame{
             	landActionPerformed(null, TileOApplication.getTileO().getCurrentGame().getCurrentPlayer().getCurrentTile());
             }
     		else {
-    			actionStatusLabel.setText(""); // die number ?
+    			Game game = TileOApplication.getTileO().getCurrentGame();
+                String dieNumber = game.dieNumber;
+                actionStatusLabel.setText("Roll: " + dieNumber); // die number
     	    	actionTipLabel.setText("Select a new tile");
     	    	board.setPossibleTiles(possibleTiles);
     	    	board.setWaitForTile(true);
@@ -1095,20 +1104,60 @@ public class TileOPage extends JFrame{
     private void saveActionPerformed(java.awt.event.ActionEvent e) {
     	try {
     		TileOController toc = new TileOController();
-    		toc.saveGame("");
-    		actionStatusLabel.setText("Game saved");
+    		String f = toc.saveGame("");
+    		actionStatusLabel.setText("Game saved to "+f);
     	}
     	catch (Exception err) {
     		actionError.setText(err.getMessage());
     	}
     }
     private void loadGameActionPerformed(java.awt.event.ActionEvent e){
+    	FileDialog fd = new FileDialog(this, "Choose a game", FileDialog.LOAD);
+    	String savedFolder = TileOApplication.SavedFolder;
+    	fd.setDirectory(savedFolder);
+    	fd.setFile("*.game");
+    	fd.setVisible(true);
+    	String fname = fd.getFile();
+    	if (fname!=null){
+    		try {
+    			TileOController toc = new TileOController();
+    			Game game = toc.loadGame(savedFolder+fname);
+    			initGameLayout();
+    			renderLayout(game);
+    		}
+    		catch (InvalidInputException err) {
+    			welError.setText(err.getMessage());
+    		}
+    	}
     }
     private void loadDesignActionPerformed(java.awt.event.ActionEvent e){
+    	FileDialog fd = new FileDialog(this, "Choose a design", FileDialog.LOAD);
+    	String savedFolder = TileOApplication.SavedFolder;
+    	fd.setDirectory(savedFolder);
+    	fd.setFile("*.design");
+    	fd.setVisible(true);
+    	String fname = fd.getFile();
+    	if (fname!=null){
+    		try {
+    			TileOController toc = new TileOController();
+    			Game game = toc.loadGame(savedFolder+fname);
+    			
+    			int s = game.getMaxSize();
+    			board.setBoardSize(s);
+    			boardSizeSpinner.setValue(s);
+    			
+    			renderLayout(game);
+    		}
+    		catch (InvalidInputException err) {
+    			welError.setText(err.getMessage());
+    		}
+    	}
     }
     private void restartActionPerformed(java.awt.event.ActionEvent e) {
+    	actionError.setText("not implemented");
     }
     private void clearDesignActionPerformed(java.awt.event.ActionEvent e) {
+    	actionError.setText("not implemented");
     }
 
 

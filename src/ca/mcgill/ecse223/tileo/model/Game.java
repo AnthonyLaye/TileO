@@ -90,6 +90,17 @@ public class Game implements Serializable
   // INTERFACE
   //------------------------
   
+  public int getMaxSize() {
+	  int max=0;
+	  for (Tile aTile: tiles){
+		  if (aTile.getX()>max)
+			  max = aTile.getX();
+		  if (aTile.getY()>max)
+			  max = aTile.getY();
+	  }
+	  return max+1; // index starts at 0
+  }
+  
   public boolean connectTiles(Tile t1, Tile t2) {
 	boolean wasAdded = false;
 	int dx = t1.getX() - t2.getX();

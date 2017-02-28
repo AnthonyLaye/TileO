@@ -267,8 +267,9 @@ public class TileOController {
 
     
     // Controls
-    public void saveGame(String filename) {
+    public String saveGame(String filename) {
         TileOApplication.save(filename);
+        return TileOApplication.getTileO().getCurrentGame().getFilename();
     }
 
     public Game loadGame(String filename) throws InvalidInputException {
