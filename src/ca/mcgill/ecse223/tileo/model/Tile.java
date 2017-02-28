@@ -43,6 +43,17 @@ public abstract class Tile implements Serializable
   //------------------------
   // INTERFACE
   //------------------------
+  
+  public boolean isConnectedWith(Tile t) {
+	  boolean isConnected = false;
+	  for (Connection conn: getConnections()) {
+		  if (conn.getTile(0)==t || conn.getTile(1)==t) {
+			  isConnected = true;
+			  break;
+		  }
+	  }
+	  return isConnected;
+  }
 
   public boolean setX(int aX)
   {

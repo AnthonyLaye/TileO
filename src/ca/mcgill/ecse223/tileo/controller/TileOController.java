@@ -99,6 +99,8 @@ public class TileOController {
     }
     
     public void addConnection(Tile t1, Tile t2, Game game) throws InvalidInputException {
+    	if (t1.isConnectedWith(t2))
+    		throw new InvalidInputException("Tiles are already connected");
     	if (!game.connectTiles(t1, t2))
     		throw new InvalidInputException("Selected tiles are not adjacent");
     }
@@ -205,6 +207,8 @@ public class TileOController {
         Player currentPlayer= currentGame.getCurrentPlayer();
         Deck currentDeck = currentGame.getDeck();
         ActionCard currentCard= currentDeck.getCurrentCard();
+        if (t1.isConnectedWith(t2))
+    		throw new InvalidInputException("Tiles are already connected");
         if(currentCard instanceof ConnectTilesActionCard){
             ConnectTilesActionCard playCard = (ConnectTilesActionCard) currentCard;
             playCard.play(t1, t2);
