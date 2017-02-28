@@ -253,6 +253,7 @@ public class TileOPage extends JFrame{
 
         // basic game actions
         actionLabel.setText("Actions");
+        actionLabel.setFont(new Font("Serif", Font.PLAIN, 60));
         actionError.setForeground(Color.RED);
 
         playerColour.setPreferredSize(new Dimension(20, 20));
@@ -492,6 +493,9 @@ public class TileOPage extends JFrame{
 
     	getContentPane().removeAll();
 
+        currentPlayerLabel.setFont(new Font("Serif", Font.PLAIN, 65));
+        currentPlayerNameLabel.setFont(new Font("Serif", Font.PLAIN, 65));
+
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setAutoCreateGaps(true);
@@ -506,10 +510,12 @@ public class TileOPage extends JFrame{
                     .addComponent(playerColour, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 )
                 .addComponent(board)
+                .addComponent(modeLabel)
+
             )
-            .addComponent(modeLabel)
             .addGroup(layout.createParallelGroup()
             	.addComponent(actionLabel)
+                .addComponent(rollDieButton)
                 .addComponent(gameButtonsPanel)
                 .addComponent(actionStatusLabel)
                 .addComponent(actionError)
@@ -539,6 +545,7 @@ public class TileOPage extends JFrame{
                 )
                 .addGroup(layout.createSequentialGroup()
                 	.addComponent(actionLabel)
+                    .addComponent(rollDieButton)
                     .addComponent(gameButtonsPanel)
                     .addComponent(actionStatusLabel)
                     .addComponent(actionTipLabel)
@@ -579,13 +586,13 @@ public class TileOPage extends JFrame{
             case GAME:
             	actionTipLabel.setText("Roll the die !");
             	actionStatusLabel.setText("");
-            	gameButtonsPanel.add(rollDieButton);
+                gameButtonsPanel.setVisible(false);
             	rollDieButton.setVisible(true);
                 break;
             case GAME_WON:
             	modeLabel.setText("Game won !");
             	currentPlayerNameLabel.setText("None");
-            	actionStatusLabel.setText("Player "+game.indexOfPlayer(game.getCurrentPlayer())+" won !");
+            	actionStatusLabel.setText("Player "+(game.indexOfPlayer(game.getCurrentPlayer())+ 1) +" won !");
                 actionTipLabel.setText("");
                 break;
             case GAME_ROLLDIEACTIONCARD:
@@ -613,6 +620,7 @@ public class TileOPage extends JFrame{
             	setWaitingFor("teleportcard");
             	break;
             case DESIGN:
+                gameButtonsPanel.setVisible(true);
             	renderDesign(game);
             	break;
         }
@@ -625,6 +633,11 @@ public class TileOPage extends JFrame{
 
         modeLabel.setText("Designer mode");
         currentPlayerNameLabel.setText("Designer");
+        playerColour.setBackground(Color.pink);
+
+        modeLabel.setFont(new Font("Serif", Font.PLAIN, 30));
+        currentPlayerNameLabel.setFont(new Font("Serif", Font.PLAIN, 65));
+        currentPlayerLabel.setFont(new Font("Serif", Font.PLAIN, 65));
         
         designTabbedPane = makeDesignPane(game.numberOfPlayers());
 
@@ -642,11 +655,11 @@ public class TileOPage extends JFrame{
                     .addComponent(playerColour , GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 )
                 .addComponent(board)
+                .addComponent(modeLabel)
             )
-            .addComponent(modeLabel)
             .addGroup(layout.createParallelGroup()
                 .addComponent(actionLabel)
-                .addComponent(designTabbedPane)              
+                .addComponent(designTabbedPane)
                 .addComponent(actionStatusLabel)
                 .addComponent(actionError)
                 .addComponent(actionTipLabel)
@@ -674,7 +687,7 @@ public class TileOPage extends JFrame{
                 )
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(actionLabel)
-                    .addComponent(designTabbedPane)                   
+                    .addComponent(designTabbedPane)
                     .addComponent(actionStatusLabel)
                     .addComponent(actionError)
                     .addComponent(actionTipLabel)
@@ -695,7 +708,7 @@ public class TileOPage extends JFrame{
     	JPanel tilePanel = new JPanel();
     	JPanel playerPanel = new JPanel();
     	JPanel deckPanel = new JPanel();
-    	JPanel boardPanel = new JPanel();    	
+    	JPanel boardPanel = new JPanel();
         
         // TILES
     	GroupLayout tileLayout = new GroupLayout(tilePanel);
@@ -730,7 +743,7 @@ public class TileOPage extends JFrame{
         	)
     		.addGroup(tileLayout.createParallelGroup()
     			.addComponent(addActionTileButton)
-    	    	.addComponent(inactivitySpinner)	
+    	    	.addComponent(inactivitySpinner)
     		)
     		.addComponent(addConnectionButton)
     	);
@@ -1177,10 +1190,16 @@ public class TileOPage extends JFrame{
     	}
     }
     private void restartActionPerformed(java.awt.event.ActionEvent e) {
-    	actionError.setText("not implemented");
+
+        //actionError.setText("not implemented");
     }
     private void clearDesignActionPerformed(java.awt.event.ActionEvent e) {
-    	actionError.setText("not implemented");
+        /* Sets the board size to 0, which clears everything on board thanks to the check in
+           setBoardSize. BoardSize is then quickly reset to what it originally was. */
+
+        int currentSize = board.getBoardSize();
+        board.setBoardSize(0);
+        board.setBoardSize(currentSize);
     }
 
 
