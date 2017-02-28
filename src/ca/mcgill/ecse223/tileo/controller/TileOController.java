@@ -194,7 +194,6 @@ public class TileOController {
         	RollDieActionCard playCard = (RollDieActionCard) currentCard;
         	availableTiles= playCard.play();
         }
-        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
         if (currentDeck.indexOfCard(currentCard)==currentDeck.numberOfCards()-1){
         currentDeck.shuffle();
         currentDeck.setCurrentCard(currentDeck.getCard(0));
