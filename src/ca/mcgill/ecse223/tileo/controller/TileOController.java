@@ -138,15 +138,13 @@ public class TileOController {
     public List<Tile> playRollDieActionCard() throws InvalidInputException{
 		Game currentGame= TileOApplication.getTileO().getCurrentGame();
 		List<Tile> availableTiles=null;
-		Die currentDie = currentGame.getDie();
 		currentGame.setMode(Mode.GAME_ROLLDIEACTIONCARD);
 		Deck currentDeck= currentGame.getDeck();
 		Player currentPlayer= currentGame.getCurrentPlayer();
-		Tile currentTile= currentPlayer.getCurrentTile();
 		ActionCard currentCard = currentDeck.getCurrentCard();
 		if(currentCard instanceof RollDieActionCard){
 			RollDieActionCard playCard = (RollDieActionCard) currentCard;
-			availableTiles= playCard.play(currentDie,currentTile,currentPlayer);
+			availableTiles= playCard.play();
 		}	
 		currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
 		//currentGame.setMode(Mode.GAME);
@@ -157,12 +155,11 @@ public class TileOController {
 		Game currentGame = TileOApplication.getTileO().getCurrentGame();
 		currentGame.setMode(Mode.GAME_CONNECTTILESACTIONCARD);
 		Player currentPlayer= currentGame.getCurrentPlayer();
-		Connection pileConnection = currentGame.getConnection(0);
 		Deck currentDeck = currentGame.getDeck();
 		ActionCard currentCard= currentDeck.getCurrentCard();
 		if(currentCard instanceof ConnectTilesActionCard){
 			ConnectTilesActionCard playCard = (ConnectTilesActionCard) currentCard;
-			playCard.play(tile1, tile2,pileConnection);
+			playCard.play(tile1, tile2);
 		}
 		currentGame.setCurrentPlayer(currentGame.getPlayer(currentGame.indexOfPlayer(currentPlayer)+1));
 		currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
@@ -171,12 +168,15 @@ public class TileOController {
 	public void playRemoveConnectionActionCard(Connection connection){
 		Game currentGame = TileOApplication.getTileO().getCurrentGame();
 		currentGame.setMode(Mode.GAME_REMOVECONNECTIONACTIONCARD);
+		List<Tile> connectedTiles = connection.getTiles();
+		Tile tile1 = connectedTiles.get(0);
+		Tile tile2= connectedTiles.get(1);
 		Player currentPlayer=currentGame.getCurrentPlayer();
 		Deck currentDeck = currentGame.getDeck();
 		ActionCard currentCard= currentDeck.getCurrentCard();
 		if(currentCard instanceof RemoveConnectionActionCard){
 			RemoveConnectionActionCard playCard = (RemoveConnectionActionCard) currentCard;
-			playCard.play(connection);
+			playCard.play(tile1, tile2);
 		}
 		/*else if (currentCard instanceof ConnectTilesActionCard) {
             currentGame.setMode(Game.Mode.GAME_CONNECTTILESACTIONCARD);
