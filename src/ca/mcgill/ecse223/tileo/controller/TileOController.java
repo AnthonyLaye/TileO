@@ -215,9 +215,10 @@ public class TileOController {
         ActionCard currentCard= currentDeck.getCurrentCard();
         if (t1.isConnectedWith(t2))
     		throw new InvalidInputException("Tiles are already connected");
+        boolean wasConnected = false;
         if(currentCard instanceof ConnectTilesActionCard){
             ConnectTilesActionCard playCard = (ConnectTilesActionCard) currentCard;
-            boolean wasConnected =playCard.play(t1, t2);
+            wasConnected =playCard.play(t1, t2);
             
         }
         if(wasConnected){
