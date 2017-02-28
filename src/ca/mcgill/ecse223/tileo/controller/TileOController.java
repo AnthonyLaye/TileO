@@ -217,10 +217,10 @@ public class TileOController {
     		throw new InvalidInputException("Tiles are already connected");
         if(currentCard instanceof ConnectTilesActionCard){
             ConnectTilesActionCard playCard = (ConnectTilesActionCard) currentCard;
-            boolean adjacency =playCard.play(t1, t2);
+            boolean wasConnected =playCard.play(t1, t2);
             
         }
-        if(adjacency){
+        if(wasConnected){
             currentGame.setCurrentPlayer(currentGame.getPlayer((currentGame.indexOfPlayer(currentGame.getCurrentPlayer()) + 1)%currentGame.numberOfPlayers()));
             if (currentDeck.indexOfCard(currentCard)==currentDeck.numberOfCards()-1){
                 currentDeck.shuffle();
