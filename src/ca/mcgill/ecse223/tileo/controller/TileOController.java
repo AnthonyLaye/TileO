@@ -217,18 +217,23 @@ public class TileOController {
     		throw new InvalidInputException("Tiles are already connected");
         if(currentCard instanceof ConnectTilesActionCard){
             ConnectTilesActionCard playCard = (ConnectTilesActionCard) currentCard;
-            playCard.play(t1, t2);
+            boolean adjacency =playCard.play(t1, t2);
+            
         }
-        currentGame.setCurrentPlayer(currentGame.getPlayer((currentGame.indexOfPlayer(currentGame.getCurrentPlayer()) + 1)%currentGame.numberOfPlayers()));
-        if (currentDeck.indexOfCard(currentCard)==currentDeck.numberOfCards()-1){
-        currentDeck.shuffle();
-        currentDeck.setCurrentCard(currentDeck.getCard(0));
+        if(adjacency){
+            currentGame.setCurrentPlayer(currentGame.getPlayer((currentGame.indexOfPlayer(currentGame.getCurrentPlayer()) + 1)%currentGame.numberOfPlayers()));
+            if (currentDeck.indexOfCard(currentCard)==currentDeck.numberOfCards()-1){
+                currentDeck.shuffle();
+                currentDeck.setCurrentCard(currentDeck.getCard(0));
+             }
+            else{
+                currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+            }
+            currentGame.setMode(Game.Mode.GAME);
         }
         else{
-        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+            throw new InvalidInputException("Tiles not adjacent, choose another tile");
         }
-        currentGame.setMode(Game.Mode.GAME);
-
     }
     
     public void playRemoveConnectionActionCard(Tile t1, Tile t2) throws InvalidInputException {
