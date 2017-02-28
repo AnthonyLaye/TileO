@@ -134,34 +134,73 @@ public class TileOController {
     public ArrayList<Tile> rollDie() {
     	// GABRIEL
     	return null;
-    }
-
-    public void land(Tile tile) throws InvalidInputException{
-        /* Initiates when a player lands on a tile */
-
-        tile.land();
-    }
-    
-    public ArrayList<Tile> playRollDieActionCard() throws InvalidInputException {
-    	// SAM
-    	throw new InvalidInputException("Not implemented");
-    	
-    }
-    
-    public void playConnectTilesActionCard(Tile t1, Tile t2) throws InvalidInputException {
-    	// SAM
-    	throw new InvalidInputException("Not implemented");
-    }
-    
-    public void playRemoveConnectionActionCard(Tile t1, Tile t2) throws InvalidInputException {
-    	// SAM
-    	throw new InvalidInputException("Not implemented");
-    }
-    
-    public void playTeleportActionCard(Tile t) throws InvalidInputException {
-    	// SAM
-    	throw new InvalidInputException("Not implemented");
-    }
+    //playmode
+    public List<Tile> playRollDieActionCard() throws InvalidInputException{
+		Game currentGame= TileOApplication.getTileO().getCurrentGame();
+		List<Tile> availableTiles=null;
+		Die currentDie = currentGame.getDie();
+		currentGame.setMode(Mode.GAME_ROLLDIEACTIONCARD);
+		Deck currentDeck= currentGame.getDeck();
+		Player currentPlayer= currentGame.getCurrentPlayer();
+		Tile currentTile= currentPlayer.getCurrentTile();
+		ActionCard currentCard = currentDeck.getCurrentCard();
+		if(currentCard instanceof RollDieActionCard){
+			RollDieActionCard playCard = (RollDieActionCard) currentCard;
+			availableTiles= playCard.play(currentDie,currentTile,currentPlayer);
+		}	
+		currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+		//currentGame.setMode(Mode.GAME);
+		return availableTiles;
+		
+	}//playmode
+	public void playConnectTilesActionCard(Tile tile1, Tile tile2) throws InvalidInputException{
+		Game currentGame = TileOApplication.getTileO().getCurrentGame();
+		currentGame.setMode(Mode.GAME_CONNECTTILESACTIONCARD);
+		Player currentPlayer= currentGame.getCurrentPlayer();
+		Connection pileConnection = currentGame.getConnection(0);
+		Deck currentDeck = currentGame.getDeck();
+		ActionCard currentCard= currentDeck.getCurrentCard();
+		if(currentCard instanceof ConnectTilesActionCard){
+			ConnectTilesActionCard playCard = (ConnectTilesActionCard) currentCard;
+			playCard.play(tile1, tile2,pileConnection);
+		}
+		currentGame.setCurrentPlayer(currentGame.getPlayer(currentGame.indexOfPlayer(currentPlayer)+1));
+		currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+		currentGame.setMode(Mode.GAME);
+	}//playmode
+	public void playRemoveConnectionActionCard(Connection connection){
+		Game currentGame = TileOApplication.getTileO().getCurrentGame();
+		currentGame.setMode(Mode.GAME_REMOVECONNECTIONACTIONCARD);
+		Player currentPlayer=currentGame.getCurrentPlayer();
+		Deck currentDeck = currentGame.getDeck();
+		ActionCard currentCard= currentDeck.getCurrentCard();
+		if(currentCard instanceof RemoveConnectionActionCard){
+			RemoveConnectionActionCard playCard = (RemoveConnectionActionCard) currentCard;
+			playCard.play(connection);
+		}
+		/*else if (currentCard instanceof ConnectTilesActionCard) {
+            currentGame.setMode(Game.Mode.GAME_CONNECTTILESACTIONCARD);
+        } else if (currentCard instanceof RemoveConnectionActionCard) {
+            currentGame.setMode(Game.Mode.GAME_REMOVECONNECTIONACTIONCARD);
+        } else if (currentCard instanceof TeleportActionCard) {
+            currentGame.setMode(Game.Mode.GAME_TELEPORTACTIONCARD);
+        }*/
+		currentGame.setCurrentPlayer(currentGame.getPlayer(currentGame.indexOfPlayer(currentPlayer)+1));
+		currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+		currentGame.setMode(Mode.GAME);
+	}//playmode
+	public void playTeleportActionCard(Tile tile) throws InvalidInputException{
+		Game currentGame = TileOApplication.getTileO().getCurrentGame();
+		currentGame.setMode(Mode.GAME_REMOVECONNECTIONACTIONCARD);
+		Deck currentDeck = currentGame.getDeck();
+		ActionCard currentCard= currentDeck.getCurrentCard();
+		if (currentCard instanceof TeleportActionCard){
+			TeleportActionCard playCard = (TeleportActionCard) currentCard;
+			playCard.play(tile);
+		}
+		currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+		currentGame.setMode(Mode.GAME);
+	}
 
     
     // Controls
