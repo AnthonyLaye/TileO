@@ -199,7 +199,7 @@ public class TileOController {
         currentDeck.setCurrentCard(currentDeck.getCard(0));
         }
         else{
-        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(c)+1));
+        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
         }
         currentGame.setMode(Game.Mode.GAME);
         return availableTiles;
@@ -225,7 +225,7 @@ public class TileOController {
         currentDeck.setCurrentCard(currentDeck.getCard(0));
         }
         else{
-        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(c)+1));
+        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
         }
         currentGame.setMode(Game.Mode.GAME);
 
@@ -249,7 +249,7 @@ public class TileOController {
         currentDeck.setCurrentCard(currentDeck.getCard(0));
         }
         else{
-        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(c)+1));
+        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
         }
         currentGame.setMode(Game.Mode.GAME);
     }
@@ -270,7 +270,7 @@ public class TileOController {
         currentDeck.setCurrentCard(currentDeck.getCard(0));
         }
         else{
-        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(c)+1));
+        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
         }
         currentGame.setMode(Game.Mode.GAME);
 
