@@ -26,7 +26,10 @@ public class RollDieActionCard extends ActionCard
   //------------------------
   // INTERFACE
   //------------------------
-  
+  public int numberOfMoves(){
+		 int n = (int) (Math.random()*6.0);
+		 if(n==0)n=1;
+		return n;
   public ArrayList<Tile> play() {
 	  return getDeck().getGame().rollDie();
   }
