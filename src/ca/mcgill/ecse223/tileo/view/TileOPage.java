@@ -599,7 +599,9 @@ public class TileOPage extends JFrame{
             	actionTipLabel.setText("Roll the die");
             	actionStatusLabel.setText("Roll die action card");
             	gameButtonsPanel.add(rollDieCardButton);
+            	gameButtonsPanel.setVisible(true);
             	rollDieCardButton.setVisible(true);
+            	rollDieButton.setVisible(false);
                 break;
             case GAME_CONNECTTILESACTIONCARD:
             	actionTipLabel.setText("Select two tiles you want to connect");
