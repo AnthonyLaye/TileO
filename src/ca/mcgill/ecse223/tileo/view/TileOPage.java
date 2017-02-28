@@ -1181,6 +1181,7 @@ public class TileOPage extends JFrame{
     			Game game = toc.loadGame(savedFolder+fname);
     			
     			int s = game.getMaxSize();
+    			if (s<5) s=5;
     			board.setBoardSize(s);
     			boardSizeSpinner.setValue(s);
     			
