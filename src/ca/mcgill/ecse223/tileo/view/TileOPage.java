@@ -119,7 +119,7 @@ public class TileOPage extends JFrame{
     	// welcome
         getContentPane().setBackground(Color.CYAN);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); //Makes game  fullscreen
-        this.setUndecorated(true); // This would remove the option to minimize, exit.. etc
+        
 
     	welNewGameButton = new JButton("New game");
         welNewGameButton.setBorder((new LineBorder(Color.BLACK)));
