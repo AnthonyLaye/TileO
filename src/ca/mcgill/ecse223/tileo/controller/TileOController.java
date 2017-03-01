@@ -243,9 +243,10 @@ public class TileOController {
         Player currentPlayer=currentGame.getCurrentPlayer();
         Deck currentDeck = currentGame.getDeck();
         ActionCard currentCard= currentDeck.getCurrentCard();
+        boolean wasRemoved = false;
         if(currentCard instanceof RemoveConnectionActionCard){
             RemoveConnectionActionCard playCard = (RemoveConnectionActionCard) currentCard;
-             boolean wasRemoved=  playCard.play(t1, t2);
+             wasRemoved=  playCard.play(t1, t2);
         }
         if(wasRemoved){
             currentGame.setCurrentPlayer(currentGame.getPlayer((currentGame.indexOfPlayer(currentGame.getCurrentPlayer()) + 1)%currentGame.numberOfPlayers()));
