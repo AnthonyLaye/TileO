@@ -245,17 +245,22 @@ public class TileOController {
         ActionCard currentCard= currentDeck.getCurrentCard();
         if(currentCard instanceof RemoveConnectionActionCard){
             RemoveConnectionActionCard playCard = (RemoveConnectionActionCard) currentCard;
-            playCard.play(t1, t2);
+             boolean wasRemoved=  playCard.play(t1, t2);
         }
-        currentGame.setCurrentPlayer(currentGame.getPlayer((currentGame.indexOfPlayer(currentGame.getCurrentPlayer()) + 1)%currentGame.numberOfPlayers()));
-        if (currentDeck.indexOfCard(currentCard)==currentDeck.numberOfCards()-1){
-        currentDeck.shuffle();
-        currentDeck.setCurrentCard(currentDeck.getCard(0));
+        if(wasRemoved){
+            currentGame.setCurrentPlayer(currentGame.getPlayer((currentGame.indexOfPlayer(currentGame.getCurrentPlayer()) + 1)%currentGame.numberOfPlayers()));
+            if (currentDeck.indexOfCard(currentCard)==currentDeck.numberOfCards()-1){
+            currentDeck.shuffle();
+            currentDeck.setCurrentCard(currentDeck.getCard(0));
+            }
+            else{
+            currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+            }
+            currentGame.setMode(Game.Mode.GAME);
         }
         else{
-        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+            throw new InvalidInputException("No connection between tiles");
         }
-        currentGame.setMode(Game.Mode.GAME);
     }
     
     public void playTeleportActionCard(Tile t) throws InvalidInputException {
