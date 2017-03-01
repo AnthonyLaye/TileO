@@ -486,6 +486,10 @@ public class TileOPage extends JFrame{
 
         pack();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        actionStatusLabel.setText("");
+        actionTipLabel.setText("");
+        actionError.setText("");
+        setWaitingFor("");
     }
 
     // Create basic game layout
