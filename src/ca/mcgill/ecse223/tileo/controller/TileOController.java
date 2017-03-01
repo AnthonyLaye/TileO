@@ -78,8 +78,6 @@ public class TileOController {
 
     public void addHiddenTile(int x, int y, Game game){
 
-        TileO tileO = TileOApplication.getTileO();
-
         try{
             WinTile wt = new WinTile(x, y, game);
             game.setWinTile(wt);
