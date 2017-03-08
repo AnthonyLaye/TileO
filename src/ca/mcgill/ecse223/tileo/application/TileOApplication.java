@@ -5,6 +5,7 @@ import ca.mcgill.ecse223.tileo.model.TileO;
 import ca.mcgill.ecse223.tileo.persistence.PersistenceObjectStream;
 import ca.mcgill.ecse223.tileo.view.TileOPage;
 
+import javax.swing.*;
 import java.io.*;
 
 public class TileOApplication {
@@ -18,6 +19,7 @@ public class TileOApplication {
             public void run() {
             	page = new TileOPage();
                 page.setVisible(true);
+
             }
         });  
     }

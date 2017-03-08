@@ -64,6 +64,7 @@ public class TileOPage extends JFrame{
             private JButton removeTileButton;
             private JButton removeConnectionButton;
             private JSpinner inactivitySpinner;
+            private JLabel inactivityLabel;
             // player
             private JButton setStartingTile1Button;
             private JButton setStartingTile2Button;
@@ -192,7 +193,9 @@ public class TileOPage extends JFrame{
                 addConnectionButton = new JButton();
                 removeTileButton = new JButton();
                 removeConnectionButton = new JButton();
+                inactivityLabel = new JLabel();
                 inactivitySpinner = new JSpinner(new SpinnerNumberModel(5,1,10,1));
+                ((JSpinner.DefaultEditor) inactivitySpinner.getEditor()).getTextField().setEditable(false);
                 // player
                 setStartingTile1Button = new JButton();
                 setStartingTile2Button = new JButton();
@@ -274,6 +277,7 @@ public class TileOPage extends JFrame{
         });
 
         // design-tile
+
         addRegularTileButton.setText("Add tile");
         addActionTileButton.setText("Add action tile");
         addHiddenTileButton.setText("Add hidden tile");
@@ -641,6 +645,9 @@ public class TileOPage extends JFrame{
         currentPlayerNameLabel.setText("Designer");
         playerColour.setBackground(Color.pink);
 
+        inactivityLabel.setFont(new Font("Serif", Font.PLAIN, 20));
+        inactivityLabel.setText("Inactivity Period: ");
+
         modeLabel.setFont(new Font("Serif", Font.PLAIN, 30));
         currentPlayerNameLabel.setFont(new Font("Serif", Font.PLAIN, 65));
         currentPlayerLabel.setFont(new Font("Serif", Font.PLAIN, 65));
@@ -726,10 +733,11 @@ public class TileOPage extends JFrame{
     			.addComponent(addRegularTileButton)
     			.addComponent(addActionTileButton)
     			.addComponent(addHiddenTileButton)
-    			.addComponent(addConnectionButton)
+                .addComponent(inactivityLabel)
     		)
     		.addGroup(tileLayout.createParallelGroup()
     			.addComponent(removeTileButton)
+                .addComponent(addConnectionButton)
     			.addComponent(removeConnectionButton)
     			.addComponent(inactivitySpinner)
     		)    		
@@ -745,13 +753,20 @@ public class TileOPage extends JFrame{
     		)
     		.addGroup(tileLayout.createParallelGroup()
         			.addComponent(addHiddenTileButton)
-        			.addComponent(removeConnectionButton)
+                    .addComponent(addConnectionButton)
+
         	)
     		.addGroup(tileLayout.createParallelGroup()
     			.addComponent(addActionTileButton)
-    	    	.addComponent(inactivitySpinner)
+    	    	.addComponent(removeConnectionButton)
+
     		)
-    		.addComponent(addConnectionButton)
+            .addGroup(tileLayout.createParallelGroup()
+                .addComponent(inactivitySpinner)
+                .addComponent(inactivityLabel)
+
+            )
+
     	);
     	
     	
