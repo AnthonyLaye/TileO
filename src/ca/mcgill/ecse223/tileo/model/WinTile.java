@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 39 "../../../../../TileOPersistence.ump"
-// line 52 "../../../../../TileO.ump"
+// line 212 "../../../../../TileO.ump"
 public class WinTile extends Tile
 {
 
@@ -27,18 +27,19 @@ public class WinTile extends Tile
   // INTERFACE
   //------------------------
 
-  public void land(){
+  public void delete()
+  {
+    super.delete();
+  }
+
+  // line 216 "../../../../../TileO.ump"
+   public void land(){
     /* Called when a player lands on the Win Tile */
 
     Game currentGame = getGame();
     this.setHasBeenVisited(true);
     currentGame.getCurrentPlayer().setCurrentTile(this);
     currentGame.setMode(Game.Mode.GAME_WON);
-
-  }
-  public void delete()
-  {
-    super.delete();
   }
   
   //------------------------
@@ -48,4 +49,5 @@ public class WinTile extends Tile
   // line 42 ../../../../../TileOPersistence.ump
   private static final long serialVersionUID = 9004047970838151833L ;
 
+  
 }

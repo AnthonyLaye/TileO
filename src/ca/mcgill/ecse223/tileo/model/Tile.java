@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 21 "../../../../../TileOPersistence.ump"
-// line 32 "../../../../../TileO.ump"
+// line 154 "../../../../../TileO.ump"
 public abstract class Tile implements Serializable
 {
 
@@ -43,17 +43,6 @@ public abstract class Tile implements Serializable
   //------------------------
   // INTERFACE
   //------------------------
-  
-  public boolean isConnectedWith(Tile t) {
-	  boolean isConnected = false;
-	  for (Connection conn: getConnections()) {
-		  if (conn.getTile(0)==t || conn.getTile(1)==t) {
-			  isConnected = true;
-			  break;
-		  }
-	  }
-	  return isConnected;
-  }
 
   public boolean setX(int aX)
   {
@@ -70,8 +59,6 @@ public abstract class Tile implements Serializable
     wasSet = true;
     return wasSet;
   }
-
-  public abstract void land();
 
   public boolean setHasBeenVisited(boolean aHasBeenVisited)
   {
@@ -267,6 +254,19 @@ public abstract class Tile implements Serializable
     placeholderGame.removeTile(this);
   }
 
+   public abstract void land();
+  // line 165 "../../../../../TileO.ump"
+   public boolean isConnectedWith(Tile t){
+    boolean isConnected = false;
+	  for (Connection conn: getConnections()) {
+		  if (conn.getTile(0)==t || conn.getTile(1)==t) {
+			  isConnected = true;
+			  break;
+		  }
+	  }
+	  return isConnected;
+  }
+
 
   public String toString()
   {
@@ -285,4 +285,5 @@ public abstract class Tile implements Serializable
   // line 24 ../../../../../TileOPersistence.ump
   private static final long serialVersionUID = 4853757344933261749L ;
 
+  
 }

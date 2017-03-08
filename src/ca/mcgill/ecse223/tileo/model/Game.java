@@ -4,12 +4,9 @@
 package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 import java.util.*;
-import java.util.prefs.Preferences;
-
-import ca.mcgill.ecse223.tileo.exception.InvalidInputException;
 
 // line 9 "../../../../../TileOPersistence.ump"
-// line 10 "../../../../../TileO.ump"
+// line 36 "../../../../../TileO.ump"
 public class Game implements Serializable
 {
 
@@ -27,7 +24,6 @@ public class Game implements Serializable
   //Game Attributes
   private int currentConnectionPieces;
   private String filename;
-  public  String dieNumber;
 
   //Game State Machines
   public enum Mode { DESIGN, GAME, GAME_WON, GAME_ROLLDIEACTIONCARD, GAME_CONNECTTILESACTIONCARD, GAME_REMOVECONNECTIONACTIONCARD, GAME_TELEPORTACTIONCARD, GAME_LOSETURNACTIONCARD }
@@ -50,6 +46,7 @@ public class Game implements Serializable
   public Game(int aCurrentConnectionPieces, Deck aDeck, Die aDie, TileO aTileO)
   {
     currentConnectionPieces = aCurrentConnectionPieces;
+    filename = null;
     players = new ArrayList<Player>();
     tiles = new ArrayList<Tile>();
     connections = new ArrayList<Connection>();
@@ -74,6 +71,7 @@ public class Game implements Serializable
   public Game(int aCurrentConnectionPieces, TileO aTileO)
   {
     currentConnectionPieces = aCurrentConnectionPieces;
+    filename = null;
     players = new ArrayList<Player>();
     tiles = new ArrayList<Tile>();
     connections = new ArrayList<Connection>();
@@ -89,73 +87,6 @@ public class Game implements Serializable
   //------------------------
   // INTERFACE
   //------------------------
-  
-  public int getMaxSize() {
-	  int max=0;
-	  for (Tile aTile: tiles){
-		  if (aTile.getX()>max)
-			  max = aTile.getX();
-		  if (aTile.getY()>max)
-			  max = aTile.getY();
-	  }
-	  return max+1; // index starts at 0
-  }
-  
-  public boolean connectTiles(Tile t1, Tile t2) {
-	boolean wasAdded = false;
-	int dx = t1.getX() - t2.getX();
-  	int dy = t1.getY() - t2.getY();
-  	
-  	if (((dx==0&&(dy==1||dy==-1))||(dy==0&&(dx==1||dx==-1))) && t1!=t2 && t1!=null && t2!=null) {
-  		Connection conn = new Connection(this);
-  		conn.addTile(t1);
-  		conn.addTile(t2);
-  		wasAdded = true;
-  	}
-  	return wasAdded;
-  }
-  
-  public boolean disconnectTiles(Tile t1, Tile t2) {
-	Connection conn = null;
-	boolean wasDeleted = false;
-  	int dx = t1.getX() - t2.getX();
-  	int dy = t1.getY() - t2.getY();
-  	
-  	if (((dx==0&&(dy==1||dy==-1))||(dy==0&&(dx==1||dx==-1))) && t1!=t2 && t1!=null && t2!=null) {
-  		for (Connection c: t1.getConnections()){
-  			if (t2 == c.getTile(0) || t2 == c.getTile(1)){
-  				conn = c;
-  				break;
-  			}
-  		}
-  	}   	
-  	if (conn!=null){
-  		conn.delete();
-  		wasDeleted = true;
-  	}
-  	return wasDeleted;
-  }
-  
-  public ArrayList<Tile> rollDie() {
-	int n = getDie().roll();
-	dieNumber = Integer.toString(n);
-  	System.out.println("Die: "+n);
-  	ArrayList<Tile> possibleTiles = getCurrentPlayer().getPossibleMoves(n);
-  	return possibleTiles;
-  }
-    
-  public boolean setFilename(String aFilename) 
-  {
-    boolean wasSet = false;
-    filename = aFilename;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public String getFilename() 
-  {
-    return filename;
-  }
 
   public boolean setCurrentConnectionPieces(int aCurrentConnectionPieces)
   {
@@ -165,9 +96,22 @@ public class Game implements Serializable
     return wasSet;
   }
 
+  public boolean setFilename(String aFilename)
+  {
+    boolean wasSet = false;
+    filename = aFilename;
+    wasSet = true;
+    return wasSet;
+  }
+
   public int getCurrentConnectionPieces()
   {
     return currentConnectionPieces;
+  }
+
+  public String getFilename()
+  {
+    return filename;
   }
 
   public String getModeFullName()
@@ -643,12 +587,71 @@ public class Game implements Serializable
     placeholderTileO.removeGame(this);
   }
 
+  // line 53 "../../../../../TileO.ump"
+   public int getMaxSize(){
+    int max=0;
+	  for (Tile aTile: tiles){
+		  if (aTile.getX()>max)
+			  max = aTile.getX();
+		  if (aTile.getY()>max)
+			  max = aTile.getY();
+	  }
+	  return max+1; // index starts at 0
+  }
+
+  // line 64 "../../../../../TileO.ump"
+   public boolean connectTiles(Tile t1, Tile t2){
+    boolean wasAdded = false;
+	int dx = t1.getX() - t2.getX();
+  	int dy = t1.getY() - t2.getY();
+  	
+  	if (((dx==0&&(dy==1||dy==-1))||(dy==0&&(dx==1||dx==-1))) && t1!=t2 && t1!=null && t2!=null) {
+  		Connection conn = new Connection(this);
+  		conn.addTile(t1);
+  		conn.addTile(t2);
+  		wasAdded = true;
+  	}
+  	return wasAdded;
+  }
+
+  // line 78 "../../../../../TileO.ump"
+   public boolean disconnectTiles(Tile t1, Tile t2){
+    Connection conn = null;
+	boolean wasDeleted = false;
+  	int dx = t1.getX() - t2.getX();
+  	int dy = t1.getY() - t2.getY();
+  	
+  	if (((dx==0&&(dy==1||dy==-1))||(dy==0&&(dx==1||dx==-1))) && t1!=t2 && t1!=null && t2!=null) {
+  		for (Connection c: t1.getConnections()){
+  			if (t2 == c.getTile(0) || t2 == c.getTile(1)){
+  				conn = c;
+  				break;
+  			}
+  		}
+  	}   	
+  	if (conn!=null){
+  		conn.delete();
+  		wasDeleted = true;
+  	}
+  	return wasDeleted;
+  }
+
+  // line 99 "../../../../../TileO.ump"
+   public ArrayList<Tile> rollDie(){
+    int n = getDie().roll();
+	dieNumber = Integer.toString(n);
+  	System.out.println("Die: "+n);
+  	ArrayList<Tile> possibleTiles = getCurrentPlayer().getPossibleMoves(n);
+  	return possibleTiles;
+  }
+
 
   public String toString()
   {
     String outputString = "";
     return super.toString() + "["+
-            "currentConnectionPieces" + ":" + getCurrentConnectionPieces()+ "]" + System.getProperties().getProperty("line.separator") +
+            "currentConnectionPieces" + ":" + getCurrentConnectionPieces()+ "," +
+            "filename" + ":" + getFilename()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "deck = "+(getDeck()!=null?Integer.toHexString(System.identityHashCode(getDeck())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "die = "+(getDie()!=null?Integer.toHexString(System.identityHashCode(getDie())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "currentPlayer = "+(getCurrentPlayer()!=null?Integer.toHexString(System.identityHashCode(getCurrentPlayer())):"null") + System.getProperties().getProperty("line.separator") +
@@ -662,6 +665,8 @@ public class Game implements Serializable
   
   // line 12 ../../../../../TileOPersistence.ump
   private static final long serialVersionUID = -4871491228092496389L ;
+// line 49 ../../../../../TileO.ump
+  public  String dieNumber ;
 
   
 }

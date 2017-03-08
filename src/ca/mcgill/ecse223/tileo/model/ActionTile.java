@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 27 "../../../../../TileOPersistence.ump"
-// line 41 "../../../../../TileO.ump"
+// line 176 "../../../../../TileO.ump"
 public class ActionTile extends Tile
 {
 
@@ -33,19 +33,6 @@ public class ActionTile extends Tile
   // INTERFACE
   //------------------------
 
-  public void land(){
-
-    Game currentGame = getGame();
-    Player currentPlayer = currentGame.getCurrentPlayer();
-    currentPlayer.setCurrentTile(this);
-    setHasBeenVisited(true);
-
-    Deck deck = currentGame.getDeck();
-    ActionCard currentCard = deck.getCurrentCard();
-    Game.Mode mode = currentCard.getActionCardMode();
-    currentGame.setMode(mode);
-  }
-
   public boolean setTurnsUntilActive(int aTurnsUntilActive)
   {
     boolean wasSet = false;
@@ -67,6 +54,19 @@ public class ActionTile extends Tile
   public void delete()
   {
     super.delete();
+  }
+
+  // line 184 "../../../../../TileO.ump"
+   public void land(){
+    Game currentGame = getGame();
+    Player currentPlayer = currentGame.getCurrentPlayer();
+    currentPlayer.setCurrentTile(this);
+    setHasBeenVisited(true);
+
+    Deck deck = currentGame.getDeck();
+    ActionCard currentCard = deck.getCurrentCard();
+    Game.Mode mode = currentCard.getActionCardMode();
+    currentGame.setMode(mode);
   }
 
 

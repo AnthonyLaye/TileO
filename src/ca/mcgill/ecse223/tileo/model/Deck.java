@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 51 "../../../../../TileOPersistence.ump"
-// line 59 "../../../../../TileO.ump"
+// line 229 "../../../../../TileO.ump"
 public class Deck implements Serializable
 {
 
@@ -43,15 +43,6 @@ public class Deck implements Serializable
   // INTERFACE
   //------------------------
 
-  public void shuffle() {
-    Random rand = new Random();
-    for (int i=0; i<100; ++i){
-        ActionCard card = getCard(0);
-        addOrMoveCardAt(card, rand.nextInt(Game.NumberOfActionCards));
-    }
-    setCurrentCard(getCard(0));
-  }
-  
   public ActionCard getCard(int index)
   {
     ActionCard aCard = cards.get(index);
@@ -211,6 +202,16 @@ public class Deck implements Serializable
     {
       existingGame.delete();
     }
+  }
+
+  // line 234 "../../../../../TileO.ump"
+   public void shuffle(){
+    Random rand = new Random();
+    for (int i=0; i<100; ++i){
+        ActionCard card = getCard(0);
+        addOrMoveCardAt(card, rand.nextInt(Game.NumberOfActionCards));
+    }
+    setCurrentCard(getCard(0));
   }
   
   //------------------------

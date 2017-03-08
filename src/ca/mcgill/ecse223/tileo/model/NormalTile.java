@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 33 "../../../../../TileOPersistence.ump"
-// line 48 "../../../../../TileO.ump"
+// line 196 "../../../../../TileO.ump"
 public class NormalTile extends Tile
 {
 
@@ -27,8 +27,13 @@ public class NormalTile extends Tile
   // INTERFACE
   //------------------------
 
-  public void land(){
+  public void delete()
+  {
+    super.delete();
+  }
 
+  // line 201 "../../../../../TileO.ump"
+   public void land(){
     Game currentGame = this.getGame();
     Player currentPlayer = currentGame.getCurrentPlayer();
     currentPlayer.setCurrentTile(this);
@@ -36,12 +41,6 @@ public class NormalTile extends Tile
     currentGame.setCurrentPlayer(currentGame.getPlayer((currentGame.indexOfPlayer(currentPlayer) + 1)%currentGame.numberOfPlayers()));
     currentGame.setMode(Game.Mode.GAME);
     setHasBeenVisited(true);
-
-  }
-
-  public void delete()
-  {
-    super.delete();
   }
   
   //------------------------

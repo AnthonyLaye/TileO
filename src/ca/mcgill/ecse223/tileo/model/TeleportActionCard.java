@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 
 // line 81 "../../../../../TileOPersistence.ump"
-// line 82 "../../../../../TileO.ump"
+// line 287 "../../../../../TileO.ump"
 public class TeleportActionCard extends ActionCard
 {
 
@@ -25,19 +25,20 @@ public class TeleportActionCard extends ActionCard
   //------------------------
   // INTERFACE
   //------------------------
-  
-  public void play(Tile t) {
-	  t.land();
-  }
-
-  public Game.Mode getActionCardMode(){
-
-    return Game.Mode.GAME_TELEPORTACTIONCARD;
-  }
 
   public void delete()
   {
     super.delete();
+  }
+
+  // line 291 "../../../../../TileO.ump"
+   public void play(Tile t){
+    t.land();
+  }
+
+  // line 295 "../../../../../TileO.ump"
+   public Game.Mode getActionCardMode(){
+    return Game.Mode.GAME_TELEPORTACTIONCARD;
   }
   
   //------------------------

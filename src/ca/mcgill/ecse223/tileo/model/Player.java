@@ -4,10 +4,10 @@
 package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 import java.util.*;
-import ca.mcgill.ecse223.tileo.util.Node;
 
+import ca.mcgill.ecse223.tileo.util.Node;
 // line 15 "../../../../../TileOPersistence.ump"
-// line 24 "../../../../../TileO.ump"
+// line 107 "../../../../../TileO.ump"
 public class Player implements Serializable
 {
 
@@ -56,46 +56,7 @@ public class Player implements Serializable
   //------------------------
   // INTERFACE
   //------------------------
-  
-  public ArrayList<Tile> getPossibleMoves(int depth){
-      // Depth first search with limited depth, Iterate over the possible children
-      // Cannot go back but loops are allowed
-      Stack<Node> fringe = new Stack<Node>();
-      List<Connection> connections;
-      List<Tile> connectedTiles;
-      HashSet<Tile> possibleTiles = new HashSet<Tile>();
-      int tIdx;
-      Tile t;
-      
-      Node current = new Node(currentTile, null, 0);
-      fringe.push(current);
 
-      while (!fringe.isEmpty()) {
-          current = fringe.pop();
-    	  t = current.getTile();
-    	  
-          if (current.getDepth() == depth){
-        	  possibleTiles.add(t);
-              continue;
-          }
-          
-          connections = t.getConnections();
-          for (Connection aConnection : connections){
-        	  connectedTiles = aConnection.getTiles();
-        	  tIdx = connectedTiles.get(0)==t ? 1:0; // select the other tile
-              if (current.getParent()==null  || connectedTiles.get(tIdx) != current.getParent().getTile())
-            	  fringe.push(new Node(connectedTiles.get(tIdx), current, current.getDepth()+1));
-          }
-      }
-      return new ArrayList<Tile>(possibleTiles);
-  }
-
-    
-  public static void resetMap() {
-    //I had problems with tests (Vincent)
-    playersByNumber = new HashMap<Integer, Player>();
-  }
-  
   public boolean setNumber(int aNumber)
   {
     boolean wasSet = false;
@@ -239,6 +200,46 @@ public class Player implements Serializable
     Game placeholderGame = game;
     this.game = null;
     placeholderGame.removePlayer(this);
+  }
+
+  // line 115 "../../../../../TileO.ump"
+   public ArrayList<Tile> getPossibleMoves(int depth){
+    // Depth first search with limited depth, Iterate over the possible children
+      // Cannot go back but loops are allowed
+      Stack<Node> fringe = new Stack<Node>();
+      List<Connection> connections;
+      List<Tile> connectedTiles;
+      HashSet<Tile> possibleTiles = new HashSet<Tile>();
+      int tIdx;
+      Tile t;
+      
+      Node current = new Node(currentTile, null, 0);
+      fringe.push(current);
+
+      while (!fringe.isEmpty()) {
+          current = fringe.pop();
+    	  t = current.getTile();
+    	  
+          if (current.getDepth() == depth){
+        	  possibleTiles.add(t);
+              continue;
+          }
+          
+          connections = t.getConnections();
+          for (Connection aConnection : connections){
+        	  connectedTiles = aConnection.getTiles();
+        	  tIdx = connectedTiles.get(0)==t ? 1:0; // select the other tile
+              if (current.getParent()==null  || connectedTiles.get(tIdx) != current.getParent().getTile())
+            	  fringe.push(new Node(connectedTiles.get(tIdx), current, current.getDepth()+1));
+          }
+      }
+      return new ArrayList<Tile>(possibleTiles);
+  }
+
+  // line 149 "../../../../../TileO.ump"
+   public static  void resetMap(){
+    //I had problems with tests (Vincent)
+    playersByNumber = new HashMap<Integer, Player>();
   }
 
 

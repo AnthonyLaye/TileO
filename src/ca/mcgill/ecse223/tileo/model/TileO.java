@@ -72,32 +72,6 @@ public class TileO implements Serializable
     return has;
   }
 
-  public NormalTile addNormalTile(int x, int y, Game game){
-
-    return new NormalTile(x, y, game);
-  }
-
-  public ActionTile addActionTile(int x, int y, Game game, int inactivtyPeriod){
-
-    return new ActionTile(x, y, game, inactivtyPeriod);
-  }
-
-  public WinTile addWinTile(int x, int y, Game game){
-
-    return new WinTile(x, y, game);
-  }
-
-  public boolean removeTile(Tile tile){
-
-    boolean wasRemoved = false;
-
-    //if(!this.equals(tile.getTileO))
-    tile.delete();
-    wasRemoved = true;
-
-    return wasRemoved;
-  }
-
   public static int minimumNumberOfGames()
   {
     return 0;
@@ -188,6 +162,32 @@ public class TileO implements Serializable
     }
     
     currentGame = null;
+  }
+
+  // line 11 "../../../../../TileO.ump"
+   public NormalTile addNormalTile(int x, int y, Game game){
+    return new NormalTile(x, y, game);
+  }
+
+  // line 16 "../../../../../TileO.ump"
+   public ActionTile addActionTile(int x, int y, Game game, int inactivtyPeriod){
+    return new ActionTile(x, y, game, inactivtyPeriod);
+  }
+
+  // line 21 "../../../../../TileO.ump"
+   public WinTile addWinTile(int x, int y, Game game){
+    return new WinTile(x, y, game);
+  }
+
+  // line 26 "../../../../../TileO.ump"
+   public boolean removeTile(Tile tile){
+    boolean wasRemoved = false;
+
+    //if(!this.equals(tile.getTileO))
+    tile.delete();
+    wasRemoved = true;
+
+    return wasRemoved;
   }
   
   //------------------------

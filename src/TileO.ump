@@ -5,6 +5,32 @@ use TileOPersistence.ump;
 class TileO {
   1 <@>- * Game games;
   1 -> 0..1 Game currentGame;
+  
+  public NormalTile addNormalTile(int x, int y, Game game){
+
+    return new NormalTile(x, y, game);
+  }
+
+  public ActionTile addActionTile(int x, int y, Game game, int inactivtyPeriod){
+
+    return new ActionTile(x, y, game, inactivtyPeriod);
+  }
+
+  public WinTile addWinTile(int x, int y, Game game){
+
+    return new WinTile(x, y, game);
+  }
+
+  public boolean removeTile(Tile tile){
+
+    boolean wasRemoved = false;
+
+    //if(!this.equals(tile.getTileO))
+    tile.delete();
+    wasRemoved = true;
+
+    return wasRemoved;
+  }
 }
 
 class Game {
@@ -19,7 +45,63 @@ class Game {
   const Integer SpareConnectionPieces = 32;
   Integer currentConnectionPieces;
   const Integer NumberOfActionCards = 32;
-  String lazy filename;
+  lazy filename;
+  public  String dieNumber;
+  
+  
+  public int getMaxSize() {
+	  int max=0;
+	  for (Tile aTile: tiles){
+		  if (aTile.getX()>max)
+			  max = aTile.getX();
+		  if (aTile.getY()>max)
+			  max = aTile.getY();
+	  }
+	  return max+1; // index starts at 0
+  }
+  
+  public boolean connectTiles(Tile t1, Tile t2) {
+	boolean wasAdded = false;
+	int dx = t1.getX() - t2.getX();
+  	int dy = t1.getY() - t2.getY();
+  	
+  	if (((dx==0&&(dy==1||dy==-1))||(dy==0&&(dx==1||dx==-1))) && t1!=t2 && t1!=null && t2!=null) {
+  		Connection conn = new Connection(this);
+  		conn.addTile(t1);
+  		conn.addTile(t2);
+  		wasAdded = true;
+  	}
+  	return wasAdded;
+  }
+  
+  public boolean disconnectTiles(Tile t1, Tile t2) {
+	Connection conn = null;
+	boolean wasDeleted = false;
+  	int dx = t1.getX() - t2.getX();
+  	int dy = t1.getY() - t2.getY();
+  	
+  	if (((dx==0&&(dy==1||dy==-1))||(dy==0&&(dx==1||dx==-1))) && t1!=t2 && t1!=null && t2!=null) {
+  		for (Connection c: t1.getConnections()){
+  			if (t2 == c.getTile(0) || t2 == c.getTile(1)){
+  				conn = c;
+  				break;
+  			}
+  		}
+  	}   	
+  	if (conn!=null){
+  		conn.delete();
+  		wasDeleted = true;
+  	}
+  	return wasDeleted;
+  }
+  
+  public ArrayList<Tile> rollDie() {
+	int n = getDie().roll();
+	dieNumber = Integer.toString(n);
+  	System.out.println("Die: "+n);
+  	ArrayList<Tile> possibleTiles = getCurrentPlayer().getPossibleMoves(n);
+  	return possibleTiles;
+  }
 }
 
 class Player {
@@ -28,6 +110,45 @@ class Player {
   0..4 -> 0..1 Tile currentTile;
   unique Integer number;
   Integer turnsUntilActive = 0;
+  
+  public ArrayList<Tile> getPossibleMoves(int depth){
+      // Depth first search with limited depth, Iterate over the possible children
+      // Cannot go back but loops are allowed
+      Stack<Node> fringe = new Stack<Node>();
+      List<Connection> connections;
+      List<Tile> connectedTiles;
+      HashSet<Tile> possibleTiles = new HashSet<Tile>();
+      int tIdx;
+      Tile t;
+      
+      Node current = new Node(currentTile, null, 0);
+      fringe.push(current);
+
+      while (!fringe.isEmpty()) {
+          current = fringe.pop();
+    	  t = current.getTile();
+    	  
+          if (current.getDepth() == depth){
+        	  possibleTiles.add(t);
+              continue;
+          }
+          
+          connections = t.getConnections();
+          for (Connection aConnection : connections){
+        	  connectedTiles = aConnection.getTiles();
+        	  tIdx = connectedTiles.get(0)==t ? 1:0; // select the other tile
+              if (current.getParent()==null  || connectedTiles.get(tIdx) != current.getParent().getTile())
+            	  fringe.push(new Node(connectedTiles.get(tIdx), current, current.getDepth()+1));
+          }
+      }
+      return new ArrayList<Tile>(possibleTiles);
+  }
+
+    
+  public static void resetMap() {
+    //I had problems with tests (Vincent)
+    playersByNumber = new HashMap<Integer, Player>();
+  }
 }
 
 class Tile {
@@ -37,6 +158,19 @@ class Tile {
   Integer x;
   Integer y;
   Boolean hasBeenVisited = false;
+  
+  public abstract void land();
+  
+  public boolean isConnectedWith(Tile t) {
+	  boolean isConnected = false;
+	  for (Connection conn: getConnections()) {
+		  if (conn.getTile(0)==t || conn.getTile(1)==t) {
+			  isConnected = true;
+			  break;
+		  }
+	  }
+	  return isConnected;
+  }
 }
 
 class ActionTile {
@@ -44,14 +178,49 @@ class ActionTile {
 
   immutable Integer inactivityPeriod;
   Integer turnsUntilActive= 0;
+  
+  public void land(){
+
+    Game currentGame = getGame();
+    Player currentPlayer = currentGame.getCurrentPlayer();
+    currentPlayer.setCurrentTile(this);
+    setHasBeenVisited(true);
+
+    Deck deck = currentGame.getDeck();
+    ActionCard currentCard = deck.getCurrentCard();
+    Game.Mode mode = currentCard.getActionCardMode();
+    currentGame.setMode(mode);
+  }
 }
 
 class NormalTile {
   isA Tile;
+  
+  public void land(){
+
+    Game currentGame = this.getGame();
+    Player currentPlayer = currentGame.getCurrentPlayer();
+    currentPlayer.setCurrentTile(this);
+
+    currentGame.setCurrentPlayer(currentGame.getPlayer((currentGame.indexOfPlayer(currentPlayer) + 1)%currentGame.numberOfPlayers()));
+    currentGame.setMode(Game.Mode.GAME);
+    setHasBeenVisited(true);
+
+  }
 }
 
 class WinTile {
   isA Tile;
+  
+  public void land(){
+    /* Called when a player lands on the Win Tile */
+
+    Game currentGame = getGame();
+    this.setHasBeenVisited(true);
+    currentGame.getCurrentPlayer().setCurrentTile(this);
+    currentGame.setMode(Game.Mode.GAME_WON);
+
+  }
 }
 
 class Connection {
@@ -60,33 +229,86 @@ class Connection {
 class Deck {
   1 <@>- 0..32 ActionCard cards;
   1 -> 0..1 ActionCard currentCard;
+  
+  public void shuffle() {
+    Random rand = new Random();
+    for (int i=0; i<100; ++i){
+        ActionCard card = getCard(0);
+        addOrMoveCardAt(card, rand.nextInt(Game.NumberOfActionCards));
+    }
+    setCurrentCard(getCard(0));
+  }
 }
 
 class ActionCard {
   abstract;
-
   immutable String instructions;
+  public abstract Game.Mode getActionCardMode();
+  
 }
 
 class RollDieActionCard {
+  depend java.util.ArrayList;
   isA ActionCard;
+  
+  public ArrayList<Tile> play() {
+	  return getDeck().getGame().rollDie();
+  }
+  public Game.Mode getActionCardMode(){
+ 
+     return Game.Mode.GAME_ROLLDIEACTIONCARD;
+   }
 }
 
 class ConnectTilesActionCard {
   isA ActionCard;
+  
+  public boolean play(Tile t1, Tile t2){
+	return getDeck().getGame().connectTiles(t1, t2);
+  }
+  public Game.Mode getActionCardMode(){
+ 
+     return Game.Mode.GAME_CONNECTTILESACTIONCARD;
+   }
 }
 
 class RemoveConnectionActionCard {
   isA ActionCard;
+  
+  public boolean play(Tile t1, Tile t2) {
+	  return getDeck().getGame().disconnectTiles(t1, t2);
+  }
+  public Game.Mode getActionCardMode(){
+ 
+     return Game.Mode.GAME_REMOVECONNECTIONACTIONCARD;
+   }
 }
 
 class TeleportActionCard {
   isA ActionCard;
+  
+  public void play(Tile t) {
+	  t.land();
+  }
+  public Game.Mode getActionCardMode(){
+ 
+     return Game.Mode.GAME_TELEPORTACTIONCARD;
+   }
 }
 
 class LoseTurnActionCard {
   isA ActionCard;
+  
+  public Game.Mode getActionCardMode(){
+ 
+     return Game.Mode.GAME_LOSETURNACTIONCARD;
+   }
 }
 
 class Die {
+  depend java.util.Random;
+  Random rand = new Random();
+  public int roll() {
+      return rand.nextInt(6)+1;
+  }
 }

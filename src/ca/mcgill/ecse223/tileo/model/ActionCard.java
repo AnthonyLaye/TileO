@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 
 // line 57 "../../../../../TileOPersistence.ump"
-// line 64 "../../../../../TileO.ump"
+// line 243 "../../../../../TileO.ump"
 public abstract class ActionCard implements Serializable
 {
 
@@ -85,6 +85,7 @@ public abstract class ActionCard implements Serializable
     placeholderDeck.removeCard(this);
   }
 
+   public abstract Game.Mode getActionCardMode();
 
   public String toString()
   {
@@ -101,5 +102,5 @@ public abstract class ActionCard implements Serializable
   // line 60 ../../../../../TileOPersistence.ump
   private static final long serialVersionUID = 7658061743228147507L ;
 
-  public abstract Game.Mode getActionCardMode();
+  
 }

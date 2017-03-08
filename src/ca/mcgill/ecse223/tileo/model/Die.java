@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Random;
 
 // line 93 "../../../../../TileOPersistence.ump"
-// line 90 "../../../../../TileO.ump"
+// line 308 "../../../../../TileO.ump"
 public class Die implements Serializable
 {
 
@@ -14,9 +14,11 @@ public class Die implements Serializable
   // MEMBER VARIABLES
   //------------------------
 
+  //Die Attributes
+  private Random rand;
+
   //Die Associations
   private Game game;
-  private Random rand;
 
   //------------------------
   // CONSTRUCTOR
@@ -24,25 +26,35 @@ public class Die implements Serializable
 
   public Die(Game aGame)
   {
+    rand = new Random();
     if (aGame == null || aGame.getDie() != null)
     {
       throw new RuntimeException("Unable to create Die due to aGame");
     }
     game = aGame;
-    rand = new Random();
   }
 
   public Die(int aCurrentConnectionPiecesForGame, Deck aDeckForGame, TileO aTileOForGame)
   {
+    rand = new Random();
     game = new Game(aCurrentConnectionPiecesForGame, aDeckForGame, this, aTileOForGame);
   }
 
   //------------------------
   // INTERFACE
   //------------------------
-  
-  public int roll() {
-	  return rand.nextInt(6)+1;
+
+  public boolean setRand(Random aRand)
+  {
+    boolean wasSet = false;
+    rand = aRand;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public Random getRand()
+  {
+    return rand;
   }
 
   public Game getGame()
@@ -59,7 +71,21 @@ public class Die implements Serializable
       existingGame.delete();
     }
   }
-  
+
+  // line 312 "../../../../../TileO.ump"
+   public int roll(){
+    return rand.nextInt(6)+1;
+  }
+
+
+  public String toString()
+  {
+    String outputString = "";
+    return super.toString() + "["+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "rand" + "=" + (getRand() != null ? !getRand().equals(this)  ? getRand().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null")
+     + outputString;
+  }  
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
