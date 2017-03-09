@@ -68,7 +68,7 @@ class TileOController {
 	            } -> StartOfTurn;
 	            playTeleportActionCard(Tile t) [verifyGameMode(Game.Mode.GAME_TELEPORTACTIONCARD)] / {
 	                doPlayTeleportActionCard(t);
-	            } -> StartOfTurn;
+	            } -> WaitForLanding;
 	            playLoseTurnActionCard() [verifyGameMode(Game.Mode.GAME_LOSETURNACTIONCARD)] / {
 	            	doPlayLoseTurnActionCard();
 	            } -> StartOfTurn;
@@ -256,6 +256,7 @@ class TileOController {
         /* Initiates when a player lands on a tile */
         tile.land();
         setPossibleTiles(null);
+        setCurrentTile(null);
     }
     
     private void doPlayRollDieActionCard() throws InvalidInputException {
@@ -327,12 +328,12 @@ class TileOController {
     private void doPlayTeleportActionCard(Tile t) throws InvalidInputException {
 
         Game currentGame = TileOApplication.getTileO().getCurrentGame();
-        currentGame.setMode(Game.Mode.GAME_REMOVECONNECTIONACTIONCARD);
+        currentGame.setMode(Game.Mode.GAME_TELEPORTACTIONCARD);
         Deck currentDeck = currentGame.getDeck();
         ActionCard currentCard= currentDeck.getCurrentCard();
         if (currentCard instanceof TeleportActionCard){
         	TeleportActionCard playCard = (TeleportActionCard) currentCard;
-        	playCard.play(t);
+        	setCurrentTile(t);
         }
         currentGame.setNextPlayer();
         currentGame.setNextCard();

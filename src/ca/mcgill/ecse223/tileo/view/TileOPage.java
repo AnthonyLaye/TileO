@@ -1103,6 +1103,7 @@ public class TileOPage extends JFrame{
     private void teleportCardActionPerformed(java.awt.event.ActionEvent e, Tile t) {
     	try {
     		toc.playTeleportActionCard(t);
+    		toc.land();
     		setWaitingFor("");
     		actionError.setText("");
     		renderLayout(TileOApplication.getTileO().getCurrentGame());
