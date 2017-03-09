@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 // line 63 "../../../../../TileOPersistence.ump"
-// line 250 "../../../../../TileO.ump"
+// line 251 "../../../../../TileO.ump"
 public class RollDieActionCard extends ActionCard
 {
 
@@ -32,12 +32,12 @@ public class RollDieActionCard extends ActionCard
     super.delete();
   }
 
-  // line 255 "../../../../../TileO.ump"
+  // line 256 "../../../../../TileO.ump"
    public ArrayList<Tile> play(){
     return getDeck().getGame().rollDie();
   }
 
-  // line 259 "../../../../../TileO.ump"
+  // line 260 "../../../../../TileO.ump"
    public Game.Mode getActionCardMode(){
     return Game.Mode.GAME_ROLLDIEACTIONCARD;
   }

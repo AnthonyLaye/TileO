@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 9 "../../../../../TileOPersistence.ump"
-// line 36 "../../../../../TileO.ump"
+// line 37 "../../../../../TileO.ump"
 public class Game implements Serializable
 {
 
@@ -587,7 +587,7 @@ public class Game implements Serializable
     placeholderTileO.removeGame(this);
   }
 
-  // line 53 "../../../../../TileO.ump"
+  // line 54 "../../../../../TileO.ump"
    public int getMaxSize(){
     int max=0;
 	  for (Tile aTile: tiles){
@@ -599,7 +599,7 @@ public class Game implements Serializable
 	  return max+1; // index starts at 0
   }
 
-  // line 64 "../../../../../TileO.ump"
+  // line 65 "../../../../../TileO.ump"
    public boolean connectTiles(Tile t1, Tile t2){
     boolean wasAdded = false;
 	int dx = t1.getX() - t2.getX();
@@ -614,7 +614,7 @@ public class Game implements Serializable
   	return wasAdded;
   }
 
-  // line 78 "../../../../../TileO.ump"
+  // line 79 "../../../../../TileO.ump"
    public boolean disconnectTiles(Tile t1, Tile t2){
     Connection conn = null;
 	boolean wasDeleted = false;
@@ -636,7 +636,7 @@ public class Game implements Serializable
   	return wasDeleted;
   }
 
-  // line 99 "../../../../../TileO.ump"
+  // line 100 "../../../../../TileO.ump"
    public ArrayList<Tile> rollDie(){
     int n = getDie().roll();
 	dieNumber = Integer.toString(n);
@@ -665,7 +665,7 @@ public class Game implements Serializable
   
   // line 12 ../../../../../TileOPersistence.ump
   private static final long serialVersionUID = -4871491228092496389L ;
-// line 49 ../../../../../TileO.ump
+// line 50 ../../../../../TileO.ump
   public  String dieNumber ;
 
   

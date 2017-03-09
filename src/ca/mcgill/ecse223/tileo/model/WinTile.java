@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 39 "../../../../../TileOPersistence.ump"
-// line 212 "../../../../../TileO.ump"
+// line 213 "../../../../../TileO.ump"
 public class WinTile extends Tile
 {
 
@@ -32,7 +32,7 @@ public class WinTile extends Tile
     super.delete();
   }
 
-  // line 216 "../../../../../TileO.ump"
+  // line 217 "../../../../../TileO.ump"
    public void land(){
     /* Called when a player lands on the Win Tile */
 

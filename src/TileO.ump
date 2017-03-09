@@ -1,6 +1,7 @@
 namespace ca.mcgill.ecse223.tileo.model;
 
 use TileOPersistence.ump;
+use TileOControllerStates.ump;
 
 class TileO {
   1 <@>- * Game games;
@@ -105,6 +106,8 @@ class Game {
 }
 
 class Player {
+  depend ca.mcgill.ecse223.tileo.util.Node;
+	
   color { RED{} BLUE{} GREEN{} YELLOW{} }
   1 -> 0..1 Tile startingTile;
   0..4 -> 0..1 Tile currentTile;
@@ -154,7 +157,7 @@ class Player {
 class Tile {
   abstract;
 
-  2 tiles -- 0..4 Connection connections;
+  2 tiles -- 0..4 Connection connections; 
   Integer x;
   Integer y;
   Boolean hasBeenVisited = false;

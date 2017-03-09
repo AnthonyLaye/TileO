@@ -11,7 +11,10 @@ It's the same principle for the other buttons
 ### Changes to make when generating code from Umple
 - Game: public Tile addTile(int aX, int aY) -> commented out
 - Deck: public ActionCard addCard(String aInstructions) -> commented out
-- Player: add -> import ca.mcgill.ecse223.tileo.util.Node;
+- Change TileOController's package to ca.mcgill.ecse223.tileo.controller and move it
+- TileOController: add throws InvalidInputException to startGame(), 
+  selectNewTile(), land(), playRollDieActionCard(), playConnectTilesActionCard(),
+  playRemoveConnectionActionCard(), playTeleportActionCard()
 
 ##Contributors
 - Anthony Laye

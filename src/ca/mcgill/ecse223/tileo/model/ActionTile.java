@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 27 "../../../../../TileOPersistence.ump"
-// line 176 "../../../../../TileO.ump"
+// line 177 "../../../../../TileO.ump"
 public class ActionTile extends Tile
 {
 
@@ -56,7 +56,7 @@ public class ActionTile extends Tile
     super.delete();
   }
 
-  // line 184 "../../../../../TileO.ump"
+  // line 185 "../../../../../TileO.ump"
    public void land(){
     Game currentGame = getGame();
     Player currentPlayer = currentGame.getCurrentPlayer();

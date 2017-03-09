@@ -26,6 +26,9 @@ public class TileOPage extends JFrame{
     
 	private static final long serialVersionUID = -6882114745313007613L;
     private static final int NumberOfCards = Game.NumberOfActionCards;
+    
+    TileOController toc;
+    
 	
     // welcome
     private JButton welNewGameButton;
@@ -116,6 +119,8 @@ public class TileOPage extends JFrame{
 
 
     private void init() {
+    	
+    	toc = new TileOController();
 
     	// welcome
         getContentPane().setBackground(Color.CYAN);
@@ -884,9 +889,8 @@ public class TileOPage extends JFrame{
             setWaitingFor("regular");
         }
         else {
-        	Game game = TileOApplication.getTileO().getCurrentGame();
-            TileOController tileOController = new TileOController();            
-            tileOController.addRegularTile(x, y, game);
+        	Game game = TileOApplication.getTileO().getCurrentGame();           
+            toc.addRegularTile(x, y, game);
             renderLayout(game);
         }
     }
@@ -903,7 +907,6 @@ public class TileOPage extends JFrame{
     	}
     	else {
     		Game game = TileOApplication.getTileO().getCurrentGame();
-    		TileOController toc = new TileOController();
     		toc.addActionTile(x, y, game, (int)inactivitySpinner.getValue());
     		renderLayout(game);
     	}
@@ -926,8 +929,7 @@ public class TileOPage extends JFrame{
     	}
     	else {
     		Game game = TileOApplication.getTileO().getCurrentGame();
-    		TileOController tileOController = new TileOController();
-    		tileOController.addHiddenTile(x, y, game);
+    		toc.addHiddenTile(x, y, game);
     		renderLayout(game);
     	}
     }
@@ -944,7 +946,6 @@ public class TileOPage extends JFrame{
     	else {
     		try{
     			Game game = TileOApplication.getTileO().getCurrentGame();
-    			TileOController toc = new TileOController();
     			toc.addConnection(t1, t2, game);
     			renderLayout(game);
     		}
@@ -966,7 +967,6 @@ public class TileOPage extends JFrame{
     	else {
     		try {
     			Game game = TileOApplication.getTileO().getCurrentGame();
-    			TileOController toc = new TileOController();
     			toc.removeConnection(t1, t2, game);
     			renderLayout(game);
     		}
@@ -987,7 +987,6 @@ public class TileOPage extends JFrame{
     	}
     	else {
     		Game game = TileOApplication.getTileO().getCurrentGame();
-    		TileOController toc = new TileOController();
     		toc.removeTile(t, game);
 			renderLayout(game);
     		
@@ -1006,7 +1005,6 @@ public class TileOPage extends JFrame{
     	else {
     		try {
     			Game game = TileOApplication.getTileO().getCurrentGame();
-    			TileOController toc = new TileOController();
     			toc.setStartingTile(n-1, t, game);
     			renderLayout(game);
     		}
@@ -1020,7 +1018,6 @@ public class TileOPage extends JFrame{
     // game
     private void startGameActionPerformed(java.awt.event.ActionEvent e) {
         try {
-        	TileOController toc = new TileOController();
         	Game game = TileOApplication.getTileO().getCurrentGame();
         	
         	toc.createDeck((int)extraTurnCardSpinner.getValue(), (int)newConnectionCardSpinner.getValue(), (int)removeConnectionCardSpinner.getValue(), (int)teleportCardSpinner.getValue(), game);
@@ -1036,9 +1033,8 @@ public class TileOPage extends JFrame{
     }
     
     private void rollDieActionPerformed(java.awt.event.ActionEvent e) {
-        TileOController tileOController = new TileOController();
-        possibleTiles = tileOController.rollDie();
-        
+        toc.rollDie();
+        possibleTiles = toc.getPossibleTiles();
         if (possibleTiles.size()==0) {
         	actionStatusLabel.setText("No possible moves, skip your turn");
         	landActionPerformed(null, TileOApplication.getTileO().getCurrentGame().getCurrentPlayer().getCurrentTile());
@@ -1059,8 +1055,8 @@ public class TileOPage extends JFrame{
     private void landActionPerformed(java.awt.event.ActionEvent e, Tile t) {
     	if (possibleTiles.contains(t) || possibleTiles.size()==0){
     		try {
-    			TileOController toc = new TileOController();
-        		toc.land(t);
+    			toc.selectNewTile(t);
+        		toc.land();
         		possibleTiles = null;
         		board.setPossibleTiles(null);
         		setWaitingFor("");
@@ -1078,7 +1074,6 @@ public class TileOPage extends JFrame{
     
     private void teleportCardActionPerformed(java.awt.event.ActionEvent e, Tile t) {
     	try {
-    		TileOController toc = new TileOController();
     		toc.playTeleportActionCard(t);
     		setWaitingFor("");
     		actionError.setText("");
@@ -1090,7 +1085,6 @@ public class TileOPage extends JFrame{
     }
     private void removeConnectionCardActionPerformed(java.awt.event.ActionEvent e, Tile t1, Tile t2) {
     	try {
-    		TileOController toc = new TileOController();
     		toc.playRemoveConnectionActionCard(t1, t2);
     		setWaitingFor("");
     		actionError.setText("");
@@ -1102,7 +1096,6 @@ public class TileOPage extends JFrame{
     }
     private void addConnectionCardActionPerformed(java.awt.event.ActionEvent e, Tile t1, Tile t2) {
     	try {
-    		TileOController toc = new TileOController();
     		toc.playConnectTilesActionCard(t1, t2);
     		setWaitingFor("");
     		actionError.setText("");
@@ -1114,9 +1107,8 @@ public class TileOPage extends JFrame{
     }
     private void rollDieCardActionPerformed(java.awt.event.ActionEvent e) {
     	try {
-    		TileOController toc = new TileOController();
-    		possibleTiles = toc.playRollDieActionCard();
-    		
+    		toc.playRollDieActionCard();
+    		possibleTiles = toc.getPossibleTiles();
     		if (possibleTiles.size()==0) {
             	actionStatusLabel.setText("No possible moves, skip your turn");
             	landActionPerformed(null, TileOApplication.getTileO().getCurrentGame().getCurrentPlayer().getCurrentTile());
@@ -1141,7 +1133,6 @@ public class TileOPage extends JFrame{
     //controls 
     private void newGameActionPerformed(java.awt.event.ActionEvent e) {
         try{
-        	TileOController toc = new TileOController();
         	int nPlayers = (int) numberOfPlayerSpinner.getValue();
             Game game = toc.newGame(nPlayers);
             actionStatusLabel.setText("");
@@ -1160,7 +1151,6 @@ public class TileOPage extends JFrame{
     }
     private void saveActionPerformed(java.awt.event.ActionEvent e) {
     	try {
-    		TileOController toc = new TileOController();
     		String f = toc.saveGame("");
     		actionStatusLabel.setText("Game saved to "+f);
     	}
@@ -1178,7 +1168,6 @@ public class TileOPage extends JFrame{
     	String fname = fd.getFile();
     	if (fname!=null){
     		try {
-    			TileOController toc = new TileOController();
     			Game game = toc.loadGame(savedFolder+fname);
     			initGameLayout();
     			renderLayout(game);
@@ -1198,7 +1187,6 @@ public class TileOPage extends JFrame{
     	String fname = fd.getFile();
     	if (fname!=null){
     		try {
-    			TileOController toc = new TileOController();
     			Game game = toc.loadGame(savedFolder+fname);
     			
     			int s = game.getMaxSize();
