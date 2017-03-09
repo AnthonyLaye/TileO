@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 
 // line 69 "../../../../../TileOPersistence.ump"
-// line 264 "../../../../../TileO.ump"
+// line 299 "../../../../../TileO.ump"
 public class ConnectTilesActionCard extends ActionCard
 {
 
@@ -31,12 +31,12 @@ public class ConnectTilesActionCard extends ActionCard
     super.delete();
   }
 
-  // line 268 "../../../../../TileO.ump"
+  // line 303 "../../../../../TileO.ump"
    public boolean play(Tile t1, Tile t2){
     return getDeck().getGame().connectTiles(t1, t2);
   }
 
-  // line 272 "../../../../../TileO.ump"
+  // line 307 "../../../../../TileO.ump"
    public Game.Mode getActionCardMode(){
     return Game.Mode.GAME_CONNECTTILESACTIONCARD;
   }

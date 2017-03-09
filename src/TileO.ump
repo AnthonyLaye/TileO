@@ -103,6 +103,28 @@ class Game {
   	ArrayList<Tile> possibleTiles = getCurrentPlayer().getPossibleMoves(n);
   	return possibleTiles;
   }
+  
+  public void setNextPlayer() {
+  	while (true) {
+  	  setCurrentPlayer(getPlayer((indexOfPlayer(getCurrentPlayer()) + 1)%numberOfPlayers()));
+  	  if (getCurrentPlayer().getPlayerState()==Player.PlayerState.SkipTurn){
+  	  	getCurrentPlayer().turnSkipped();
+  	  }
+  	  else break;
+  	}
+  }
+  
+  public void setNextCard() {
+  	Deck currentDeck = getDeck();
+  	ActionCard currentCard = currentDeck.getCurrentCard();
+  	if (currentDeck.indexOfCard(currentCard)==currentDeck.numberOfCards()-1){
+        currentDeck.shuffle();
+        currentDeck.setCurrentCard(currentDeck.getCard(0));
+    }
+    else{
+    	currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+    }
+  }
 }
 
 class Player {
@@ -113,6 +135,16 @@ class Player {
   0..4 -> 0..1 Tile currentTile;
   unique Integer number;
   Integer turnsUntilActive = 0;
+  
+  PlayerState {
+  	Play {
+  	  loseTurn -> SkipTurn;
+  	}
+  	SkipTurn {
+  	  turnSkipped -> Play;
+  	}
+  }
+  
   
   public ArrayList<Tile> getPossibleMoves(int depth){
       // Depth first search with limited depth, Iterate over the possible children
@@ -204,8 +236,8 @@ class NormalTile {
     Game currentGame = this.getGame();
     Player currentPlayer = currentGame.getCurrentPlayer();
     currentPlayer.setCurrentTile(this);
-
-    currentGame.setCurrentPlayer(currentGame.getPlayer((currentGame.indexOfPlayer(currentPlayer) + 1)%currentGame.numberOfPlayers()));
+	
+	currentGame.setNextPlayer();
     currentGame.setMode(Game.Mode.GAME);
     setHasBeenVisited(true);
 
@@ -306,6 +338,11 @@ class LoseTurnActionCard {
  
      return Game.Mode.GAME_LOSETURNACTIONCARD;
    }
+   
+  public void play() {
+  	Player currentPlayer = getDeck().getGame().getCurrentPlayer();
+  	currentPlayer.loseTurn();
+  }
 }
 
 class Die {

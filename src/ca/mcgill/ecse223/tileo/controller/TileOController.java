@@ -345,6 +345,30 @@ public class TileOController
     return wasEventProcessed;
   }
 
+  public boolean playLoseTurnActionCard() throws InvalidInputException
+  {
+    boolean wasEventProcessed = false;
+    
+    ControllerStateGame aControllerStateGame = controllerStateGame;
+    switch (aControllerStateGame)
+    {
+      case LandedAction:
+        if (verifyGameMode(Game.Mode.GAME_LOSETURNACTIONCARD))
+        {
+        // line 72 "../../../../../TileOControllerStates.ump"
+          doPlayLoseTurnActionCard();
+          setControllerStateGame(ControllerStateGame.StartOfTurn);
+          wasEventProcessed = true;
+          break;
+        }
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
   private void exitControllerState()
   {
     switch(controllerState)
@@ -381,22 +405,22 @@ public class TileOController
   /**
    * guard
    */
-  // line 79 "../../../../../TileOControllerStates.ump"
+  // line 82 "../../../../../TileOControllerStates.ump"
    private boolean verifyGameMode(Game.Mode aMode){
     return TileOApplication.getTileO().getCurrentGame().getMode()==aMode;
   }
 
-  // line 82 "../../../../../TileOControllerStates.ump"
+  // line 85 "../../../../../TileOControllerStates.ump"
    private boolean tileIsNormal(){
     return currentTile instanceof NormalTile;
   }
 
-  // line 85 "../../../../../TileOControllerStates.ump"
+  // line 88 "../../../../../TileOControllerStates.ump"
    private boolean tileIsWin(){
     return currentTile instanceof WinTile;
   }
 
-  // line 88 "../../../../../TileOControllerStates.ump"
+  // line 91 "../../../../../TileOControllerStates.ump"
    private boolean tileIsAction(){
     return currentTile instanceof ActionTile;
   }
@@ -405,7 +429,7 @@ public class TileOController
   /**
    * Design
    */
-  // line 94 "../../../../../TileOControllerStates.ump"
+  // line 97 "../../../../../TileOControllerStates.ump"
    public Game newGame(int nPlayer) throws InvalidInputException{
     if (nPlayer < Game.minimumNumberOfPlayers())
     		throw new InvalidInputException("Not enough players");
@@ -433,7 +457,7 @@ public class TileOController
     	return game;
   }
 
-  // line 122 "../../../../../TileOControllerStates.ump"
+  // line 125 "../../../../../TileOControllerStates.ump"
    public void addRegularTile(int x, int y, Game game){
     TileO tileO = TileOApplication.getTileO();
 
@@ -445,7 +469,7 @@ public class TileOController
         }
   }
 
-  // line 134 "../../../../../TileOControllerStates.ump"
+  // line 137 "../../../../../TileOControllerStates.ump"
    public void addActionTile(int x, int y, Game game, int inactivityPeriod){
     TileO tileO = TileOApplication.getTileO();
 
@@ -457,7 +481,7 @@ public class TileOController
         }
   }
 
-  // line 146 "../../../../../TileOControllerStates.ump"
+  // line 149 "../../../../../TileOControllerStates.ump"
    public void addHiddenTile(int x, int y, Game game){
     try{
             WinTile wt = new WinTile(x, y, game);
@@ -469,7 +493,7 @@ public class TileOController
         }
   }
 
-  // line 158 "../../../../../TileOControllerStates.ump"
+  // line 161 "../../../../../TileOControllerStates.ump"
    public void removeTile(Tile tile, Game game){
     TileO tileO = TileOApplication.getTileO();
         if (tile instanceof WinTile)
@@ -477,7 +501,7 @@ public class TileOController
         tileO.removeTile(tile);
   }
 
-  // line 165 "../../../../../TileOControllerStates.ump"
+  // line 168 "../../../../../TileOControllerStates.ump"
    public void addConnection(Tile t1, Tile t2, Game game) throws InvalidInputException{
     if (t1.isConnectedWith(t2))
     		throw new InvalidInputException("Tiles are already connected");
@@ -485,13 +509,13 @@ public class TileOController
     		throw new InvalidInputException("Selected tiles are not adjacent");
   }
 
-  // line 172 "../../../../../TileOControllerStates.ump"
+  // line 175 "../../../../../TileOControllerStates.ump"
    public void removeConnection(Tile t1, Tile t2, Game game) throws InvalidInputException{
     if (!game.disconnectTiles(t1, t2))
     		throw new InvalidInputException("These tiles are not connected");
   }
 
-  // line 177 "../../../../../TileOControllerStates.ump"
+  // line 180 "../../../../../TileOControllerStates.ump"
    public void setStartingTile(int nPlayer, Tile t, Game game) throws InvalidInputException{
     if (t!=null && t!=game.getWinTile()) {
     		Player p = game.getPlayer(nPlayer);
@@ -501,9 +525,9 @@ public class TileOController
     		throw new InvalidInputException("Invalid tile");
   }
 
-  // line 186 "../../../../../TileOControllerStates.ump"
-   public void createDeck(int nExtraTurn, int nNewConn, int nRmConn, int nTel, Game game) throws InvalidInputException{
-    if (nExtraTurn+nNewConn+nRmConn+nTel != 32) 
+  // line 189 "../../../../../TileOControllerStates.ump"
+   public void createDeck(int nExtraTurn, int nNewConn, int nRmConn, int nTel, int nLoseTurn, Game game) throws InvalidInputException{
+    if (nExtraTurn+nNewConn+nRmConn+nTel+nLoseTurn != 32) 
     		throw new InvalidInputException("Wrong number of action cards");
     	
     	Deck d = game.getDeck();
@@ -518,13 +542,15 @@ public class TileOController
     		new RemoveConnectionActionCard("Remove a connection", d);
     	for (int i=0;i<nTel;++i)
     		new TeleportActionCard("Move your piece to a new tile", d);
+    	for (int i=0;i<nLoseTurn;++i)
+    		new LoseTurnActionCard("Lose your next turn", d);
   }
 
 
   /**
    * Game
    */
-  // line 206 "../../../../../TileOControllerStates.ump"
+  // line 211 "../../../../../TileOControllerStates.ump"
    public void doStartGame(Game selectedGame) throws InvalidInputException{
     /* Starts the selected game if it respects the rules */    
         
@@ -558,13 +584,13 @@ public class TileOController
         selectedGame.setMode(Game.Mode.GAME);
   }
 
-  // line 239 "../../../../../TileOControllerStates.ump"
+  // line 244 "../../../../../TileOControllerStates.ump"
    private void doRollDie(){
     Game game = TileOApplication.getTileO().getCurrentGame();
     	setPossibleTiles(game.rollDie());
   }
 
-  // line 244 "../../../../../TileOControllerStates.ump"
+  // line 249 "../../../../../TileOControllerStates.ump"
    private void doSelectNewTile(Tile aTile) throws InvalidInputException{
     if (getPossibleTiles().contains(aTile))
     		setCurrentTile(aTile);
@@ -572,14 +598,14 @@ public class TileOController
     		throw new InvalidInputException("Invalid tile");
   }
 
-  // line 251 "../../../../../TileOControllerStates.ump"
+  // line 256 "../../../../../TileOControllerStates.ump"
    private void doLand(Tile tile) throws InvalidInputException{
     /* Initiates when a player lands on a tile */
         tile.land();
         setPossibleTiles(null);
   }
 
-  // line 258 "../../../../../TileOControllerStates.ump"
+  // line 263 "../../../../../TileOControllerStates.ump"
    private void doPlayRollDieActionCard() throws InvalidInputException{
     Game currentGame= TileOApplication.getTileO().getCurrentGame();
         ArrayList<Tile> availableTiles=null;
@@ -591,18 +617,12 @@ public class TileOController
         	RollDieActionCard playCard = (RollDieActionCard) currentCard;
         	availableTiles= playCard.play();
         }
-        if (currentDeck.indexOfCard(currentCard)==currentDeck.numberOfCards()-1){
-        currentDeck.shuffle();
-        currentDeck.setCurrentCard(currentDeck.getCard(0));
-        }
-        else{
-        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
-        }
+        currentGame.setNextCard();
         currentGame.setMode(Game.Mode.GAME);
         setPossibleTiles(availableTiles);
   }
 
-  // line 282 "../../../../../TileOControllerStates.ump"
+  // line 281 "../../../../../TileOControllerStates.ump"
    private void doPlayConnectTilesActionCard(Tile t1, Tile t2) throws InvalidInputException{
     Game currentGame = TileOApplication.getTileO().getCurrentGame();
         currentGame.setMode(Game.Mode.GAME_CONNECTTILESACTIONCARD);
@@ -618,14 +638,8 @@ public class TileOController
             
         }
         if(wasConnected){
-            currentGame.setCurrentPlayer(currentGame.getPlayer((currentGame.indexOfPlayer(currentGame.getCurrentPlayer()) + 1)%currentGame.numberOfPlayers()));
-            if (currentDeck.indexOfCard(currentCard)==currentDeck.numberOfCards()-1){
-                currentDeck.shuffle();
-                currentDeck.setCurrentCard(currentDeck.getCard(0));
-             }
-            else{
-                currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
-            }
+            currentGame.setNextPlayer();
+            currentGame.setNextCard();
             currentGame.setMode(Game.Mode.GAME);
         }
         else{
@@ -633,7 +647,7 @@ public class TileOController
         }
   }
 
-  // line 313 "../../../../../TileOControllerStates.ump"
+  // line 306 "../../../../../TileOControllerStates.ump"
    private void doPlayRemoveConnectionActionCard(Tile t1, Tile t2) throws InvalidInputException{
     Game currentGame = TileOApplication.getTileO().getCurrentGame();
         currentGame.setMode(Game.Mode.GAME_REMOVECONNECTIONACTIONCARD);
@@ -647,14 +661,8 @@ public class TileOController
              wasRemoved=  playCard.play(t1, t2);
         }
         if(wasRemoved){
-            currentGame.setCurrentPlayer(currentGame.getPlayer((currentGame.indexOfPlayer(currentGame.getCurrentPlayer()) + 1)%currentGame.numberOfPlayers()));
-            if (currentDeck.indexOfCard(currentCard)==currentDeck.numberOfCards()-1){
-            currentDeck.shuffle();
-            currentDeck.setCurrentCard(currentDeck.getCard(0));
-            }
-            else{
-            currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
-            }
+            currentGame.setNextPlayer();
+            currentGame.setNextCard();
             currentGame.setMode(Game.Mode.GAME);
         }
         else{
@@ -662,7 +670,7 @@ public class TileOController
         }
   }
 
-  // line 342 "../../../../../TileOControllerStates.ump"
+  // line 329 "../../../../../TileOControllerStates.ump"
    private void doPlayTeleportActionCard(Tile t) throws InvalidInputException{
     Game currentGame = TileOApplication.getTileO().getCurrentGame();
         currentGame.setMode(Game.Mode.GAME_REMOVECONNECTIONACTIONCARD);
@@ -672,14 +680,22 @@ public class TileOController
         	TeleportActionCard playCard = (TeleportActionCard) currentCard;
         	playCard.play(t);
         }
-        currentGame.setCurrentPlayer(currentGame.getPlayer((currentGame.indexOfPlayer(currentGame.getCurrentPlayer()) + 1)%currentGame.numberOfPlayers()));
-        if (currentDeck.indexOfCard(currentCard)==currentDeck.numberOfCards()-1){
-        currentDeck.shuffle();
-        currentDeck.setCurrentCard(currentDeck.getCard(0));
-        }
-        else{
-        currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
-        }
+        currentGame.setNextPlayer();
+        currentGame.setNextCard();
+        currentGame.setMode(Game.Mode.GAME);
+  }
+
+  // line 344 "../../../../../TileOControllerStates.ump"
+   private void doPlayLoseTurnActionCard() throws InvalidInputException{
+    Game currentGame = TileOApplication.getTileO().getCurrentGame();
+    	Deck d = currentGame.getDeck();
+    	ActionCard c = d.getCurrentCard();
+    	if (!(c instanceof LoseTurnActionCard))
+    		throw new InvalidInputException("Invalid card");
+    	((LoseTurnActionCard) c).play();
+    	
+    	currentGame.setNextCard();
+        currentGame.setNextPlayer();
         currentGame.setMode(Game.Mode.GAME);
   }
 
@@ -687,13 +703,13 @@ public class TileOController
   /**
    * Controls
    */
-  // line 365 "../../../../../TileOControllerStates.ump"
+  // line 359 "../../../../../TileOControllerStates.ump"
    public String saveGame(String filename){
     TileOApplication.save(filename);
         return TileOApplication.getTileO().getCurrentGame().getFilename();
   }
 
-  // line 370 "../../../../../TileOControllerStates.ump"
+  // line 364 "../../../../../TileOControllerStates.ump"
    public Game loadGame(String filename) throws InvalidInputException{
     TileO tileo = TileOApplication.getTileO();
         Game loadedGame = TileOApplication.load(filename);

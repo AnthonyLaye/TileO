@@ -645,6 +645,30 @@ public class Game implements Serializable
   	return possibleTiles;
   }
 
+  // line 108 "../../../../../TileO.ump"
+   public void setNextPlayer(){
+    while (true) {
+  	  setCurrentPlayer(getPlayer((indexOfPlayer(getCurrentPlayer()) + 1)%numberOfPlayers()));
+  	  if (getCurrentPlayer().getPlayerState()==Player.PlayerState.SkipTurn){
+  	  	getCurrentPlayer().turnSkipped();
+  	  }
+  	  else break;
+  	}
+  }
+
+  // line 119 "../../../../../TileO.ump"
+   public void setNextCard(){
+    Deck currentDeck = getDeck();
+  	ActionCard currentCard = currentDeck.getCurrentCard();
+  	if (currentDeck.indexOfCard(currentCard)==currentDeck.numberOfCards()-1){
+        currentDeck.shuffle();
+        currentDeck.setCurrentCard(currentDeck.getCard(0));
+    }
+    else{
+    	currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
+    }
+  }
+
 
   public String toString()
   {

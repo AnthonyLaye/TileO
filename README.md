@@ -14,7 +14,7 @@ It's the same principle for the other buttons
 - Change TileOController's package to ca.mcgill.ecse223.tileo.controller and move it
 - TileOController: add throws InvalidInputException to startGame(), 
   selectNewTile(), land(), playRollDieActionCard(), playConnectTilesActionCard(),
-  playRemoveConnectionActionCard(), playTeleportActionCard()
+  playRemoveConnectionActionCard(), playTeleportActionCard(), playLoseTurnActionCard()
 
 ##Contributors
 - Anthony Laye

@@ -56,6 +56,7 @@ public class TileOPage extends JFrame{
         //private JLabel playerColour;
         private JPanel playerColour;
             // card
+        	private JButton loseTurnCardButton;
             private JButton rollDieCardButton;
         // design
         private JTabbedPane designTabbedPane;
@@ -83,6 +84,8 @@ public class TileOPage extends JFrame{
             private JSpinner removeConnectionCardSpinner;
             private JLabel teleportCardLabel;
             private JSpinner teleportCardSpinner;
+            private JLabel loseTurnCardLabel;
+            private JSpinner loseTurnCardSpinner;
             private JLabel totalCardLabel;
             private JLabel numberOfCardsLabel;
             // board
@@ -189,6 +192,7 @@ public class TileOPage extends JFrame{
         	gameButtonsPanel = new JPanel();
             rollDieButton = new JButton();
                 // card
+            	loseTurnCardButton = new JButton();
                 rollDieCardButton = new JButton();
             // design
                 // tile
@@ -213,14 +217,16 @@ public class TileOPage extends JFrame{
                 newConnectionCardLabel = new JLabel();
                 removeConnectionCardLabel = new JLabel();
                 teleportCardLabel = new JLabel();
+                loseTurnCardLabel = new JLabel();
                 totalCardLabel = new JLabel();
                 numberOfCardsLabel = new JLabel();
                 extraTurnCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
                 newConnectionCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
                 removeConnectionCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
                 teleportCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
-                JSpinner[] spinners = {extraTurnCardSpinner, newConnectionCardSpinner, removeConnectionCardSpinner, teleportCardSpinner};
-                for (int i=0; i<4; ++i){
+                loseTurnCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
+                JSpinner[] spinners = {extraTurnCardSpinner, newConnectionCardSpinner, removeConnectionCardSpinner, teleportCardSpinner, loseTurnCardSpinner};
+                for (int i=0; i<5; ++i){
                 	spinners[i].addChangeListener(new javax.swing.event.ChangeListener(){
                 		public void stateChanged(javax.swing.event.ChangeEvent e){
                 			int n = updateNumberOfCards();
@@ -274,6 +280,12 @@ public class TileOPage extends JFrame{
         });
         
         // action cards
+        loseTurnCardButton.setText("Lose turn");
+        loseTurnCardButton.addActionListener(new java.awt.event.ActionListener() {
+        	public void actionPerformed(java.awt.event.ActionEvent e) {
+        		loseTurnCardActionPerformed(e);
+        	}
+        });
         rollDieCardButton.setText("Roll die");
         rollDieCardButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -351,6 +363,7 @@ public class TileOPage extends JFrame{
         newConnectionCardLabel.setText("New connection");
         removeConnectionCardLabel.setText("Remove connection");
         teleportCardLabel.setText("Teleport");
+        loseTurnCardLabel.setText("Lose turn");
         totalCardLabel.setText("Total");
         numberOfCardsLabel.setText("0/"+NumberOfCards);
 
@@ -614,6 +627,7 @@ public class TileOPage extends JFrame{
             	gameButtonsPanel.add(rollDieCardButton);
             	gameButtonsPanel.setVisible(true);
             	rollDieCardButton.setVisible(true);
+            	loseTurnCardButton.setVisible(false);
             	rollDieButton.setVisible(false);
                 break;
             case GAME_CONNECTTILESACTIONCARD:
@@ -633,6 +647,14 @@ public class TileOPage extends JFrame{
             	actionStatusLabel.setText("Teleport action card");
             	board.setWaitForTile(true);
             	setWaitingFor("teleportcard");
+            	break;
+            case GAME_LOSETURNACTIONCARD:
+            	actionTipLabel.setText("You lose your next turn");
+            	actionStatusLabel.setText("Lose turn action card");
+            	gameButtonsPanel.add(loseTurnCardButton);
+            	gameButtonsPanel.setVisible(true);
+            	rollDieCardButton.setVisible(false);
+            	loseTurnCardButton.setVisible(true);
             	break;
             case DESIGN:
                 gameButtonsPanel.setVisible(true);
@@ -802,6 +824,7 @@ public class TileOPage extends JFrame{
     			.addComponent(newConnectionCardLabel)
     			.addComponent(removeConnectionCardLabel)
     			.addComponent(teleportCardLabel)
+    			.addComponent(loseTurnCardLabel)
     			.addComponent(totalCardLabel)
     		)
     		.addGroup(deckLayout.createParallelGroup()
@@ -809,13 +832,14 @@ public class TileOPage extends JFrame{
     			.addComponent(newConnectionCardSpinner)
     			.addComponent(removeConnectionCardSpinner)
     			.addComponent(teleportCardSpinner)
+    			.addComponent(loseTurnCardSpinner)
     			.addComponent(numberOfCardsLabel)
     		)
     	);
     	deckLayout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[]
-    	        {extraTurnCardLabel, newConnectionCardLabel, removeConnectionCardLabel, teleportCardLabel, totalCardLabel, extraTurnCardSpinner, newConnectionCardSpinner, removeConnectionCardSpinner, teleportCardSpinner, numberOfCardsLabel});
+    	        {extraTurnCardLabel, newConnectionCardLabel, removeConnectionCardLabel, teleportCardLabel, totalCardLabel, extraTurnCardSpinner, newConnectionCardSpinner, removeConnectionCardSpinner, teleportCardSpinner, numberOfCardsLabel, loseTurnCardLabel, loseTurnCardSpinner});
         deckLayout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[]
-    	        {extraTurnCardLabel, newConnectionCardLabel, removeConnectionCardLabel, teleportCardLabel, totalCardLabel, extraTurnCardSpinner, newConnectionCardSpinner, removeConnectionCardSpinner, teleportCardSpinner, numberOfCardsLabel});
+    	        {extraTurnCardLabel, newConnectionCardLabel, removeConnectionCardLabel, teleportCardLabel, totalCardLabel, extraTurnCardSpinner, newConnectionCardSpinner, removeConnectionCardSpinner, teleportCardSpinner, numberOfCardsLabel, loseTurnCardLabel, loseTurnCardSpinner});
     	deckLayout.setVerticalGroup(deckLayout.createSequentialGroup()
     		.addGroup(deckLayout.createParallelGroup()
     			.addComponent(extraTurnCardLabel)
@@ -832,6 +856,10 @@ public class TileOPage extends JFrame{
     		.addGroup(deckLayout.createParallelGroup()
         			.addComponent(teleportCardLabel)
         			.addComponent(teleportCardSpinner)
+        	)
+    		.addGroup(deckLayout.createParallelGroup()
+        			.addComponent(loseTurnCardLabel)
+        			.addComponent(loseTurnCardSpinner)
         	)
     		.addGroup(deckLayout.createParallelGroup()
         			.addComponent(totalCardLabel)
@@ -1020,7 +1048,7 @@ public class TileOPage extends JFrame{
         try {
         	Game game = TileOApplication.getTileO().getCurrentGame();
         	
-        	toc.createDeck((int)extraTurnCardSpinner.getValue(), (int)newConnectionCardSpinner.getValue(), (int)removeConnectionCardSpinner.getValue(), (int)teleportCardSpinner.getValue(), game);
+        	toc.createDeck((int)extraTurnCardSpinner.getValue(), (int)newConnectionCardSpinner.getValue(), (int)removeConnectionCardSpinner.getValue(), (int)teleportCardSpinner.getValue(), (int)loseTurnCardSpinner.getValue(), game);
         	
             toc.startGame(game);
             board.setGame(game);
@@ -1124,6 +1152,17 @@ public class TileOPage extends JFrame{
     	    	rollDieCardButton.setVisible(false);
     		}
     	}
+    	catch (InvalidInputException err) {
+    		actionError.setText(err.getMessage());
+    	}
+    }
+    
+    private void loseTurnCardActionPerformed(java.awt.event.ActionEvent e) {
+    	try {
+    		toc.playLoseTurnActionCard();
+    		actionError.setText("");
+    		renderLayout(TileOApplication.getTileO().getCurrentGame());
+    	} 
     	catch (InvalidInputException err) {
     		actionError.setText(err.getMessage());
     	}

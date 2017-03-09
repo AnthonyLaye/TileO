@@ -3,11 +3,11 @@
 
 package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
-import java.util.*;
 import ca.mcgill.ecse223.tileo.util.Node;
+import java.util.*;
 
 // line 15 "../../../../../TileOPersistence.ump"
-// line 108 "../../../../../TileO.ump"
+// line 131 "../../../../../TileO.ump"
 public class Player implements Serializable
 {
 
@@ -28,6 +28,8 @@ public class Player implements Serializable
   //Player State Machines
   public enum Color { RED, BLUE, GREEN, YELLOW }
   private Color color;
+  public enum PlayerState { Play, SkipTurn }
+  private PlayerState playerState;
 
   //Player Associations
   private Tile startingTile;
@@ -51,6 +53,7 @@ public class Player implements Serializable
       throw new RuntimeException("Unable to create player due to game");
     }
     setColor(Color.RED);
+    setPlayerState(PlayerState.Play);
   }
 
   //------------------------
@@ -107,15 +110,67 @@ public class Player implements Serializable
     return answer;
   }
 
+  public String getPlayerStateFullName()
+  {
+    String answer = playerState.toString();
+    return answer;
+  }
+
   public Color getColor()
   {
     return color;
+  }
+
+  public PlayerState getPlayerState()
+  {
+    return playerState;
+  }
+
+  public boolean loseTurn()
+  {
+    boolean wasEventProcessed = false;
+    
+    PlayerState aPlayerState = playerState;
+    switch (aPlayerState)
+    {
+      case Play:
+        setPlayerState(PlayerState.SkipTurn);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  public boolean turnSkipped()
+  {
+    boolean wasEventProcessed = false;
+    
+    PlayerState aPlayerState = playerState;
+    switch (aPlayerState)
+    {
+      case SkipTurn:
+        setPlayerState(PlayerState.Play);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
   }
 
   public boolean setColor(Color aColor)
   {
     color = aColor;
     return true;
+  }
+
+  private void setPlayerState(PlayerState aPlayerState)
+  {
+    playerState = aPlayerState;
   }
 
   public Tile getStartingTile()
@@ -202,7 +257,7 @@ public class Player implements Serializable
     placeholderGame.removePlayer(this);
   }
 
-  // line 116 "../../../../../TileO.ump"
+  // line 151 "../../../../../TileO.ump"
    public ArrayList<Tile> getPossibleMoves(int depth){
     // Depth first search with limited depth, Iterate over the possible children
       // Cannot go back but loops are allowed
@@ -236,7 +291,7 @@ public class Player implements Serializable
       return new ArrayList<Tile>(possibleTiles);
   }
 
-  // line 150 "../../../../../TileO.ump"
+  // line 185 "../../../../../TileO.ump"
    public static  void resetMap(){
     //I had problems with tests (Vincent)
     playersByNumber = new HashMap<Integer, Player>();
