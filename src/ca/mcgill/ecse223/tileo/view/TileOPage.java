@@ -897,7 +897,7 @@ public class TileOPage extends JFrame{
     }
     
     private int updateNumberOfCards() {
-    	int n = (int)extraTurnCardSpinner.getValue() + (int)newConnectionCardSpinner.getValue() + (int)removeConnectionCardSpinner.getValue() + (int)teleportCardSpinner.getValue();
+    	int n = (int)extraTurnCardSpinner.getValue() + (int)newConnectionCardSpinner.getValue() + (int)removeConnectionCardSpinner.getValue() + (int)teleportCardSpinner.getValue()+(int)loseTurnCardSpinner.getValue();
     	numberOfCardsLabel.setText(n+"/"+NumberOfCards);
     	return n;
     }
@@ -1181,6 +1181,7 @@ public class TileOPage extends JFrame{
             newConnectionCardSpinner.setValue(0);
             removeConnectionCardSpinner.setValue(0);
             teleportCardSpinner.setValue(0);
+            loseTurnCardSpinner.setValue(0);
             numberOfCardsLabel.setText("0/"+NumberOfCards);
             renderLayout(game);
         }
