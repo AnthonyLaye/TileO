@@ -656,7 +656,7 @@ public class Game implements Serializable
   	}
   }
 
-  // line 119 "../../../../../TileO.ump"
+  // line 118 "../../../../../TileO.ump"
    public void setNextCard(){
     Deck currentDeck = getDeck();
   	ActionCard currentCard = currentDeck.getCurrentCard();

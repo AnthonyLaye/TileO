@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 
 // line 87 "../../../../../TileOPersistence.ump"
-// line 335 "../../../../../TileO.ump"
+// line 334 "../../../../../TileO.ump"
 public class LoseTurnActionCard extends ActionCard
 {
 
@@ -31,12 +31,12 @@ public class LoseTurnActionCard extends ActionCard
     super.delete();
   }
 
-  // line 340 "../../../../../TileO.ump"
+  // line 339 "../../../../../TileO.ump"
    public Game.Mode getActionCardMode(){
     return Game.Mode.GAME_LOSETURNACTIONCARD;
   }
 
-  // line 344 "../../../../../TileO.ump"
+  // line 343 "../../../../../TileO.ump"
    public void play(){
     Player currentPlayer = getDeck().getGame().getCurrentPlayer();
   	currentPlayer.loseTurn();

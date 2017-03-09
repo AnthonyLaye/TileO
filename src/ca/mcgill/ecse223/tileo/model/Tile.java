@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 21 "../../../../../TileOPersistence.ump"
-// line 190 "../../../../../TileO.ump"
+// line 189 "../../../../../TileO.ump"
 public abstract class Tile implements Serializable
 {
 
@@ -255,7 +255,7 @@ public abstract class Tile implements Serializable
   }
 
    public abstract void land();
-  // line 201 "../../../../../TileO.ump"
+  // line 200 "../../../../../TileO.ump"
    public boolean isConnectedWith(Tile t){
     boolean isConnected = false;
 	  for (Connection conn: getConnections()) {
