@@ -243,6 +243,14 @@ class BoardVisualizer extends JPanel {
             			LINEY+y*(TILEH+SPACING)+TILEH/2
             		);
             	}
+            	else { // for testing purpose
+            		g2d.setColor(Color.MAGENTA);
+            		g2d.drawString(
+            			new Integer(((ActionTile) tile).getTurnsUntilActive()).toString(),
+            		    LINEX+x*(TILEW+SPACING)+TILEW/2,
+            		    LINEY+y*(TILEH+SPACING)+TILEH/2
+            		);
+            	}
             }
             
             // Connections

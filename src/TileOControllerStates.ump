@@ -82,13 +82,13 @@ class TileOController {
         return TileOApplication.getTileO().getCurrentGame().getMode()==aMode;
     }
     private boolean tileIsNormal() {
-    	return currentTile instanceof NormalTile;
+    	return currentTile instanceof NormalTile || (currentTile instanceof ActionTile && ((ActionTile)currentTile).getInactivityStatus()==ActionTile.InactivityStatus.Inactive);
     }
     private boolean tileIsWin() {
     	return currentTile instanceof WinTile;
     }
     private boolean tileIsAction() {
-    	return currentTile instanceof ActionTile;
+    	return currentTile instanceof ActionTile && ((ActionTile)currentTile).getInactivityStatus() == ActionTile.InactivityStatus.Active;
     }
 
 
@@ -335,7 +335,7 @@ class TileOController {
         	TeleportActionCard playCard = (TeleportActionCard) currentCard;
         	setCurrentTile(t);
         }
-        currentGame.setNextPlayer();
+
         currentGame.setNextCard();
         currentGame.setMode(Game.Mode.GAME);
 

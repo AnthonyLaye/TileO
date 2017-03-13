@@ -37,6 +37,7 @@ public class Game implements Serializable
   private Die die;
   private Player currentPlayer;
   private WinTile winTile;
+  private List<ActionTile> inactiveActionTiles;
   private TileO tileO;
 
   //------------------------
@@ -60,6 +61,7 @@ public class Game implements Serializable
       throw new RuntimeException("Unable to create Game due to aDie");
     }
     die = aDie;
+    inactiveActionTiles = new ArrayList<ActionTile>();
     boolean didAddTileO = setTileO(aTileO);
     if (!didAddTileO)
     {
@@ -77,6 +79,7 @@ public class Game implements Serializable
     connections = new ArrayList<Connection>();
     deck = new Deck(this);
     die = new Die(this);
+    inactiveActionTiles = new ArrayList<ActionTile>();
     boolean didAddTileO = setTileO(aTileO);
     if (!didAddTileO)
     {
@@ -251,6 +254,36 @@ public class Game implements Serializable
   {
     boolean has = winTile != null;
     return has;
+  }
+
+  public ActionTile getInactiveActionTile(int index)
+  {
+    ActionTile aInactiveActionTile = inactiveActionTiles.get(index);
+    return aInactiveActionTile;
+  }
+
+  public List<ActionTile> getInactiveActionTiles()
+  {
+    List<ActionTile> newInactiveActionTiles = Collections.unmodifiableList(inactiveActionTiles);
+    return newInactiveActionTiles;
+  }
+
+  public int numberOfInactiveActionTiles()
+  {
+    int number = inactiveActionTiles.size();
+    return number;
+  }
+
+  public boolean hasInactiveActionTiles()
+  {
+    boolean has = inactiveActionTiles.size() > 0;
+    return has;
+  }
+
+  public int indexOfInactiveActionTile(ActionTile aInactiveActionTile)
+  {
+    int index = inactiveActionTiles.indexOf(aInactiveActionTile);
+    return index;
   }
 
   public TileO getTileO()
@@ -526,6 +559,63 @@ public class Game implements Serializable
     return wasSet;
   }
 
+  public static int minimumNumberOfInactiveActionTiles()
+  {
+    return 0;
+  }
+
+  public boolean addInactiveActionTile(ActionTile aInactiveActionTile)
+  {
+    boolean wasAdded = false;
+    if (inactiveActionTiles.contains(aInactiveActionTile)) { return false; }
+    inactiveActionTiles.add(aInactiveActionTile);
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeInactiveActionTile(ActionTile aInactiveActionTile)
+  {
+    boolean wasRemoved = false;
+    if (inactiveActionTiles.contains(aInactiveActionTile))
+    {
+      inactiveActionTiles.remove(aInactiveActionTile);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+
+  public boolean addInactiveActionTileAt(ActionTile aInactiveActionTile, int index)
+  {  
+    boolean wasAdded = false;
+    if(addInactiveActionTile(aInactiveActionTile))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfInactiveActionTiles()) { index = numberOfInactiveActionTiles() - 1; }
+      inactiveActionTiles.remove(aInactiveActionTile);
+      inactiveActionTiles.add(index, aInactiveActionTile);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveInactiveActionTileAt(ActionTile aInactiveActionTile, int index)
+  {
+    boolean wasAdded = false;
+    if(inactiveActionTiles.contains(aInactiveActionTile))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfInactiveActionTiles()) { index = numberOfInactiveActionTiles() - 1; }
+      inactiveActionTiles.remove(aInactiveActionTile);
+      inactiveActionTiles.add(index, aInactiveActionTile);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addInactiveActionTileAt(aInactiveActionTile, index);
+    }
+    return wasAdded;
+  }
+
   public boolean setTileO(TileO aTileO)
   {
     boolean wasSet = false;
@@ -582,12 +672,13 @@ public class Game implements Serializable
     }
     currentPlayer = null;
     winTile = null;
+    inactiveActionTiles.clear();
     TileO placeholderTileO = tileO;
     this.tileO = null;
     placeholderTileO.removeGame(this);
   }
 
-  // line 54 "../../../../../TileO.ump"
+  // line 55 "../../../../../TileO.ump"
    public int getMaxSize(){
     int max=0;
 	  for (Tile aTile: tiles){
@@ -599,7 +690,7 @@ public class Game implements Serializable
 	  return max+1; // index starts at 0
   }
 
-  // line 65 "../../../../../TileO.ump"
+  // line 66 "../../../../../TileO.ump"
    public boolean connectTiles(Tile t1, Tile t2){
     boolean wasAdded = false;
 	int dx = t1.getX() - t2.getX();
@@ -614,7 +705,7 @@ public class Game implements Serializable
   	return wasAdded;
   }
 
-  // line 79 "../../../../../TileO.ump"
+  // line 80 "../../../../../TileO.ump"
    public boolean disconnectTiles(Tile t1, Tile t2){
     Connection conn = null;
 	boolean wasDeleted = false;
@@ -636,7 +727,7 @@ public class Game implements Serializable
   	return wasDeleted;
   }
 
-  // line 100 "../../../../../TileO.ump"
+  // line 101 "../../../../../TileO.ump"
    public ArrayList<Tile> rollDie(){
     int n = getDie().roll();
 	dieNumber = Integer.toString(n);
@@ -645,7 +736,7 @@ public class Game implements Serializable
   	return possibleTiles;
   }
 
-  // line 108 "../../../../../TileO.ump"
+  // line 109 "../../../../../TileO.ump"
    public void setNextPlayer(){
     while (true) {
   	  setCurrentPlayer(getPlayer((indexOfPlayer(getCurrentPlayer()) + 1)%numberOfPlayers()));
@@ -654,9 +745,18 @@ public class Game implements Serializable
   	  }
   	  else break;
   	}
+  	for (int i=0; i<inactiveActionTiles.size(); ++i) {
+  		ActionTile t = inactiveActionTiles.get(i);
+  		t.setTurnsUntilActive(t.getTurnsUntilActive()-1);
+  		if (t.getTurnsUntilActive()==0) {
+  			removeInactiveActionTile(t);
+  			t.inactivityPeriodCompleted();
+  			i--;
+  		}
+  	}
   }
 
-  // line 118 "../../../../../TileO.ump"
+  // line 128 "../../../../../TileO.ump"
    public void setNextCard(){
     Deck currentDeck = getDeck();
   	ActionCard currentCard = currentDeck.getCurrentCard();
@@ -689,7 +789,7 @@ public class Game implements Serializable
   
   // line 12 ../../../../../TileOPersistence.ump
   private static final long serialVersionUID = -4871491228092496389L ;
-// line 50 ../../../../../TileO.ump
+// line 51 ../../../../../TileO.ump
   public  String dieNumber ;
 
   

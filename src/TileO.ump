@@ -43,6 +43,7 @@ class Game {
   1 <@>- 1 Die die;
   1 -> 0..1 Player currentPlayer;
   1 -> 0..1 WinTile winTile;
+  1 -> * ActionTile inactiveActionTiles;
   const Integer SpareConnectionPieces = 32;
   Integer currentConnectionPieces;
   const Integer NumberOfActionCards = 32;
@@ -111,6 +112,15 @@ class Game {
   	  	getCurrentPlayer().turnSkipped();
   	  }
   	  else break;
+  	}
+  	for (int i=0; i<inactiveActionTiles.size(); ++i) {
+  		ActionTile t = inactiveActionTiles.get(i);
+  		t.setTurnsUntilActive(t.getTurnsUntilActive()-1);
+  		if (t.getTurnsUntilActive()==0) {
+  			removeInactiveActionTile(t);
+  			t.inactivityPeriodCompleted();
+  			i--;
+  		}
   	}
   }
   
@@ -214,9 +224,31 @@ class ActionTile {
   immutable Integer inactivityPeriod;
   Integer turnsUntilActive= 0;
   
-  public void land(){
+  
+  InactivityStatus {
+  	Active {
+  		land / {
+  			doLand();
+  			setTurnsUntilActive(inactivityPeriod+1);
+  		} -> Inactive;	
+  	}
+  	
+  	Inactive {
+  		inactivityPeriodCompleted -> Active;
+  		land / {
+  			doLandAsNormal();
+  		} -> Inactive;
+  	}
+  }
+  
+  
+  
+  
+  
+  public void doLand(){
 
     Game currentGame = getGame();
+    currentGame.addInactiveActionTile(this);
     Player currentPlayer = currentGame.getCurrentPlayer();
     currentPlayer.setCurrentTile(this);
     setHasBeenVisited(true);
@@ -225,6 +257,16 @@ class ActionTile {
     ActionCard currentCard = deck.getCurrentCard();
     Game.Mode mode = currentCard.getActionCardMode();
     currentGame.setMode(mode);
+  }
+  
+  public void doLandAsNormal() {
+ 	Game currentGame = this.getGame();
+    Player currentPlayer = currentGame.getCurrentPlayer();
+    currentPlayer.setCurrentTile(this);
+    
+	currentGame.setNextPlayer();
+   	currentGame.setMode(Game.Mode.GAME);
+   	setHasBeenVisited(true);
   }
 }
 

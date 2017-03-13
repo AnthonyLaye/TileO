@@ -7,7 +7,7 @@ import ca.mcgill.ecse223.tileo.util.Node;
 import java.util.*;
 
 // line 15 "../../../../../TileOPersistence.ump"
-// line 130 "../../../../../TileO.ump"
+// line 140 "../../../../../TileO.ump"
 public class Player implements Serializable
 {
 
@@ -257,7 +257,7 @@ public class Player implements Serializable
     placeholderGame.removePlayer(this);
   }
 
-  // line 150 "../../../../../TileO.ump"
+  // line 160 "../../../../../TileO.ump"
    public ArrayList<Tile> getPossibleMoves(int depth){
     // Depth first search with limited depth, Iterate over the possible children
       // Cannot go back but loops are allowed
@@ -291,7 +291,7 @@ public class Player implements Serializable
       return new ArrayList<Tile>(possibleTiles);
   }
 
-  // line 184 "../../../../../TileO.ump"
+  // line 194 "../../../../../TileO.ump"
    public static  void resetMap(){
     //I had problems with tests (Vincent)
     playersByNumber = new HashMap<Integer, Player>();

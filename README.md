@@ -15,7 +15,7 @@ It's the same principle for the other buttons
 - TileOController: add throws InvalidInputException to startGame(), 
   selectNewTile(), land(), playRollDieActionCard(), playConnectTilesActionCard(),
   playRemoveConnectionActionCard(), playTeleportActionCard(), playLoseTurnActionCard()
-
+- ActionTile: change boolean land() to void land(), remove class abstract 
 ##Contributors
 - Anthony Laye
 - Sam Cleland

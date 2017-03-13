@@ -412,7 +412,7 @@ public class TileOController
 
   // line 85 "../../../../../TileOControllerStates.ump"
    private boolean tileIsNormal(){
-    return currentTile instanceof NormalTile;
+    return currentTile instanceof NormalTile || (currentTile instanceof ActionTile && ((ActionTile)currentTile).getInactivityStatus()==ActionTile.InactivityStatus.Inactive);
   }
 
   // line 88 "../../../../../TileOControllerStates.ump"
@@ -422,7 +422,7 @@ public class TileOController
 
   // line 91 "../../../../../TileOControllerStates.ump"
    private boolean tileIsAction(){
-    return currentTile instanceof ActionTile;
+    return currentTile instanceof ActionTile && ((ActionTile)currentTile).getInactivityStatus() == ActionTile.InactivityStatus.Active;
   }
 
 
@@ -681,6 +681,7 @@ public class TileOController
         	TeleportActionCard playCard = (TeleportActionCard) currentCard;
         	setCurrentTile(t);
         }
+
         currentGame.setNextCard();
         currentGame.setMode(Game.Mode.GAME);
   }

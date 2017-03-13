@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 27 "../../../../../TileOPersistence.ump"
-// line 211 "../../../../../TileO.ump"
+// line 221 "../../../../../TileO.ump"
 public class ActionTile extends Tile
 {
 
@@ -18,6 +18,10 @@ public class ActionTile extends Tile
   private int inactivityPeriod;
   private int turnsUntilActive;
 
+  //ActionTile State Machines
+  public enum InactivityStatus { Active, Inactive }
+  private InactivityStatus inactivityStatus;
+
   //------------------------
   // CONSTRUCTOR
   //------------------------
@@ -27,6 +31,7 @@ public class ActionTile extends Tile
     super(aX, aY, aGame);
     inactivityPeriod = aInactivityPeriod;
     turnsUntilActive = 0;
+    setInactivityStatus(InactivityStatus.Active);
   }
 
   //------------------------
@@ -51,14 +56,75 @@ public class ActionTile extends Tile
     return turnsUntilActive;
   }
 
+  public String getInactivityStatusFullName()
+  {
+    String answer = inactivityStatus.toString();
+    return answer;
+  }
+
+  public InactivityStatus getInactivityStatus()
+  {
+    return inactivityStatus;
+  }
+
+  public void land()
+  {
+    boolean wasEventProcessed = false;
+    
+    InactivityStatus aInactivityStatus = inactivityStatus;
+    switch (aInactivityStatus)
+    {
+      case Active:
+        // line 230 "../../../../../TileO.ump"
+        doLand();
+  			setTurnsUntilActive(inactivityPeriod+1);
+        setInactivityStatus(InactivityStatus.Inactive);
+        wasEventProcessed = true;
+        break;
+      case Inactive:
+        // line 238 "../../../../../TileO.ump"
+        doLandAsNormal();
+        setInactivityStatus(InactivityStatus.Inactive);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+  }
+
+  public boolean inactivityPeriodCompleted()
+  {
+    boolean wasEventProcessed = false;
+    
+    InactivityStatus aInactivityStatus = inactivityStatus;
+    switch (aInactivityStatus)
+    {
+      case Inactive:
+        setInactivityStatus(InactivityStatus.Active);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
+  private void setInactivityStatus(InactivityStatus aInactivityStatus)
+  {
+    inactivityStatus = aInactivityStatus;
+  }
+
   public void delete()
   {
     super.delete();
   }
 
-  // line 219 "../../../../../TileO.ump"
-   public void land(){
+  // line 250 "../../../../../TileO.ump"
+   public void doLand(){
+	System.out.println("LANDASACTION");
     Game currentGame = getGame();
+    currentGame.addInactiveActionTile(this);
     Player currentPlayer = currentGame.getCurrentPlayer();
     currentPlayer.setCurrentTile(this);
     setHasBeenVisited(true);
@@ -67,6 +133,18 @@ public class ActionTile extends Tile
     ActionCard currentCard = deck.getCurrentCard();
     Game.Mode mode = currentCard.getActionCardMode();
     currentGame.setMode(mode);
+  }
+
+  // line 263 "../../../../../TileO.ump"
+   public void doLandAsNormal(){
+	System.out.println("LANDASNORMAL");
+    Game currentGame = this.getGame();
+    Player currentPlayer = currentGame.getCurrentPlayer();
+    currentPlayer.setCurrentTile(this);
+    
+	currentGame.setNextPlayer();
+   	currentGame.setMode(Game.Mode.GAME);
+   	setHasBeenVisited(true);
   }
 
 
