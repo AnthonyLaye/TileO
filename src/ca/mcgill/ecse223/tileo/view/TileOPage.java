@@ -643,7 +643,6 @@ public class TileOPage extends JFrame{
             	actionStatusLabel.setText("Add a connection action card");
             	board.setWaitForConn(true);
             	setWaitingFor("newconncard");
-                TileOApplication.getTileO().getCurrentGame().setCurrentConnectionPieces(TileOApplication.getTileO().getCurrentGame().getCurrentConnectionPieces() -1);
             	break;
             case GAME_REMOVECONNECTIONACTIONCARD:
             	actionTipLabel.setText("Select two tiles you want to disconnect");
