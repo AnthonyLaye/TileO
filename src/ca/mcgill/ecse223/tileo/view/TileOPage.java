@@ -114,7 +114,6 @@ public class TileOPage extends JFrame{
     // data elements
     private String waitingFor = "";
     private ArrayList<Tile> possibleTiles = null;
-    private int connectionsLeft = 32;
 
 
     public TileOPage() {
@@ -526,7 +525,7 @@ public class TileOPage extends JFrame{
         currentPlayerNameLabel.setFont(new Font("Serif", Font.PLAIN, 65));
         connectionsLeftLabel.setFont(new Font("Serif", Font.PLAIN, 50));
 
-        connectionsLeftLabel.setText("Connections left: " + connectionsLeft);
+        connectionsLeftLabel.setText("Connections left: " + TileOApplication.getTileO().getCurrentGame().getCurrentConnectionPieces());
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -600,7 +599,7 @@ public class TileOPage extends JFrame{
 
         modeLabel.setText(game.getMode().toString());
         currentPlayerNameLabel.setText("Player "+ (game.indexOfPlayer(game.getCurrentPlayer())+ 1));
-        connectionsLeftLabel.setText("Connections left: " + connectionsLeft);
+        connectionsLeftLabel.setText("Connections left: " + TileOApplication.getTileO().getCurrentGame().getCurrentConnectionPieces());
         gameButtonsPanel.removeAll();
         board.setGame(game);
 
@@ -644,7 +643,7 @@ public class TileOPage extends JFrame{
             	actionStatusLabel.setText("Add a connection action card");
             	board.setWaitForConn(true);
             	setWaitingFor("newconncard");
-            	connectionsLeft--;
+                TileOApplication.getTileO().getCurrentGame().setCurrentConnectionPieces(TileOApplication.getTileO().getCurrentGame().getCurrentConnectionPieces() -1);
             	break;
             case GAME_REMOVECONNECTIONACTIONCARD:
             	actionTipLabel.setText("Select two tiles you want to disconnect");
