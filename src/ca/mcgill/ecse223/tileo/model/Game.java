@@ -25,6 +25,13 @@ public class Game implements Serializable
   private int currentConnectionPieces;
   private String filename;
 
+  public void changeDie() {
+
+    die = null;
+    die = new Die(this);
+
+  }
+
   //Game State Machines
   public enum Mode { DESIGN, GAME, GAME_WON, GAME_ROLLDIEACTIONCARD, GAME_CONNECTTILESACTIONCARD, GAME_REMOVECONNECTIONACTIONCARD, GAME_TELEPORTACTIONCARD, GAME_LOSETURNACTIONCARD }
   private Mode mode;

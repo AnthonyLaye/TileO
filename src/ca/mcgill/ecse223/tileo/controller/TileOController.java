@@ -4,21 +4,8 @@
 package ca.mcgill.ecse223.tileo.controller;
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.exception.InvalidInputException;
-import ca.mcgill.ecse223.tileo.model.TileO;
-import ca.mcgill.ecse223.tileo.model.Game;
-import ca.mcgill.ecse223.tileo.model.Deck;
-import ca.mcgill.ecse223.tileo.model.Tile;
-import ca.mcgill.ecse223.tileo.model.WinTile;
-import ca.mcgill.ecse223.tileo.model.ActionTile;
-import ca.mcgill.ecse223.tileo.model.NormalTile;
-import ca.mcgill.ecse223.tileo.model.Player;
-import ca.mcgill.ecse223.tileo.model.Connection;
-import ca.mcgill.ecse223.tileo.model.ActionCard;
-import ca.mcgill.ecse223.tileo.model.ConnectTilesActionCard;
-import ca.mcgill.ecse223.tileo.model.LoseTurnActionCard;
-import ca.mcgill.ecse223.tileo.model.RemoveConnectionActionCard;
-import ca.mcgill.ecse223.tileo.model.RollDieActionCard;
-import ca.mcgill.ecse223.tileo.model.TeleportActionCard;
+import ca.mcgill.ecse223.tileo.model.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -630,6 +617,7 @@ public class TileOController
             currentGame.setNextPlayer();
             currentGame.setNextCard();
             currentGame.setMode(Game.Mode.GAME);
+            currentGame.setCurrentConnectionPieces(currentGame.getCurrentConnectionPieces() - 1);
         }
         else{
             throw new InvalidInputException("Tiles not adjacent, choose another tile");
@@ -708,7 +696,9 @@ public class TileOController
     
         tileo.addGame(loadedGame);
         tileo.setCurrentGame(loadedGame);
-        
+
+       loadedGame.changeDie();
+
         switch (loadedGame.getMode()) {
         	case DESIGN:
         		setControllerState(ControllerState.Design);

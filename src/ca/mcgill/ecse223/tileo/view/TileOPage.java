@@ -106,6 +106,7 @@ public class TileOPage extends JFrame{
     // board
     private JLabel currentPlayerLabel;
     private JLabel currentPlayerNameLabel;
+    private JLabel connectionsLeftLabel;
     private BoardVisualizer board;
     
 
@@ -257,6 +258,7 @@ public class TileOPage extends JFrame{
         // board
         currentPlayerLabel = new JLabel();
         currentPlayerNameLabel = new JLabel();
+        connectionsLeftLabel = new JLabel();
         board = new BoardVisualizer();
         
         
@@ -523,6 +525,9 @@ public class TileOPage extends JFrame{
 
         currentPlayerLabel.setFont(new Font("Serif", Font.PLAIN, 65));
         currentPlayerNameLabel.setFont(new Font("Serif", Font.PLAIN, 65));
+        connectionsLeftLabel.setFont(new Font("Serif", Font.PLAIN, 50));
+
+        connectionsLeftLabel.setText("Connections left: " + TileOApplication.getTileO().getCurrentGame().getCurrentConnectionPieces());
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -538,6 +543,7 @@ public class TileOPage extends JFrame{
                     .addComponent(playerColour, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 )
                 .addComponent(board)
+                .addComponent(connectionsLeftLabel)
                 .addComponent(modeLabel)
 
             )
@@ -570,6 +576,7 @@ public class TileOPage extends JFrame{
                         .addComponent(playerColour, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                     )
                     .addComponent(board)
+                    .addComponent(connectionsLeftLabel)
                 )
                 .addGroup(layout.createSequentialGroup()
                 	.addComponent(actionLabel)
@@ -594,6 +601,7 @@ public class TileOPage extends JFrame{
 
         modeLabel.setText(game.getMode().toString());
         currentPlayerNameLabel.setText("Player "+ (game.indexOfPlayer(game.getCurrentPlayer())+ 1));
+        connectionsLeftLabel.setText("Connections left: " + TileOApplication.getTileO().getCurrentGame().getCurrentConnectionPieces());
         gameButtonsPanel.removeAll();
         board.setGame(game);
 
