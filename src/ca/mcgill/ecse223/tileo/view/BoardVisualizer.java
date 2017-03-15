@@ -94,10 +94,9 @@ class BoardVisualizer extends JPanel {
                 }
                 
                 if (waitForCoord) {
-                	if (selectedTile!=null){
-                		tX=-1;
-                		tY=-1;
-                	}
+                	if (selectedTile!=null)
+                		TileOApplication.getTileOPage().rmTileSignal(selectedTile);
+                    
                     TileOApplication.getTileOPage().coordSignal(tX, tY);
                 }
                 

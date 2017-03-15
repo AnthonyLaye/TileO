@@ -955,19 +955,19 @@ public class TileOPage extends JFrame{
         actionError.setText("");
         actionTipLabel.setText("");
         actionStatusLabel.setText("");
-    	if (TileOApplication.getTileO().getCurrentGame().getWinTile()!=null) {
-    		actionError.setText("The win tile is already selected, delete it first");
-    		return;
-    	}
     	
-    	else if (!selected){
+    	if (!selected){
     		actionTipLabel.setText("Select an empty square to add the hidden tile");
     		board.setWaitForCoord(true);
     		setWaitingFor("hidden");
     	}
     	else {
     		Game game = TileOApplication.getTileO().getCurrentGame();
-    		toc.addHiddenTile(x, y, game);
+    	    
+            WinTile wt = game.getWinTile();
+    	    if (wt!=null) toc.removeTile(wt, game);
+            
+            toc.addHiddenTile(x, y, game);
     		renderLayout(game);
     	}
     }
@@ -1306,6 +1306,10 @@ public class TileOPage extends JFrame{
             	addActionTileActionPerformed(null, true, x, y);
         
         }
+    }
+
+    public void rmTileSignal(Tile t) {
+        removeTileActionPerformed(null, true, t);
     }
     
     public void tileSignal(Tile t) {
