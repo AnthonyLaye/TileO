@@ -185,25 +185,15 @@ class TileOController {
     		throw new InvalidInputException("Invalid tile");
     }
     
-    public void createDeck(int nExtraTurn, int nNewConn, int nRmConn, int nTel, int nLoseTurn, Game game) throws InvalidInputException{
-    if (nExtraTurn+nNewConn+nRmConn+nTel+nLoseTurn != 32) 
-    		throw new InvalidInputException("Wrong number of action cards");
-    	
-    	Deck d = game.getDeck();
-    	for (ActionCard card: d.getCards())
-    		d.removeCard(card);
-    	
-    	for (int i=0;i<nExtraTurn;++i)
-    		new RollDieActionCard("Roll the die for an extra turn", d);
-    	for (int i=0;i<nNewConn;++i)
-    		new ConnectTilesActionCard("Connect two tiles", d);
-    	for (int i=0;i<nRmConn;++i)
-    		new RemoveConnectionActionCard("Remove a connection", d);
-    	for (int i=0;i<nTel;++i)
-    		new TeleportActionCard("Move your piece to a new tile", d);
-    	for (int i=0;i<nLoseTurn;++i)
-    		new LoseTurnActionCard("Lose your next turn", d);
-  }
+    public void updateCards(int numberOfCards, int cardType) throws InvalidInputException {
+    	Game game = TileOApplication.getTileO().getCurrentGame();
+    	Deck deck = game.getDeck();
+    	int toAdd = numberOfCards - deck.numberOfCardsForType(cardType);
+    
+    	if (toAdd>0) deck.addCards (toAdd, cardType);
+    	else if (toAdd<0) deck.rmCards(toAdd*-1, cardType); 
+        
+  	}
     
     
     // Game
@@ -296,6 +286,8 @@ class TileOController {
             currentGame.setNextPlayer();
             currentGame.setNextCard();
             currentGame.setMode(Game.Mode.GAME);
+			currentGame.setCurrentConnectionPieces(currentGame.getCurrentConnectionPieces() - 1);
+            
         }
         else{
             throw new InvalidInputException("Tiles not adjacent, choose another tile");

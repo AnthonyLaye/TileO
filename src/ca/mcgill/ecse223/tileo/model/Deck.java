@@ -5,10 +5,8 @@ package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 import java.util.*;
 
-import ca.mcgill.ecse223.tileo.exception.InvalidInputException;
-
 // line 51 "../../../../../TileOPersistence.ump"
-// line 306 "../../../../../TileO.ump"
+// line 303 "../../../../../TileO.ump"
 public class Deck implements Serializable
 {
 
@@ -206,7 +204,7 @@ public class Deck implements Serializable
     }
   }
 
-  // line 311 "../../../../../TileO.ump"
+  // line 308 "../../../../../TileO.ump"
    public void shuffle(){
     Random rand = new Random();
     for (int i=0; i<100; ++i){
@@ -216,7 +214,8 @@ public class Deck implements Serializable
     setCurrentCard(getCard(0));
   }
 
-  public void print() {
+  // line 317 "../../../../../TileO.ump"
+   public void print(){
     System.out.println("~~~ DECK ~~~~");
     System.out.println("RollDieActionCard: "+numberOfCardsForType(0));
     System.out.println("ConnectTilesActionCard: "+numberOfCardsForType(1));
@@ -226,9 +225,9 @@ public class Deck implements Serializable
     System.out.println("");
   }
 
-   
-   public int numberOfCardsForType(int type) {
-	    int n = 0;
+  // line 328 "../../../../../TileO.ump"
+   public int numberOfCardsForType(int type){
+    int n = 0;
 	    for (ActionCard aCard: getCards()) {
 	        switch (type) {
 	            case 0:
@@ -248,10 +247,11 @@ public class Deck implements Serializable
 	        }
 	    }
 	    return n;
-	  }
-   
-   public void addCards(int n, int cardType) {
-	    switch (cardType) {
+  }
+
+  // line 351 "../../../../../TileO.ump"
+   public void addCards(int n, int cardType){
+    switch (cardType) {
 	        case 0:
 	            // ROLL
 	            for (int i=0; i<n; ++i)
@@ -278,10 +278,11 @@ public class Deck implements Serializable
 	    		    new LoseTurnActionCard("Lose your next turn", this);
 	            break;
 	    }
-	  }
+  }
 
-	  public void rmCards(int toRm, int cardType) {
-	    for (int i=0; i<numberOfCards(); ++i) {
+  // line 381 "../../../../../TileO.ump"
+   public void rmCards(int toRm, int cardType){
+    for (int i=0; i<numberOfCards(); ++i) {
 	        ActionCard card = getCard(i);
 	        boolean wasDeleted = false;
 	        switch (cardType) {
@@ -327,7 +328,7 @@ public class Deck implements Serializable
 	        }
 	        if (toRm == 0) break; 
 	    }
-	  }
+  }
   
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS

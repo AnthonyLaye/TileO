@@ -164,22 +164,22 @@ public class TileO implements Serializable
     currentGame = null;
   }
 
-  // line 12 "../../../../../TileO.ump"
+  // line 11 "../../../../../TileO.ump"
    public NormalTile addNormalTile(int x, int y, Game game){
     return new NormalTile(x, y, game);
   }
 
-  // line 17 "../../../../../TileO.ump"
+  // line 14 "../../../../../TileO.ump"
    public ActionTile addActionTile(int x, int y, Game game, int inactivtyPeriod){
     return new ActionTile(x, y, game, inactivtyPeriod);
   }
 
-  // line 22 "../../../../../TileO.ump"
+  // line 17 "../../../../../TileO.ump"
    public WinTile addWinTile(int x, int y, Game game){
     return new WinTile(x, y, game);
   }
 
-  // line 27 "../../../../../TileO.ump"
+  // line 20 "../../../../../TileO.ump"
    public boolean removeTile(Tile tile){
     boolean wasRemoved = false;
 
