@@ -525,27 +525,16 @@ public class TileOController
     		throw new InvalidInputException("Invalid tile");
   }
 
-  // line 189 "../../../../../TileOControllerStates.ump"
-   public void createDeck(int nExtraTurn, int nNewConn, int nRmConn, int nTel, int nLoseTurn, Game game) throws InvalidInputException{
-    if (nExtraTurn+nNewConn+nRmConn+nTel+nLoseTurn != 32) 
-    		throw new InvalidInputException("Wrong number of action cards");
-    	
-    	Deck d = game.getDeck();
-    	for (ActionCard card: d.getCards())
-    		d.removeCard(card);
-    	
-    	for (int i=0;i<nExtraTurn;++i)
-    		new RollDieActionCard("Roll the die for an extra turn", d);
-    	for (int i=0;i<nNewConn;++i)
-    		new ConnectTilesActionCard("Connect two tiles", d);
-    	for (int i=0;i<nRmConn;++i)
-    		new RemoveConnectionActionCard("Remove a connection", d);
-    	for (int i=0;i<nTel;++i)
-    		new TeleportActionCard("Move your piece to a new tile", d);
-    	for (int i=0;i<nLoseTurn;++i)
-    		new LoseTurnActionCard("Lose your next turn", d);
+  public void updateCards(int numberOfCards, int cardType) throws InvalidInputException {
+    Game game = TileOApplication.getTileO().getCurrentGame();
+    Deck deck = game.getDeck();
+    int toAdd = numberOfCards - deck.numberOfCardsForType(cardType);
+    
+    if (toAdd>0) deck.addCards (toAdd, cardType);
+    else if (toAdd<0) deck.rmCards(toAdd*-1, cardType); 
+        
   }
-
+  
 
   /**
    * Game
@@ -556,9 +545,8 @@ public class TileOController
         
         String error = "";
         Deck deck = selectedGame.getDeck();
-        System.out.println(deck.numberOfCards() + "  "+Game.NumberOfActionCards);
         if (deck.numberOfCards() != Game.NumberOfActionCards)
-            error+= "The deck needs to have 32 cards ";
+            error+= "The deck needs to have "+Game.NumberOfActionCards+" cards ";
         if (selectedGame.getWinTile() == null)
             error+="There is no WinTile selected ";
         if (selectedGame.numberOfPlayers() < selectedGame.minimumNumberOfPlayers())
@@ -592,10 +580,10 @@ public class TileOController
 
   // line 249 "../../../../../TileOControllerStates.ump"
    private void doSelectNewTile(Tile aTile) throws InvalidInputException{
-    if (getPossibleTiles().contains(aTile))
+    if (getPossibleTiles().contains(aTile) || getPossibleTiles().size()==0)
     		setCurrentTile(aTile);
-    	else 
-    		throw new InvalidInputException("Invalid tile");
+    else 
+    	throw new InvalidInputException("Invalid tile");
   }
 
   // line 256 "../../../../../TileOControllerStates.ump"

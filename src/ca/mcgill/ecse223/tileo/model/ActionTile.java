@@ -122,7 +122,6 @@ public class ActionTile extends Tile
 
   // line 250 "../../../../../TileO.ump"
    public void doLand(){
-	System.out.println("LANDASACTION");
     Game currentGame = getGame();
     currentGame.addInactiveActionTile(this);
     Player currentPlayer = currentGame.getCurrentPlayer();
@@ -137,7 +136,6 @@ public class ActionTile extends Tile
 
   // line 263 "../../../../../TileO.ump"
    public void doLandAsNormal(){
-	System.out.println("LANDASNORMAL");
     Game currentGame = this.getGame();
     Player currentPlayer = currentGame.getCurrentPlayer();
     currentPlayer.setCurrentTile(this);

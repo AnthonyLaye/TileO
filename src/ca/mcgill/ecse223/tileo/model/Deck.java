@@ -5,6 +5,8 @@ package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 import java.util.*;
 
+import ca.mcgill.ecse223.tileo.exception.InvalidInputException;
+
 // line 51 "../../../../../TileOPersistence.ump"
 // line 306 "../../../../../TileO.ump"
 public class Deck implements Serializable
@@ -213,6 +215,120 @@ public class Deck implements Serializable
     }
     setCurrentCard(getCard(0));
   }
+
+  public void print() {
+    System.out.println("~~~ DECK ~~~~");
+    System.out.println("RollDieActionCard: "+numberOfCardsForType(0));
+    System.out.println("ConnectTilesActionCard: "+numberOfCardsForType(1));
+    System.out.println("RemoveConnectionActionCard: "+numberOfCardsForType(2));
+    System.out.println("TeleportActionCard: "+numberOfCardsForType(3));
+    System.out.println("LoseTurnActionCard: "+numberOfCardsForType(4));
+    System.out.println("");
+  }
+
+   
+   public int numberOfCardsForType(int type) {
+	    int n = 0;
+	    for (ActionCard aCard: getCards()) {
+	        switch (type) {
+	            case 0:
+	                if (aCard instanceof RollDieActionCard) n++;
+	                break;
+	            case 1:
+	                if (aCard instanceof ConnectTilesActionCard) n++;
+	                break;
+	            case 2:
+	                if (aCard instanceof RemoveConnectionActionCard) n++;
+	                break;
+	            case 3:
+	                if (aCard instanceof TeleportActionCard) n++;
+	                break;
+	            case 4:
+	                if (aCard instanceof LoseTurnActionCard) n++;
+	        }
+	    }
+	    return n;
+	  }
+   
+   public void addCards(int n, int cardType) {
+	    switch (cardType) {
+	        case 0:
+	            // ROLL
+	            for (int i=0; i<n; ++i)
+	                new RollDieActionCard("Roll the die for an extra turn", this);
+	            break;
+	        case 1:
+	            // CONN
+	    		for (int i=0;i<n;++i)
+	                new ConnectTilesActionCard("Connect two tiles", this);
+	            break;
+	        case 2:
+	            // RMCONN
+	    		for (int i=0;i<n;++i)
+	    		    new RemoveConnectionActionCard("Remove a connection", this);
+	            break;
+	        case 3:
+	            // TELE
+	    		for (int i=0;i<n;++i)
+	    		    new TeleportActionCard("Move your piece to a new tile", this);
+	            break;
+	        case 4:
+	            // LOSE
+	    		for (int i=0;i<n;++i)
+	    		    new LoseTurnActionCard("Lose your next turn", this);
+	            break;
+	    }
+	  }
+
+	  public void rmCards(int toRm, int cardType) {
+        System.out.println("To remove: "+toRm);
+	    for (int i=0; i<numberOfCards(); ++i) {
+	        ActionCard card = getCard(i);
+	        boolean wasDeleted = false;
+	        switch (cardType) {
+	            case 0:
+	                // ROLL
+	                if (card instanceof RollDieActionCard){
+	                    card.delete();
+	                    wasDeleted = true;
+	                }
+	                break;
+	            case 1:
+	                // CONN
+	                if (card instanceof ConnectTilesActionCard){
+	                    card.delete();
+	                    wasDeleted = true;
+	                }
+	                break;
+	            case 2:
+	                // RMCONN
+	                if (card instanceof RemoveConnectionActionCard){
+	                    card.delete();
+	                    wasDeleted = true;
+	                }
+	                break;
+	            case 3:
+	                // TELE
+	                if (card instanceof TeleportActionCard){
+	                    card.delete();
+	                    wasDeleted = true;
+	                }
+	                break;
+	            case 4:
+	                // LOSE
+	                if (card instanceof LoseTurnActionCard){
+	                    card.delete();
+	                    wasDeleted = true;
+	                }
+	                break;
+	        }
+	        if (wasDeleted) {
+	            toRm--;
+	            i--;
+	        }
+	        if (toRm == 0) break; 
+	    }
+	  }
   
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS

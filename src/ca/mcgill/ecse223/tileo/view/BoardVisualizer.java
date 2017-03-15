@@ -60,7 +60,7 @@ class BoardVisualizer extends JPanel {
         init();
     }
 
-    public void init() {
+    public void init() { 
         game = null;;
         tiles = new HashMap<Rectangle2D, Tile>();
         selectedTile = null;

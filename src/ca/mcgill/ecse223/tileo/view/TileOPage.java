@@ -225,17 +225,19 @@ public class TileOPage extends JFrame{
                 removeConnectionCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
                 teleportCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
                 loseTurnCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
+                // dont change this ordering
                 JSpinner[] spinners = {extraTurnCardSpinner, newConnectionCardSpinner, removeConnectionCardSpinner, teleportCardSpinner, loseTurnCardSpinner};
                 for (int i=0; i<5; ++i){
-                	spinners[i].addChangeListener(new javax.swing.event.ChangeListener(){
+                	int cardType = i;
+                    spinners[i].addChangeListener(new javax.swing.event.ChangeListener(){
                 		public void stateChanged(javax.swing.event.ChangeEvent e){
-                			int n = updateNumberOfCards();
+                			JSpinner sp = (JSpinner)e.getSource();
+                            int n = updateNumberOfCards();
                 			if (n > NumberOfCards) {
-                				JSpinner sp = (JSpinner)e.getSource();
                 				sp.setValue((int)sp.getValue()-n+NumberOfCards);
                 			}
-                			updateNumberOfCards();
-                		}
+                		    updateCards((int)sp.getValue(), cardType);
+                        }
                 	});
                 }
                 // board
@@ -738,7 +740,7 @@ public class TileOPage extends JFrame{
                 )
             )
         );
-
+        
         pack();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
@@ -1041,14 +1043,25 @@ public class TileOPage extends JFrame{
     		}
     	}
     }
+
+    private void updateCards(int nCards, int cardType) {
+        actionError.setText("");
+        actionTipLabel.setText("");
+        actionStatusLabel.setText("");
+        try {
+            toc.updateCards(nCards, cardType);
+            TileOApplication.getTileO().getCurrentGame().getDeck().print();
+        }
+        catch (InvalidInputException err){
+            actionError.setText(err.getMessage());
+        }
+    }
     
    
     // game
     private void startGameActionPerformed(java.awt.event.ActionEvent e) {
         try {
         	Game game = TileOApplication.getTileO().getCurrentGame();
-        	
-        	toc.createDeck((int)extraTurnCardSpinner.getValue(), (int)newConnectionCardSpinner.getValue(), (int)removeConnectionCardSpinner.getValue(), (int)teleportCardSpinner.getValue(), (int)loseTurnCardSpinner.getValue(), game);
         	
             toc.startGame(game);
             board.setGame(game);
@@ -1234,6 +1247,21 @@ public class TileOPage extends JFrame{
     			if (s<5) s=5;
     			board.setBoardSize(s);
     			boardSizeSpinner.setValue(s);
+
+                // setup card spinners
+                Deck d = game.getDeck();
+                int n;
+
+                n = d.numberOfCardsForType(0);
+                extraTurnCardSpinner.setValue(n);
+                n = d.numberOfCardsForType(1);
+                newConnectionCardSpinner.setValue(n);
+                n = d.numberOfCardsForType(2);
+                removeConnectionCardSpinner.setValue(n);
+                n = d.numberOfCardsForType(3);
+                teleportCardSpinner.setValue(n);
+                n = d.numberOfCardsForType(4);
+                loseTurnCardSpinner.setValue(n);
     			
     			renderLayout(game);
     		}
