@@ -1,4 +1,5 @@
-#TileO 
+
+# TileO 
 Group14
 
 The main method is in src/ca/mcgill/ecse223/tileo/application/TileOApplication
@@ -18,7 +19,7 @@ It's the same principle for the other buttons
   playRemoveConnectionActionCard(), playTeleportActionCard(), playLoseTurnActionCard()
 - ActionTile: change boolean land() to void land(), remove class abstract 
 
-##Contributors
+### Contributors
 - Anthony Laye
 - Sam Cleland
 - James Tang

@@ -545,9 +545,8 @@ public class TileOController
         
         String error = "";
         Deck deck = selectedGame.getDeck();
-        System.out.println(deck.numberOfCards() + "  "+Game.NumberOfActionCards);
         if (deck.numberOfCards() != Game.NumberOfActionCards)
-            error+= "The deck needs to have 32 cards ";
+            error+= "The deck needs to have "+Game.NumberOfActionCards+" cards ";
         if (selectedGame.getWinTile() == null)
             error+="There is no WinTile selected ";
         if (selectedGame.numberOfPlayers() < selectedGame.minimumNumberOfPlayers())
@@ -581,7 +580,7 @@ public class TileOController
 
   // line 239 "../../../../../TileOControllerStates.ump"
    private void doSelectNewTile(Tile aTile) throws InvalidInputException{
-    if (getPossibleTiles().contains(aTile))
+    if (getPossibleTiles().contains(aTile) || getPossibleTiles().size()==0)
     		setCurrentTile(aTile);
     	else 
     		throw new InvalidInputException("Invalid tile");
@@ -711,6 +710,8 @@ public class TileOController
     
         tileo.addGame(loadedGame);
         tileo.setCurrentGame(loadedGame);
+        
+        loadedGame.changeDie();
         
         switch (loadedGame.getMode()) {
         	case DESIGN:
