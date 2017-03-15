@@ -1058,7 +1058,6 @@ public class TileOPage extends JFrame{
         actionStatusLabel.setText("");
         try {
             toc.updateCards(nCards, cardType);
-            TileOApplication.getTileO().getCurrentGame().getDeck().print();
         }
         catch (InvalidInputException err){
             actionError.setText(err.getMessage());
@@ -1106,6 +1105,7 @@ public class TileOPage extends JFrame{
     		try {
     			toc.selectNewTile(t);
         		toc.land();
+        		
         		possibleTiles = null;
         		board.setPossibleTiles(null);
         		setWaitingFor("");
@@ -1122,9 +1122,10 @@ public class TileOPage extends JFrame{
     }
     
     private void teleportCardActionPerformed(java.awt.event.ActionEvent e, Tile t) {
-    	try {
+    	try {    		
     		toc.playTeleportActionCard(t);
     		toc.land();
+    		
     		setWaitingFor("");
     		actionError.setText("");
     		renderLayout(TileOApplication.getTileO().getCurrentGame());
@@ -1311,17 +1312,17 @@ public class TileOPage extends JFrame{
     	if (t!=null) {
     		if (waitingFor.equals("rmtile"))
     			removeTileActionPerformed(null, true, t);
-    		if (waitingFor.equals("player1"))
+    		else if (waitingFor.equals("player1"))
     			setStartingTileActionPerformed(null, true, 1, t);
-    		if (waitingFor.equals("player2"))
+    		else if (waitingFor.equals("player2"))
     			setStartingTileActionPerformed(null, true, 2, t);
-    		if (waitingFor.equals("player3"))
+    		else if (waitingFor.equals("player3"))
     			setStartingTileActionPerformed(null, true, 3, t);
-    		if (waitingFor.equals("player4"))
+    		else if (waitingFor.equals("player4"))
     			setStartingTileActionPerformed(null, true, 4, t);
-    		if (waitingFor.equals("move"))
+    		else if (waitingFor.equals("move"))
     			landActionPerformed(null, t);
-    		if (waitingFor.equals("teleportcard"))
+    		else if (waitingFor.equals("teleportcard"))
     			teleportCardActionPerformed(null, t);
     	}
     }

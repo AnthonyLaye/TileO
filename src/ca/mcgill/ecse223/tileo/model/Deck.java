@@ -281,7 +281,6 @@ public class Deck implements Serializable
 	  }
 
 	  public void rmCards(int toRm, int cardType) {
-        System.out.println("To remove: "+toRm);
 	    for (int i=0; i<numberOfCards(); ++i) {
 	        ActionCard card = getCard(i);
 	        boolean wasDeleted = false;
