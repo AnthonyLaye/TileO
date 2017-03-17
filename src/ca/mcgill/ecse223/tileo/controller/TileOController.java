@@ -614,6 +614,7 @@ public class TileOController
   // line 272 "../../../../../TileOControllerStates.ump"
    private void doPlayConnectTilesActionCard(Tile t1, Tile t2) throws InvalidInputException{
     Game currentGame = TileOApplication.getTileO().getCurrentGame();
+
         currentGame.setMode(Game.Mode.GAME_CONNECTTILESACTIONCARD);
         Player currentPlayer= currentGame.getCurrentPlayer();
         Deck currentDeck = currentGame.getDeck();
@@ -621,7 +622,9 @@ public class TileOController
         if (t1.isConnectedWith(t2))
     		throw new InvalidInputException("Tiles are already connected");
         boolean wasConnected = false;
-        if(currentCard instanceof ConnectTilesActionCard){
+        if(currentGame.getCurrentConnectionPieces() <= 0)
+            wasConnected = true;
+        else if(currentCard instanceof ConnectTilesActionCard){
             ConnectTilesActionCard playCard = (ConnectTilesActionCard) currentCard;
             wasConnected =playCard.play(t1, t2);
             
@@ -630,8 +633,11 @@ public class TileOController
             currentGame.setNextPlayer();
             currentGame.setNextCard();
             currentGame.setMode(Game.Mode.GAME);
-			currentGame.setCurrentConnectionPieces(currentGame.getCurrentConnectionPieces() - 1);
-            
+            if(!(currentGame.getCurrentConnectionPieces() == 0))
+			    currentGame.setCurrentConnectionPieces(currentGame.getCurrentConnectionPieces() - 1);
+            else
+                currentGame.setCurrentConnectionPieces(0);
+
         }
         else{
             throw new InvalidInputException("Tiles not adjacent, choose another tile");
