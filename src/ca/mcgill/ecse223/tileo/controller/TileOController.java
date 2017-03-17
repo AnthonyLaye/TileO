@@ -445,7 +445,7 @@ public class TileOController
     	while (nPlayer > 0){
     		try {
     			Player p = new Player(n, game);
-    			p.setColor(colors[n]);
+    			//p.setColor(colors[n]);
     			nPlayer--;
     		}
     		catch (RuntimeException e) {}

@@ -2,6 +2,7 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
+import ca.mcgill.ecse223.tileo.computer.ComputerPlayer;
 import java.io.Serializable;
 import java.util.*;
 
@@ -366,6 +367,7 @@ public class Game implements Serializable
     wasRemoved = true;
     return wasRemoved;
   }
+
 
   public boolean addPlayerAt(Player aPlayer, int index)
   {  
@@ -775,7 +777,27 @@ public class Game implements Serializable
     }
   }
 
+  public void swapPlayerForComputer(int playerNum) {
+    Player p = getPlayer(playerNum);
+    p.forceDelete();
+    ComputerPlayer cp = new ComputerPlayer(playerNum, this);
+    cp.setColor();
+    addOrMovePlayerAt(cp, cp.getNumber());
+  }
 
+  public void swapComputerForPlayer(int compNum) {
+    Player cp = getPlayer(compNum);
+    cp.forceDelete();
+    Player p = new Player(compNum, this);
+    p.setColor();
+    addOrMovePlayerAt(p, p.getNumber());
+  }
+
+  public void forceRemovePlayer(Player aPlayer) {
+    players.remove(aPlayer);
+  }
+  
+  
   public String toString()
   {
     String outputString = "";

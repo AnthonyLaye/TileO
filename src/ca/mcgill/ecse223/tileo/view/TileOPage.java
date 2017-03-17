@@ -15,9 +15,12 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.LineBorder;
+import javax.swing.JRadioButton;
 
 import ca.mcgill.ecse223.tileo.exception.InvalidInputException;
 import ca.mcgill.ecse223.tileo.model.*;
+import ca.mcgill.ecse223.tileo.computer.ComputerPlayer;
+import ca.mcgill.ecse223.tileo.computer.CompThread;
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import ca.mcgill.ecse223.tileo.controller.TileOController;
 
@@ -75,6 +78,11 @@ public class TileOPage extends JFrame{
             private JButton setStartingTile3Button;
             private JButton setStartingTile4Button;
             private JButton[] setStartingTileButtons;
+            private JRadioButton setComputer1RadioButton;
+            private JRadioButton setComputer2RadioButton;
+            private JRadioButton setComputer3RadioButton;
+            private JRadioButton setComputer4RadioButton;
+            private JRadioButton[] setComputerRadioButtons;
             // deck
             private JLabel extraTurnCardLabel;
             private JSpinner extraTurnCardSpinner;
@@ -213,6 +221,12 @@ public class TileOPage extends JFrame{
                 setStartingTile4Button = new JButton();
                 setStartingTileButtons = new JButton[4];
                 setStartingTileButtons[0] = setStartingTile1Button; setStartingTileButtons[1] = setStartingTile2Button; setStartingTileButtons[2] = setStartingTile3Button; setStartingTileButtons[3] = setStartingTile4Button; 
+                setComputer1RadioButton = new JRadioButton("Computer 1");
+                setComputer2RadioButton = new JRadioButton("Computer 2");
+                setComputer3RadioButton = new JRadioButton("Computer 3");
+                setComputer4RadioButton = new JRadioButton("Computer 4");
+                setComputerRadioButtons = new JRadioButton[4];
+                setComputerRadioButtons[0] = setComputer1RadioButton; setComputerRadioButtons[1] = setComputer2RadioButton; setComputerRadioButtons[2] = setComputer3RadioButton; setComputerRadioButtons[3] = setComputer4RadioButton;
                 // deck
                 extraTurnCardLabel = new JLabel();
                 newConnectionCardLabel = new JLabel();
@@ -361,6 +375,17 @@ public class TileOPage extends JFrame{
                 setStartingTileActionPerformed(e, false, 4, null);
             }
         });
+        for (int i=0; i<setComputerRadioButtons.length; ++i) {
+            int buttonNum = i;
+            setComputerRadioButtons[i].addItemListener(new java.awt.event.ItemListener() {
+                public void itemStateChanged(java.awt.event.ItemEvent e) {
+                    if (e.getStateChange()==1) // isComputer selected
+                        setPlayerAsComputerActionPerformed(buttonNum);
+                    else 
+                        setComputerAsPlayerActionPerformed(buttonNum);
+                }
+            });
+        }
 
         // design-deck
         extraTurnCardLabel.setText("Extra turn");
@@ -597,7 +622,7 @@ public class TileOPage extends JFrame{
     }
 
     
-    private void renderLayout(Game game) {
+    public void renderLayout(Game game) {
 
         modeLabel.setText(game.getMode().toString());
         currentPlayerNameLabel.setText("Player "+ (game.indexOfPlayer(game.getCurrentPlayer())+ 1));
@@ -624,6 +649,11 @@ public class TileOPage extends JFrame{
             	actionStatusLabel.setText("");
                 gameButtonsPanel.setVisible(false);
             	rollDieButton.setVisible(true);
+                
+                if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+                    startComputerTurn(game);
+                }
+
                 break;
             case GAME_WON:
             	modeLabel.setText("Game won !");
@@ -809,18 +839,28 @@ public class TileOPage extends JFrame{
     	
     	// PLAYER
     	JPanel startingTilePanel = new JPanel();
+        JPanel setComputerPanel = new JPanel();
+
     	startingTilePanel.setLayout(new BoxLayout(startingTilePanel, BoxLayout.PAGE_AXIS));
-    	for (int i=0; i<nPlayers; ++i)
+    	setComputerPanel.setLayout(new BoxLayout(setComputerPanel, BoxLayout.PAGE_AXIS));
+    	
+        for (int i=0; i<nPlayers; ++i) {
     		startingTilePanel.add(setStartingTileButtons[i]);   	
-    	GroupLayout playerLayout = new GroupLayout(playerPanel);
+            setComputerPanel.add(setComputerRadioButtons[i]);
+        }
+        GroupLayout playerLayout = new GroupLayout(playerPanel);
     	playerPanel.setLayout(playerLayout);
     	playerLayout.setAutoCreateGaps(true);
     	playerLayout.setAutoCreateContainerGaps(true);
     	playerLayout.setHorizontalGroup(playerLayout.createSequentialGroup()
     	    .addComponent(startingTilePanel)
+            .addComponent(setComputerPanel)
     	);
     	playerLayout.setVerticalGroup(playerLayout.createSequentialGroup()
-    		.addComponent(startingTilePanel)
+    		.addGroup(playerLayout.createParallelGroup()
+                .addComponent(startingTilePanel)
+                .addComponent(setComputerPanel)
+            )
     	);
     	
     	// DECK
@@ -1052,6 +1092,16 @@ public class TileOPage extends JFrame{
     	}
     }
 
+    private void setPlayerAsComputerActionPerformed(int playerNum) {
+        TileOApplication.getTileO().getCurrentGame().swapPlayerForComputer(playerNum);
+        renderLayout(TileOApplication.getTileO().getCurrentGame());
+    }
+
+    private void setComputerAsPlayerActionPerformed(int playerNum) {
+        TileOApplication.getTileO().getCurrentGame().swapComputerForPlayer(playerNum);
+        renderLayout(TileOApplication.getTileO().getCurrentGame());
+    }
+
     private void updateCards(int nCards, int cardType) {
         actionError.setText("");
         actionTipLabel.setText("");
@@ -1079,6 +1129,11 @@ public class TileOPage extends JFrame{
         	actionError.setText(err.getMessage());
         }
     }
+
+    private void startComputerTurn(Game game) {
+        CompThread t = new CompThread();
+        t.start();
+    }
     
     private void rollDieActionPerformed(java.awt.event.ActionEvent e) {
         toc.rollDie();
@@ -1100,6 +1155,7 @@ public class TileOPage extends JFrame{
         }
     }
     
+
     private void landActionPerformed(java.awt.event.ActionEvent e, Tile t) {
     	if (possibleTiles.contains(t) || possibleTiles.size()==0){
     		try {

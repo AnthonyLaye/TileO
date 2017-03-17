@@ -5,6 +5,7 @@ package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 import ca.mcgill.ecse223.tileo.util.Node;
 import java.util.*;
+import java.awt.Color;
 
 // line 15 "../../../../../TileOPersistence.ump"
 // line 138 "../../../../../TileO.ump"
@@ -15,8 +16,7 @@ public class Player implements Serializable
   // STATIC VARIABLES
   //------------------------
 
-  private static Map<Integer, Player> playersByNumber = new HashMap<Integer, Player>();
-
+  public static Map<Integer, Player> playersByNumber = new HashMap<Integer, Player>();
   //------------------------
   // MEMBER VARIABLES
   //------------------------
@@ -52,7 +52,7 @@ public class Player implements Serializable
     {
       throw new RuntimeException("Unable to create player due to game");
     }
-    setColor(Color.RED);
+    setColor();
     setPlayerState(PlayerState.Play);
   }
 
@@ -162,9 +162,22 @@ public class Player implements Serializable
     return wasEventProcessed;
   }
 
-  public boolean setColor(Color aColor)
+  public boolean setColor()
   {
-    color = aColor;
+    switch (number) {
+        case 0:
+            color = Color.RED;
+            break;
+        case 1:
+            color = Color.BLUE;
+            break;
+        case 2:
+            color = Color.GREEN;
+            break;
+        case 3:
+            color = Color.YELLOW;
+            break;
+    }
     return true;
   }
 
@@ -257,6 +270,15 @@ public class Player implements Serializable
     placeholderGame.removePlayer(this);
   }
 
+  public void forceDelete() {
+    playersByNumber.remove(getNumber());
+    startingTile = null;
+    currentTile = null;
+    Game placeholderGame = game;
+    this.game = null;
+    placeholderGame.forceRemovePlayer(this);
+  }
+
   // line 158 "../../../../../TileO.ump"
    public ArrayList<Tile> getPossibleMoves(int depth){
     // Depth first search with limited depth, Iterate over the possible children
@@ -296,7 +318,6 @@ public class Player implements Serializable
     //I had problems with tests (Vincent)
     playersByNumber = new HashMap<Integer, Player>();
   }
-
 
   public String toString()
   {
