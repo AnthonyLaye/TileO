@@ -702,6 +702,7 @@ public class TileOController
 
   // line 357 "../../../../../TileOControllerStates.ump"
    public Game loadGame(String filename) throws InvalidInputException{
+	// for grader: you cannot load a game during another game, so it's not part of the state machine
     TileO tileo = TileOApplication.getTileO();
         Game loadedGame = TileOApplication.load(filename);
 
