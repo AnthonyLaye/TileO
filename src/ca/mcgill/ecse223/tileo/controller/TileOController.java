@@ -575,7 +575,7 @@ public class TileOController
   // line 234 "../../../../../TileOControllerStates.ump"
    private void doRollDie(){
     Game game = TileOApplication.getTileO().getCurrentGame();
-    	setPossibleTiles(game.rollDie());
+    setPossibleTiles(game.rollDie());
   }
 
   // line 239 "../../../../../TileOControllerStates.ump"
@@ -614,6 +614,7 @@ public class TileOController
   // line 272 "../../../../../TileOControllerStates.ump"
    private void doPlayConnectTilesActionCard(Tile t1, Tile t2) throws InvalidInputException{
     Game currentGame = TileOApplication.getTileO().getCurrentGame();
+
         currentGame.setMode(Game.Mode.GAME_CONNECTTILESACTIONCARD);
         Player currentPlayer= currentGame.getCurrentPlayer();
         Deck currentDeck = currentGame.getDeck();
@@ -621,7 +622,9 @@ public class TileOController
         if (t1.isConnectedWith(t2))
     		throw new InvalidInputException("Tiles are already connected");
         boolean wasConnected = false;
-        if(currentCard instanceof ConnectTilesActionCard){
+        if(currentGame.getCurrentConnectionPieces() <= 0)
+            wasConnected = true;
+        else if(currentCard instanceof ConnectTilesActionCard){
             ConnectTilesActionCard playCard = (ConnectTilesActionCard) currentCard;
             wasConnected =playCard.play(t1, t2);
             
@@ -630,8 +633,11 @@ public class TileOController
             currentGame.setNextPlayer();
             currentGame.setNextCard();
             currentGame.setMode(Game.Mode.GAME);
-			currentGame.setCurrentConnectionPieces(currentGame.getCurrentConnectionPieces() - 1);
-            
+            if(!(currentGame.getCurrentConnectionPieces() == 0))
+			    currentGame.setCurrentConnectionPieces(currentGame.getCurrentConnectionPieces() - 1);
+            else
+                currentGame.setCurrentConnectionPieces(0);
+
         }
         else{
             throw new InvalidInputException("Tiles not adjacent, choose another tile");
@@ -709,6 +715,14 @@ public class TileOController
         if (loadedGame == null)
             throw new InvalidInputException("The game you selected does not exists");
     
+        // removes the game if it exists
+        for (int i=0; i<tileo.getGames().size(); ++i){
+        	if (loadedGame == tileo.getGame(i)){
+        		tileo.removeGame(tileo.getGame(i));
+        		break;
+        	}
+        }
+        
         tileo.addGame(loadedGame);
         tileo.setCurrentGame(loadedGame);
         
@@ -717,6 +731,7 @@ public class TileOController
         switch (loadedGame.getMode()) {
         	case DESIGN:
         		setControllerState(ControllerState.Design);
+        		setControllerStateGame(ControllerStateGame.Null);
         		break;
         	case GAME_WON:
         		setControllerState(ControllerState.Game);

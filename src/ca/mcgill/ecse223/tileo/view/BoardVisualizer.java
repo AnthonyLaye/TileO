@@ -255,7 +255,7 @@ class BoardVisualizer extends JPanel {
             // Connections
             for (Connection conn: tile.getConnections()) {
             	
-            	// drawing connections twice but im fucking tired so...
+            	// Draw connections twice
             	
             	Tile other = tile == conn.getTile(0) ? conn.getTile(1):conn.getTile(0);
             	
@@ -264,7 +264,7 @@ class BoardVisualizer extends JPanel {
             	boolean right = (x-other.getX()) < 0;
             	boolean down = (y-other.getY()) < 0;
             	
-            	if (linex&&!right || liney&&!down) // fixed it you lazy piece of shit
+            	if (linex&&!right || liney&&!down) // Fixed it from earlier versions
             		continue;
             	
             	int offsetRight, offsetDown, w, h;

@@ -1023,9 +1023,10 @@ public class TileOPage extends JFrame{
     	}
     	else {
     		try{
-    			Game game = TileOApplication.getTileO().getCurrentGame();
-    			toc.addConnection(t1, t2, game);
-    			renderLayout(game);
+                Game game = TileOApplication.getTileO().getCurrentGame();
+                if(!(game.getCurrentConnectionPieces() <= 0))
+                    toc.addConnection(t1, t2, game);
+                renderLayout(game);
     		}
     		catch (InvalidInputException err) {
     			actionError.setText(err.getMessage());
@@ -1136,7 +1137,7 @@ public class TileOPage extends JFrame{
     }
     
     private void rollDieActionPerformed(java.awt.event.ActionEvent e) {
-        toc.rollDie();
+    	toc.rollDie();
         possibleTiles = toc.getPossibleTiles();
         if (possibleTiles.size()==0) {
         	actionStatusLabel.setText("No possible moves, skip your turn");
@@ -1203,7 +1204,7 @@ public class TileOPage extends JFrame{
     }
     private void addConnectionCardActionPerformed(java.awt.event.ActionEvent e, Tile t1, Tile t2) {
     	try {
-    		toc.playConnectTilesActionCard(t1, t2);
+            toc.playConnectTilesActionCard(t1, t2);
     		setWaitingFor("");
     		actionError.setText("");
     		renderLayout(TileOApplication.getTileO().getCurrentGame());
