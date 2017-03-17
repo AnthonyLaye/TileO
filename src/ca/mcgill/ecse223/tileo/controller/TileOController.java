@@ -575,7 +575,7 @@ public class TileOController
   // line 234 "../../../../../TileOControllerStates.ump"
    private void doRollDie(){
     Game game = TileOApplication.getTileO().getCurrentGame();
-    	setPossibleTiles(game.rollDie());
+    setPossibleTiles(game.rollDie());
   }
 
   // line 239 "../../../../../TileOControllerStates.ump"
@@ -708,6 +708,14 @@ public class TileOController
         if (loadedGame == null)
             throw new InvalidInputException("The game you selected does not exists");
     
+        // removes the game if it exists
+        for (int i=0; i<tileo.getGames().size(); ++i){
+        	if (loadedGame == tileo.getGame(i)){
+        		tileo.removeGame(tileo.getGame(i));
+        		break;
+        	}
+        }
+        
         tileo.addGame(loadedGame);
         tileo.setCurrentGame(loadedGame);
         
@@ -716,6 +724,7 @@ public class TileOController
         switch (loadedGame.getMode()) {
         	case DESIGN:
         		setControllerState(ControllerState.Design);
+        		setControllerStateGame(ControllerStateGame.Null);
         		break;
         	case GAME_WON:
         		setControllerState(ControllerState.Game);

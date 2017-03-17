@@ -1081,7 +1081,7 @@ public class TileOPage extends JFrame{
     }
     
     private void rollDieActionPerformed(java.awt.event.ActionEvent e) {
-        toc.rollDie();
+    	toc.rollDie();
         possibleTiles = toc.getPossibleTiles();
         if (possibleTiles.size()==0) {
         	actionStatusLabel.setText("No possible moves, skip your turn");
