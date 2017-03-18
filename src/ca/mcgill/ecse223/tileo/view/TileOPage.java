@@ -1024,8 +1024,7 @@ public class TileOPage extends JFrame{
     	else {
     		try{
                 Game game = TileOApplication.getTileO().getCurrentGame();
-                if(!(game.getCurrentConnectionPieces() <= 0))
-                    toc.addConnection(t1, t2, game);
+                toc.addConnection(t1, t2, game);
                 renderLayout(game);
     		}
     		catch (InvalidInputException err) {
