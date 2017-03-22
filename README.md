@@ -34,7 +34,7 @@ It's the same principle for the other buttons
 - ActionTile: change boolean land() to void land(), remove class abstract 
 - Player: in the constructor change `setColor(Color.RED)` to `setColor()` and replace the
   current `setColor` method with
-  ```java
+```java
 public boolean setColor()
 {
     switch (number) {
@@ -53,7 +53,7 @@ public boolean setColor()
     }
     return true;
 }
-  ```
+```
 
 
 ### Contributors
