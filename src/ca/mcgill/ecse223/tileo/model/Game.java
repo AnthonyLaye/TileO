@@ -2,12 +2,12 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
-import ca.mcgill.ecse223.tileo.computer.StupidPlayer;
 import java.io.Serializable;
+import ca.mcgill.ecse223.tileo.computer.StupidPlayer;
 import java.util.*;
 
 // line 9 "../../../../../TileOPersistence.ump"
-// line 30 "../../../../../TileO.ump"
+// line 32 "../../../../../TileO.ump"
 public class Game implements Serializable
 {
 
@@ -368,7 +368,6 @@ public class Game implements Serializable
     return wasRemoved;
   }
 
-
   public boolean addPlayerAt(Player aPlayer, int index)
   {  
     boolean wasAdded = false;
@@ -680,13 +679,13 @@ public class Game implements Serializable
     placeholderTileO.removeGame(this);
   }
 
-  // line 48 "../../../../../TileO.ump"
+  // line 52 "../../../../../TileO.ump"
    public void changeDie(){
     die = null;
     die = new Die(this);
   }
 
-  // line 53 "../../../../../TileO.ump"
+  // line 57 "../../../../../TileO.ump"
    public int getMaxSize(){
     int max=0;
 	  for (Tile aTile: tiles){
@@ -698,7 +697,7 @@ public class Game implements Serializable
 	  return max+1; // index starts at 0
   }
 
-  // line 64 "../../../../../TileO.ump"
+  // line 68 "../../../../../TileO.ump"
    public boolean connectTiles(Tile t1, Tile t2){
     boolean wasAdded = false;
 	int dx = t1.getX() - t2.getX();
@@ -713,7 +712,7 @@ public class Game implements Serializable
   	return wasAdded;
   }
 
-  // line 78 "../../../../../TileO.ump"
+  // line 82 "../../../../../TileO.ump"
    public boolean disconnectTiles(Tile t1, Tile t2){
     Connection conn = null;
 	boolean wasDeleted = false;
@@ -735,7 +734,7 @@ public class Game implements Serializable
   	return wasDeleted;
   }
 
-  // line 99 "../../../../../TileO.ump"
+  // line 103 "../../../../../TileO.ump"
    public ArrayList<Tile> rollDie(){
     int n = getDie().roll();
 	dieNumber = Integer.toString(n);
@@ -743,7 +742,7 @@ public class Game implements Serializable
   	return possibleTiles;
   }
 
-  // line 107 "../../../../../TileO.ump"
+  // line 111 "../../../../../TileO.ump"
    public void setNextPlayer(){
     while (true) {
   	  setCurrentPlayer(getPlayer((indexOfPlayer(getCurrentPlayer()) + 1)%numberOfPlayers()));
@@ -763,7 +762,7 @@ public class Game implements Serializable
   	}
   }
 
-  // line 126 "../../../../../TileO.ump"
+  // line 130 "../../../../../TileO.ump"
    public void setNextCard(){
     Deck currentDeck = getDeck();
   	ActionCard currentCard = currentDeck.getCurrentCard();
@@ -776,7 +775,8 @@ public class Game implements Serializable
     }
   }
 
-  public void swapPlayerForComputer(int playerNum, String type) {
+  // line 142 "../../../../../TileO.ump"
+   public void swapPlayerForComputer(int playerNum, String type){
     Player p = getPlayer(playerNum);
     Tile t = p.getStartingTile();
     p.forceDelete();
@@ -791,10 +791,10 @@ public class Game implements Serializable
     }
     else 
         throw new RuntimeException("Type not implemented");
-    
   }
 
-  public void swapComputerForPlayer(int compNum) {
+  // line 160 "../../../../../TileO.ump"
+   public void swapComputerForPlayer(int compNum){
     Player cp = getPlayer(compNum);
     Tile t = cp.getStartingTile();
     cp.forceDelete();
@@ -804,19 +804,21 @@ public class Game implements Serializable
     addOrMovePlayerAt(p, p.getNumber());
   }
 
-  public void forceRemovePlayer(Player aPlayer) {
+  // line 170 "../../../../../TileO.ump"
+   public void forceRemovePlayer(Player aPlayer){
     players.remove(aPlayer);
   }
 
-  public Tile getTileAtXY(int x, int y) {
+  // line 174 "../../../../../TileO.ump"
+   public Tile getTileAtXY(int x, int y){
     for (Tile t: getTiles()) {
         if (t.getX()==x && t.getY()==y)
             return t;
     }
     return null;
   }
-  
-  
+
+
   public String toString()
   {
     String outputString = "";
@@ -836,7 +838,7 @@ public class Game implements Serializable
   
   // line 12 ../../../../../TileOPersistence.ump
   private static final long serialVersionUID = -4871491228092496389L ;
-// line 44 ../../../../../TileO.ump
+// line 48 ../../../../../TileO.ump
   public  String dieNumber ;
 
   

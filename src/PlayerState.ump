@@ -1,0 +1,10 @@
+class Player {
+	PlayerState {
+  		Play {
+  	  		loseTurn -> SkipTurn;
+  		}
+  		SkipTurn {
+  	  		turnSkipped -> Play;
+  		}
+  	}
+ }

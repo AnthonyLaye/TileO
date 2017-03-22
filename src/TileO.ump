@@ -2,6 +2,8 @@ namespace ca.mcgill.ecse223.tileo.model;
 
 use TileOPersistence.ump;
 use TileOControllerStates.ump;
+use ActionTileState.ump;
+use PlayerState.ump;
 
 class TileO {
   1 <@>- * Game games;
@@ -28,6 +30,8 @@ class TileO {
 }
 
 class Game {
+  depend ca.mcgill.ecse223.tileo.computer.StupidPlayer;
+  
   mode { DESIGN{} GAME{} GAME_WON{} GAME_ROLLDIEACTIONCARD{} GAME_CONNECTTILESACTIONCARD{} GAME_REMOVECONNECTIONACTIONCARD{} GAME_TELEPORTACTIONCARD{} GAME_LOSETURNACTIONCARD{} }
   1 <@>- 2..4 Player players;
   1 <@>- * Tile tiles;
@@ -98,7 +102,6 @@ class Game {
   public ArrayList<Tile> rollDie() {
 	int n = getDie().roll();
 	dieNumber = Integer.toString(n);
-  	System.out.println("Die: "+n);
   	ArrayList<Tile> possibleTiles = getCurrentPlayer().getPossibleMoves(n);
   	return possibleTiles;
   }
@@ -133,6 +136,46 @@ class Game {
     	currentDeck.setCurrentCard(currentDeck.getCard(currentDeck.indexOfCard(currentCard)+1));
     }
   }
+  
+  public void swapPlayerForComputer(int playerNum, String type) {
+    Player p = getPlayer(playerNum);
+    Tile t = p.getStartingTile();
+    p.forceDelete();
+    // Add your type here, make sure to check your spelling
+
+    if (type.equals("Stupid")) {
+        StupidPlayer cp = new StupidPlayer(playerNum, this);
+        System.out.println("Making player "+playerNum+" -> "+type);
+        cp.setColor();
+        cp.setStartingTile(t);
+        addOrMovePlayerAt(cp, cp.getNumber());
+    }
+    else 
+        throw new RuntimeException("Type not implemented");
+    
+  }
+
+  public void swapComputerForPlayer(int compNum) {
+    Player cp = getPlayer(compNum);
+    Tile t = cp.getStartingTile();
+    cp.forceDelete();
+    Player p = new Player(compNum, this);
+    p.setColor();
+    p.setStartingTile(t);
+    addOrMovePlayerAt(p, p.getNumber());
+  }
+
+  public void forceRemovePlayer(Player aPlayer) {
+    players.remove(aPlayer);
+  }
+
+  public Tile getTileAtXY(int x, int y) {
+    for (Tile t: getTiles()) {
+        if (t.getX()==x && t.getY()==y)
+            return t;
+    }
+    return null;
+  }
 }
 
 class Player {
@@ -142,17 +185,7 @@ class Player {
   1 -> 0..1 Tile startingTile;
   0..4 -> 0..1 Tile currentTile;
   unique Integer number;
-  Integer turnsUntilActive = 0;
-  
-  PlayerState {
-  	Play {
-  	  loseTurn -> SkipTurn;
-  	}
-  	SkipTurn {
-  	  turnSkipped -> Play;
-  	}
-  }
-  
+  Integer turnsUntilActive = 0;  
   
   public ArrayList<Tile> getPossibleMoves(int depth){
       // Depth first search with limited depth, Iterate over the possible children
@@ -192,6 +225,15 @@ class Player {
     //I had problems with tests (Vincent)
     playersByNumber = new HashMap<Integer, Player>();
   }
+  
+  public void forceDelete() {
+    playersByNumber.remove(getNumber());
+    startingTile = null;
+    currentTile = null;
+    Game placeholderGame = game;
+    this.game = null;
+    placeholderGame.forceRemovePlayer(this);
+  }
 }
 
 class Tile {
@@ -214,6 +256,48 @@ class Tile {
 	  }
 	  return isConnected;
   }
+  
+  public ArrayList<Tile> getDisconnectedNeighbors() {
+    ArrayList<Tile> neigbors = new ArrayList<Tile>();
+    Tile t;
+    int nx;
+    int ny;
+
+    //up
+    nx = getX();
+    ny = getY()-1;
+    if (ny > 0) {
+        t = getGame().getTileAtXY(nx,ny);
+        if (t!=null)
+            if (!isConnectedWith(t))
+                neigbors.add(t);
+    }
+    //down
+    nx = getX();
+    ny = getY()+1;
+    t = getGame().getTileAtXY(nx,ny);
+    if (t!=null)
+        if (!isConnectedWith(t))
+            neigbors.add(t);
+    //left
+    nx = getX()-1;
+    ny = getY();
+    if (nx > 0) {
+        t = getGame().getTileAtXY(nx,ny);
+        if (t!=null)
+            if (!isConnectedWith(t))
+                neigbors.add(t);
+    }
+    //right
+    nx = getX()+1;
+    ny = getY();
+    t = getGame().getTileAtXY(nx,ny);
+    if (t!=null)
+        if (!isConnectedWith(t))
+            neigbors.add(t);
+
+    return neigbors;
+  }
 }
 
 class ActionTile {
@@ -221,28 +305,7 @@ class ActionTile {
 
   immutable Integer inactivityPeriod;
   Integer turnsUntilActive= 0;
-  
-  
-  InactivityStatus {
-  	Active {
-  		land / {
-  			doLand();
-  			setTurnsUntilActive(inactivityPeriod+1);
-  		} -> Inactive;	
-  	}
-  	
-  	Inactive {
-  		inactivityPeriodCompleted -> Active;
-  		land / {
-  			doLandAsNormal();
-  		} -> Inactive;
-  	}
-  }
-  
-  
-  
-  
-  
+    
   public void doLand(){
     Game currentGame = getGame();
     currentGame.addInactiveActionTile(this);

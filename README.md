@@ -23,7 +23,7 @@ It's the same principle for the other buttons
 - 6. That's it, the rest is done for you.
 
 ### Umple
-# Do not generate code with Umple, it's not up to date 
+### Up to date
 ##### Changes to make when generating code from Umple
 - Game: public Tile addTile(int aX, int aY) -> commented out
 - Deck: public ActionCard addCard(String aInstructions) -> commented out
@@ -32,6 +32,29 @@ It's the same principle for the other buttons
   selectNewTile(), land(), playRollDieActionCard(), playConnectTilesActionCard(),
   playRemoveConnectionActionCard(), playTeleportActionCard(), playLoseTurnActionCard()
 - ActionTile: change boolean land() to void land(), remove class abstract 
+- Player: in the constructor change `setColor(Color.RED)` to `setColor()` and replace the
+  current `setColor` method with
+  ```java
+public boolean setColor()
+{
+    switch (number) {
+        case 0:
+            color = Color.RED;
+            break;
+        case 1:
+            color = Color.BLUE;
+            break;
+        case 2:
+            color = Color.GREEN;
+            break;
+        case 3:
+            color = Color.YELLOW;
+            break;
+    }
+    return true;
+}
+  ```
+
 
 ### Contributors
 - Anthony Laye

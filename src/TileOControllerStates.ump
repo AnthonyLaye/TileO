@@ -1,5 +1,3 @@
-
-
 class TileOController {
 	depend ca.mcgill.ecse223.tileo.application.TileOApplication;
 	depend ca.mcgill.ecse223.tileo.exception.InvalidInputException; 
@@ -108,7 +106,6 @@ class TileOController {
     	while (nPlayer > 0){
     		try {
     			Player p = new Player(n, game);
-    			p.setColor(colors[n]);
     			nPlayer--;
     		}
     		catch (RuntimeException e) {}

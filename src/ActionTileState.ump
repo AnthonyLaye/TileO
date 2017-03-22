@@ -1,0 +1,17 @@
+class ActionTile {
+	InactivityStatus {
+  	Active {
+  		land / {
+  			doLand();
+  			setTurnsUntilActive(inactivityPeriod+1);
+  		} -> Inactive;	
+  	}
+  	
+  	Inactive {
+  		inactivityPeriodCompleted -> Active;
+  		land / {
+  			doLandAsNormal();
+  		} -> Inactive;
+  	}
+  }
+}

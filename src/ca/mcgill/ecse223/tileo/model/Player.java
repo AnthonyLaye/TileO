@@ -5,10 +5,10 @@ package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 import ca.mcgill.ecse223.tileo.util.Node;
 import java.util.*;
-import java.awt.Color;
 
 // line 15 "../../../../../TileOPersistence.ump"
-// line 138 "../../../../../TileO.ump"
+// line 1 "../../../../../PlayerState.ump"
+// line 182 "../../../../../TileO.ump"
 public class Player implements Serializable
 {
 
@@ -16,7 +16,8 @@ public class Player implements Serializable
   // STATIC VARIABLES
   //------------------------
 
-  public static Map<Integer, Player> playersByNumber = new HashMap<Integer, Player>();
+  private static Map<Integer, Player> playersByNumber = new HashMap<Integer, Player>();
+
   //------------------------
   // MEMBER VARIABLES
   //------------------------
@@ -26,10 +27,10 @@ public class Player implements Serializable
   private int turnsUntilActive;
 
   //Player State Machines
-  public enum Color { RED, BLUE, GREEN, YELLOW }
-  private Color color;
   public enum PlayerState { Play, SkipTurn }
   private PlayerState playerState;
+  public enum Color { RED, BLUE, GREEN, YELLOW }
+  private Color color;
 
   //Player Associations
   private Tile startingTile;
@@ -52,8 +53,8 @@ public class Player implements Serializable
     {
       throw new RuntimeException("Unable to create player due to game");
     }
-    setColor();
     setPlayerState(PlayerState.Play);
+    setColor();
   }
 
   //------------------------
@@ -104,26 +105,26 @@ public class Player implements Serializable
     return turnsUntilActive;
   }
 
-  public String getColorFullName()
-  {
-    String answer = color.toString();
-    return answer;
-  }
-
   public String getPlayerStateFullName()
   {
     String answer = playerState.toString();
     return answer;
   }
 
-  public Color getColor()
+  public String getColorFullName()
   {
-    return color;
+    String answer = color.toString();
+    return answer;
   }
 
   public PlayerState getPlayerState()
   {
     return playerState;
+  }
+
+  public Color getColor()
+  {
+    return color;
   }
 
   public boolean loseTurn()
@@ -162,6 +163,11 @@ public class Player implements Serializable
     return wasEventProcessed;
   }
 
+  private void setPlayerState(PlayerState aPlayerState)
+  {
+    playerState = aPlayerState;
+  }
+
   public boolean setColor()
   {
     switch (number) {
@@ -179,12 +185,7 @@ public class Player implements Serializable
             break;
     }
     return true;
-  }
-
-  private void setPlayerState(PlayerState aPlayerState)
-  {
-    playerState = aPlayerState;
-  }
+  } 
 
   public Tile getStartingTile()
   {
@@ -270,16 +271,7 @@ public class Player implements Serializable
     placeholderGame.removePlayer(this);
   }
 
-  public void forceDelete() {
-    playersByNumber.remove(getNumber());
-    startingTile = null;
-    currentTile = null;
-    Game placeholderGame = game;
-    this.game = null;
-    placeholderGame.forceRemovePlayer(this);
-  }
-
-  // line 158 "../../../../../TileO.ump"
+  // line 192 "../../../../../TileO.ump"
    public ArrayList<Tile> getPossibleMoves(int depth){
     // Depth first search with limited depth, Iterate over the possible children
       // Cannot go back but loops are allowed
@@ -313,11 +305,22 @@ public class Player implements Serializable
       return new ArrayList<Tile>(possibleTiles);
   }
 
-  // line 192 "../../../../../TileO.ump"
+  // line 226 "../../../../../TileO.ump"
    public static  void resetMap(){
     //I had problems with tests (Vincent)
     playersByNumber = new HashMap<Integer, Player>();
   }
+
+  // line 231 "../../../../../TileO.ump"
+   public void forceDelete(){
+    playersByNumber.remove(getNumber());
+    startingTile = null;
+    currentTile = null;
+    Game placeholderGame = game;
+    this.game = null;
+    placeholderGame.forceRemovePlayer(this);
+  }
+
 
   public String toString()
   {
