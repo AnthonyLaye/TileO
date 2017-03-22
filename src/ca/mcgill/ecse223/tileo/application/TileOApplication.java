@@ -13,6 +13,7 @@ public class TileOApplication {
     private static TileO tileo;
     private static TileOPage page;
     public static final String SavedFolder = "savedGames/";
+    public static final int SLEEP_TIME = 1000; // in milliseconds
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

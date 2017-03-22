@@ -2,7 +2,7 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
-import ca.mcgill.ecse223.tileo.computer.ComputerPlayer;
+import ca.mcgill.ecse223.tileo.computer.StupidPlayer;
 import java.io.Serializable;
 import java.util.*;
 
@@ -739,7 +739,6 @@ public class Game implements Serializable
    public ArrayList<Tile> rollDie(){
     int n = getDie().roll();
 	dieNumber = Integer.toString(n);
-  	System.out.println("Die: "+n);
   	ArrayList<Tile> possibleTiles = getCurrentPlayer().getPossibleMoves(n);
   	return possibleTiles;
   }
@@ -777,24 +776,44 @@ public class Game implements Serializable
     }
   }
 
-  public void swapPlayerForComputer(int playerNum) {
+  public void swapPlayerForComputer(int playerNum, String type) {
     Player p = getPlayer(playerNum);
+    Tile t = p.getStartingTile();
     p.forceDelete();
-    ComputerPlayer cp = new ComputerPlayer(playerNum, this);
-    cp.setColor();
-    addOrMovePlayerAt(cp, cp.getNumber());
+    // Add your type here, make sure to check your spelling
+
+    if (type.equals("Stupid")) {
+        StupidPlayer cp = new StupidPlayer(playerNum, this);
+        System.out.println("Making player "+playerNum+" -> "+type);
+        cp.setColor();
+        cp.setStartingTile(t);
+        addOrMovePlayerAt(cp, cp.getNumber());
+    }
+    else 
+        throw new RuntimeException("Type not implemented");
+    
   }
 
   public void swapComputerForPlayer(int compNum) {
     Player cp = getPlayer(compNum);
+    Tile t = cp.getStartingTile();
     cp.forceDelete();
     Player p = new Player(compNum, this);
     p.setColor();
+    p.setStartingTile(t);
     addOrMovePlayerAt(p, p.getNumber());
   }
 
   public void forceRemovePlayer(Player aPlayer) {
     players.remove(aPlayer);
+  }
+
+  public Tile getTileAtXY(int x, int y) {
+    for (Tile t: getTiles()) {
+        if (t.getX()==x && t.getY()==y)
+            return t;
+    }
+    return null;
   }
   
   

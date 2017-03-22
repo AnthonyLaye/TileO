@@ -267,6 +267,48 @@ public abstract class Tile implements Serializable
 	  return isConnected;
   }
 
+  public ArrayList<Tile> getDisconnectedNeighbors() {
+    ArrayList<Tile> neigbors = new ArrayList<Tile>();
+    Tile t;
+    int nx;
+    int ny;
+
+    //up
+    nx = getX();
+    ny = getY()-1;
+    if (ny > 0) {
+        t = getGame().getTileAtXY(nx,ny);
+        if (t!=null)
+            if (!isConnectedWith(t))
+                neigbors.add(t);
+    }
+    //down
+    nx = getX();
+    ny = getY()+1;
+    t = getGame().getTileAtXY(nx,ny);
+    if (t!=null)
+        if (!isConnectedWith(t))
+            neigbors.add(t);
+    //left
+    nx = getX()-1;
+    ny = getY();
+    if (nx > 0) {
+        t = getGame().getTileAtXY(nx,ny);
+        if (t!=null)
+            if (!isConnectedWith(t))
+                neigbors.add(t);
+    }
+    //right
+    nx = getX()+1;
+    ny = getY();
+    t = getGame().getTileAtXY(nx,ny);
+    if (t!=null)
+        if (!isConnectedWith(t))
+            neigbors.add(t);
+
+    return neigbors;
+  }
+
 
   public String toString()
   {

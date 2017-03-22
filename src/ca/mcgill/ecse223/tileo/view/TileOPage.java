@@ -16,6 +16,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.LineBorder;
 import javax.swing.JRadioButton;
+import javax.swing.JComboBox;
 
 import ca.mcgill.ecse223.tileo.exception.InvalidInputException;
 import ca.mcgill.ecse223.tileo.model.*;
@@ -73,6 +74,9 @@ public class TileOPage extends JFrame{
             private JSpinner inactivitySpinner;
             private JLabel inactivityLabel;
             // player
+            JPanel startingTilePanel;
+            JPanel setComputerPanel;
+            JPanel computerTypePanel;
             private JButton setStartingTile1Button;
             private JButton setStartingTile2Button;
             private JButton setStartingTile3Button;
@@ -83,6 +87,12 @@ public class TileOPage extends JFrame{
             private JRadioButton setComputer3RadioButton;
             private JRadioButton setComputer4RadioButton;
             private JRadioButton[] setComputerRadioButtons;
+            private String[] computerTypes = {"Stupid"};
+            private JComboBox computerType1ComboBox;
+            private JComboBox computerType2ComboBox;
+            private JComboBox computerType3ComboBox;
+            private JComboBox computerType4ComboBox;
+            private JComboBox[] computerTypeComboBoxes;
             // deck
             private JLabel extraTurnCardLabel;
             private JSpinner extraTurnCardSpinner;
@@ -227,6 +237,15 @@ public class TileOPage extends JFrame{
                 setComputer4RadioButton = new JRadioButton("Computer 4");
                 setComputerRadioButtons = new JRadioButton[4];
                 setComputerRadioButtons[0] = setComputer1RadioButton; setComputerRadioButtons[1] = setComputer2RadioButton; setComputerRadioButtons[2] = setComputer3RadioButton; setComputerRadioButtons[3] = setComputer4RadioButton;
+                computerType1ComboBox = new JComboBox<>(computerTypes);
+                computerType2ComboBox = new JComboBox<>(computerTypes);
+                computerType3ComboBox = new JComboBox<>(computerTypes);
+                computerType4ComboBox = new JComboBox<>(computerTypes);
+                computerTypeComboBoxes = new JComboBox[4];
+                computerTypeComboBoxes[0]=computerType1ComboBox;
+                computerTypeComboBoxes[1]=computerType2ComboBox;
+                computerTypeComboBoxes[2]=computerType3ComboBox;
+                computerTypeComboBoxes[3]=computerType4ComboBox;
                 // deck
                 extraTurnCardLabel = new JLabel();
                 newConnectionCardLabel = new JLabel();
@@ -379,12 +398,28 @@ public class TileOPage extends JFrame{
             int buttonNum = i;
             setComputerRadioButtons[i].addItemListener(new java.awt.event.ItemListener() {
                 public void itemStateChanged(java.awt.event.ItemEvent e) {
-                    if (e.getStateChange()==1) // isComputer selected
-                        setPlayerAsComputerActionPerformed(buttonNum);
-                    else 
+                    if (e.getStateChange()==1) { // isComputer selected
+                        String type = (String)computerTypeComboBoxes[buttonNum].getSelectedItem();
+                        setPlayerAsComputerActionPerformed(buttonNum, type);
+                        computerTypeComboBoxes[buttonNum].setVisible(true);
+                    }
+                    else {
                         setComputerAsPlayerActionPerformed(buttonNum);
+                        computerTypeComboBoxes[buttonNum].setVisible(false);
+                    }
                 }
             });
+        }
+        for (int i=0; i<computerTypeComboBoxes.length; ++i) {
+            int comboBoxNumber = i;
+            computerTypeComboBoxes[i].addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent e) {
+                    JComboBox box = (JComboBox) e.getSource();
+                    String type = (String) box.getSelectedItem();
+                    setPlayerAsComputerActionPerformed(comboBoxNumber, type);
+                }
+            });
+        
         }
 
         // design-deck
@@ -648,54 +683,80 @@ public class TileOPage extends JFrame{
             	actionTipLabel.setText("Roll the die !");
             	actionStatusLabel.setText("");
                 gameButtonsPanel.setVisible(false);
-            	rollDieButton.setVisible(true);
-                
                 if (game.getCurrentPlayer() instanceof ComputerPlayer) {
                     startComputerTurn(game);
                 }
-
+                else {
+            	    rollDieButton.setVisible(true);
+                }
                 break;
             case GAME_WON:
             	modeLabel.setText("Game won !");
             	currentPlayerNameLabel.setText("None");
             	actionStatusLabel.setText("Player "+(game.indexOfPlayer(game.getCurrentPlayer())+ 1) +" won !");
                 actionTipLabel.setText("");
+                gameButtonsPanel.setVisible(false);
                 break;
             case GAME_ROLLDIEACTIONCARD:
             	actionTipLabel.setText("Roll the die");
             	actionStatusLabel.setText("Roll die action card");
-            	gameButtonsPanel.add(rollDieCardButton);
-            	gameButtonsPanel.setVisible(true);
-            	rollDieCardButton.setVisible(true);
             	loseTurnCardButton.setVisible(false);
             	rollDieButton.setVisible(false);
+                if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+                    startComputerTurn(game);
+                }
+                else {
+            	    gameButtonsPanel.add(rollDieCardButton);
+                    gameButtonsPanel.setVisible(true);
+            	    rollDieCardButton.setVisible(true);
+                }
                 break;
             case GAME_CONNECTTILESACTIONCARD:
             	actionTipLabel.setText("Select two tiles you want to connect");
             	actionStatusLabel.setText("Add a connection action card");
-            	board.setWaitForConn(true);
-            	setWaitingFor("newconncard");
-            	break;
+                if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+                    startComputerTurn(game);
+                }
+            	else {
+                    board.setWaitForConn(true);
+            	    setWaitingFor("newconncard");
+            	}
+                break;
             case GAME_REMOVECONNECTIONACTIONCARD:
             	actionTipLabel.setText("Select two tiles you want to disconnect");
             	actionStatusLabel.setText("Remove a connection action card");
-            	board.setWaitForConn(true);
-            	setWaitingFor("rmconncard");
+                if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+                    startComputerTurn(game);
+                }
+            	else {
+                    board.setWaitForConn(true);
+            	    setWaitingFor("rmconncard");
+                }
                 break;
             case GAME_TELEPORTACTIONCARD:
             	actionTipLabel.setText("Select a new tile");
             	actionStatusLabel.setText("Teleport action card");
-            	board.setWaitForTile(true);
-            	setWaitingFor("teleportcard");
-            	break;
+                if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+                    startComputerTurn(game);
+                }
+            	else {
+                    board.setWaitForTile(true);
+            	    setWaitingFor("teleportcard");
+            	}
+                break;
             case GAME_LOSETURNACTIONCARD:
             	actionTipLabel.setText("You lose your next turn");
             	actionStatusLabel.setText("Lose turn action card");
-            	gameButtonsPanel.add(loseTurnCardButton);
-            	gameButtonsPanel.setVisible(true);
             	rollDieCardButton.setVisible(false);
-            	loseTurnCardButton.setVisible(true);
-            	break;
+                if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+                    startComputerTurn(game);
+                }
+            	else {
+                    gameButtonsPanel.add(loseTurnCardButton);
+            	    gameButtonsPanel.setVisible(true);
+            	    loseTurnCardButton.setVisible(true);
+            	}
+                break;
             case DESIGN:
                 gameButtonsPanel.setVisible(true);
             	renderDesign(game);
@@ -838,15 +899,18 @@ public class TileOPage extends JFrame{
     	
     	
     	// PLAYER
-    	JPanel startingTilePanel = new JPanel();
-        JPanel setComputerPanel = new JPanel();
+    	startingTilePanel = new JPanel();
+        setComputerPanel = new JPanel();
+        computerTypePanel = new JPanel();
 
     	startingTilePanel.setLayout(new BoxLayout(startingTilePanel, BoxLayout.PAGE_AXIS));
     	setComputerPanel.setLayout(new BoxLayout(setComputerPanel, BoxLayout.PAGE_AXIS));
-    	
+        computerTypePanel.setLayout(new BoxLayout(computerTypePanel, BoxLayout.PAGE_AXIS));
+
         for (int i=0; i<nPlayers; ++i) {
     		startingTilePanel.add(setStartingTileButtons[i]);   	
             setComputerPanel.add(setComputerRadioButtons[i]);
+            computerTypePanel.add(computerTypeComboBoxes[i]);
         }
         GroupLayout playerLayout = new GroupLayout(playerPanel);
     	playerPanel.setLayout(playerLayout);
@@ -855,11 +919,14 @@ public class TileOPage extends JFrame{
     	playerLayout.setHorizontalGroup(playerLayout.createSequentialGroup()
     	    .addComponent(startingTilePanel)
             .addComponent(setComputerPanel)
+            .addComponent(computerTypePanel)
     	);
-    	playerLayout.setVerticalGroup(playerLayout.createSequentialGroup()
+    	playerLayout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {setComputerPanel, computerTypePanel});
+        playerLayout.setVerticalGroup(playerLayout.createSequentialGroup()
     		.addGroup(playerLayout.createParallelGroup()
                 .addComponent(startingTilePanel)
                 .addComponent(setComputerPanel)
+                .addComponent(computerTypePanel)
             )
     	);
     	
@@ -1092,14 +1159,12 @@ public class TileOPage extends JFrame{
     	}
     }
 
-    private void setPlayerAsComputerActionPerformed(int playerNum) {
-        TileOApplication.getTileO().getCurrentGame().swapPlayerForComputer(playerNum);
-        renderLayout(TileOApplication.getTileO().getCurrentGame());
+    private void setPlayerAsComputerActionPerformed(int playerNum, String type) {
+        TileOApplication.getTileO().getCurrentGame().swapPlayerForComputer(playerNum, type);
     }
 
     private void setComputerAsPlayerActionPerformed(int playerNum) {
         TileOApplication.getTileO().getCurrentGame().swapComputerForPlayer(playerNum);
-        renderLayout(TileOApplication.getTileO().getCurrentGame());
     }
 
     private void updateCards(int nCards, int cardType) {
@@ -1262,6 +1327,11 @@ public class TileOPage extends JFrame{
             teleportCardSpinner.setValue(0);
             loseTurnCardSpinner.setValue(0);
             numberOfCardsLabel.setText("0/"+NumberOfCards);
+            for (int i=0; i<nPlayers; ++i){
+                setComputerRadioButtons[i].setSelected(false);
+                computerTypeComboBoxes[i].setVisible(false);
+            }
+            
             renderLayout(game);
         }
         catch(InvalidInputException err){
@@ -1327,7 +1397,18 @@ public class TileOPage extends JFrame{
                 teleportCardSpinner.setValue(n);
                 n = d.numberOfCardsForType(4);
                 loseTurnCardSpinner.setValue(n);
-    			
+
+                // select radio buttons for computers
+                for (int i=0; i<game.numberOfPlayers(); i++) {
+                    if (game.getPlayer(i) instanceof ComputerPlayer) { 
+                        setComputerRadioButtons[i].setSelected(true);
+                        computerTypeComboBoxes[i].setVisible(true);
+                    }
+                    else {
+                        setComputerRadioButtons[i].setSelected(false);
+                        computerTypeComboBoxes[i].setVisible(false);
+                    }
+                }
     			renderLayout(game);
     		}
     		catch (InvalidInputException err) {

@@ -596,7 +596,7 @@ public class TileOController
 
   // line 254 "../../../../../TileOControllerStates.ump"
    private void doPlayRollDieActionCard() throws InvalidInputException{
-    Game currentGame= TileOApplication.getTileO().getCurrentGame();
+        Game currentGame= TileOApplication.getTileO().getCurrentGame();
         ArrayList<Tile> availableTiles=null;
         currentGame.setMode(Game.Mode.GAME_ROLLDIEACTIONCARD);
         Deck currentDeck= currentGame.getDeck();
