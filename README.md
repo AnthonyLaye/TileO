@@ -8,7 +8,7 @@ The main method is in src/ca/mcgill/ecse223/tileo/application/TileOApplication
 In design mode when you click, for example, on the Add Tile button, you can add as many tile without having to reclick on the button.
 It's the same principle for the other buttons
 
-### Add a new AI behaviour
+### Add a new ComputerPlayer behaviour
 - 1. Copy (not overwrite!) the file TemplatePlayer.java in ca.mcgill.ecse223.tileo.computer and change its name to whatever you want. Best is something like NoobPlayer.java or TurboPlayer.java
 - 2. Change the name of the class to the one you choose and implement the three methods in
   it, make sure not to change the method declarations.
