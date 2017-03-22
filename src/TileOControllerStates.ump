@@ -200,7 +200,7 @@ class TileOController {
         String error = "";
         Deck deck = selectedGame.getDeck();
         if (deck.numberOfCards() != Game.NumberOfActionCards)
-            error+= "The deck needs to have 32 "+Game.NumberOfActionCards+" cards ";
+            error+= "The deck needs to have "+Game.NumberOfActionCards+" cards ";
         if (selectedGame.getWinTile() == null)
             error+="There is no WinTile selected ";
         if (selectedGame.numberOfPlayers() < selectedGame.minimumNumberOfPlayers())
@@ -273,16 +273,20 @@ class TileOController {
         if (t1.isConnectedWith(t2))
     		throw new InvalidInputException("Tiles are already connected");
         boolean wasConnected = false;
-        if(currentCard instanceof ConnectTilesActionCard){
+        if(currentGame.getCurrentConnectionPieces() <= 0)
+        	wasConnected = true;
+        else if(currentCard instanceof ConnectTilesActionCard){
             ConnectTilesActionCard playCard = (ConnectTilesActionCard) currentCard;
-            wasConnected =playCard.play(t1, t2);
-            
+            wasConnected =playCard.play(t1, t2);            
         }
         if(wasConnected){
             currentGame.setNextPlayer();
             currentGame.setNextCard();
             currentGame.setMode(Game.Mode.GAME);
-			currentGame.setCurrentConnectionPieces(currentGame.getCurrentConnectionPieces() - 1);
+			if(!(currentGame.getCurrentConnectionPieces() == 0))
+            	currentGame.setCurrentConnectionPieces(currentGame.getCurrentConnectionPieces() - 1);
+            else
+            	currentGame.setCurrentConnectionPieces(0);
             
         }
         else{
@@ -355,6 +359,14 @@ class TileOController {
 
         if (loadedGame == null)
             throw new InvalidInputException("The game you selected does not exists");
+            
+        // removes the game if it exists
+        for (int i=0; i<tileo.getGames().size(); ++i){
+        	if (loadedGame == tileo.getGame(i)){
+        		tileo.removeGame(tileo.getGame(i));
+        		break;
+            }
+        }
     
         tileo.addGame(loadedGame);
         tileo.setCurrentGame(loadedGame);
@@ -364,6 +376,7 @@ class TileOController {
         switch (loadedGame.getMode()) {
         	case DESIGN:
         		setControllerState(ControllerState.Design);
+        		setControllerStateGame(ControllerStateGame.Null);
         		break;
         	case GAME_WON:
         		setControllerState(ControllerState.Game);
