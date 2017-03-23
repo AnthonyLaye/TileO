@@ -1375,6 +1375,22 @@ public class TileOPage extends JFrame{
             }
         }
 
+        //Delete isolated tiles
+        for(Tile tile: game.getTiles()){
+            if(tile.getNeighbours(size).size() == 0 && !(tile instanceof  WinTile)) {
+                toc.removeTile(tile, game);
+            }
+        }
+
+        //Ensure wintile is not isolated
+        while(game.getWinTile().getNeighbours(size).size() == 0) {
+            toc.removeTile(game.getWinTile(), game);
+            int xCord = rand.nextInt();
+            int yCord = rand.nextInt();
+            if(game.getTileAtXY(xCord, yCord) == null)
+                toc.addHiddenTile(xCord, yCord, game);
+        }
+
         // finally chose the starting tiles
         for (Player p: game.getPlayers()) {
             boolean selected = false;
@@ -1386,7 +1402,11 @@ public class TileOPage extends JFrame{
                     selected = true;
                 }
             }
-        } 
+        }
+
+
+
+
         
         setRandomDeck();
 
