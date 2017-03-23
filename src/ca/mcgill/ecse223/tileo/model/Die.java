@@ -5,8 +5,8 @@ package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 import java.util.Random;
 
-// line 93 "../../../../../TileOPersistence.ump"
-// line 559 "../../../../../TileO.ump"
+// line 97 "../../../../../TileOPersistence.ump"
+// line 590 "../../../../../TileO.ump"
 public class Die implements Serializable
 {
 
@@ -72,7 +72,7 @@ public class Die implements Serializable
     }
   }
 
-  // line 563 "../../../../../TileO.ump"
+  // line 594 "../../../../../TileO.ump"
    public int roll(){
     return rand.nextInt(6)+1;
   }
@@ -90,7 +90,7 @@ public class Die implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 96 ../../../../../TileOPersistence.ump
+  // line 100 ../../../../../TileOPersistence.ump
   private static final long serialVersionUID = -8415971554267069479L ;
 
   

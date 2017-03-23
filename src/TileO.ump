@@ -31,8 +31,9 @@ class TileO {
 
 class Game {
   depend ca.mcgill.ecse223.tileo.computer.StupidPlayer;
+  depend ca.mcgill.ecse223.tileo.computer.GodPlayer;
   
-  mode { DESIGN{} GAME{} GAME_WON{} GAME_ROLLDIEACTIONCARD{} GAME_CONNECTTILESACTIONCARD{} GAME_REMOVECONNECTIONACTIONCARD{} GAME_TELEPORTACTIONCARD{} GAME_LOSETURNACTIONCARD{} }
+  mode { DESIGN{} GAME{} GAME_WON{} GAME_ROLLDIEACTIONCARD{} GAME_CONNECTTILESACTIONCARD{} GAME_REMOVECONNECTIONACTIONCARD{} GAME_TELEPORTACTIONCARD{} GAME_LOSETURNACTIONCARD{} GAME_REMOVERANDOMTILEACTIONCARD{} }
   1 <@>- 2..4 Player players;
   1 <@>- * Tile tiles;
   1 <@>- * Connection connections;
@@ -150,6 +151,13 @@ class Game {
         cp.setStartingTile(t);
         addOrMovePlayerAt(cp, cp.getNumber());
     }
+    else if (type.equals("God")) {
+    	GodPlayer cp = new GodPlayer(playerNum, this);
+    	System.out.println("Making player "+playerNum+" -> "+type);
+    	cp.setColor();
+    	cp.setStartingTile(t);
+    	addOrMovePlayerAt(cp, cp.getNumber());
+    }
     else 
         throw new RuntimeException("Type not implemented");
     
@@ -175,6 +183,34 @@ class Game {
             return t;
     }
     return null;
+  }
+  
+  public void removeRandomTile(){
+    Tile t;
+    Random rand = new Random();
+    ArrayList<Tile> tilesChecked = new ArrayList<Tile>();
+    
+    while (true) {
+      boolean tileIsLegal = true;
+      t = getTile(rand.nextInt(numberOfTiles()));
+      
+      if (tilesChecked.contains(t)) continue;
+      else tilesChecked.add(t);
+      
+      // checks
+      if (t instanceof WinTile) tileIsLegal = false;
+      else {
+    	  for (Player p: getPlayers()) {
+            if (p.getStartingTile() == t || p.getCurrentTile() == t) {
+              tileIsLegal = false;
+              break;
+            }
+    	  }
+      }
+      if (tileIsLegal) break;
+      if (tilesChecked.size() == numberOfTiles()) return; // there's no tile to remove
+    }
+    t.delete();
   }
 }
 
@@ -414,9 +450,8 @@ class Deck {
     System.out.println("");
   }
 
-   
-   public int numberOfCardsForType(int type) {
-	    int n = 0;
+   public int numberOfCardsForType(int type){
+    int n = 0;
 	    for (ActionCard aCard: getCards()) {
 	        switch (type) {
 	            case 0:
@@ -433,13 +468,17 @@ class Deck {
 	                break;
 	            case 4:
 	                if (aCard instanceof LoseTurnActionCard) n++;
+	                break;
+	            case 5:
+	            	if (aCard instanceof RemoveRandomTileActionCard) n++;
+	            	break;
 	        }
 	    }
 	    return n;
-	  }
-   
-   public void addCards(int n, int cardType) {
-	    switch (cardType) {
+  }
+
+   public void addCards(int n, int cardType){
+    switch (cardType) {
 	        case 0:
 	            // ROLL
 	            for (int i=0; i<n; ++i)
@@ -465,11 +504,16 @@ class Deck {
 	    		for (int i=0;i<n;++i)
 	    		    new LoseTurnActionCard("Lose your next turn", this);
 	            break;
+	        case 5:
+	            // RMRANDOM
+	    		for (int i=0;i<n;++i)
+	    		    new RemoveRandomTileActionCard("Remove a random tile", this);
+	            break;
 	    }
-	  }
+  }
 
-	  public void rmCards(int toRm, int cardType) {
-	    for (int i=0; i<numberOfCards(); ++i) {
+   public void rmCards(int toRm, int cardType){
+    for (int i=0; i<numberOfCards(); ++i) {
 	        ActionCard card = getCard(i);
 	        boolean wasDeleted = false;
 	        switch (cardType) {
@@ -508,6 +552,14 @@ class Deck {
 	                    wasDeleted = true;
 	                }
 	                break;
+	            case 5:
+		            // RMRANDOM
+	            	if (card instanceof RemoveRandomTileActionCard){
+	                    card.delete();
+	                    wasDeleted = true;
+	                }
+	                break;
+		    		
 	        }
 	        if (wasDeleted) {
 	            toRm--;
@@ -515,7 +567,7 @@ class Deck {
 	        }
 	        if (toRm == 0) break; 
 	    }
-	  }
+  }
 }
 
 class ActionCard {
@@ -581,6 +633,18 @@ class LoseTurnActionCard {
   	Player currentPlayer = getDeck().getGame().getCurrentPlayer();
   	currentPlayer.loseTurn();
   }
+}
+
+class RemoveRandomTileActionCard {
+    isA ActionCard;
+    
+    public Game.Mode getActionCardMode() {
+      return Game.Mode.GAME_REMOVERANDOMTILEACTIONCARD;
+    }
+    
+    public void play() {
+      getDeck().getGame().removeRandomTile();
+    }
 }
 
 class Die {

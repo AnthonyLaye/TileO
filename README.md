@@ -56,6 +56,17 @@ public boolean setColor()
 ```
 
 
+### Steps to add a new type of ActionCard to the game
+##### TileOPage.java
+- Add a new label and spinner for your card
+- Add a case in renderLayout for your new mode
+- Change updateNumberOfCards, resetDeck and fillDeck
+
+##### Deck.java
+- Add a case for numberOfCardsForType, addCards and rmCards (also change these methods in
+  umple !)
+
+
 ### Contributors
 - Anthony Laye
 - Sam Cleland

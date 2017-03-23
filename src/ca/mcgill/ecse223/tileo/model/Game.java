@@ -3,8 +3,8 @@
 
 package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
-import ca.mcgill.ecse223.tileo.computer.StupidPlayer;
 import ca.mcgill.ecse223.tileo.computer.GodPlayer;
+import ca.mcgill.ecse223.tileo.computer.StupidPlayer;
 import java.util.*;
 
 // line 9 "../../../../../TileOPersistence.ump"
@@ -28,7 +28,7 @@ public class Game implements Serializable
   private String filename;
 
   //Game State Machines
-  public enum Mode { DESIGN, GAME, GAME_WON, GAME_ROLLDIEACTIONCARD, GAME_CONNECTTILESACTIONCARD, GAME_REMOVECONNECTIONACTIONCARD, GAME_TELEPORTACTIONCARD, GAME_LOSETURNACTIONCARD }
+  public enum Mode { DESIGN, GAME, GAME_WON, GAME_ROLLDIEACTIONCARD, GAME_CONNECTTILESACTIONCARD, GAME_REMOVECONNECTIONACTIONCARD, GAME_TELEPORTACTIONCARD, GAME_LOSETURNACTIONCARD, GAME_REMOVERANDOMTILEACTIONCARD }
   private Mode mode;
 
   //Game Associations
@@ -743,7 +743,7 @@ public class Game implements Serializable
   	return possibleTiles;
   }
 
-  // line 111 "../../../../../TileO.ump"
+  // line 110 "../../../../../TileO.ump"
    public void setNextPlayer(){
     while (true) {
   	  setCurrentPlayer(getPlayer((indexOfPlayer(getCurrentPlayer()) + 1)%numberOfPlayers()));
@@ -763,7 +763,7 @@ public class Game implements Serializable
   	}
   }
 
-  // line 130 "../../../../../TileO.ump"
+  // line 129 "../../../../../TileO.ump"
    public void setNextCard(){
     Deck currentDeck = getDeck();
   	ActionCard currentCard = currentDeck.getCurrentCard();
@@ -776,7 +776,7 @@ public class Game implements Serializable
     }
   }
 
-  // line 142 "../../../../../TileO.ump"
+  // line 141 "../../../../../TileO.ump"
    public void swapPlayerForComputer(int playerNum, String type){
     Player p = getPlayer(playerNum);
     Tile t = p.getStartingTile();
@@ -791,17 +791,17 @@ public class Game implements Serializable
         addOrMovePlayerAt(cp, cp.getNumber());
     }
     else if (type.equals("God")) {
-        GodPlayer cp = new GodPlayer(playerNum, this);
-        System.out.println("Making player "+playerNum+" -> "+type);
-        cp.setColor();
-        cp.setStartingTile(t);
-        addOrMovePlayerAt(cp, cp.getNumber());
+    	GodPlayer cp = new GodPlayer(playerNum, this);
+    	System.out.println("Making player "+playerNum+" -> "+type);
+    	cp.setColor();
+    	cp.setStartingTile(t);
+    	addOrMovePlayerAt(cp, cp.getNumber());
     }
     else 
         throw new RuntimeException("Type not implemented");
   }
 
-  // line 160 "../../../../../TileO.ump"
+  // line 159 "../../../../../TileO.ump"
    public void swapComputerForPlayer(int compNum){
     Player cp = getPlayer(compNum);
     Tile t = cp.getStartingTile();
@@ -812,18 +812,47 @@ public class Game implements Serializable
     addOrMovePlayerAt(p, p.getNumber());
   }
 
-  // line 170 "../../../../../TileO.ump"
+  // line 169 "../../../../../TileO.ump"
    public void forceRemovePlayer(Player aPlayer){
     players.remove(aPlayer);
   }
 
-  // line 174 "../../../../../TileO.ump"
+  // line 173 "../../../../../TileO.ump"
    public Tile getTileAtXY(int x, int y){
     for (Tile t: getTiles()) {
         if (t.getX()==x && t.getY()==y)
             return t;
     }
     return null;
+  }
+
+  // line 181 "../../../../../TileO.ump"
+   public void removeRandomTile(){
+    Tile t;
+    Random rand = new Random();
+    ArrayList<Tile> tilesChecked = new ArrayList<Tile>();
+    
+    while (true) {
+      boolean tileIsLegal = true;
+      t = getTile(rand.nextInt(numberOfTiles()));
+      
+      if (tilesChecked.contains(t)) continue;
+      else tilesChecked.add(t);
+      
+      // checks
+      if (t instanceof WinTile) tileIsLegal = false;
+      else {
+    	  for (Player p: getPlayers()) {
+            if (p.getStartingTile() == t || p.getCurrentTile() == t) {
+              tileIsLegal = false;
+              break;
+            }
+    	  }
+      }
+      if (tileIsLegal) break;
+      if (tilesChecked.size() == numberOfTiles()) return; // there's no tile to remove
+    }
+    t.delete();
   }
 
 
