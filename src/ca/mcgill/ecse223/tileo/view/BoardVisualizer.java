@@ -61,7 +61,7 @@ class BoardVisualizer extends JPanel {
     }
 
     public void init() { 
-        game = null;;
+        game = TileOApplication.getTileO().getCurrentGame();
         tiles = new HashMap<Rectangle2D, Tile>();
         selectedTile = null;
 
@@ -121,9 +121,15 @@ class BoardVisualizer extends JPanel {
     public void setBoardSize(int s) {
         size = s;
         TileOController tileOController = new TileOController();
-
+        
+        if (game != null) { // remove starting tile if it gets out of bound
+            for (Player p: game.getPlayers()) {
+                if (p.getStartingTile() == null) continue;
+                if (p.getStartingTile().getX()+1>s || p.getStartingTile().getY()+1>s)
+                    p.setStartingTile(null);
+            }
+        }
         for(Tile tile: tiles.values() ){
-
             if(tile.getX() >= s || tile.getY() >= s)
                 tileOController.removeTile(tile, game);
         }
@@ -224,9 +230,12 @@ class BoardVisualizer extends JPanel {
             if (tile.getHasBeenVisited())
             	g2d.setColor(Color.LIGHT_GRAY);
             
-            if (possibleTiles!=null && possibleTiles.contains(tile))
-            	g2d.setColor(Color.ORANGE);
-            
+            if (possibleTiles!=null && possibleTiles.contains(tile)) {
+            	if (!tile.getHasBeenVisited())
+                    g2d.setColor(Color.ORANGE);
+                else
+                    g2d.setColor(Color.CYAN);
+            }
             
             g2d.fill(rect);
             g2d.setColor(Color.BLACK);

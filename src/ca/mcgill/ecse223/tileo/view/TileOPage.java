@@ -74,6 +74,7 @@ public class TileOPage extends JFrame{
             private JButton removeConnectionButton;
             private JSpinner inactivitySpinner;
             private JLabel inactivityLabel;
+            private JButton randomDesignButton;
             // player
             JPanel startingTilePanel;
             JPanel setComputerPanel;
@@ -228,6 +229,7 @@ public class TileOPage extends JFrame{
                 inactivityLabel = new JLabel();
                 inactivitySpinner = new JSpinner(new SpinnerNumberModel(5,1,10,1));
                 ((JSpinner.DefaultEditor) inactivitySpinner.getEditor()).getTextField().setEditable(false);
+                randomDesignButton = new JButton();
                 // player
                 setStartingTile1Button = new JButton();
                 setStartingTile2Button = new JButton();
@@ -345,6 +347,7 @@ public class TileOPage extends JFrame{
         addConnectionButton.setText("Add connection");
         removeTileButton.setText("Remove tile");
         removeConnectionButton.setText("Remove connection");
+        randomDesignButton.setText("Random design");
         addRegularTileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 addRegularTileActionPerformed(e, false, -1, -1);
@@ -374,6 +377,11 @@ public class TileOPage extends JFrame{
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 removeTileActionPerformed(e, false, null);
             }
+        });
+        randomDesignButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                randomDesign();
+            } 
         });
 
         // design-player
@@ -886,6 +894,7 @@ public class TileOPage extends JFrame{
     			.addComponent(addActionTileButton)
     			.addComponent(addHiddenTileButton)
                 .addComponent(inactivityLabel)
+                .addComponent(randomDesignButton)
     		)
     		.addGroup(tileLayout.createParallelGroup()
     			.addComponent(removeTileButton)
@@ -895,9 +904,9 @@ public class TileOPage extends JFrame{
     		)    		
     	);
     	tileLayout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[]
-    	        {addRegularTileButton, addActionTileButton, addHiddenTileButton, addConnectionButton, removeTileButton, removeConnectionButton, inactivitySpinner});
+    	        {randomDesignButton, addRegularTileButton, addActionTileButton, addHiddenTileButton, addConnectionButton, removeTileButton, removeConnectionButton, inactivitySpinner});
     	tileLayout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[]
-    	        {addRegularTileButton, addActionTileButton, addHiddenTileButton, addConnectionButton, removeTileButton, removeConnectionButton, inactivitySpinner});
+    	        {randomDesignButton, addRegularTileButton, addActionTileButton, addHiddenTileButton, addConnectionButton, removeTileButton, removeConnectionButton, inactivitySpinner});
     	tileLayout.setVerticalGroup(tileLayout.createSequentialGroup()
     		.addGroup(tileLayout.createParallelGroup()
     			.addComponent(addRegularTileButton)
@@ -918,6 +927,7 @@ public class TileOPage extends JFrame{
                 .addComponent(inactivityLabel)
 
             )
+            .addComponent(randomDesignButton)
 
     	);
     	
@@ -1282,6 +1292,105 @@ public class TileOPage extends JFrame{
                     teleportCardSpinner.setValue((int)teleportCardSpinner.getValue()+nCardsLeft);
             }
         }
+    }
+
+    private void randomDesign() {
+        clearDesignActionPerformed(null);
+        
+        Game game = TileOApplication.getTileO().getCurrentGame();
+        Random rand = new Random();
+        int size = (int) boardSizeSpinner.getValue();
+        ArrayList<int[]> unused = new ArrayList<int[]>();
+
+
+        // first add a wintile
+        toc.addHiddenTile(rand.nextInt(size), rand.nextInt(size), game);
+
+        int minTiles = (size*size)-(4*size);
+        int maxTiles = size*size;
+        int nTiles = rand.nextInt(maxTiles-minTiles)+minTiles;
+        int nActionTiles = rand.nextInt(nTiles/2);
+        float tileProb = nTiles/((float)size*size);
+        float actionTileProb = nActionTiles/(float)nTiles;
+        
+        System.out.println("Tile prob: " + tileProb);
+        System.out.println("Action tile prob: " +actionTileProb);
+
+        boolean wasAdded;
+        // traverse horizontally to add tiles
+        for (int x=0; x<size; ++x) {
+            if (nTiles<=0) break;
+            for (int y=0; y<size; ++y) {
+                if (nTiles<=0) break;
+                wasAdded = false;
+                if (game.getTileAtXY(x, y)==null) {
+                    if (rand.nextFloat() < tileProb) {
+                        if (nActionTiles>0 && rand.nextFloat() < actionTileProb) {
+                            toc.addActionTile(x,y,game, rand.nextInt(7)+1);
+                            nActionTiles--;
+                            wasAdded = true;
+                        }
+                        if (!wasAdded)
+                            toc.addRegularTile(x,y,game);
+                        nTiles--;
+                    }
+                    else {
+                        int[] tmp = {x,y};
+                        unused.add(tmp);
+                    }
+                } 
+            }
+        }
+
+        if (nTiles!=0) {
+            while (nTiles!=0) {
+                int[] pos = unused.get(rand.nextInt(unused.size()));
+                if (nActionTiles>0 && rand.nextFloat() < actionTileProb) {
+                    toc.addActionTile(pos[0], pos[1], game, rand.nextInt(7)+1);
+                    nActionTiles--;
+                }
+                else
+                    toc.addRegularTile(pos[0], pos[1], game);
+                nTiles--;
+            } 
+        }
+
+        // then add connections
+        ArrayList<Tile> neighbors;
+        int nConn;
+        Tile t2;
+        for (Tile t: game.getTiles()) {
+            neighbors = t.getDisconnectedNeighbors();
+            nConn = rand.nextInt(neighbors.size()+1);
+            while (nConn > 0) {
+                if (rand.nextFloat() < 0.90) {
+                    t2 = neighbors.get(rand.nextInt(nConn));
+                    try {
+                        toc.addConnection(t,t2,game);
+                    }
+                    catch (InvalidInputException e) {}
+                    neighbors.remove(t2);
+                    nConn--;
+                }
+            }
+        }
+
+        // finally chose the starting tiles
+        for (Player p: game.getPlayers()) {
+            boolean selected = false;
+            Tile t;
+            while (!selected) {
+                t = game.getTile(rand.nextInt(game.numberOfTiles()));
+                if (!(t instanceof WinTile)) {
+                    p.setStartingTile(t);
+                    selected = true;
+                }
+            }
+        } 
+        
+        setRandomDeck();
+
+        // TODO add check to remove islands and make sure WinTile is not an island
     }
     
    
