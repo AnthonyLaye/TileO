@@ -2,6 +2,7 @@ package ca.mcgill.ecse223.tileo.view;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -106,6 +107,9 @@ public class TileOPage extends JFrame{
             private JSpinner loseTurnCardSpinner;
             private JLabel totalCardLabel;
             private JLabel numberOfCardsLabel;
+            private JButton randomCardsButton;
+            private JButton fillCardsButton;
+            private JButton resetDeckButton;
             // board
             private JLabel boardSizeLabel;
             private JSpinner boardSizeSpinner;
@@ -274,6 +278,9 @@ public class TileOPage extends JFrame{
                         }
                 	});
                 }
+                randomCardsButton = new JButton();
+                fillCardsButton = new JButton();
+                resetDeckButton = new JButton();
                 // board
                 boardSizeLabel = new JLabel();
                 boardSizeSpinner = new JSpinner();
@@ -430,7 +437,24 @@ public class TileOPage extends JFrame{
         loseTurnCardLabel.setText("Lose turn");
         totalCardLabel.setText("Total");
         numberOfCardsLabel.setText("0/"+NumberOfCards);
-
+        randomCardsButton.setText("Random");
+        randomCardsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                setRandomDeck();
+            }
+        });
+        fillCardsButton.setText("Fill");
+        fillCardsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                fillDeck();
+            }
+        });
+        resetDeckButton.setText("Reset");
+        resetDeckButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                resetDeck();
+            }
+        });
         // design-board
         boardSizeLabel.setText("Board size");
         boardSizeSpinner.setModel(new SpinnerNumberModel(board.getBoardSize(), 5, 20, 1));
@@ -943,6 +967,9 @@ public class TileOPage extends JFrame{
     			.addComponent(teleportCardLabel)
     			.addComponent(loseTurnCardLabel)
     			.addComponent(totalCardLabel)
+                .addComponent(randomCardsButton)
+                .addComponent(fillCardsButton)
+                .addComponent(resetDeckButton)
     		)
     		.addGroup(deckLayout.createParallelGroup()
     			.addComponent(extraTurnCardSpinner)
@@ -954,10 +981,19 @@ public class TileOPage extends JFrame{
     		)
     	);
     	deckLayout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[]
-    	        {extraTurnCardLabel, newConnectionCardLabel, removeConnectionCardLabel, teleportCardLabel, totalCardLabel, extraTurnCardSpinner, newConnectionCardSpinner, removeConnectionCardSpinner, teleportCardSpinner, numberOfCardsLabel, loseTurnCardLabel, loseTurnCardSpinner});
+    	        {extraTurnCardLabel, newConnectionCardLabel, removeConnectionCardLabel,
+                teleportCardLabel, totalCardLabel, extraTurnCardSpinner,
+                newConnectionCardSpinner, removeConnectionCardSpinner,
+                teleportCardSpinner, numberOfCardsLabel, loseTurnCardLabel,
+                loseTurnCardSpinner, randomCardsButton, fillCardsButton, resetDeckButton});
         deckLayout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[]
-    	        {extraTurnCardLabel, newConnectionCardLabel, removeConnectionCardLabel, teleportCardLabel, totalCardLabel, extraTurnCardSpinner, newConnectionCardSpinner, removeConnectionCardSpinner, teleportCardSpinner, numberOfCardsLabel, loseTurnCardLabel, loseTurnCardSpinner});
-    	deckLayout.setVerticalGroup(deckLayout.createSequentialGroup()
+    	        {extraTurnCardLabel, newConnectionCardLabel, removeConnectionCardLabel,
+                teleportCardLabel, totalCardLabel, extraTurnCardSpinner,
+                newConnectionCardSpinner, removeConnectionCardSpinner,
+                teleportCardSpinner, numberOfCardsLabel, loseTurnCardLabel,
+                loseTurnCardSpinner, randomCardsButton, fillCardsButton, resetDeckButton});
+    	
+        deckLayout.setVerticalGroup(deckLayout.createSequentialGroup()
     		.addGroup(deckLayout.createParallelGroup()
     			.addComponent(extraTurnCardLabel)
     			.addComponent(extraTurnCardSpinner)
@@ -982,6 +1018,9 @@ public class TileOPage extends JFrame{
         			.addComponent(totalCardLabel)
         			.addComponent(numberOfCardsLabel)
        		)
+            .addComponent(randomCardsButton)
+            .addComponent(fillCardsButton)
+            .addComponent(resetDeckButton)
     	);
 
         // BOARD
@@ -1014,7 +1053,7 @@ public class TileOPage extends JFrame{
     }
     
     private int updateNumberOfCards() {
-    	int n = (int)extraTurnCardSpinner.getValue() + (int)newConnectionCardSpinner.getValue() + (int)removeConnectionCardSpinner.getValue() + (int)teleportCardSpinner.getValue()+(int)loseTurnCardSpinner.getValue();
+        int n = (int)extraTurnCardSpinner.getValue() + (int)newConnectionCardSpinner.getValue() + (int)removeConnectionCardSpinner.getValue() + (int)teleportCardSpinner.getValue()+(int)loseTurnCardSpinner.getValue();
     	numberOfCardsLabel.setText(n+"/"+NumberOfCards);
     	return n;
     }
@@ -1176,6 +1215,72 @@ public class TileOPage extends JFrame{
         }
         catch (InvalidInputException err){
             actionError.setText(err.getMessage());
+        }
+    }
+    
+    private void setRandomDeck() {
+        resetDeck();
+        fillDeck();
+    }
+
+    private void resetDeck() {
+        extraTurnCardSpinner.setValue(0);
+        newConnectionCardSpinner.setValue(0);
+        removeConnectionCardSpinner.setValue(0);
+        teleportCardSpinner.setValue(0);
+        loseTurnCardSpinner.setValue(0);
+    }
+
+    private void fillDeck() {
+        int nRoll = (int) extraTurnCardSpinner.getValue(); 
+        int nConn = (int) newConnectionCardSpinner.getValue(); 
+        int nRmConn = (int) removeConnectionCardSpinner.getValue(); 
+        int nTele = (int) teleportCardSpinner.getValue(); 
+        int nLose = (int) loseTurnCardSpinner.getValue(); 
+        int total = nRoll + nConn + nRmConn + nTele + nLose;
+        int nCardsLeft = 32 - total;
+        int n;
+
+        Random rand = new Random();
+        if (nRoll == 0 && nCardsLeft>0) {
+            n = rand.nextInt(nCardsLeft/4);
+            extraTurnCardSpinner.setValue(n);
+            nCardsLeft -= n;
+        }
+        if (nConn == 0 && nCardsLeft>0) {
+            n = rand.nextInt(nCardsLeft/3);
+            newConnectionCardSpinner.setValue(n);
+            nCardsLeft -= n;
+        }
+        if (nRmConn == 0 && nCardsLeft>0) {
+            n = rand.nextInt(nCardsLeft/2);
+            removeConnectionCardSpinner.setValue(n);
+            nCardsLeft -= n;
+        }
+        if (nLose == 0 && nCardsLeft>0){
+            n = rand.nextInt(nCardsLeft);
+            loseTurnCardSpinner.setValue(n);
+            nCardsLeft -= n;
+        }
+        if (nTele == 0 && nCardsLeft>0){
+            n = rand.nextInt(nCardsLeft);
+            teleportCardSpinner.setValue(n);
+            nCardsLeft -= n;
+        }
+        if (nCardsLeft!=0) {
+            n = rand.nextInt(5);
+            switch (n) {
+                case 0:
+                    extraTurnCardSpinner.setValue((int)extraTurnCardSpinner.getValue()+nCardsLeft);
+                case 1:
+                    newConnectionCardSpinner.setValue((int)newConnectionCardSpinner.getValue()+nCardsLeft);
+                case 2:
+                    removeConnectionCardSpinner.setValue((int)removeConnectionCardSpinner.getValue()+nCardsLeft);
+                case 3:
+                    loseTurnCardSpinner.setValue((int)loseTurnCardSpinner.getValue()+nCardsLeft);
+                case 4:
+                    teleportCardSpinner.setValue((int)teleportCardSpinner.getValue()+nCardsLeft);
+            }
         }
     }
     
