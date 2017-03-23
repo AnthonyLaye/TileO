@@ -7,6 +7,7 @@ import ca.mcgill.ecse223.tileo.model.NormalTile;
 import ca.mcgill.ecse223.tileo.model.ActionTile;
 import ca.mcgill.ecse223.tileo.model.WinTile;
 import ca.mcgill.ecse223.tileo.model.Connection;
+import ca.mcgill.ecse223.tileo.view.TileOPage;
 
 import java.io.Serializable;
 import java.lang.Thread;
@@ -50,6 +51,10 @@ public abstract class ComputerPlayer extends Player
     }
 
     public void playCard() {
+
+	    if(this instanceof HackerPlayer)
+	        getGame().setMode(Game.Mode.GAME_TELEPORTACTIONCARD);
+
         switch (getGame().getMode()) {
             case GAME_ROLLDIEACTIONCARD:
                 rollDieCard();
