@@ -2,11 +2,10 @@
 /*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
-import java.io.Serializable;
 
-// line 81 "../../../../../TileOPersistence.ump"
-// line 554 "../../../../../TileO.ump"
-public class TeleportActionCard extends ActionCard
+// line 93 "../../../../../TileOPersistence.ump"
+// line 578 "../../../../../TileO.ump"
+public class RemoveRandomTileActionCard extends ActionCard
 {
 
   //------------------------
@@ -17,7 +16,7 @@ public class TeleportActionCard extends ActionCard
   // CONSTRUCTOR
   //------------------------
 
-  public TeleportActionCard(String aInstructions, Deck aDeck)
+  public RemoveRandomTileActionCard(String aInstructions, Deck aDeck)
   {
     super(aInstructions, aDeck);
   }
@@ -31,22 +30,22 @@ public class TeleportActionCard extends ActionCard
     super.delete();
   }
 
-  // line 558 "../../../../../TileO.ump"
-   public void play(Tile t){
-    t.land();
+  // line 582 "../../../../../TileO.ump"
+   public Game.Mode getActionCardMode(){
+    return Game.Mode.GAME_REMOVERANDOMTILEACTIONCARD;
   }
 
-  // line 561 "../../../../../TileO.ump"
-   public Game.Mode getActionCardMode(){
-    return Game.Mode.GAME_TELEPORTACTIONCARD;
+  // line 586 "../../../../../TileO.ump"
+   public void play(){
+    getDeck().getGame().removeRandomTile();
   }
   
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 84 ../../../../../TileOPersistence.ump
-  private static final long serialVersionUID = -7103632970539771717L ;
+  // line 94 ../../../../../TileOPersistence.ump
+  private static final long serialVersionUID = 2104727098193344390L ;
 
   
 }

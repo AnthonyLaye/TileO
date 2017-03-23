@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 51 "../../../../../TileOPersistence.ump"
-// line 367 "../../../../../TileO.ump"
+// line 386 "../../../../../TileO.ump"
 public class Deck implements Serializable
 {
 
@@ -204,7 +204,7 @@ public class Deck implements Serializable
     }
   }
 
-  // line 372 "../../../../../TileO.ump"
+  // line 391 "../../../../../TileO.ump"
    public void shuffle(){
     Random rand = new Random();
     for (int i=0; i<100; ++i){
@@ -214,7 +214,7 @@ public class Deck implements Serializable
     setCurrentCard(getCard(0));
   }
 
-  // line 381 "../../../../../TileO.ump"
+  // line 400 "../../../../../TileO.ump"
    public void print(){
     System.out.println("~~~ DECK ~~~~");
     System.out.println("RollDieActionCard: "+numberOfCardsForType(0));
@@ -225,7 +225,7 @@ public class Deck implements Serializable
     System.out.println("");
   }
 
-  // line 392 "../../../../../TileO.ump"
+  // line 411 "../../../../../TileO.ump"
    public int numberOfCardsForType(int type){
     int n = 0;
 	    for (ActionCard aCard: getCards()) {
@@ -244,12 +244,16 @@ public class Deck implements Serializable
 	                break;
 	            case 4:
 	                if (aCard instanceof LoseTurnActionCard) n++;
+	                break;
+	            case 5:
+	            	if (aCard instanceof RemoveRandomTileActionCard) n++;
+	            	break;
 	        }
 	    }
 	    return n;
   }
 
-  // line 415 "../../../../../TileO.ump"
+  // line 434 "../../../../../TileO.ump"
    public void addCards(int n, int cardType){
     switch (cardType) {
 	        case 0:
@@ -277,10 +281,15 @@ public class Deck implements Serializable
 	    		for (int i=0;i<n;++i)
 	    		    new LoseTurnActionCard("Lose your next turn", this);
 	            break;
+	        case 5:
+	            // RMRANDOM
+	    		for (int i=0;i<n;++i)
+	    		    new RemoveRandomTileActionCard("Remove a random tile", this);
+	            break;
 	    }
   }
 
-  // line 445 "../../../../../TileO.ump"
+  // line 464 "../../../../../TileO.ump"
    public void rmCards(int toRm, int cardType){
     for (int i=0; i<numberOfCards(); ++i) {
 	        ActionCard card = getCard(i);
@@ -321,6 +330,14 @@ public class Deck implements Serializable
 	                    wasDeleted = true;
 	                }
 	                break;
+	            case 5:
+		            // RMRANDOM
+	            	if (card instanceof RemoveRandomTileActionCard){
+	                    card.delete();
+	                    wasDeleted = true;
+	                }
+	                break;
+		    		
 	        }
 	        if (wasDeleted) {
 	            toRm--;

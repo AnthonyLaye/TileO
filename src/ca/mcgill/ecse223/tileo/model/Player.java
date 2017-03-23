@@ -8,7 +8,7 @@ import java.util.*;
 
 // line 15 "../../../../../TileOPersistence.ump"
 // line 1 "../../../../../PlayerState.ump"
-// line 182 "../../../../../TileO.ump"
+// line 201 "../../../../../TileO.ump"
 public class Player implements Serializable
 {
 
@@ -170,22 +170,22 @@ public class Player implements Serializable
 
   public boolean setColor()
   {
-    switch (number) {
-        case 0:
-            color = Color.RED;
-            break;
-        case 1:
-            color = Color.BLUE;
-            break;
-        case 2:
-            color = Color.GREEN;
-            break;
-        case 3:
-            color = Color.YELLOW;
-            break;
-    }
-    return true;
-  } 
+      switch (number) {
+          case 0:
+              color = Color.RED;
+              break;
+          case 1:
+              color = Color.BLUE;
+              break;
+          case 2:
+              color = Color.GREEN;
+              break;
+          case 3:
+              color = Color.YELLOW;
+              break;
+      }
+      return true;
+  }
 
   public Tile getStartingTile()
   {
@@ -271,7 +271,7 @@ public class Player implements Serializable
     placeholderGame.removePlayer(this);
   }
 
-  // line 192 "../../../../../TileO.ump"
+  // line 211 "../../../../../TileO.ump"
    public ArrayList<Tile> getPossibleMoves(int depth){
     // Depth first search with limited depth, Iterate over the possible children
       // Cannot go back but loops are allowed
@@ -305,13 +305,13 @@ public class Player implements Serializable
       return new ArrayList<Tile>(possibleTiles);
   }
 
-  // line 226 "../../../../../TileO.ump"
+  // line 245 "../../../../../TileO.ump"
    public static  void resetMap(){
     //I had problems with tests (Vincent)
     playersByNumber = new HashMap<Integer, Player>();
   }
 
-  // line 231 "../../../../../TileO.ump"
+  // line 250 "../../../../../TileO.ump"
    public void forceDelete(){
     playersByNumber.remove(getNumber());
     startingTile = null;

@@ -66,6 +66,9 @@ public abstract class ComputerPlayer extends Player
             case GAME_TELEPORTACTIONCARD:
                 teleportCard();
                 break;
+            case GAME_REMOVERANDOMTILEACTIONCARD:
+            	removeRandomTileCard();
+            	break;
             default:
                 throw new RuntimeException("ERROR "+getGame().getMode()+": card not implemented for ai");
         }    
@@ -118,6 +121,13 @@ public abstract class ComputerPlayer extends Player
         move(true);
         System.out.println("Computer landed on tile "+getCurrentTile().getX()+"-"+getCurrentTile().getY()+"\n");
         getGame().setNextCard();
+    }
+    private void removeRandomTileCard() {
+    	System.out.println("Computer plays RemoveRandomTileActionCard");
+    	getGame().removeRandomTile();
+    	getGame().setNextCard();
+    	getGame().setNextPlayer();
+    	getGame().setMode(Game.Mode.GAME);
     }
 
     

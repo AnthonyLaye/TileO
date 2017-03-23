@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 21 "../../../../../TileOPersistence.ump"
-// line 240 "../../../../../TileO.ump"
+// line 259 "../../../../../TileO.ump"
 public abstract class Tile implements Serializable
 {
 
@@ -255,7 +255,7 @@ public abstract class Tile implements Serializable
   }
 
    public abstract void land();
-  // line 251 "../../../../../TileO.ump"
+  // line 270 "../../../../../TileO.ump"
    public boolean isConnectedWith(Tile t){
     boolean isConnected = false;
 	  for (Connection conn: getConnections()) {
@@ -267,7 +267,7 @@ public abstract class Tile implements Serializable
 	  return isConnected;
   }
 
-  // line 262 "../../../../../TileO.ump"
+  // line 281 "../../../../../TileO.ump"
    public ArrayList<Tile> getDisconnectedNeighbors(){
     ArrayList<Tile> neigbors = new ArrayList<Tile>();
     Tile t;

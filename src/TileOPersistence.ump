@@ -90,6 +90,10 @@ class LoseTurnActionCard {
 	private static final long serialVersionUID = -4548100986646590925L;
 }
 
+class RemoveRandomTileActionCard {
+  private static final long serialVersionUID = 2104727098193344390L;
+}
+
 class Die {
 	depend java.io.Serializable;
 	isA Serializable;

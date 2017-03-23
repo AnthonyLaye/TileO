@@ -16,6 +16,7 @@ class TileOController {
 	depend ca.mcgill.ecse223.tileo.model.RemoveConnectionActionCard;
 	depend ca.mcgill.ecse223.tileo.model.RollDieActionCard;
 	depend ca.mcgill.ecse223.tileo.model.TeleportActionCard;
+	depend ca.mcgill.ecse223.tileo.model.RemoveRandomTileActionCard;
 
 	depend java.util.ArrayList;
 	depend java.util.List;
@@ -70,6 +71,9 @@ class TileOController {
 	            playLoseTurnActionCard() [verifyGameMode(Game.Mode.GAME_LOSETURNACTIONCARD)] / {
 	            	doPlayLoseTurnActionCard();
 	            } -> StartOfTurn;
+	            playRemoveRandomTileActionCard(Game game)[verifyGameMode(Game.Mode.GAME_REMOVERANDOMTILEACTIONCARD)] / {
+                    doPlayRemoveRandomTileActionCard(game);
+      			} -> StartOfTurn;
 	        }
 	    }
 	}
@@ -345,6 +349,19 @@ class TileOController {
         currentGame.setNextPlayer();
         currentGame.setMode(Game.Mode.GAME);
     }
+    
+    private void doPlayRemoveRandomTileActionCard(Game game) {
+    Deck deck = game.getDeck();
+    ActionCard currentCard = deck.getCurrentCard();
+    
+    if (currentCard instanceof RemoveRandomTileActionCard) {
+      ((RemoveRandomTileActionCard) currentCard).play();
+    }
+    
+    game.setNextPlayer();
+    game.setNextCard();
+    game.setMode(Game.Mode.GAME);
+  }
 
     
     // Controls
