@@ -4,6 +4,7 @@
 package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 import ca.mcgill.ecse223.tileo.computer.StupidPlayer;
+import ca.mcgill.ecse223.tileo.computer.GodPlayer;
 import java.util.*;
 
 // line 9 "../../../../../TileOPersistence.ump"
@@ -784,6 +785,13 @@ public class Game implements Serializable
 
     if (type.equals("Stupid")) {
         StupidPlayer cp = new StupidPlayer(playerNum, this);
+        System.out.println("Making player "+playerNum+" -> "+type);
+        cp.setColor();
+        cp.setStartingTile(t);
+        addOrMovePlayerAt(cp, cp.getNumber());
+    }
+    else if (type.equals("God")) {
+        GodPlayer cp = new GodPlayer(playerNum, this);
         System.out.println("Making player "+playerNum+" -> "+type);
         cp.setColor();
         cp.setStartingTile(t);

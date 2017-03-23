@@ -30,12 +30,19 @@ public abstract class ComputerPlayer extends Player
         Tile newTile; 
         List<Tile> possibleTiles;
         
-        if (allTiles)
+        if (allTiles){
+            System.out.println("You're dead, maybe");
             possibleTiles = getGame().getTiles();
-        else
+        }
+        else{
             possibleTiles = getGame().rollDie();
-        if (possibleTiles.size()==0)
+            System.out.println("Computer rolled die and got "+getGame().dieNumber);
+        }
+        
+        if (possibleTiles.size()==0){
+            System.out.println("Computer has no option");
             newTile = getCurrentTile();
+        }
         else
             newTile = this.chooseTile(possibleTiles);
 
