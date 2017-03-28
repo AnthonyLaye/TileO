@@ -4,9 +4,22 @@ Group14
 
 The main method is in src/ca/mcgill/ecse223/tileo/application/TileOApplication
 
+
 ### Design mode
 In design mode when you click, for example, on the Add Tile button, you can add as many tile without having to reclick on the button.
 It's the same principle for the other buttons
+
+
+### Umple
+### Up to date
+##### Changes to make when generating code from Umple
+- Game: public Tile addTile(int aX, int aY) -> commented out
+- Deck: public ActionCard addCard(String aInstructions) -> commented out
+- TileOController: add throws InvalidInputException to startGame(), 
+  selectNewTile(), land(), playRollDieActionCard(), playConnectTilesActionCard(),
+  playRemoveConnectionActionCard(), playTeleportActionCard(), playLoseTurnActionCard()
+- ActionTile: change boolean land() to void land(), remove class abstract 
+
 
 ### Add a new ComputerPlayer behaviour
 - 1. Copy (not overwrite!) the file TemplatePlayer.java in ca.mcgill.ecse223.tileo.computer and change its name to whatever you want. Best is something like NoobPlayer.java or TurboPlayer.java
@@ -22,37 +35,6 @@ It's the same principle for the other buttons
   for your check in step 3.
 - 6. That's it, the rest is done for you.
 
-### Umple
-### Up to date
-##### Changes to make when generating code from Umple
-- Game: public Tile addTile(int aX, int aY) -> commented out
-- Deck: public ActionCard addCard(String aInstructions) -> commented out
-- TileOController: add throws InvalidInputException to startGame(), 
-  selectNewTile(), land(), playRollDieActionCard(), playConnectTilesActionCard(),
-  playRemoveConnectionActionCard(), playTeleportActionCard(), playLoseTurnActionCard()
-- ActionTile: change boolean land() to void land(), remove class abstract 
-- Player: in the constructor change `setColor(Color.RED)` to `setColor()` and replace the
-  current `setColor` method with
-```java
-public boolean setColor()
-{
-    switch (number) {
-        case 0:
-            color = Color.RED;
-            break;
-        case 1:
-            color = Color.BLUE;
-            break;
-        case 2:
-            color = Color.GREEN;
-            break;
-        case 3:
-            color = Color.YELLOW;
-            break;
-    }
-    return true;
-}
-```
 
 ### Contributors
 - Anthony Laye
