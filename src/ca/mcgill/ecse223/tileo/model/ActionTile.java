@@ -83,7 +83,7 @@ public class ActionTile extends Tile
         wasEventProcessed = true;
         break;
       case Inactive:
-        // line 14 "../../../../../ActionTileState.ump"
+        // line 18 "../../../../../ActionTileState.ump"
         doLandAsNormal();
         setInactivityStatus(InactivityStatus.Inactive);
         wasEventProcessed = true;
@@ -91,6 +91,27 @@ public class ActionTile extends Tile
       default:
         // Other states do respond to this event
     }
+  }
+
+  public boolean deactivate()
+  {
+    boolean wasEventProcessed = false;
+    
+    InactivityStatus aInactivityStatus = inactivityStatus;
+    switch (aInactivityStatus)
+    {
+      case Active:
+        // line 10 "../../../../../ActionTileState.ump"
+        setTurnsUntilActive(inactivityPeriod+1);
+  			getGame().addInactiveActionTile(this);
+        setInactivityStatus(InactivityStatus.Inactive);
+        wasEventProcessed = true;
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
   }
 
   public boolean inactivityPeriodCompleted()

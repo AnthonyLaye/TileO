@@ -7,6 +7,10 @@ class ActionTile {
   			doLand();
   			setTurnsUntilActive(inactivityPeriod+1);
   		} -> Inactive;	
+  		deactivate / {
+  			setTurnsUntilActive(inactivityPeriod+1);
+  			getGame().addInactiveActionTile(this);
+  		} -> Inactive;
   	}
   	
   	Inactive {

@@ -34,7 +34,7 @@ class Game {
   depend ca.mcgill.ecse223.tileo.computer.GodPlayer;
   depend ca.mcgill.ecse223.tileo.computer.HackerPlayer;
   
-  mode { DESIGN{} GAME{} GAME_WON{} GAME_ROLLDIEACTIONCARD{} GAME_CONNECTTILESACTIONCARD{} GAME_REMOVECONNECTIONACTIONCARD{} GAME_TELEPORTACTIONCARD{} GAME_LOSETURNACTIONCARD{} GAME_REMOVERANDOMTILEACTIONCARD{} }
+  mode { DESIGN{} GAME{} GAME_WON{} GAME_ROLLDIEACTIONCARD{} GAME_CONNECTTILESACTIONCARD{} GAME_REMOVECONNECTIONACTIONCARD{} GAME_TELEPORTACTIONCARD{} GAME_LOSETURNACTIONCARD{} GAME_REMOVERANDOMTILEACTIONCARD{} GAME_TURNINACTIVEACTIONCARD{} }
   1 <@>- 2..4 Player players;
   1 <@>- * Tile tiles;
   1 <@>- * Connection connections;
@@ -445,6 +445,7 @@ class Deck {
   1 -> * RemoveRandomTileActionCard;
   1 -> * RollDieActionCard;
   1 -> * TeleportActionCard;
+  1 -> * TurnInactiveActionCard;
   
   public void shuffle() {
     Random rand = new Random();
@@ -463,6 +464,7 @@ class Deck {
     System.out.println("TeleportActionCard: "+numberOfCardsForType(3));
     System.out.println("LoseTurnActionCard: "+numberOfCardsForType(4));
     System.out.println("RemoveRandomTileActionCard: "+numberOfCardsForType(5));
+    System.out.println("TurnInactiveActionCard: "+numberOfCardsForType(6));
     System.out.println("");
   }
 
@@ -480,6 +482,8 @@ class Deck {
 	   			return numberOfLoseTurnActionCards();
 	   		case 5:
 	   			return numberOfRemoveRandomTileActionCards();
+	   		case 6:
+	   			return numberOfTurnInactiveActionCards();
 	   		default:
 	   			throw new RuntimeException("Card type not supported");
      }
@@ -519,6 +523,11 @@ class Deck {
 	    		for (int i=0;i<n;++i)
 	    		    addRemoveRandomTileActionCard(new RemoveRandomTileActionCard("Remove a random tile", this));
 	            break;
+	        case 6:
+	            // TURNINACTIVE
+	    		for (int i=0;i<n;++i)
+	    		    addTurnInactiveActionCard(new TurnInactiveActionCard("Remove a random tile", this));
+	            break;
 	        default:
 	        	throw new RuntimeException("Card type not implemented");
 	    }
@@ -556,6 +565,11 @@ class Deck {
 		   		case 5:
 		   			c = getRemoveRandomTileActionCard(0);
 		   			removeRemoveRandomTileActionCard((RemoveRandomTileActionCard)c);
+		   			c.delete();
+		   			break;
+		   		case 6:
+		   			c = getTurnInactiveActionCard(0);
+		   			removeTurnInactiveActionCard((TurnInactiveActionCard)c);
 		   			c.delete();
 		   			break;
 		   		default:
@@ -641,6 +655,15 @@ class RemoveRandomTileActionCard {
       getDeck().getGame().removeRandomTile();
     }
 }
+
+
+ class TurnInactiveActionCard {
+ 	isA ActionCard;
+ 	
+ 	public Game.Mode getActionCardMode() {
+ 		return Game.Mode.GAME_TURNINACTIVEACTIONCARD;
+ 	}
+ }
 
 class Die {
   depend java.util.Random;

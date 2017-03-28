@@ -23,6 +23,7 @@ public class Deck implements Serializable
   private List<RemoveRandomTileActionCard> removeRandomTileActionCards;
   private List<RollDieActionCard> rollDieActionCards;
   private List<TeleportActionCard> teleportActionCards;
+  private List<TurnInactiveActionCard> turnInactiveActionCards;
   private Game game;
 
   //------------------------
@@ -38,6 +39,7 @@ public class Deck implements Serializable
     removeRandomTileActionCards = new ArrayList<RemoveRandomTileActionCard>();
     rollDieActionCards = new ArrayList<RollDieActionCard>();
     teleportActionCards = new ArrayList<TeleportActionCard>();
+    turnInactiveActionCards = new ArrayList<TurnInactiveActionCard>();
     if (aGame == null || aGame.getDeck() != null)
     {
       throw new RuntimeException("Unable to create Deck due to aGame");
@@ -54,6 +56,7 @@ public class Deck implements Serializable
     removeRandomTileActionCards = new ArrayList<RemoveRandomTileActionCard>();
     rollDieActionCards = new ArrayList<RollDieActionCard>();
     teleportActionCards = new ArrayList<TeleportActionCard>();
+    turnInactiveActionCards = new ArrayList<TurnInactiveActionCard>();
     game = new Game(aCurrentConnectionPiecesForGame, this, aDieForGame, aTileOForGame);
   }
 
@@ -279,6 +282,36 @@ public class Deck implements Serializable
   public int indexOfTeleportActionCard(TeleportActionCard aTeleportActionCard)
   {
     int index = teleportActionCards.indexOf(aTeleportActionCard);
+    return index;
+  }
+
+  public TurnInactiveActionCard getTurnInactiveActionCard(int index)
+  {
+    TurnInactiveActionCard aTurnInactiveActionCard = turnInactiveActionCards.get(index);
+    return aTurnInactiveActionCard;
+  }
+
+  public List<TurnInactiveActionCard> getTurnInactiveActionCards()
+  {
+    List<TurnInactiveActionCard> newTurnInactiveActionCards = Collections.unmodifiableList(turnInactiveActionCards);
+    return newTurnInactiveActionCards;
+  }
+
+  public int numberOfTurnInactiveActionCards()
+  {
+    int number = turnInactiveActionCards.size();
+    return number;
+  }
+
+  public boolean hasTurnInactiveActionCards()
+  {
+    boolean has = turnInactiveActionCards.size() > 0;
+    return has;
+  }
+
+  public int indexOfTurnInactiveActionCard(TurnInactiveActionCard aTurnInactiveActionCard)
+  {
+    int index = turnInactiveActionCards.indexOf(aTurnInactiveActionCard);
     return index;
   }
 
@@ -726,6 +759,63 @@ public class Deck implements Serializable
     return wasAdded;
   }
 
+  public static int minimumNumberOfTurnInactiveActionCards()
+  {
+    return 0;
+  }
+
+  public boolean addTurnInactiveActionCard(TurnInactiveActionCard aTurnInactiveActionCard)
+  {
+    boolean wasAdded = false;
+    if (turnInactiveActionCards.contains(aTurnInactiveActionCard)) { return false; }
+    turnInactiveActionCards.add(aTurnInactiveActionCard);
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeTurnInactiveActionCard(TurnInactiveActionCard aTurnInactiveActionCard)
+  {
+    boolean wasRemoved = false;
+    if (turnInactiveActionCards.contains(aTurnInactiveActionCard))
+    {
+      turnInactiveActionCards.remove(aTurnInactiveActionCard);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+
+  public boolean addTurnInactiveActionCardAt(TurnInactiveActionCard aTurnInactiveActionCard, int index)
+  {  
+    boolean wasAdded = false;
+    if(addTurnInactiveActionCard(aTurnInactiveActionCard))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfTurnInactiveActionCards()) { index = numberOfTurnInactiveActionCards() - 1; }
+      turnInactiveActionCards.remove(aTurnInactiveActionCard);
+      turnInactiveActionCards.add(index, aTurnInactiveActionCard);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveTurnInactiveActionCardAt(TurnInactiveActionCard aTurnInactiveActionCard, int index)
+  {
+    boolean wasAdded = false;
+    if(turnInactiveActionCards.contains(aTurnInactiveActionCard))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfTurnInactiveActionCards()) { index = numberOfTurnInactiveActionCards() - 1; }
+      turnInactiveActionCards.remove(aTurnInactiveActionCard);
+      turnInactiveActionCards.add(index, aTurnInactiveActionCard);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addTurnInactiveActionCardAt(aTurnInactiveActionCard, index);
+    }
+    return wasAdded;
+  }
+
   public void delete()
   {
     while (cards.size() > 0)
@@ -742,6 +832,7 @@ public class Deck implements Serializable
     removeRandomTileActionCards.clear();
     rollDieActionCards.clear();
     teleportActionCards.clear();
+    turnInactiveActionCards.clear();
     Game existingGame = game;
     game = null;
     if (existingGame != null)
@@ -750,7 +841,7 @@ public class Deck implements Serializable
     }
   }
 
-  // line 450 "../../../../../TileO.ump"
+  // line 451 "../../../../../TileO.ump"
    public void shuffle(){
     Random rand = new Random();
     for (int i=0; i<100; ++i){
@@ -760,7 +851,7 @@ public class Deck implements Serializable
     setCurrentCard(getCard(0));
   }
 
-  // line 459 "../../../../../TileO.ump"
+  // line 460 "../../../../../TileO.ump"
    public void print(){
     System.out.println("~~~ DECK ~~~~");
     System.out.println("RollDieActionCard: "+numberOfCardsForType(0));
@@ -769,10 +860,11 @@ public class Deck implements Serializable
     System.out.println("TeleportActionCard: "+numberOfCardsForType(3));
     System.out.println("LoseTurnActionCard: "+numberOfCardsForType(4));
     System.out.println("RemoveRandomTileActionCard: "+numberOfCardsForType(5));
+    System.out.println("TurnInactiveActionCard: "+numberOfCardsForType(6));
     System.out.println("");
   }
 
-  // line 470 "../../../../../TileO.ump"
+  // line 472 "../../../../../TileO.ump"
    public int numberOfCardsForType(int type){
     switch (type) {
 	   		case 0:
@@ -787,12 +879,14 @@ public class Deck implements Serializable
 	   			return numberOfLoseTurnActionCards();
 	   		case 5:
 	   			return numberOfRemoveRandomTileActionCards();
+	   		case 6:
+	   			return numberOfTurnInactiveActionCards();
 	   		default:
 	   			throw new RuntimeException("Card type not supported");
      }
   }
 
-  // line 489 "../../../../../TileO.ump"
+  // line 493 "../../../../../TileO.ump"
    public void addCards(int n, int cardType){
     n = n%maximumNumberOfCards();
 	if (numberOfCards() + n > maximumNumberOfCards()) n = maximumNumberOfCards() - n;
@@ -827,12 +921,17 @@ public class Deck implements Serializable
 	    		for (int i=0;i<n;++i)
 	    		    addRemoveRandomTileActionCard(new RemoveRandomTileActionCard("Remove a random tile", this));
 	            break;
+	        case 6:
+	            // TURNINACTIVE
+	    		for (int i=0;i<n;++i)
+	    		    addTurnInactiveActionCard(new TurnInactiveActionCard("Remove a random tile", this));
+	            break;
 	        default:
 	        	throw new RuntimeException("Card type not implemented");
 	    }
   }
 
-  // line 528 "../../../../../TileO.ump"
+  // line 537 "../../../../../TileO.ump"
    public void rmCards(int toRm, int cardType){
     ActionCard c;
 	   for (int i=0; i<toRm; ++i) {	
@@ -865,6 +964,11 @@ public class Deck implements Serializable
 		   		case 5:
 		   			c = getRemoveRandomTileActionCard(0);
 		   			removeRemoveRandomTileActionCard((RemoveRandomTileActionCard)c);
+		   			c.delete();
+		   			break;
+		   		case 6:
+		   			c = getTurnInactiveActionCard(0);
+		   			removeTurnInactiveActionCard((TurnInactiveActionCard)c);
 		   			c.delete();
 		   			break;
 		   		default:

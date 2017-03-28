@@ -76,6 +76,9 @@ class TileOController {
 	            playRemoveRandomTileActionCard(Game game)[verifyGameMode(Game.Mode.GAME_REMOVERANDOMTILEACTIONCARD)] / {
                     doPlayRemoveRandomTileActionCard(game);
       			} -> StartOfTurn;
+      			playTurnInactiveActionCard(Game currentGame) [verifyGameMode(Game.Mode.GAME_TURNINACTIVEACTIONCARD)] / {
+        			doPlayTurnInactiveActionCard(currentGame);
+      			} -> StartOfTurn;
 	        }
 	    }
 	}
@@ -364,6 +367,24 @@ class TileOController {
     game.setNextCard();
     game.setMode(Game.Mode.GAME);
   }
+  
+  private boolean doPlayTurnInactiveActionCard(Game currentGame){   
+	List<Tile> allTiles = currentGame.getTiles();
+	boolean success = false;
+	for(int i = 0; i< allTiles.size(); i++){
+	Tile aTile = allTiles.get(i);
+	if (aTile instanceof ActionTile){
+		ActionTile aActionTile = (ActionTile) aTile;
+		success = aActionTile.deactivate();
+		}
+	}
+	
+	currentGame.setNextPlayer();
+    currentGame.setNextCard();
+    currentGame.setMode(Game.Mode.GAME);
+
+		return success;
+  }
 
     
     // Controls
@@ -411,6 +432,7 @@ class TileOController {
         	case GAME_TELEPORTACTIONCARD:
         	case GAME_LOSETURNACTIONCARD:
         	case GAME_REMOVERANDOMTILEACTIONCARD:
+        	case GAME_TURNINACTIVEACTIONCARD:
         		setControllerState(ControllerState.Game);
         		setControllerStateGame(ControllerStateGame.LandedAction);
         		break;	

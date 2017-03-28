@@ -64,6 +64,7 @@ public class TileOPage extends JFrame{
         	private JButton loseTurnCardButton;
             private JButton rollDieCardButton;
             private JButton removeRandomTileCardButton;
+            private JButton turnInactiveCardButton;
         // design
         private JTabbedPane designTabbedPane;
             // tile
@@ -109,6 +110,8 @@ public class TileOPage extends JFrame{
             private JSpinner loseTurnCardSpinner;
             private JLabel removeRandomTileCardLabel;
             private JSpinner removeRandomTileCardSpinner;
+            private JLabel turnInactiveCardLabel;
+            private JSpinner turnInactiveCardSpinner;
             private JLabel totalCardLabel;
             private JLabel numberOfCardsLabel;
             private JButton randomCardsButton;
@@ -222,6 +225,7 @@ public class TileOPage extends JFrame{
             	loseTurnCardButton = new JButton();
                 rollDieCardButton = new JButton();
                 removeRandomTileCardButton = new JButton();
+                turnInactiveCardButton = new JButton();
             // design
                 // tile
                 addRegularTileButton = new JButton();
@@ -263,6 +267,7 @@ public class TileOPage extends JFrame{
                 teleportCardLabel = new JLabel();
                 loseTurnCardLabel = new JLabel();
                 removeRandomTileCardLabel = new JLabel();
+                turnInactiveCardLabel = new JLabel();
                 totalCardLabel = new JLabel();
                 numberOfCardsLabel = new JLabel();
                 extraTurnCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
@@ -271,9 +276,10 @@ public class TileOPage extends JFrame{
                 teleportCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
                 loseTurnCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
                 removeRandomTileCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
+                turnInactiveCardSpinner = new JSpinner(new SpinnerNumberModel(0,0,32,1));
                 // dont change this ordering
-                JSpinner[] spinners = {extraTurnCardSpinner, newConnectionCardSpinner, removeConnectionCardSpinner, teleportCardSpinner, loseTurnCardSpinner, removeRandomTileCardSpinner};
-                for (int i=0; i<6; ++i){
+                JSpinner[] spinners = {extraTurnCardSpinner, newConnectionCardSpinner, removeConnectionCardSpinner, teleportCardSpinner, loseTurnCardSpinner, removeRandomTileCardSpinner, turnInactiveCardSpinner};
+                for (int i=0; i<spinners.length; ++i){
                 	int cardType = i;
                     spinners[i].addChangeListener(new javax.swing.event.ChangeListener(){
                 		public void stateChanged(javax.swing.event.ChangeEvent e){
@@ -348,6 +354,12 @@ public class TileOPage extends JFrame{
         removeRandomTileCardButton.addActionListener(new java.awt.event.ActionListener() {
         	public void actionPerformed(java.awt.event.ActionEvent e) {
         		removeRandomTileCardActionPerformed();
+        	}
+        });
+        turnInactiveCardButton.setText("Make inactive");
+        turnInactiveCardButton.addActionListener(new java.awt.event.ActionListener() {
+        	public void actionPerformed(java.awt.event.ActionEvent e) {
+        		turnInactiveCardActionPerformed();
         	}
         });
 
@@ -456,6 +468,7 @@ public class TileOPage extends JFrame{
         teleportCardLabel.setText("Teleport");
         removeRandomTileCardLabel.setText("Remove random tile");
         loseTurnCardLabel.setText("Lose turn");
+        turnInactiveCardLabel.setText("Turn inactive");
         totalCardLabel.setText("Total");
         numberOfCardsLabel.setText("0/"+NumberOfCards);
         randomCardsButton.setText("Random");
@@ -747,6 +760,7 @@ public class TileOPage extends JFrame{
             	actionStatusLabel.setText("Roll die action card");
             	loseTurnCardButton.setVisible(false);
             	rollDieButton.setVisible(false);
+            	turnInactiveCardButton.setVisible(false);
             	removeRandomTileCardButton.setVisible(false);
                 if (game.getCurrentPlayer() instanceof ComputerPlayer) {
                     startComputerTurn(game);
@@ -795,6 +809,7 @@ public class TileOPage extends JFrame{
             	actionStatusLabel.setText("Lose turn action card");
             	rollDieCardButton.setVisible(false);
             	removeRandomTileCardButton.setVisible(false);
+            	turnInactiveCardButton.setVisible(false);
                 if (game.getCurrentPlayer() instanceof ComputerPlayer) {
                     startComputerTurn(game);
                 }
@@ -809,6 +824,7 @@ public class TileOPage extends JFrame{
             	actionStatusLabel.setText("Remove a random tile action card");
             	loseTurnCardButton.setVisible(false);
             	rollDieButton.setVisible(false);
+            	turnInactiveCardButton.setVisible(false);
                 if (game.getCurrentPlayer() instanceof ComputerPlayer) {
                     startComputerTurn(game);
                 }
@@ -816,6 +832,21 @@ public class TileOPage extends JFrame{
             	    gameButtonsPanel.add(removeRandomTileCardButton);
                     gameButtonsPanel.setVisible(true);
             	    removeRandomTileCardButton.setVisible(true);
+                }
+                break;
+            case GAME_TURNINACTIVEACTIONCARD:
+            	actionTipLabel.setText("Click on the button");
+            	actionStatusLabel.setText("Make all action tiles inactive");
+            	loseTurnCardButton.setVisible(false);
+            	rollDieButton.setVisible(false);
+            	removeRandomTileCardButton.setVisible(false);
+                if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+                    startComputerTurn(game);
+                }
+                else {
+            	    gameButtonsPanel.add(turnInactiveCardButton);
+                    gameButtonsPanel.setVisible(true);
+                    turnInactiveCardButton.setVisible(true);
                 }
                 break;
             case DESIGN:
@@ -1006,6 +1037,7 @@ public class TileOPage extends JFrame{
     			.addComponent(teleportCardLabel)
     			.addComponent(loseTurnCardLabel)
     			.addComponent(removeRandomTileCardLabel)
+    			.addComponent(turnInactiveCardLabel)
     			.addComponent(totalCardLabel)
                 .addComponent(randomCardsButton)
                 .addComponent(fillCardsButton)
@@ -1018,6 +1050,7 @@ public class TileOPage extends JFrame{
     			.addComponent(teleportCardSpinner)
     			.addComponent(loseTurnCardSpinner)
     			.addComponent(removeRandomTileCardSpinner)
+    			.addComponent(turnInactiveCardSpinner)
     			.addComponent(numberOfCardsLabel)
     		)
     	);
@@ -1026,13 +1059,15 @@ public class TileOPage extends JFrame{
                 teleportCardLabel, removeRandomTileCardLabel, totalCardLabel, extraTurnCardSpinner,
                 newConnectionCardSpinner, removeConnectionCardSpinner,
                 teleportCardSpinner, numberOfCardsLabel, loseTurnCardLabel,
-                loseTurnCardSpinner, removeRandomTileCardSpinner, randomCardsButton, fillCardsButton, resetDeckButton});
+                loseTurnCardSpinner, removeRandomTileCardSpinner, randomCardsButton, fillCardsButton, resetDeckButton,
+                turnInactiveCardLabel, turnInactiveCardSpinner});
         deckLayout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[]
     	        {extraTurnCardLabel, newConnectionCardLabel, removeConnectionCardLabel,
                 teleportCardLabel, removeRandomTileCardLabel, totalCardLabel, extraTurnCardSpinner,
                 newConnectionCardSpinner, removeConnectionCardSpinner,
                 teleportCardSpinner, numberOfCardsLabel, loseTurnCardLabel,
-                loseTurnCardSpinner, removeRandomTileCardSpinner, randomCardsButton, fillCardsButton, resetDeckButton});
+                loseTurnCardSpinner, removeRandomTileCardSpinner, randomCardsButton, fillCardsButton, resetDeckButton,
+                turnInactiveCardLabel, turnInactiveCardSpinner});
     	
         deckLayout.setVerticalGroup(deckLayout.createSequentialGroup()
     		.addGroup(deckLayout.createParallelGroup()
@@ -1058,6 +1093,10 @@ public class TileOPage extends JFrame{
     		.addGroup(deckLayout.createParallelGroup()
     				.addComponent(removeRandomTileCardLabel)
     				.addComponent(removeRandomTileCardSpinner)
+    		)
+    		.addGroup(deckLayout.createParallelGroup()
+    				.addComponent(turnInactiveCardLabel)
+    				.addComponent(turnInactiveCardSpinner)
     		)
     		.addGroup(deckLayout.createParallelGroup()
         			.addComponent(totalCardLabel)
@@ -1098,7 +1137,7 @@ public class TileOPage extends JFrame{
     }
     
     private int updateNumberOfCards() {
-        int n = (int)extraTurnCardSpinner.getValue() + (int)newConnectionCardSpinner.getValue() + (int)removeConnectionCardSpinner.getValue() + (int)teleportCardSpinner.getValue()+(int)loseTurnCardSpinner.getValue()+(int)removeRandomTileCardSpinner.getValue();
+        int n = (int)extraTurnCardSpinner.getValue() + (int)newConnectionCardSpinner.getValue() + (int)removeConnectionCardSpinner.getValue() + (int)teleportCardSpinner.getValue()+(int)loseTurnCardSpinner.getValue()+(int)removeRandomTileCardSpinner.getValue()+(int)turnInactiveCardSpinner.getValue();
     	numberOfCardsLabel.setText(n+"/"+NumberOfCards);
     	return n;
     }
@@ -1275,6 +1314,7 @@ public class TileOPage extends JFrame{
         teleportCardSpinner.setValue(0);
         loseTurnCardSpinner.setValue(0);
         removeRandomTileCardSpinner.setValue(0);
+        turnInactiveCardSpinner.setValue(0);
     }
 
     private void fillDeck() {
@@ -1284,28 +1324,29 @@ public class TileOPage extends JFrame{
         int nTele = (int) teleportCardSpinner.getValue(); 
         int nLose = (int) loseTurnCardSpinner.getValue(); 
         int nRmTile = (int) removeRandomTileCardSpinner.getValue();
-        int total = nRoll + nConn + nRmConn + nTele + nLose + nRmTile;
+        int nTurnInactive = (int) turnInactiveCardSpinner.getValue();
+        int total = nRoll + nConn + nRmConn + nTele + nLose + nRmTile + nTurnInactive;
         int nCardsLeft = 32 - total;
         int n;
 
         Random rand = new Random();
         if (nRoll == 0 && nCardsLeft>0) {
-            n = rand.nextInt(nCardsLeft/4);
+            n = rand.nextInt(nCardsLeft/5);
             extraTurnCardSpinner.setValue(n);
             nCardsLeft -= n;
         }
         if (nConn == 0 && nCardsLeft>0) {
-            n = rand.nextInt(nCardsLeft/3);
+            n = rand.nextInt(nCardsLeft/4);
             newConnectionCardSpinner.setValue(n);
             nCardsLeft -= n;
         }
         if (nRmConn == 0 && nCardsLeft>0) {
-            n = rand.nextInt(nCardsLeft/2);
+            n = rand.nextInt(nCardsLeft/3);
             removeConnectionCardSpinner.setValue(n);
             nCardsLeft -= n;
         }
         if (nLose == 0 && nCardsLeft>0){
-            n = rand.nextInt(nCardsLeft);
+            n = rand.nextInt(nCardsLeft/2);
             loseTurnCardSpinner.setValue(n);
             nCardsLeft -= n;
         }
@@ -1319,8 +1360,13 @@ public class TileOPage extends JFrame{
             removeRandomTileCardSpinner.setValue(n);
             nCardsLeft -= n;
         }
+        if (nRmTile == 0 && nCardsLeft>0){
+            n = rand.nextInt(nCardsLeft);
+            turnInactiveCardSpinner.setValue(n);
+            nCardsLeft -= n;
+        }
         if (nCardsLeft!=0) {
-            n = rand.nextInt(5);
+            n = rand.nextInt(6);
             switch (n) {
                 case 0:
                     extraTurnCardSpinner.setValue((int)extraTurnCardSpinner.getValue()+nCardsLeft);
@@ -1334,6 +1380,8 @@ public class TileOPage extends JFrame{
                     teleportCardSpinner.setValue((int)teleportCardSpinner.getValue()+nCardsLeft);
                 case 5:
                     removeRandomTileCardSpinner.setValue((int)removeRandomTileCardSpinner.getValue()+nCardsLeft);
+                case 6:
+                	turnInactiveCardSpinner.setValue((int)turnInactiveCardSpinner.getValue()+nCardsLeft);
             }
         }
     }
@@ -1606,6 +1654,12 @@ public class TileOPage extends JFrame{
     	renderLayout(game);
     }
     
+    private void turnInactiveCardActionPerformed() {
+    	Game game = TileOApplication.getTileO().getCurrentGame();
+    	toc.playTurnInactiveActionCard(game);
+    	renderLayout(game);
+    }
+    
     
     //controls 
     private void newGameActionPerformed(java.awt.event.ActionEvent e) {
@@ -1693,6 +1747,8 @@ public class TileOPage extends JFrame{
                 loseTurnCardSpinner.setValue(n);
                 n = d.numberOfCardsForType(5);
                 removeRandomTileCardSpinner.setValue(n);
+                n = d.numberOfCardsForType(6);
+                turnInactiveCardSpinner.setValue(n);
 
                 // select radio buttons for computers
                 for (int i=0; i<game.numberOfPlayers(); i++) {
