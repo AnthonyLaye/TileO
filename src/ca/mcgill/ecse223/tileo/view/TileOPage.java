@@ -1405,34 +1405,50 @@ public class TileOPage extends JFrame{
         Tile t2;
         for (Tile t: game.getTiles()) {
             neighbors = t.getDisconnectedNeighbors();
+            if (neighbors.size()==0) continue;
             nConn = rand.nextInt(neighbors.size()+1);
-            while (nConn > 0) {
-                if (rand.nextFloat() < 0.90) {
-                    t2 = neighbors.get(rand.nextInt(nConn));
-                    try {
-                        toc.addConnection(t,t2,game);
+            
+            for (int i=0; i<nConn; ++i) {
+            	if (rand.nextFloat() < 0.90) {
+                    t2 = neighbors.get(rand.nextInt(neighbors.size()));
+                    
+                    
+                    int dx = t.getX() - t2.getX();
+                    int dy = t.getY() - t2.getY();
+                    Connection conn=null;
+                    if (((dx==0&&(dy==1||dy==-1))||(dy==0&&(dx==1||dx==-1))) && t!=t2 && t!=null && t2!=null) {
+                  		conn = new Connection(game);
+                  		conn.addTile(t);
+                  		conn.addTile(t2);
+                  		wasAdded = true;
+                  	} 
+                    neighbors.remove(t2);                   
+                    
+                    if (conn!=null && conn.numberOfTiles()!=Connection.maximumNumberOfTiles()) {
+                    	System.out.println("Caught an invalid connection");
+                    	conn.delete();
                     }
-                    catch (InvalidInputException e) {}
-                    neighbors.remove(t2);
-                    nConn--;
                 }
-            }
+            	
+            }  
         }
 
         //Delete isolated tiles
-        for(Tile tile: game.getTiles()){
-            if(tile.getNeighbours(size).size() == 0 && !(tile instanceof  WinTile)) {
-                toc.removeTile(tile, game);
+        for(int i=0; i<game.numberOfTiles(); ++i){
+            if(game.getTile(i).getNeighbours(size).size() == 0 && !(game.getTile(i) instanceof  WinTile)) {
+            	toc.removeTile(game.getTile(i), game);
+            	i--;
             }
         }
 
         //Ensure wintile is not isolated
-        while(game.getWinTile().getNeighbours(size).size() == 0) {
-            toc.removeTile(game.getWinTile(), game);
-            int xCord = rand.nextInt();
-            int yCord = rand.nextInt();
-            if(game.getTileAtXY(xCord, yCord) == null)
-                toc.addHiddenTile(xCord, yCord, game);
+        Tile wt = game.getWinTile();
+        if (wt.numberOfConnections()==0) {
+        	System.out.println("Win tile was an island");
+        	neighbors = wt.getDisconnectedNeighbors();
+        	Connection conn = new Connection(game);
+        	conn.addTile(wt);
+        	conn.addTile(neighbors.get(rand.nextInt(neighbors.size())));
         }
 
         // finally chose the starting tiles
@@ -1447,14 +1463,8 @@ public class TileOPage extends JFrame{
                 }
             }
         }
-
-
-
-
-        
+    
         setRandomDeck();
-
-        // TODO add check to remove islands and make sure WinTile is not an island
     }
     
    

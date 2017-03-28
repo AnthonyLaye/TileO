@@ -334,9 +334,8 @@ class Tile {
 
     return neigbors;
   }
-}
-
-public ArrayList<Tile> getNeighbours(int boardsize){
+  
+  public ArrayList<Tile> getNeighbours(int boardsize){
 
     ArrayList<Tile> neigbours = new ArrayList<Tile>();
 
@@ -362,6 +361,7 @@ public ArrayList<Tile> getNeighbours(int boardsize){
 
 
     return neigbours;
+  }
 }
 
 class ActionTile {
@@ -447,6 +447,7 @@ class Deck {
     System.out.println("RemoveConnectionActionCard: "+numberOfCardsForType(2));
     System.out.println("TeleportActionCard: "+numberOfCardsForType(3));
     System.out.println("LoseTurnActionCard: "+numberOfCardsForType(4));
+    System.out.println("RemoveRandomTileActionCard: "+numberOfCardsForType(5));
     System.out.println("");
   }
 

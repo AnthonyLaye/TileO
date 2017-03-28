@@ -7,8 +7,8 @@ import ca.mcgill.ecse223.tileo.util.Node;
 import java.util.*;
 
 // line 15 "../../../../../TileOPersistence.ump"
-// line 1 "../../../../../PlayerState.ump"
-// line 201 "../../../../../TileO.ump"
+// line 3 "../../../../../PlayerState.ump"
+// line 217 "../../../../../TileO.ump"
 public class Player implements Serializable
 {
 
@@ -271,7 +271,7 @@ public class Player implements Serializable
     placeholderGame.removePlayer(this);
   }
 
-  // line 211 "../../../../../TileO.ump"
+  // line 227 "../../../../../TileO.ump"
    public ArrayList<Tile> getPossibleMoves(int depth){
     // Depth first search with limited depth, Iterate over the possible children
       // Cannot go back but loops are allowed
@@ -305,13 +305,13 @@ public class Player implements Serializable
       return new ArrayList<Tile>(possibleTiles);
   }
 
-  // line 245 "../../../../../TileO.ump"
+  // line 261 "../../../../../TileO.ump"
    public static  void resetMap(){
     //I had problems with tests (Vincent)
     playersByNumber = new HashMap<Integer, Player>();
   }
 
-  // line 250 "../../../../../TileO.ump"
+  // line 266 "../../../../../TileO.ump"
    public void forceDelete(){
     playersByNumber.remove(getNumber());
     startingTile = null;

@@ -264,8 +264,6 @@ class BoardVisualizer extends JPanel {
             // Connections
             for (Connection conn: tile.getConnections()) {
             	
-            	// Draw connections twice
-            	
             	Tile other = tile == conn.getTile(0) ? conn.getTile(1):conn.getTile(0);
             	
             	boolean linex = y == other.getY();

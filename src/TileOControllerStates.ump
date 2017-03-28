@@ -1,3 +1,5 @@
+namespace ca.mcgill.ecse223.tileo.controller;
+
 class TileOController {
 	depend ca.mcgill.ecse223.tileo.application.TileOApplication;
 	depend ca.mcgill.ecse223.tileo.exception.InvalidInputException; 
@@ -408,6 +410,7 @@ class TileOController {
         	case GAME_REMOVECONNECTIONACTIONCARD:
         	case GAME_TELEPORTACTIONCARD:
         	case GAME_LOSETURNACTIONCARD:
+        	case GAME_REMOVERANDOMTILEACTIONCARD:
         		setControllerState(ControllerState.Game);
         		setControllerStateGame(ControllerStateGame.LandedAction);
         		break;	

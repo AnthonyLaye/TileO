@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 27 "../../../../../TileOPersistence.ump"
-// line 1 "../../../../../ActionTileState.ump"
-// line 323 "../../../../../TileO.ump"
+// line 3 "../../../../../ActionTileState.ump"
+// line 367 "../../../../../TileO.ump"
 public class ActionTile extends Tile
 {
 
@@ -76,14 +76,14 @@ public class ActionTile extends Tile
     switch (aInactivityStatus)
     {
       case Active:
-        // line 4 "../../../../../ActionTileState.ump"
+        // line 6 "../../../../../ActionTileState.ump"
         doLand();
   			setTurnsUntilActive(inactivityPeriod+1);
         setInactivityStatus(InactivityStatus.Inactive);
         wasEventProcessed = true;
         break;
       case Inactive:
-        // line 12 "../../../../../ActionTileState.ump"
+        // line 14 "../../../../../ActionTileState.ump"
         doLandAsNormal();
         setInactivityStatus(InactivityStatus.Inactive);
         wasEventProcessed = true;
@@ -121,7 +121,7 @@ public class ActionTile extends Tile
     super.delete();
   }
 
-  // line 330 "../../../../../TileO.ump"
+  // line 374 "../../../../../TileO.ump"
    public void doLand(){
     Game currentGame = getGame();
     currentGame.addInactiveActionTile(this);
@@ -135,7 +135,7 @@ public class ActionTile extends Tile
     currentGame.setMode(mode);
   }
 
-  // line 343 "../../../../../TileO.ump"
+  // line 387 "../../../../../TileO.ump"
    public void doLandAsNormal(){
     Game currentGame = this.getGame();
     Player currentPlayer = currentGame.getCurrentPlayer();

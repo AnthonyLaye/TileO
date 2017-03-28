@@ -27,7 +27,6 @@ It's the same principle for the other buttons
 ##### Changes to make when generating code from Umple
 - Game: public Tile addTile(int aX, int aY) -> commented out
 - Deck: public ActionCard addCard(String aInstructions) -> commented out
-- Change TileOController's package to ca.mcgill.ecse223.tileo.controller and move it
 - TileOController: add throws InvalidInputException to startGame(), 
   selectNewTile(), land(), playRollDieActionCard(), playConnectTilesActionCard(),
   playRemoveConnectionActionCard(), playTeleportActionCard(), playLoseTurnActionCard()
@@ -54,18 +53,6 @@ public boolean setColor()
     return true;
 }
 ```
-
-
-### Steps to add a new type of ActionCard to the game
-##### TileOPage.java
-- Add a new label and spinner for your card
-- Add a case in renderLayout for your new mode
-- Change updateNumberOfCards, resetDeck and fillDeck
-
-##### Deck.java
-- Add a case for numberOfCardsForType, addCards and rmCards (also change these methods in
-  umple !)
-
 
 ### Contributors
 - Anthony Laye
