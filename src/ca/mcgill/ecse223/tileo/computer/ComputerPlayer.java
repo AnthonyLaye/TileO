@@ -74,6 +74,9 @@ public abstract class ComputerPlayer extends Player
             case GAME_REMOVERANDOMTILEACTIONCARD:
             	removeRandomTileCard();
             	break;
+            case GAME_TURNINACTIVEACTIONCARD:
+            	turnInactiveCard();
+            	break;
             default:
                 throw new RuntimeException("ERROR "+getGame().getMode()+": card not implemented for ai");
         }    
@@ -133,6 +136,17 @@ public abstract class ComputerPlayer extends Player
     	getGame().setNextCard();
     	getGame().setNextPlayer();
     	getGame().setMode(Game.Mode.GAME);
+    }
+    private void turnInactiveCard() {
+    	System.out.println("Computer plays TurnInactiveActionCard");
+    	for (Tile t: getGame().getTiles()) {
+    		if (t instanceof ActionTile)
+    			((ActionTile)t).deactivate();
+    	}
+    	getGame().setNextCard();
+    	getGame().setNextPlayer();
+    	getGame().setMode(Game.Mode.GAME);
+    	
     }
 
     
