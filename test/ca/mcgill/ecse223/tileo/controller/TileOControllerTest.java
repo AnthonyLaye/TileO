@@ -37,8 +37,6 @@ public class TileOControllerTest {
     public void setUp() {
     	File f = new File(loadFName);
     	f.delete();
-        
-        Player.resetMap();
     }
 	
 	@Test
@@ -160,7 +158,8 @@ public class TileOControllerTest {
     public Game createGame(int nConn, int nCards, int nRows, int nPlayers, boolean swt, TileO tileo, TileOController controller) {
         // Helper to create a game with certain characteristics, useful for errors check
 
-        Game game = new Game(nConn, tileo);
+        Game game = new Game(nConn);
+        tileo.addGame(game);
         game.setMode(Game.Mode.GAME);
         Deck d = game.getDeck(); // populate deck
         for(int i=0; i<nCards; ++i)

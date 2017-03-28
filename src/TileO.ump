@@ -1,12 +1,14 @@
 namespace ca.mcgill.ecse223.tileo.model;
 
+external Cloner {}
+
 use TileOPersistence.ump;
 use TileOControllerStates.ump;
 use ActionTileState.ump;
 use PlayerState.ump;
 
 class TileO {
-  1 <@>- * Game games;
+  1 -> * Game games;
   1 -> 0..1 Game currentGame;
   
   public NormalTile addNormalTile(int x, int y, Game game){
@@ -33,6 +35,7 @@ class Game {
   depend ca.mcgill.ecse223.tileo.computer.StupidPlayer;
   depend ca.mcgill.ecse223.tileo.computer.GodPlayer;
   depend ca.mcgill.ecse223.tileo.computer.HackerPlayer;
+  depend ca.mcgill.ecse223.tileo.util.Cloner;
   
   mode { DESIGN{} GAME{} GAME_WON{} GAME_ROLLDIEACTIONCARD{} GAME_CONNECTTILESACTIONCARD{} GAME_REMOVECONNECTIONACTIONCARD{} GAME_TELEPORTACTIONCARD{} GAME_LOSETURNACTIONCARD{} GAME_REMOVERANDOMTILEACTIONCARD{} GAME_TURNINACTIVEACTIONCARD{} }
   1 <@>- 2..4 Player players;
@@ -49,6 +52,9 @@ class Game {
   lazy filename;
   public  String dieNumber;
   
+  public Game clone() {
+  	return (Game) Cloner.clone(this);
+  }
   
   public void changeDie() {
     die = null;
@@ -148,21 +154,21 @@ class Game {
     if (type.equals("Stupid")) {
         StupidPlayer cp = new StupidPlayer(playerNum, this);
         System.out.println("Making player "+playerNum+" -> "+type);
-        cp.setColor();
+        cp.setColorByNumber();
         cp.setStartingTile(t);
         addOrMovePlayerAt(cp, cp.getNumber());
     }
     else if (type.equals("God")) {
     	GodPlayer cp = new GodPlayer(playerNum, this);
     	System.out.println("Making player "+playerNum+" -> "+type);
-    	cp.setColor();
+    	cp.setColorByNumber();
     	cp.setStartingTile(t);
     	addOrMovePlayerAt(cp, cp.getNumber());
     }
     else if (type.equals("Hacker")) {
         HackerPlayer cp = new HackerPlayer(playerNum, this);
         System.out.println("Making player "+playerNum+" -> "+type);
-        cp.setColor();
+        cp.setColorByNumber();
         cp.setStartingTile(t);
         addOrMovePlayerAt(cp, cp.getNumber());
     }
@@ -176,7 +182,7 @@ class Game {
     Tile t = cp.getStartingTile();
     cp.forceDelete();
     Player p = new Player(compNum, this);
-    p.setColor();
+    p.setColorByNumber();
     p.setStartingTile(t);
     addOrMovePlayerAt(p, p.getNumber());
   }
@@ -224,12 +230,30 @@ class Game {
 
 class Player {
   depend ca.mcgill.ecse223.tileo.util.Node;
+  depend java.util.*;
 	
   color { RED{} BLUE{} GREEN{} YELLOW{} }
   1 -> 0..1 Tile startingTile;
   0..4 -> 0..1 Tile currentTile;
-  unique Integer number;
+  Integer number;
   Integer turnsUntilActive = 0;  
+  
+  public void setColorByNumber() {
+  	switch (number) {
+  		case 0:
+  			setColor(Color.RED);
+  			break;
+  		case 1:
+  			setColor(Color.BLUE);
+  			break;
+  		case 2:
+  			setColor(Color.GREEN);
+  			break;
+  		case 3:
+  			setColor(Color.YELLOW);
+  			break;
+  	}
+  }
   
   public ArrayList<Tile> getPossibleMoves(int depth){
       // Depth first search with limited depth, Iterate over the possible children
@@ -263,15 +287,8 @@ class Player {
       }
       return new ArrayList<Tile>(possibleTiles);
   }
-
-    
-  public static void resetMap() {
-    //I had problems with tests (Vincent)
-    playersByNumber = new HashMap<Integer, Player>();
-  }
   
   public void forceDelete() {
-    playersByNumber.remove(getNumber());
     startingTile = null;
     currentTile = null;
     Game placeholderGame = game;

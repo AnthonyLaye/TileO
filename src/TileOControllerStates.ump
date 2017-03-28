@@ -107,17 +107,13 @@ class TileOController {
     		throw new InvalidInputException("Too many players");
     	
     	TileO tileo = TileOApplication.getTileO();    	
-    	Game game = new Game(0, tileo);
+    	Game game = new Game(0);
+    	tileo.addGame(game);
     	
-    	Player.Color[] colors = {Player.Color.RED, Player.Color.BLUE, Player.Color.GREEN, Player.Color.YELLOW};
-    	Player.resetMap();
     	int n = 0;
-    	while (nPlayer > 0){
-    		try {
-    			Player p = new Player(n, game);
-    			nPlayer--;
-    		}
-    		catch (RuntimeException e) {}
+    	while (n < nPlayer){
+    		Player p = new Player(n, game);
+    		p.setColorByNumber();
     		n++;
     	}
     	game.setMode(Game.Mode.DESIGN);
@@ -203,8 +199,19 @@ class TileOController {
     
     
     // Game
-    public void doStartGame(Game selectedGame) throws InvalidInputException {
-        /* Starts the selected game if it respects the rules */    
+    private void cloneGame(Game game) {
+    	TileO tileo = TileOApplication.getTileO();
+    	Game cloned = game.clone();
+    	game.setFilename(null);
+    	tileo.addGame(cloned);
+    	tileo.setCurrentGame(cloned);
+    	saveGame("");
+    	tileo.setCurrentGame(game);
+    }
+    
+    private void doStartGame(Game selectedGame) throws InvalidInputException {
+        /* Starts the selected game if it respects the rules */   
+        cloneGame(selectedGame); 
         
         String error = "";
         Deck deck = selectedGame.getDeck();

@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Random;
 
 // line 97 "../../../../../TileOPersistence.ump"
-// line 668 "../../../../../TileO.ump"
+// line 685 "../../../../../TileO.ump"
 public class Die implements Serializable
 {
 
@@ -34,10 +34,10 @@ public class Die implements Serializable
     game = aGame;
   }
 
-  public Die(int aCurrentConnectionPiecesForGame, Deck aDeckForGame, TileO aTileOForGame)
+  public Die(int aCurrentConnectionPiecesForGame, Deck aDeckForGame)
   {
     rand = new Random();
-    game = new Game(aCurrentConnectionPiecesForGame, aDeckForGame, this, aTileOForGame);
+    game = new Game(aCurrentConnectionPiecesForGame, aDeckForGame, this);
   }
 
   //------------------------
@@ -72,7 +72,7 @@ public class Die implements Serializable
     }
   }
 
-  // line 672 "../../../../../TileO.ump"
+  // line 689 "../../../../../TileO.ump"
    public int roll(){
     return rand.nextInt(6)+1;
   }

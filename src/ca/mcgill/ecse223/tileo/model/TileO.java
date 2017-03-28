@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 3 "../../../../../TileOPersistence.ump"
-// line 8 "../../../../../TileO.ump"
+// line 10 "../../../../../TileO.ump"
 public class TileO implements Serializable
 {
 
@@ -77,25 +77,11 @@ public class TileO implements Serializable
     return 0;
   }
 
-  public Game addGame(int aCurrentConnectionPieces, Deck aDeck, Die aDie)
-  {
-    return new Game(aCurrentConnectionPieces, aDeck, aDie, this);
-  }
-
   public boolean addGame(Game aGame)
   {
     boolean wasAdded = false;
     if (games.contains(aGame)) { return false; }
-    TileO existingTileO = aGame.getTileO();
-    boolean isNewTileO = existingTileO != null && !this.equals(existingTileO);
-    if (isNewTileO)
-    {
-      aGame.setTileO(this);
-    }
-    else
-    {
-      games.add(aGame);
-    }
+    games.add(aGame);
     wasAdded = true;
     return wasAdded;
   }
@@ -103,8 +89,7 @@ public class TileO implements Serializable
   public boolean removeGame(Game aGame)
   {
     boolean wasRemoved = false;
-    //Unable to remove aGame, as it must always have a tileO
-    if (!this.equals(aGame.getTileO()))
+    if (games.contains(aGame))
     {
       games.remove(aGame);
       wasRemoved = true;
@@ -154,32 +139,26 @@ public class TileO implements Serializable
 
   public void delete()
   {
-    while (games.size() > 0)
-    {
-      Game aGame = games.get(games.size() - 1);
-      aGame.delete();
-      games.remove(aGame);
-    }
-    
+    games.clear();
     currentGame = null;
   }
 
-  // line 13 "../../../../../TileO.ump"
+  // line 15 "../../../../../TileO.ump"
    public NormalTile addNormalTile(int x, int y, Game game){
     return new NormalTile(x, y, game);
   }
 
-  // line 16 "../../../../../TileO.ump"
+  // line 18 "../../../../../TileO.ump"
    public ActionTile addActionTile(int x, int y, Game game, int inactivtyPeriod){
     return new ActionTile(x, y, game, inactivtyPeriod);
   }
 
-  // line 19 "../../../../../TileO.ump"
+  // line 21 "../../../../../TileO.ump"
    public WinTile addWinTile(int x, int y, Game game){
     return new WinTile(x, y, game);
   }
 
-  // line 22 "../../../../../TileO.ump"
+  // line 24 "../../../../../TileO.ump"
    public boolean removeTile(Tile tile){
     boolean wasRemoved = false;
 

@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 51 "../../../../../TileOPersistence.ump"
-// line 438 "../../../../../TileO.ump"
+// line 455 "../../../../../TileO.ump"
 public class Deck implements Serializable
 {
 
@@ -47,7 +47,7 @@ public class Deck implements Serializable
     game = aGame;
   }
 
-  public Deck(int aCurrentConnectionPiecesForGame, Die aDieForGame, TileO aTileOForGame)
+  public Deck(int aCurrentConnectionPiecesForGame, Die aDieForGame)
   {
     cards = new ArrayList<ActionCard>();
     connectTilesActionCards = new ArrayList<ConnectTilesActionCard>();
@@ -57,7 +57,7 @@ public class Deck implements Serializable
     rollDieActionCards = new ArrayList<RollDieActionCard>();
     teleportActionCards = new ArrayList<TeleportActionCard>();
     turnInactiveActionCards = new ArrayList<TurnInactiveActionCard>();
-    game = new Game(aCurrentConnectionPiecesForGame, this, aDieForGame, aTileOForGame);
+    game = new Game(aCurrentConnectionPiecesForGame, this, aDieForGame);
   }
 
   //------------------------
@@ -841,7 +841,7 @@ public class Deck implements Serializable
     }
   }
 
-  // line 451 "../../../../../TileO.ump"
+  // line 468 "../../../../../TileO.ump"
    public void shuffle(){
     Random rand = new Random();
     for (int i=0; i<100; ++i){
@@ -851,7 +851,7 @@ public class Deck implements Serializable
     setCurrentCard(getCard(0));
   }
 
-  // line 460 "../../../../../TileO.ump"
+  // line 477 "../../../../../TileO.ump"
    public void print(){
     System.out.println("~~~ DECK ~~~~");
     System.out.println("RollDieActionCard: "+numberOfCardsForType(0));
@@ -864,7 +864,7 @@ public class Deck implements Serializable
     System.out.println("");
   }
 
-  // line 472 "../../../../../TileO.ump"
+  // line 489 "../../../../../TileO.ump"
    public int numberOfCardsForType(int type){
     switch (type) {
 	   		case 0:
@@ -886,7 +886,7 @@ public class Deck implements Serializable
      }
   }
 
-  // line 493 "../../../../../TileO.ump"
+  // line 510 "../../../../../TileO.ump"
    public void addCards(int n, int cardType){
     n = n%maximumNumberOfCards();
 	if (numberOfCards() + n > maximumNumberOfCards()) n = maximumNumberOfCards() - n;
@@ -931,7 +931,7 @@ public class Deck implements Serializable
 	    }
   }
 
-  // line 537 "../../../../../TileO.ump"
+  // line 554 "../../../../../TileO.ump"
    public void rmCards(int toRm, int cardType){
     ActionCard c;
 	   for (int i=0; i<toRm; ++i) {	

@@ -8,15 +8,9 @@ import java.util.*;
 
 // line 15 "../../../../../TileOPersistence.ump"
 // line 3 "../../../../../PlayerState.ump"
-// line 225 "../../../../../TileO.ump"
+// line 231 "../../../../../TileO.ump"
 public class Player implements Serializable
 {
-
-  //------------------------
-  // STATIC VARIABLES
-  //------------------------
-
-  private static Map<Integer, Player> playersByNumber = new HashMap<Integer, Player>();
 
   //------------------------
   // MEMBER VARIABLES
@@ -43,18 +37,15 @@ public class Player implements Serializable
 
   public Player(int aNumber, Game aGame)
   {
+    number = aNumber;
     turnsUntilActive = 0;
-    if (!setNumber(aNumber))
-    {
-      throw new RuntimeException("Cannot create due to duplicate number");
-    }
     boolean didAddGame = setGame(aGame);
     if (!didAddGame)
     {
       throw new RuntimeException("Unable to create player due to game");
     }
     setPlayerState(PlayerState.Play);
-    setColor();
+    setColor(Color.RED);
   }
 
   //------------------------
@@ -64,16 +55,8 @@ public class Player implements Serializable
   public boolean setNumber(int aNumber)
   {
     boolean wasSet = false;
-    Integer anOldNumber = getNumber();
-    if (hasWithNumber(aNumber)) {
-      return wasSet;
-    }
     number = aNumber;
     wasSet = true;
-    if (anOldNumber != null) {
-      playersByNumber.remove(anOldNumber);
-    }
-    playersByNumber.put(aNumber, this);
     return wasSet;
   }
 
@@ -88,16 +71,6 @@ public class Player implements Serializable
   public int getNumber()
   {
     return number;
-  }
-
-  public static Player getWithNumber(int aNumber)
-  {
-    return playersByNumber.get(aNumber);
-  }
-
-  public static boolean hasWithNumber(int aNumber)
-  {
-    return getWithNumber(aNumber) != null;
   }
 
   public int getTurnsUntilActive()
@@ -168,25 +141,11 @@ public class Player implements Serializable
     playerState = aPlayerState;
   }
 
-  public boolean setColor()
+  public boolean setColor(Color aColor)
   {
-      switch (number) {
-          case 0:
-              color = Color.RED;
-              break;
-          case 1:
-              color = Color.BLUE;
-              break;
-          case 2:
-              color = Color.GREEN;
-              break;
-          case 3:
-              color = Color.YELLOW;
-              break;
-      }
-      return true;
+    color = aColor;
+    return true;
   }
-
 
   public Tile getStartingTile()
   {
@@ -264,7 +223,6 @@ public class Player implements Serializable
 
   public void delete()
   {
-    playersByNumber.remove(getNumber());
     startingTile = null;
     currentTile = null;
     Game placeholderGame = game;
@@ -272,7 +230,25 @@ public class Player implements Serializable
     placeholderGame.removePlayer(this);
   }
 
-  // line 235 "../../../../../TileO.ump"
+  // line 242 "../../../../../TileO.ump"
+   public void setColorByNumber(){
+    switch (number) {
+  		case 0:
+  			setColor(Color.RED);
+  			break;
+  		case 1:
+  			setColor(Color.BLUE);
+  			break;
+  		case 2:
+  			setColor(Color.GREEN);
+  			break;
+  		case 3:
+  			setColor(Color.YELLOW);
+  			break;
+  	}
+  }
+
+  // line 259 "../../../../../TileO.ump"
    public ArrayList<Tile> getPossibleMoves(int depth){
     // Depth first search with limited depth, Iterate over the possible children
       // Cannot go back but loops are allowed
@@ -306,15 +282,8 @@ public class Player implements Serializable
       return new ArrayList<Tile>(possibleTiles);
   }
 
-  // line 269 "../../../../../TileO.ump"
-   public static  void resetMap(){
-    //I had problems with tests (Vincent)
-    playersByNumber = new HashMap<Integer, Player>();
-  }
-
-  // line 274 "../../../../../TileO.ump"
+  // line 292 "../../../../../TileO.ump"
    public void forceDelete(){
-    playersByNumber.remove(getNumber());
     startingTile = null;
     currentTile = null;
     Game placeholderGame = game;
