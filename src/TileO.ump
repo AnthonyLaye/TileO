@@ -32,6 +32,7 @@ class TileO {
 class Game {
   depend ca.mcgill.ecse223.tileo.computer.StupidPlayer;
   depend ca.mcgill.ecse223.tileo.computer.GodPlayer;
+  depend ca.mcgill.ecse223.tileo.computer.HackerPlayer;
   
   mode { DESIGN{} GAME{} GAME_WON{} GAME_ROLLDIEACTIONCARD{} GAME_CONNECTTILESACTIONCARD{} GAME_REMOVECONNECTIONACTIONCARD{} GAME_TELEPORTACTIONCARD{} GAME_LOSETURNACTIONCARD{} GAME_REMOVERANDOMTILEACTIONCARD{} }
   1 <@>- 2..4 Player players;
@@ -438,6 +439,13 @@ class Deck {
   1 <@>- 0..32 ActionCard cards;
   1 -> 0..1 ActionCard currentCard;
   
+  1 -> * ConnectTilesActionCard;
+  1 -> * LoseTurnActionCard;
+  1 -> * RemoveConnectionActionCard;
+  1 -> * RemoveRandomTileActionCard;
+  1 -> * RollDieActionCard;
+  1 -> * TeleportActionCard;
+  
   public void shuffle() {
     Random rand = new Random();
     for (int i=0; i<100; ++i){
@@ -459,123 +467,102 @@ class Deck {
   }
 
    public int numberOfCardsForType(int type){
-    int n = 0;
-	    for (ActionCard aCard: getCards()) {
-	        switch (type) {
-	            case 0:
-	                if (aCard instanceof RollDieActionCard) n++;
-	                break;
-	            case 1:
-	                if (aCard instanceof ConnectTilesActionCard) n++;
-	                break;
-	            case 2:
-	                if (aCard instanceof RemoveConnectionActionCard) n++;
-	                break;
-	            case 3:
-	                if (aCard instanceof TeleportActionCard) n++;
-	                break;
-	            case 4:
-	                if (aCard instanceof LoseTurnActionCard) n++;
-	                break;
-	            case 5:
-	            	if (aCard instanceof RemoveRandomTileActionCard) n++;
-	            	break;
-	        }
-	    }
-	    return n;
+    	switch (type) {
+	   		case 0:
+	   			return numberOfRollDieActionCards();
+	   		case 1:
+	   			return numberOfConnectTilesActionCards();
+	   		case 2:
+	   			return numberOfRemoveConnectionActionCards();
+	   		case 3:
+	   			return numberOfTeleportActionCards();
+	   		case 4:
+	   			return numberOfLoseTurnActionCards();
+	   		case 5:
+	   			return numberOfRemoveRandomTileActionCards();
+	   		default:
+	   			throw new RuntimeException("Card type not supported");
+     }
   }
 
    public void addCards(int n, int cardType){
+	n = n%maximumNumberOfCards();
+	if (numberOfCards() + n > maximumNumberOfCards()) n = maximumNumberOfCards() - n;
     switch (cardType) {
 	        case 0:
 	            // ROLL
 	            for (int i=0; i<n; ++i)
-	                new RollDieActionCard("Roll the die for an extra turn", this);
+	                addRollDieActionCard(new RollDieActionCard("Roll the die for an extra turn", this));
 	            break;
 	        case 1:
 	            // CONN
 	    		for (int i=0;i<n;++i)
-	                new ConnectTilesActionCard("Connect two tiles", this);
+	                addConnectTilesActionCard(new ConnectTilesActionCard("Connect two tiles", this));
 	            break;
 	        case 2:
 	            // RMCONN
 	    		for (int i=0;i<n;++i)
-	    		    new RemoveConnectionActionCard("Remove a connection", this);
+	    		    addRemoveConnectionActionCard(new RemoveConnectionActionCard("Remove a connection", this));
 	            break;
 	        case 3:
 	            // TELE
 	    		for (int i=0;i<n;++i)
-	    		    new TeleportActionCard("Move your piece to a new tile", this);
+	    		    addTeleportActionCard(new TeleportActionCard("Move your piece to a new tile", this));
 	            break;
 	        case 4:
 	            // LOSE
 	    		for (int i=0;i<n;++i)
-	    		    new LoseTurnActionCard("Lose your next turn", this);
+	    		    addLoseTurnActionCard(new LoseTurnActionCard("Lose your next turn", this));
 	            break;
 	        case 5:
 	            // RMRANDOM
 	    		for (int i=0;i<n;++i)
-	    		    new RemoveRandomTileActionCard("Remove a random tile", this);
+	    		    addRemoveRandomTileActionCard(new RemoveRandomTileActionCard("Remove a random tile", this));
 	            break;
+	        default:
+	        	throw new RuntimeException("Card type not implemented");
 	    }
   }
 
    public void rmCards(int toRm, int cardType){
-    for (int i=0; i<numberOfCards(); ++i) {
-	        ActionCard card = getCard(i);
-	        boolean wasDeleted = false;
-	        switch (cardType) {
-	            case 0:
-	                // ROLL
-	                if (card instanceof RollDieActionCard){
-	                    card.delete();
-	                    wasDeleted = true;
-	                }
-	                break;
-	            case 1:
-	                // CONN
-	                if (card instanceof ConnectTilesActionCard){
-	                    card.delete();
-	                    wasDeleted = true;
-	                }
-	                break;
-	            case 2:
-	                // RMCONN
-	                if (card instanceof RemoveConnectionActionCard){
-	                    card.delete();
-	                    wasDeleted = true;
-	                }
-	                break;
-	            case 3:
-	                // TELE
-	                if (card instanceof TeleportActionCard){
-	                    card.delete();
-	                    wasDeleted = true;
-	                }
-	                break;
-	            case 4:
-	                // LOSE
-	                if (card instanceof LoseTurnActionCard){
-	                    card.delete();
-	                    wasDeleted = true;
-	                }
-	                break;
-	            case 5:
-		            // RMRANDOM
-	            	if (card instanceof RemoveRandomTileActionCard){
-	                    card.delete();
-	                    wasDeleted = true;
-	                }
-	                break;
-		    		
-	        }
-	        if (wasDeleted) {
-	            toRm--;
-	            i--;
-	        }
-	        if (toRm == 0) break; 
-	    }
-  }
+	   ActionCard c;
+	   for (int i=0; i<toRm; ++i) {	
+		   switch (cardType) {
+		   		case 0:
+		   			c = getRollDieActionCard(0);
+		   			removeRollDieActionCard((RollDieActionCard)c);
+		   			c.delete();
+		   			break;
+		   		case 1:
+		   			c = getConnectTilesActionCard(0);
+		   			removeConnectTilesActionCard((ConnectTilesActionCard)c);
+		   			c.delete();
+		   			break;
+		   		case 2:
+		   			c = getRemoveConnectionActionCard(0);
+		   			removeRemoveConnectionActionCard((RemoveConnectionActionCard)c);
+		   			c.delete();
+		   			break;
+		   		case 3:
+		   			c = getTeleportActionCard(0);
+		   			removeTeleportActionCard((TeleportActionCard)c);
+		   			c.delete();
+		   			break;
+		   		case 4:
+		   			c = getLoseTurnActionCard(0);
+		   			removeLoseTurnActionCard((LoseTurnActionCard)c);
+		   			c.delete();
+		   			break;
+		   		case 5:
+		   			c = getRemoveRandomTileActionCard(0);
+		   			removeRemoveRandomTileActionCard((RemoveRandomTileActionCard)c);
+		   			c.delete();
+		   			break;
+		   		default:
+		   			throw new RuntimeException("Card type not supported");
+		   	}
+	   }
+	}
 }
 
 class ActionCard {

@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 
 // line 57 "../../../../../TileOPersistence.ump"
-// line 574 "../../../../../TileO.ump"
+// line 568 "../../../../../TileO.ump"
 public abstract class ActionCard implements Serializable
 {
 

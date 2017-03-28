@@ -8,7 +8,7 @@ import java.util.*;
 
 // line 15 "../../../../../TileOPersistence.ump"
 // line 3 "../../../../../PlayerState.ump"
-// line 217 "../../../../../TileO.ump"
+// line 225 "../../../../../TileO.ump"
 public class Player implements Serializable
 {
 
@@ -187,6 +187,7 @@ public class Player implements Serializable
       return true;
   }
 
+
   public Tile getStartingTile()
   {
     return startingTile;
@@ -271,7 +272,7 @@ public class Player implements Serializable
     placeholderGame.removePlayer(this);
   }
 
-  // line 227 "../../../../../TileO.ump"
+  // line 235 "../../../../../TileO.ump"
    public ArrayList<Tile> getPossibleMoves(int depth){
     // Depth first search with limited depth, Iterate over the possible children
       // Cannot go back but loops are allowed
@@ -305,13 +306,13 @@ public class Player implements Serializable
       return new ArrayList<Tile>(possibleTiles);
   }
 
-  // line 261 "../../../../../TileO.ump"
+  // line 269 "../../../../../TileO.ump"
    public static  void resetMap(){
     //I had problems with tests (Vincent)
     playersByNumber = new HashMap<Integer, Player>();
   }
 
-  // line 266 "../../../../../TileO.ump"
+  // line 274 "../../../../../TileO.ump"
    public void forceDelete(){
     playersByNumber.remove(getNumber());
     startingTile = null;

@@ -7,7 +7,7 @@ import java.util.*;
 
 // line 27 "../../../../../TileOPersistence.ump"
 // line 3 "../../../../../ActionTileState.ump"
-// line 367 "../../../../../TileO.ump"
+// line 375 "../../../../../TileO.ump"
 public class ActionTile extends Tile
 {
 
@@ -121,7 +121,7 @@ public class ActionTile extends Tile
     super.delete();
   }
 
-  // line 374 "../../../../../TileO.ump"
+  // line 382 "../../../../../TileO.ump"
    public void doLand(){
     Game currentGame = getGame();
     currentGame.addInactiveActionTile(this);
@@ -135,7 +135,7 @@ public class ActionTile extends Tile
     currentGame.setMode(mode);
   }
 
-  // line 387 "../../../../../TileO.ump"
+  // line 395 "../../../../../TileO.ump"
    public void doLandAsNormal(){
     Game currentGame = this.getGame();
     Player currentPlayer = currentGame.getCurrentPlayer();
