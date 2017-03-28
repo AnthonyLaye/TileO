@@ -5,6 +5,7 @@ package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 import ca.mcgill.ecse223.tileo.computer.StupidPlayer;
 import ca.mcgill.ecse223.tileo.computer.GodPlayer;
+import ca.mcgill.ecse223.tileo.computer.HackerPlayer;
 import java.util.*;
 
 // line 9 "../../../../../TileOPersistence.ump"
@@ -796,6 +797,13 @@ public class Game implements Serializable
     	cp.setColor();
     	cp.setStartingTile(t);
     	addOrMovePlayerAt(cp, cp.getNumber());
+    }
+    else if (type.equals("Hacker")) {
+        HackerPlayer cp = new HackerPlayer(playerNum, this);
+        System.out.println("Making player "+playerNum+" -> "+type);
+        cp.setColor();
+        cp.setStartingTile(t);
+        addOrMovePlayerAt(cp, cp.getNumber());
     }
     else 
         throw new RuntimeException("Type not implemented");

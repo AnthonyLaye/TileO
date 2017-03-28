@@ -158,6 +158,13 @@ class Game {
     	cp.setStartingTile(t);
     	addOrMovePlayerAt(cp, cp.getNumber());
     }
+    else if (type.equals("Hacker")) {
+        HackerPlayer cp = new HackerPlayer(playerNum, this);
+        System.out.println("Making player "+playerNum+" -> "+type);
+        cp.setColor();
+        cp.setStartingTile(t);
+        addOrMovePlayerAt(cp, cp.getNumber());
+    }
     else 
         throw new RuntimeException("Type not implemented");
     
