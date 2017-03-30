@@ -19,6 +19,8 @@ class TileOController {
 	depend ca.mcgill.ecse223.tileo.model.RollDieActionCard;
 	depend ca.mcgill.ecse223.tileo.model.TeleportActionCard;
 	depend ca.mcgill.ecse223.tileo.model.RemoveRandomTileActionCard;
+	depend ca.mcgill.ecse223.tileo.model.RevealTileActionCard;
+	depend ca.mcgill.ecse223.tileo.model.SendBackToStartActionCard;
 
 	depend java.util.ArrayList;
 	depend java.util.List;
@@ -46,6 +48,9 @@ class TileOController {
 				selectNewTile(Tile aTile) -> / {
 	                doSelectNewTile(aTile);
 	            } WaitForLanding;
+	            playChooseAdditionalMoveActionCard(int n) [verifyGameMode(Game.Mode.GAME_CHOOSEADDITIONALMOVEACTIONCARD)] / {
+      				doPlayChooseAdditionalMoveActionCard(n);
+      			} -> WaitForTile;
 			}
 			
 			WaitForLanding {
@@ -78,6 +83,17 @@ class TileOController {
       			} -> StartOfTurn;
       			playTurnInactiveActionCard(Game currentGame) [verifyGameMode(Game.Mode.GAME_TURNINACTIVEACTIONCARD)] / {
         			doPlayTurnInactiveActionCard(currentGame);
+      			} -> StartOfTurn;
+      			playChooseAdditionalMoveActionCard(int n) [verifyGameMode(Game.Mode.GAME_CHOOSEADDITIONALMOVEACTIONCARD)] / {
+      				doPlayChooseAdditionalMoveActionCard(n);
+      				TileOApplication.getTileO().getCurrentGame().setNextCard();
+      			} -> WaitForTile;
+      			playRevealTileActionCard() [verifyGameMode(Game.Mode.GAME_REVEALTILEACTIONCARD)] / {
+      				doPlayRevealTileActionCard();
+      			} -> StartOfTurn;
+      			playSendBackToStartActionCard(Tile t)
+      			[verifyGameMode(Game.Mode.GAME_SENDBACKTOSTARTACTIONCARD)] / {
+                    doPlaySendBackToStartActionCard(t);
       			} -> StartOfTurn;
 	        }
 	    }
@@ -211,7 +227,6 @@ class TileOController {
     
     private void doStartGame(Game selectedGame) throws InvalidInputException {
         /* Starts the selected game if it respects the rules */   
-        cloneGame(selectedGame); 
         
         String error = "";
         Deck deck = selectedGame.getDeck();
@@ -229,6 +244,8 @@ class TileOController {
         
         if (!error.equals(""))
             throw new InvalidInputException(error.trim());
+            
+        cloneGame(selectedGame); 
 
         deck.shuffle();
         deck.setCurrentCard(deck.getCard(0));
@@ -392,6 +409,52 @@ class TileOController {
 
 		return success;
   }
+  
+  private void doPlayChooseAdditionalMoveActionCard(int n) {
+  	Game game = TileOApplication.getTileO().getCurrentGame();
+  	setPossibleTiles(game.getCurrentPlayer().getPossibleMoves(n));
+  }
+  
+  private void doPlayRevealTileActionCard() {
+  	Game game = TileOApplication.getTileO().getCurrentGame();
+  	game.setNextPlayer();
+  	game.setNextCard();
+  	game.setMode(Game.Mode.GAME);
+  }
+  
+  public String revealTile(Tile t) {
+  	Game game = TileOApplication.getTileO().getCurrentGame();
+  	ActionCard c = game.getDeck().getCurrentCard();
+  	if (c instanceof RevealTileActionCard) {
+  		return ((RevealTileActionCard)c).play(t);
+  	}
+  	return "";
+  }
+  
+    public void doPlaySendBackToStartActionCard(Tile t) throws InvalidInputException{
+        Game currentGame = TileOApplication.getTileO().getCurrentGame();
+	  	Player currentPlayer = currentGame.getCurrentPlayer();
+	  	ArrayList<Player> otherPlayers= new ArrayList<Player>();
+	  	for(Player p:currentGame.getPlayers()){
+	  		if(p!=currentPlayer) otherPlayers.add(p);
+	  	}
+	  	currentGame.setMode(Game.Mode.GAME_SENDBACKTOSTARTACTIONCARD);
+	  	Deck gameDeck = currentGame.getDeck();
+	  	ActionCard currentCard= gameDeck.getCurrentCard();
+	  	boolean wasSentBack= false;
+	  	if(currentCard instanceof SendBackToStartActionCard){
+	  		SendBackToStartActionCard playCard = (SendBackToStartActionCard)currentCard;
+	  		wasSentBack = playCard.play(t,otherPlayers);
+	  	}
+	  	if(wasSentBack){
+	  		 currentGame.setNextPlayer();
+	         currentGame.setNextCard();
+	         currentGame.setMode(Game.Mode.GAME);
+	  	}
+	  	else{
+	  		throw new InvalidInputException("Not a Player");
+	  	}
+    }
 
     
     // Controls
@@ -440,6 +503,9 @@ class TileOController {
         	case GAME_LOSETURNACTIONCARD:
         	case GAME_REMOVERANDOMTILEACTIONCARD:
         	case GAME_TURNINACTIVEACTIONCARD:
+        	case GAME_REVEALTILEACTIONCARD:
+        	case GAME_SENDBACKTOSTARTACTIONCARD:
+        	case GAME_CHOOSEADDITIONALMOVEACTIONCARD:
         		setControllerState(ControllerState.Game);
         		setControllerStateGame(ControllerStateGame.LandedAction);
         		break;	

@@ -65,7 +65,7 @@ class BoardVisualizer extends JPanel {
         tiles = new HashMap<Rectangle2D, Tile>();
         selectedTile = null;
 
-        setBackground(Color.pink);
+        setBackground(Color.YELLOW);
 
         pieceColors = new HashMap<Player.Color, Color>();
         pieceColors.put(Player.Color.BLUE, Color.BLUE);

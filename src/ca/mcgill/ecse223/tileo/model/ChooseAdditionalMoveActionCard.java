@@ -3,8 +3,8 @@
 
 package ca.mcgill.ecse223.tileo.model;
 
-// line 747 "../../../../../TileO.ump"
-public class TurnInactiveActionCard extends ActionCard
+// line 755 "../../../../../TileO.ump"
+public class ChooseAdditionalMoveActionCard extends ActionCard
 {
 
   //------------------------
@@ -15,7 +15,7 @@ public class TurnInactiveActionCard extends ActionCard
   // CONSTRUCTOR
   //------------------------
 
-  public TurnInactiveActionCard(String aInstructions, Deck aDeck)
+  public ChooseAdditionalMoveActionCard(String aInstructions, Deck aDeck)
   {
     super(aInstructions, aDeck);
   }
@@ -29,9 +29,9 @@ public class TurnInactiveActionCard extends ActionCard
     super.delete();
   }
 
-  // line 751 "../../../../../TileO.ump"
+  // line 759 "../../../../../TileO.ump"
    public Game.Mode getActionCardMode(){
-    return Game.Mode.GAME_TURNINACTIVEACTIONCARD;
+    return Game.Mode.GAME_CHOOSEADDITIONALMOVEACTIONCARD;
   }
 
 }

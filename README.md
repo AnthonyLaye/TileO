@@ -15,9 +15,7 @@ It's the same principle for the other buttons
 ##### Changes to make when generating code from Umple
 - Game: public Tile addTile(int aX, int aY) -> commented out
 - Deck: public ActionCard addCard(String aInstructions) -> commented out
-- TileOController: add throws InvalidInputException to startGame(), 
-  selectNewTile(), land(), playRollDieActionCard(), playConnectTilesActionCard(),
-  playRemoveConnectionActionCard(), playTeleportActionCard(), playLoseTurnActionCard()
+- TileOController: add throws InvalidInputException where needed 
 - ActionTile: change boolean land() to void land(), remove class abstract 
 
 

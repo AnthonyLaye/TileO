@@ -7,7 +7,7 @@ import ca.mcgill.ecse223.tileo.application.TileOApplication;
 public class CompThread extends Thread {
     public void run() {
         try{sleep(TileOApplication.SLEEP_TIME);}
-        catch (Exception err) {}
+        catch (Exception err) {System.out.println("I didn't sleep well");}
         Game game = TileOApplication.getTileO().getCurrentGame();
         ComputerPlayer p = (ComputerPlayer)game.getCurrentPlayer();
         switch (game.getMode()) {

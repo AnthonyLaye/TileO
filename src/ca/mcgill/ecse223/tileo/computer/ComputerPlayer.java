@@ -3,17 +3,12 @@ package ca.mcgill.ecse223.tileo.computer;
 import ca.mcgill.ecse223.tileo.model.Player;
 import ca.mcgill.ecse223.tileo.model.Game;
 import ca.mcgill.ecse223.tileo.model.Tile;
-import ca.mcgill.ecse223.tileo.model.NormalTile;
 import ca.mcgill.ecse223.tileo.model.ActionTile;
-import ca.mcgill.ecse223.tileo.model.WinTile;
 import ca.mcgill.ecse223.tileo.model.Connection;
-import ca.mcgill.ecse223.tileo.view.TileOPage;
 
-import java.io.Serializable;
-import java.lang.Thread;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.List;
+import java.util.HashMap;
 
 public abstract class ComputerPlayer extends Player
 {
@@ -23,31 +18,8 @@ public abstract class ComputerPlayer extends Player
 	
     public void takeTurn() {
         System.out.println("Computer starts turn at tile " + getCurrentTile().getX()+"-"+getCurrentTile().getY());
-        move(false);
+        move(0);
         System.out.println("Computer landed on tile "+getCurrentTile().getX()+"-"+getCurrentTile().getY()+"\n");
-    }
-
-    private void move(boolean allTiles) {
-        Tile newTile; 
-        List<Tile> possibleTiles;
-        
-        if (allTiles){
-            System.out.println("You're dead, maybe");
-            possibleTiles = getGame().getTiles();
-        }
-        else{
-            possibleTiles = getGame().rollDie();
-            System.out.println("Computer rolled die and got "+getGame().dieNumber);
-        }
-        
-        if (possibleTiles.size()==0){
-            System.out.println("Computer has no option");
-            newTile = getCurrentTile();
-        }
-        else
-            newTile = this.chooseTile(possibleTiles);
-
-        newTile.land();
     }
 
     public void playCard() {
@@ -77,14 +49,64 @@ public abstract class ComputerPlayer extends Player
             case GAME_TURNINACTIVEACTIONCARD:
             	turnInactiveCard();
             	break;
+            case GAME_CHOOSEADDITIONALMOVEACTIONCARD:
+            	chooseAdditionalMove();
+            	break;
+            case GAME_REVEALTILEACTIONCARD:
+            	reveal();
+            	break;
+            case GAME_SENDBACKTOSTARTACTIONCARD:
+            	sendBackToStart();
+            	break;
+            //case GAME_WINTILEHINTACTIONCARD:
+            //	winTileHint();
+            //	break;
+            //case GAME_SWAPPOSITIONACTIONCARD:
+            //	swapPosition();
+            //	break;
             default:
                 throw new RuntimeException("ERROR "+getGame().getMode()+": card not implemented for ai");
         }    
     }
+    
+    
+    
+    private void move(int type) {
+        Tile newTile; 
+        ArrayList<Tile> possibleTiles;
+        
+        if (type==0){ // roll die
+            possibleTiles = getGame().rollDie();
+            System.out.println("Computer rolled die and got "+getGame().dieNumber);
+        }
+        else if (type==1){ // teleport
+            System.out.println("You're dead, maybe");
+            possibleTiles = new ArrayList<Tile>(getGame().getTiles());
+        }
+        else if (type == 2) { // additional move
+        	System.out.println("You're potentially fucked");
+        	possibleTiles = new ArrayList<Tile>();
+        	for (int i=1; i<=6; ++i)
+        		possibleTiles.addAll(getPossibleMoves(i));
+        }
+        
+        else {
+        	throw new RuntimeException("Invalid type "+type+" for computer player move");
+        }
+        
+        if (possibleTiles.size()==0){
+            System.out.println("Computer has no option");
+            newTile = getCurrentTile();
+        }
+        else
+            newTile = this.chooseTile(possibleTiles);
+
+        newTile.land();
+    }
 
     private void rollDieCard() {
         System.out.println("Computer plays RollDieActionCard");
-        move(false);
+        move(0);
         System.out.println("Computer landed on tile "+getCurrentTile().getX()+"-"+getCurrentTile().getY()+"\n");
         getGame().setNextCard();
     }
@@ -126,7 +148,7 @@ public abstract class ComputerPlayer extends Player
     }
     private void teleportCard() {
         System.out.println("Computer plays TeleportActionCard");
-        move(true);
+        move(1);
         System.out.println("Computer landed on tile "+getCurrentTile().getX()+"-"+getCurrentTile().getY()+"\n");
         getGame().setNextCard();
     }
@@ -147,6 +169,50 @@ public abstract class ComputerPlayer extends Player
     	getGame().setNextPlayer();
     	getGame().setMode(Game.Mode.GAME);
     	
+    }
+    
+    private void chooseAdditionalMove() {
+    	System.out.println("Computer plays ChooseAdditionalMoveActionCard, you're potentially fucked");
+    	move(2);
+    	System.out.println("Computer landed on tile "+getCurrentTile().getX()+"-"+getCurrentTile().getY()+"\n");
+    	getGame().setNextCard();
+    }
+    
+    private void reveal() {
+    	System.out.println("Computer plays RevealTileActionCard, nothing to do...");
+    	getGame().setNextCard();
+    	getGame().setNextPlayer();
+    	getGame().setMode(Game.Mode.GAME);
+    }
+    
+    private void sendBackToStart() {
+    	throw new RuntimeException("Method not implemented for computer player");
+    }
+    
+    private void swapPosition() {
+    	System.out.println("Computer plays SwapPositionActionCard");
+    	HashMap<Tile, Player> map = new HashMap<Tile, Player>();
+    	for (Player p: getGame().getPlayers()) {
+    		if (this != p)
+    			map.put(p.getCurrentTile(), p);
+    	}
+    	Tile t = chooseTile(new ArrayList<Tile>(map.keySet()));
+    	Player p = map.get(t);
+    	System.out.println("Computer swapped position with player "+p.getNumber());
+    	
+    	p.setCurrentTile(getCurrentTile());
+    	setCurrentTile(t);
+    	getGame().setNextCard();
+    	getGame().setNextPlayer();
+    	getGame().setMode(Game.Mode.GAME);
+    	
+    }
+    
+    private void winTileHint() {
+    	System.out.println("Computer plays WinTileHintActionCard, nothing to do because he knows it");
+    	getGame().setNextCard();
+    	getGame().setNextPlayer();
+    	getGame().setMode(Game.Mode.GAME);
     }
 
     

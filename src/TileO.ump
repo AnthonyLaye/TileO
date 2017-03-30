@@ -37,7 +37,7 @@ class Game {
   depend ca.mcgill.ecse223.tileo.computer.HackerPlayer;
   depend ca.mcgill.ecse223.tileo.util.Cloner;
   
-  mode { DESIGN{} GAME{} GAME_WON{} GAME_ROLLDIEACTIONCARD{} GAME_CONNECTTILESACTIONCARD{} GAME_REMOVECONNECTIONACTIONCARD{} GAME_TELEPORTACTIONCARD{} GAME_LOSETURNACTIONCARD{} GAME_REMOVERANDOMTILEACTIONCARD{} GAME_TURNINACTIVEACTIONCARD{} }
+  mode { DESIGN{} GAME{} GAME_WON{} GAME_ROLLDIEACTIONCARD{} GAME_CONNECTTILESACTIONCARD{} GAME_REMOVECONNECTIONACTIONCARD{} GAME_TELEPORTACTIONCARD{} GAME_LOSETURNACTIONCARD{} GAME_REMOVERANDOMTILEACTIONCARD{} GAME_TURNINACTIVEACTIONCARD{} GAME_CHOOSEADDITIONALMOVEACTIONCARD{} GAME_REVEALTILEACTIONCARD{} GAME_SENDBACKTOSTARTACTIONCARD{} }
   1 <@>- 2..4 Player players;
   1 <@>- * Tile tiles;
   1 <@>- * Connection connections;
@@ -463,6 +463,11 @@ class Deck {
   1 -> * RollDieActionCard;
   1 -> * TeleportActionCard;
   1 -> * TurnInactiveActionCard;
+  1 -> * ChooseAdditionalMoveActionCard;
+  1 -> * RevealTileActionCard;
+  //1 -> * WinTileHintActionCard;
+  1-> * SendBackToStartActionCard;
+  //1 -> * SwapPositionActionCard;
   
   public void shuffle() {
     Random rand = new Random();
@@ -482,6 +487,11 @@ class Deck {
     System.out.println("LoseTurnActionCard: "+numberOfCardsForType(4));
     System.out.println("RemoveRandomTileActionCard: "+numberOfCardsForType(5));
     System.out.println("TurnInactiveActionCard: "+numberOfCardsForType(6));
+    System.out.println("ChooseAdditionalMoveActionCard: "+numberOfCardsForType(7));
+    System.out.println("RevealTileActionCard: "+numberOfCardsForType(8));
+    //System.out.println("WinTileHintActionCard: "+numberOfCardsForType(10));
+    System.out.println("SendToStartActionCard: "+numberOfCardsForType(9));
+    //System.out.println("SwapPoisitionActionCard: "+numberOfCardsForType(11));
     System.out.println("");
   }
 
@@ -501,6 +511,16 @@ class Deck {
 	   			return numberOfRemoveRandomTileActionCards();
 	   		case 6:
 	   			return numberOfTurnInactiveActionCards();
+	   		case 7:
+	   			return numberOfChooseAdditionalMoveActionCards();
+	   		case 8:
+	   			return numberOfRevealTileActionCards();
+	   		//case 10:
+	   		//	return numberOfWinTileHintActionCards();
+	   		case 9:
+                return numberOfSendBackToStartActionCards();
+	   		//case 11:
+	   		//	return numberOfSwapPositionActionCards();
 	   		default:
 	   			throw new RuntimeException("Card type not supported");
      }
@@ -543,8 +563,33 @@ class Deck {
 	        case 6:
 	            // TURNINACTIVE
 	    		for (int i=0;i<n;++i)
-	    		    addTurnInactiveActionCard(new TurnInactiveActionCard("Remove a random tile", this));
+	    		    addTurnInactiveActionCard(new TurnInactiveActionCard("Turns all action tile inactive", this));
 	            break;
+	        case 7:
+	            // CHOOSEADDMOVE
+	    		for (int i=0;i<n;++i)
+	    		    addChooseAdditionalMoveActionCard(new ChooseAdditionalMoveActionCard("Choose additional move", this));
+	            break;
+	        case 8:
+	        	// REVEAL
+	        	for (int i=0;i<n;++i) 
+	        		addRevealTileActionCard(new RevealTileActionCard("Reveal a tile", this));
+	        	break;
+	        //case 10:
+	        	// WINHINT
+	        //	for (int i=0;i<n;++i) 
+	        //		addWinTileHintActionCard(new WinTileHintActionCard("Win tile hint", this));
+	        //	break;
+	        case 9:
+	        	// START
+                for (int i=0;i<n;++i) 
+                    addSendBackToStartActionCard(new SendBackToStartActionCard("Send other player to start", this));
+                break;
+	        //case 11:
+	        	// SWAP
+	        //	for (int i=0;i<n;++i) 
+	        //		addSwapPositionActionCard(new SwapPositionActionCard("Swap position", this));
+	        //	break;
 	        default:
 	        	throw new RuntimeException("Card type not implemented");
 	    }
@@ -589,6 +634,31 @@ class Deck {
 		   			removeTurnInactiveActionCard((TurnInactiveActionCard)c);
 		   			c.delete();
 		   			break;
+		   		case 7:
+		   			c = getChooseAdditionalMoveActionCard(0);
+		   			removeChooseAdditionalMoveActionCard((ChooseAdditionalMoveActionCard)c);
+		   			c.delete();
+		   			break;
+		   		case 8:
+		   			c = getRevealTileActionCard(0);
+		   			removeRevealTileActionCard((RevealTileActionCard)c);
+		   			c.delete();
+		   			break;
+		   		//case 10:
+		   		//	c = getWinTileHintActionCard(0);
+		   		//	removeWinTileHintActionCard((WinTileHintActionCard)c);
+		   		//	c.delete();
+		   		//	break;
+		   		case 9:
+		   			c = getSendBackToStartActionCard(0);
+		   			removeSendBackToStartActionCard((SendBackToStartActionCard)c);
+		   			c.delete();
+		   			break;
+		   		//case 11:
+		   		//	c = getSwapPositionActionCard(0);
+		   		//	removeSwapPositionActionCard((SwapPositionActionCard)c);
+		   		//	c.delete();
+		   		//	break;
 		   		default:
 		   			throw new RuntimeException("Card type not supported");
 		   	}
@@ -681,6 +751,47 @@ class RemoveRandomTileActionCard {
  		return Game.Mode.GAME_TURNINACTIVEACTIONCARD;
  	}
  }
+ 
+class ChooseAdditionalMoveActionCard {
+	isA ActionCard;
+
+	public Game.Mode getActionCardMode() {
+		return Game.Mode.GAME_CHOOSEADDITIONALMOVEACTIONCARD;
+	}
+}
+
+class RevealTileActionCard {
+	isA ActionCard;
+	
+	public Game.Mode getActionCardMode() {
+		return Game.Mode.GAME_REVEALTILEACTIONCARD;
+	}
+	
+	public String play(Tile t) {
+		if (t instanceof NormalTile) return "Normal";
+		else if (t instanceof ActionTile) return "Action";
+		else return "Win";
+	}
+}
+
+class SendBackToStartActionCard {
+	depend java.util.*;
+    isA ActionCard;
+    
+    public Game.Mode getActionCardMode() {
+        return Game.Mode.GAME_SENDBACKTOSTARTACTIONCARD;
+    }
+    
+    public boolean play(Tile t, ArrayList<Player> otherPlayers){
+        for(Player p: otherPlayers){
+            if(t==p.getCurrentTile()){
+                p.setCurrentTile(p.getStartingTile());
+                return true;
+            }
+        }
+        return false;
+    }
+}
 
 class Die {
   depend java.util.Random;

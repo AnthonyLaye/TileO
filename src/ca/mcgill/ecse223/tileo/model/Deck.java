@@ -24,6 +24,9 @@ public class Deck implements Serializable
   private List<RollDieActionCard> rollDieActionCards;
   private List<TeleportActionCard> teleportActionCards;
   private List<TurnInactiveActionCard> turnInactiveActionCards;
+  private List<ChooseAdditionalMoveActionCard> chooseAdditionalMoveActionCards;
+  private List<RevealTileActionCard> revealTileActionCards;
+  private List<SendBackToStartActionCard> sendBackToStartActionCards;
   private Game game;
 
   //------------------------
@@ -40,6 +43,9 @@ public class Deck implements Serializable
     rollDieActionCards = new ArrayList<RollDieActionCard>();
     teleportActionCards = new ArrayList<TeleportActionCard>();
     turnInactiveActionCards = new ArrayList<TurnInactiveActionCard>();
+    chooseAdditionalMoveActionCards = new ArrayList<ChooseAdditionalMoveActionCard>();
+    revealTileActionCards = new ArrayList<RevealTileActionCard>();
+    sendBackToStartActionCards = new ArrayList<SendBackToStartActionCard>();
     if (aGame == null || aGame.getDeck() != null)
     {
       throw new RuntimeException("Unable to create Deck due to aGame");
@@ -57,6 +63,9 @@ public class Deck implements Serializable
     rollDieActionCards = new ArrayList<RollDieActionCard>();
     teleportActionCards = new ArrayList<TeleportActionCard>();
     turnInactiveActionCards = new ArrayList<TurnInactiveActionCard>();
+    chooseAdditionalMoveActionCards = new ArrayList<ChooseAdditionalMoveActionCard>();
+    revealTileActionCards = new ArrayList<RevealTileActionCard>();
+    sendBackToStartActionCards = new ArrayList<SendBackToStartActionCard>();
     game = new Game(aCurrentConnectionPiecesForGame, this, aDieForGame);
   }
 
@@ -312,6 +321,99 @@ public class Deck implements Serializable
   public int indexOfTurnInactiveActionCard(TurnInactiveActionCard aTurnInactiveActionCard)
   {
     int index = turnInactiveActionCards.indexOf(aTurnInactiveActionCard);
+    return index;
+  }
+
+  public ChooseAdditionalMoveActionCard getChooseAdditionalMoveActionCard(int index)
+  {
+    ChooseAdditionalMoveActionCard aChooseAdditionalMoveActionCard = chooseAdditionalMoveActionCards.get(index);
+    return aChooseAdditionalMoveActionCard;
+  }
+
+  public List<ChooseAdditionalMoveActionCard> getChooseAdditionalMoveActionCards()
+  {
+    List<ChooseAdditionalMoveActionCard> newChooseAdditionalMoveActionCards = Collections.unmodifiableList(chooseAdditionalMoveActionCards);
+    return newChooseAdditionalMoveActionCards;
+  }
+
+  public int numberOfChooseAdditionalMoveActionCards()
+  {
+    int number = chooseAdditionalMoveActionCards.size();
+    return number;
+  }
+
+  public boolean hasChooseAdditionalMoveActionCards()
+  {
+    boolean has = chooseAdditionalMoveActionCards.size() > 0;
+    return has;
+  }
+
+  public int indexOfChooseAdditionalMoveActionCard(ChooseAdditionalMoveActionCard aChooseAdditionalMoveActionCard)
+  {
+    int index = chooseAdditionalMoveActionCards.indexOf(aChooseAdditionalMoveActionCard);
+    return index;
+  }
+
+  public RevealTileActionCard getRevealTileActionCard(int index)
+  {
+    RevealTileActionCard aRevealTileActionCard = revealTileActionCards.get(index);
+    return aRevealTileActionCard;
+  }
+
+  public List<RevealTileActionCard> getRevealTileActionCards()
+  {
+    List<RevealTileActionCard> newRevealTileActionCards = Collections.unmodifiableList(revealTileActionCards);
+    return newRevealTileActionCards;
+  }
+
+  public int numberOfRevealTileActionCards()
+  {
+    int number = revealTileActionCards.size();
+    return number;
+  }
+
+  public boolean hasRevealTileActionCards()
+  {
+    boolean has = revealTileActionCards.size() > 0;
+    return has;
+  }
+
+  public int indexOfRevealTileActionCard(RevealTileActionCard aRevealTileActionCard)
+  {
+    int index = revealTileActionCards.indexOf(aRevealTileActionCard);
+    return index;
+  }
+
+  public SendBackToStartActionCard getSendBackToStartActionCard(int index)
+  {
+    SendBackToStartActionCard aSendBackToStartActionCard = sendBackToStartActionCards.get(index);
+    return aSendBackToStartActionCard;
+  }
+
+  /**
+   * 1 -> * WinTileHintActionCard;
+   */
+  public List<SendBackToStartActionCard> getSendBackToStartActionCards()
+  {
+    List<SendBackToStartActionCard> newSendBackToStartActionCards = Collections.unmodifiableList(sendBackToStartActionCards);
+    return newSendBackToStartActionCards;
+  }
+
+  public int numberOfSendBackToStartActionCards()
+  {
+    int number = sendBackToStartActionCards.size();
+    return number;
+  }
+
+  public boolean hasSendBackToStartActionCards()
+  {
+    boolean has = sendBackToStartActionCards.size() > 0;
+    return has;
+  }
+
+  public int indexOfSendBackToStartActionCard(SendBackToStartActionCard aSendBackToStartActionCard)
+  {
+    int index = sendBackToStartActionCards.indexOf(aSendBackToStartActionCard);
     return index;
   }
 
@@ -816,6 +918,177 @@ public class Deck implements Serializable
     return wasAdded;
   }
 
+  public static int minimumNumberOfChooseAdditionalMoveActionCards()
+  {
+    return 0;
+  }
+
+  public boolean addChooseAdditionalMoveActionCard(ChooseAdditionalMoveActionCard aChooseAdditionalMoveActionCard)
+  {
+    boolean wasAdded = false;
+    if (chooseAdditionalMoveActionCards.contains(aChooseAdditionalMoveActionCard)) { return false; }
+    chooseAdditionalMoveActionCards.add(aChooseAdditionalMoveActionCard);
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeChooseAdditionalMoveActionCard(ChooseAdditionalMoveActionCard aChooseAdditionalMoveActionCard)
+  {
+    boolean wasRemoved = false;
+    if (chooseAdditionalMoveActionCards.contains(aChooseAdditionalMoveActionCard))
+    {
+      chooseAdditionalMoveActionCards.remove(aChooseAdditionalMoveActionCard);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+
+  public boolean addChooseAdditionalMoveActionCardAt(ChooseAdditionalMoveActionCard aChooseAdditionalMoveActionCard, int index)
+  {  
+    boolean wasAdded = false;
+    if(addChooseAdditionalMoveActionCard(aChooseAdditionalMoveActionCard))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfChooseAdditionalMoveActionCards()) { index = numberOfChooseAdditionalMoveActionCards() - 1; }
+      chooseAdditionalMoveActionCards.remove(aChooseAdditionalMoveActionCard);
+      chooseAdditionalMoveActionCards.add(index, aChooseAdditionalMoveActionCard);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveChooseAdditionalMoveActionCardAt(ChooseAdditionalMoveActionCard aChooseAdditionalMoveActionCard, int index)
+  {
+    boolean wasAdded = false;
+    if(chooseAdditionalMoveActionCards.contains(aChooseAdditionalMoveActionCard))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfChooseAdditionalMoveActionCards()) { index = numberOfChooseAdditionalMoveActionCards() - 1; }
+      chooseAdditionalMoveActionCards.remove(aChooseAdditionalMoveActionCard);
+      chooseAdditionalMoveActionCards.add(index, aChooseAdditionalMoveActionCard);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addChooseAdditionalMoveActionCardAt(aChooseAdditionalMoveActionCard, index);
+    }
+    return wasAdded;
+  }
+
+  public static int minimumNumberOfRevealTileActionCards()
+  {
+    return 0;
+  }
+
+  public boolean addRevealTileActionCard(RevealTileActionCard aRevealTileActionCard)
+  {
+    boolean wasAdded = false;
+    if (revealTileActionCards.contains(aRevealTileActionCard)) { return false; }
+    revealTileActionCards.add(aRevealTileActionCard);
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeRevealTileActionCard(RevealTileActionCard aRevealTileActionCard)
+  {
+    boolean wasRemoved = false;
+    if (revealTileActionCards.contains(aRevealTileActionCard))
+    {
+      revealTileActionCards.remove(aRevealTileActionCard);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+
+  public boolean addRevealTileActionCardAt(RevealTileActionCard aRevealTileActionCard, int index)
+  {  
+    boolean wasAdded = false;
+    if(addRevealTileActionCard(aRevealTileActionCard))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfRevealTileActionCards()) { index = numberOfRevealTileActionCards() - 1; }
+      revealTileActionCards.remove(aRevealTileActionCard);
+      revealTileActionCards.add(index, aRevealTileActionCard);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveRevealTileActionCardAt(RevealTileActionCard aRevealTileActionCard, int index)
+  {
+    boolean wasAdded = false;
+    if(revealTileActionCards.contains(aRevealTileActionCard))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfRevealTileActionCards()) { index = numberOfRevealTileActionCards() - 1; }
+      revealTileActionCards.remove(aRevealTileActionCard);
+      revealTileActionCards.add(index, aRevealTileActionCard);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addRevealTileActionCardAt(aRevealTileActionCard, index);
+    }
+    return wasAdded;
+  }
+
+  public static int minimumNumberOfSendBackToStartActionCards()
+  {
+    return 0;
+  }
+
+  public boolean addSendBackToStartActionCard(SendBackToStartActionCard aSendBackToStartActionCard)
+  {
+    boolean wasAdded = false;
+    if (sendBackToStartActionCards.contains(aSendBackToStartActionCard)) { return false; }
+    sendBackToStartActionCards.add(aSendBackToStartActionCard);
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeSendBackToStartActionCard(SendBackToStartActionCard aSendBackToStartActionCard)
+  {
+    boolean wasRemoved = false;
+    if (sendBackToStartActionCards.contains(aSendBackToStartActionCard))
+    {
+      sendBackToStartActionCards.remove(aSendBackToStartActionCard);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+
+  public boolean addSendBackToStartActionCardAt(SendBackToStartActionCard aSendBackToStartActionCard, int index)
+  {  
+    boolean wasAdded = false;
+    if(addSendBackToStartActionCard(aSendBackToStartActionCard))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfSendBackToStartActionCards()) { index = numberOfSendBackToStartActionCards() - 1; }
+      sendBackToStartActionCards.remove(aSendBackToStartActionCard);
+      sendBackToStartActionCards.add(index, aSendBackToStartActionCard);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveSendBackToStartActionCardAt(SendBackToStartActionCard aSendBackToStartActionCard, int index)
+  {
+    boolean wasAdded = false;
+    if(sendBackToStartActionCards.contains(aSendBackToStartActionCard))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfSendBackToStartActionCards()) { index = numberOfSendBackToStartActionCards() - 1; }
+      sendBackToStartActionCards.remove(aSendBackToStartActionCard);
+      sendBackToStartActionCards.add(index, aSendBackToStartActionCard);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addSendBackToStartActionCardAt(aSendBackToStartActionCard, index);
+    }
+    return wasAdded;
+  }
+
   public void delete()
   {
     while (cards.size() > 0)
@@ -833,6 +1106,9 @@ public class Deck implements Serializable
     rollDieActionCards.clear();
     teleportActionCards.clear();
     turnInactiveActionCards.clear();
+    chooseAdditionalMoveActionCards.clear();
+    revealTileActionCards.clear();
+    sendBackToStartActionCards.clear();
     Game existingGame = game;
     game = null;
     if (existingGame != null)
@@ -841,7 +1117,11 @@ public class Deck implements Serializable
     }
   }
 
-  // line 468 "../../../../../TileO.ump"
+
+  /**
+   * 1 -> * SwapPositionActionCard;
+   */
+  // line 473 "../../../../../TileO.ump"
    public void shuffle(){
     Random rand = new Random();
     for (int i=0; i<100; ++i){
@@ -851,7 +1131,7 @@ public class Deck implements Serializable
     setCurrentCard(getCard(0));
   }
 
-  // line 477 "../../../../../TileO.ump"
+  // line 482 "../../../../../TileO.ump"
    public void print(){
     System.out.println("~~~ DECK ~~~~");
     System.out.println("RollDieActionCard: "+numberOfCardsForType(0));
@@ -861,10 +1141,15 @@ public class Deck implements Serializable
     System.out.println("LoseTurnActionCard: "+numberOfCardsForType(4));
     System.out.println("RemoveRandomTileActionCard: "+numberOfCardsForType(5));
     System.out.println("TurnInactiveActionCard: "+numberOfCardsForType(6));
+    System.out.println("ChooseAdditionalMoveActionCard: "+numberOfCardsForType(7));
+    System.out.println("RevealTileActionCard: "+numberOfCardsForType(8));
+    //System.out.println("WinTileHintActionCard: "+numberOfCardsForType(10));
+    System.out.println("SendToStartActionCard: "+numberOfCardsForType(9));
+    //System.out.println("SwapPoisitionActionCard: "+numberOfCardsForType(11));
     System.out.println("");
   }
 
-  // line 489 "../../../../../TileO.ump"
+  // line 499 "../../../../../TileO.ump"
    public int numberOfCardsForType(int type){
     switch (type) {
 	   		case 0:
@@ -881,12 +1166,22 @@ public class Deck implements Serializable
 	   			return numberOfRemoveRandomTileActionCards();
 	   		case 6:
 	   			return numberOfTurnInactiveActionCards();
+	   		case 7:
+	   			return numberOfChooseAdditionalMoveActionCards();
+	   		case 8:
+	   			return numberOfRevealTileActionCards();
+	   		//case 10:
+	   		//	return numberOfWinTileHintActionCards();
+	   		case 9:
+                return numberOfSendBackToStartActionCards();
+	   		//case 11:
+	   		//	return numberOfSwapPositionActionCards();
 	   		default:
 	   			throw new RuntimeException("Card type not supported");
      }
   }
 
-  // line 510 "../../../../../TileO.ump"
+  // line 530 "../../../../../TileO.ump"
    public void addCards(int n, int cardType){
     n = n%maximumNumberOfCards();
 	if (numberOfCards() + n > maximumNumberOfCards()) n = maximumNumberOfCards() - n;
@@ -924,14 +1219,39 @@ public class Deck implements Serializable
 	        case 6:
 	            // TURNINACTIVE
 	    		for (int i=0;i<n;++i)
-	    		    addTurnInactiveActionCard(new TurnInactiveActionCard("Remove a random tile", this));
+	    		    addTurnInactiveActionCard(new TurnInactiveActionCard("Turns all action tile inactive", this));
 	            break;
+	        case 7:
+	            // CHOOSEADDMOVE
+	    		for (int i=0;i<n;++i)
+	    		    addChooseAdditionalMoveActionCard(new ChooseAdditionalMoveActionCard("Choose additional move", this));
+	            break;
+	        case 8:
+	        	// REVEAL
+	        	for (int i=0;i<n;++i) 
+	        		addRevealTileActionCard(new RevealTileActionCard("Reveal a tile", this));
+	        	break;
+	        //case 10:
+	        	// WINHINT
+	        //	for (int i=0;i<n;++i) 
+	        //		addWinTileHintActionCard(new WinTileHintActionCard("Win tile hint", this));
+	        //	break;
+	        case 9:
+	        	// START
+                for (int i=0;i<n;++i) 
+                    addSendBackToStartActionCard(new SendBackToStartActionCard("Send other player to start", this));
+                break;
+	        //case 11:
+	        	// SWAP
+	        //	for (int i=0;i<n;++i) 
+	        //		addSwapPositionActionCard(new SwapPositionActionCard("Swap position", this));
+	        //	break;
 	        default:
 	        	throw new RuntimeException("Card type not implemented");
 	    }
   }
 
-  // line 554 "../../../../../TileO.ump"
+  // line 599 "../../../../../TileO.ump"
    public void rmCards(int toRm, int cardType){
     ActionCard c;
 	   for (int i=0; i<toRm; ++i) {	
@@ -971,6 +1291,31 @@ public class Deck implements Serializable
 		   			removeTurnInactiveActionCard((TurnInactiveActionCard)c);
 		   			c.delete();
 		   			break;
+		   		case 7:
+		   			c = getChooseAdditionalMoveActionCard(0);
+		   			removeChooseAdditionalMoveActionCard((ChooseAdditionalMoveActionCard)c);
+		   			c.delete();
+		   			break;
+		   		case 8:
+		   			c = getRevealTileActionCard(0);
+		   			removeRevealTileActionCard((RevealTileActionCard)c);
+		   			c.delete();
+		   			break;
+		   		//case 10:
+		   		//	c = getWinTileHintActionCard(0);
+		   		//	removeWinTileHintActionCard((WinTileHintActionCard)c);
+		   		//	c.delete();
+		   		//	break;
+		   		case 9:
+		   			c = getSendBackToStartActionCard(0);
+		   			removeSendBackToStartActionCard((SendBackToStartActionCard)c);
+		   			c.delete();
+		   			break;
+		   		//case 11:
+		   		//	c = getSwapPositionActionCard(0);
+		   		//	removeSwapPositionActionCard((SwapPositionActionCard)c);
+		   		//	c.delete();
+		   		//	break;
 		   		default:
 		   			throw new RuntimeException("Card type not supported");
 		   	}
