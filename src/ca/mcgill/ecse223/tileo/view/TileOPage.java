@@ -95,7 +95,7 @@ public class TileOPage extends JFrame{
             private JRadioButton setComputer3RadioButton;
             private JRadioButton setComputer4RadioButton;
             private JRadioButton[] setComputerRadioButtons;
-            private String[] computerTypes = {"Stupid", "God", "Hacker"};
+            private String[] computerTypes = {"Stupid", "Grandma", "Hacker"};
             private JComboBox computerType1ComboBox;
             private JComboBox computerType2ComboBox;
             private JComboBox computerType3ComboBox;
@@ -924,6 +924,7 @@ public class TileOPage extends JFrame{
                 	gameButtonsPanel.add(chooseAdditionalMoveCardSpinner);
                 	gameButtonsPanel.setVisible(true);
                 	chooseAdditionalMoveCardSpinner.setVisible(true);
+                	chooseAdditionalMoveCardSpinner.setValue(2); // so it changes and display the tiles
                 	chooseAdditionalMoveCardSpinner.setValue(1);
                 }
             	break;

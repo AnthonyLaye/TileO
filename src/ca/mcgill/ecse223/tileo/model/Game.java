@@ -4,7 +4,7 @@
 package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 import ca.mcgill.ecse223.tileo.computer.StupidPlayer;
-import ca.mcgill.ecse223.tileo.computer.GodPlayer;
+import ca.mcgill.ecse223.tileo.computer.GrandmaPlayer;
 import ca.mcgill.ecse223.tileo.computer.HackerPlayer;
 import ca.mcgill.ecse223.tileo.util.Cloner;
 import java.util.*;
@@ -759,8 +759,8 @@ public class Game implements Serializable
         cp.setStartingTile(t);
         addOrMovePlayerAt(cp, cp.getNumber());
     }
-    else if (type.equals("God")) {
-    	GodPlayer cp = new GodPlayer(playerNum, this);
+    else if (type.equals("Grandma")) {
+    	GrandmaPlayer cp = new GrandmaPlayer(playerNum, this);
     	System.out.println("Making player "+playerNum+" -> "+type);
     	cp.setColorByNumber();
     	cp.setStartingTile(t);

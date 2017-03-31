@@ -7,8 +7,11 @@ import ca.mcgill.ecse223.tileo.model.ActionTile;
 import ca.mcgill.ecse223.tileo.model.Connection;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.HashSet;
 
 public abstract class ComputerPlayer extends Player
 {
@@ -85,9 +88,11 @@ public abstract class ComputerPlayer extends Player
         }
         else if (type == 2) { // additional move
         	System.out.println("You're potentially fucked");
-        	possibleTiles = new ArrayList<Tile>();
+        	Set<Tile> set = new HashSet<Tile>();
         	for (int i=1; i<=6; ++i)
-        		possibleTiles.addAll(getPossibleMoves(i));
+        		set.addAll(getPossibleMoves(i));
+        	possibleTiles = new ArrayList<Tile>(set);
+        	Collections.shuffle(possibleTiles);
         }
         
         else {
@@ -153,14 +158,14 @@ public abstract class ComputerPlayer extends Player
         getGame().setNextCard();
     }
     private void removeRandomTileCard() {
-    	System.out.println("Computer plays RemoveRandomTileActionCard");
+    	System.out.println("Computer plays RemoveRandomTileActionCard\n");
     	getGame().removeRandomTile();
     	getGame().setNextCard();
     	getGame().setNextPlayer();
     	getGame().setMode(Game.Mode.GAME);
     }
     private void turnInactiveCard() {
-    	System.out.println("Computer plays TurnInactiveActionCard");
+    	System.out.println("Computer plays TurnInactiveActionCard\n");
     	for (Tile t: getGame().getTiles()) {
     		if (t instanceof ActionTile)
     			((ActionTile)t).deactivate();
@@ -179,7 +184,7 @@ public abstract class ComputerPlayer extends Player
     }
     
     private void reveal() {
-    	System.out.println("Computer plays RevealTileActionCard, nothing to do...");
+    	System.out.println("Computer plays RevealTileActionCard, nothing to do...\n");
     	getGame().setNextCard();
     	getGame().setNextPlayer();
     	getGame().setMode(Game.Mode.GAME);
@@ -198,7 +203,7 @@ public abstract class ComputerPlayer extends Player
     	}
     	Tile t = chooseTile(new ArrayList<Tile>(map.keySet()));
     	Player p = map.get(t);
-    	System.out.println("Computer swapped position with player "+p.getNumber());
+    	System.out.println("Computer swapped position with player "+p.getNumber()+"\n");
     	
     	p.setCurrentTile(getCurrentTile());
     	setCurrentTile(t);
@@ -209,7 +214,7 @@ public abstract class ComputerPlayer extends Player
     }
     
     private void winTileHint() {
-    	System.out.println("Computer plays WinTileHintActionCard, nothing to do because he knows it");
+    	System.out.println("Computer plays WinTileHintActionCard, nothing to do because he knows it\n");
     	getGame().setNextCard();
     	getGame().setNextPlayer();
     	getGame().setMode(Game.Mode.GAME);

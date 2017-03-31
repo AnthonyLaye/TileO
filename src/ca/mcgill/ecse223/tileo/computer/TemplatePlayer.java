@@ -24,6 +24,7 @@ public class TemplatePlayer extends ComputerPlayer implements Serializable
         /*
             Defines the behaviour when this player has to choose a new tile to move to
             from a list of tiles.
+            PossibleTiles is sure to be of size >= 1
         */
         throw new RuntimeException("Choose tile not implemented"); 
     }

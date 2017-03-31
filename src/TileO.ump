@@ -33,7 +33,7 @@ class TileO {
 
 class Game {
   depend ca.mcgill.ecse223.tileo.computer.StupidPlayer;
-  depend ca.mcgill.ecse223.tileo.computer.GodPlayer;
+  depend ca.mcgill.ecse223.tileo.computer.GrandmaPlayer;
   depend ca.mcgill.ecse223.tileo.computer.HackerPlayer;
   depend ca.mcgill.ecse223.tileo.util.Cloner;
   
@@ -158,8 +158,8 @@ class Game {
         cp.setStartingTile(t);
         addOrMovePlayerAt(cp, cp.getNumber());
     }
-    else if (type.equals("God")) {
-    	GodPlayer cp = new GodPlayer(playerNum, this);
+    else if (type.equals("Grandma")) {
+    	GrandmaPlayer cp = new GrandmaPlayer(playerNum, this);
     	System.out.println("Making player "+playerNum+" -> "+type);
     	cp.setColorByNumber();
     	cp.setStartingTile(t);
@@ -256,38 +256,8 @@ class Player {
   }
   
   public ArrayList<Tile> getPossibleMoves(int depth){
-      // Depth first search with limited depth, Iterate over the possible children
-      // Cannot go back but loops are allowed
-      Stack<Node> fringe = new Stack<Node>();
-      List<Connection> connections;
-      List<Tile> connectedTiles;
-      HashSet<Tile> possibleTiles = new HashSet<Tile>();
-      int tIdx;
-      Tile t;
-      
-      Node current = new Node(currentTile, null, 0);
-      fringe.push(current);
-
-      while (!fringe.isEmpty()) {
-          current = fringe.pop();
-    	  t = current.getTile();
-    	  
-          if (current.getDepth() == depth){
-        	  possibleTiles.add(t);
-              continue;
-          }
-          
-          connections = t.getConnections();
-          for (Connection aConnection : connections){
-        	  connectedTiles = aConnection.getTiles();
-        	  tIdx = connectedTiles.get(0)==t ? 1:0; // select the other tile
-              if (current.getParent()==null  || connectedTiles.get(tIdx) != current.getParent().getTile())
-            	  fringe.push(new Node(connectedTiles.get(tIdx), current, current.getDepth()+1));
-          }
-      }
-      return new ArrayList<Tile>(possibleTiles);
+    return currentTile.getPossibleMovesFrom(depth);
   }
-  
   public void forceDelete() {
     startingTile = null;
     currentTile = null;
@@ -298,6 +268,7 @@ class Player {
 }
 
 class Tile {
+  depend ca.mcgill.ecse223.tileo.util.Node;
   abstract;
 
   2 tiles -- 0..4 Connection connections; 
@@ -387,6 +358,77 @@ class Tile {
 
     return neigbours;
   }
+  
+  public ArrayList<Tile> getPossibleMovesFrom(int depth) {
+	// Depth first search with limited depth, Iterate over the possible children
+	      // Cannot go back but loops are allowed
+	      Stack<Node> fringe = new Stack<Node>();
+	      List<Connection> connections;
+	      List<Tile> connectedTiles;
+	      HashSet<Tile> possibleTiles = new HashSet<Tile>();
+	      int tIdx;
+	      Tile t;
+	      
+	      Node current = new Node(this, null, 0);
+	      fringe.push(current);
+
+	      while (!fringe.isEmpty()) {
+	          current = fringe.pop();
+	    	  t = current.getTile();
+	    	  
+	          if (current.getDepth() == depth){
+	        	  possibleTiles.add(t);
+	              continue;
+	          }
+	          
+	          connections = t.getConnections();
+	          for (Connection aConnection : connections){
+	        	  connectedTiles = aConnection.getTiles();
+	        	  tIdx = connectedTiles.get(0)==t ? 1:0; // select the other tile
+	              if (current.getParent()==null  || connectedTiles.get(tIdx) != current.getParent().getTile())
+	            	  fringe.push(new Node(connectedTiles.get(tIdx), current, current.getDepth()+1));
+	          }
+	      }
+	      return new ArrayList<Tile>(possibleTiles);
+   }
+   
+    public ArrayList<Tile> getShortestPathToWin() {
+	   Deque<Tile> path = new ArrayDeque<Tile>(); 
+	   
+	   Queue<Node> fringe = new LinkedList<Node>();
+	   Node current = new Node(this, null, 0);
+	   HashSet<Tile> visited = new HashSet<Tile>();
+	   fringe.add(current);
+	   
+	   while(!fringe.isEmpty()) {
+		   current = fringe.remove();
+		   if (current.getTile() instanceof WinTile){
+			   while (current != null) {
+				   path.addFirst(current.getTile()); // build the path
+				   current = current.getParent();
+			   }
+		   }
+		   else {
+			   visited.add(current.getTile());
+			   for (int i=1; i<=6; ++i) {
+				   for (Tile t: current.getTile().getPossibleMovesFrom(i)){
+					   if (!visited.contains(t)){
+						   visited.add(t);
+						   fringe.add(new Node(t, current, current.getDepth()+1));
+					   }
+				    }
+			   }
+		   }
+	   }
+	   return new ArrayList<Tile>(path);
+   }
+    
+    public int manhattanToWin() {
+	   int dx = getX() - getGame().getWinTile().getX();
+	   int dy = getY() - getGame().getWinTile().getY();
+	   
+	   return Math.abs(dx) + Math.abs(dy);
+   }
 }
 
 class ActionTile {
