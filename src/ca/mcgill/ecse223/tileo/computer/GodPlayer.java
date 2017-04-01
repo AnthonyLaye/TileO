@@ -130,7 +130,7 @@ public class GodPlayer extends ComputerPlayer implements Serializable
     	for(Player p: otherPlayers){
     		Tile t= p.getCurrentTile();
     		if(Math.abs(t.getX()+t.getY()-win.getX()-win.getY())
-					  <Math.abs(closest.getX()+closest.getY()-closest.getY())){
+					  <Math.abs(closest.getX()+closest.getY()-win.getX()-win.getY())){
     			closest = t;
     		}
     	}
