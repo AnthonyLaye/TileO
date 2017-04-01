@@ -22,6 +22,7 @@ import ca.mcgill.ecse223.tileo.model.TeleportActionCard;
 import ca.mcgill.ecse223.tileo.model.RemoveRandomTileActionCard;
 import ca.mcgill.ecse223.tileo.model.RevealTileActionCard;
 import ca.mcgill.ecse223.tileo.model.SendBackToStartActionCard;
+import ca.mcgill.ecse223.tileo.model.SwapPositionActionCard;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -503,6 +504,30 @@ public class TileOController
     return wasEventProcessed;
   }
 
+  public boolean playSwapPositionActionCard(Tile t) throws InvalidInputException
+  {
+    boolean wasEventProcessed = false;
+
+    ControllerStateGame aControllerStateGame = controllerStateGame;
+    switch (aControllerStateGame)
+    {
+      case LandedAction:
+        if (verifyGameMode(Game.Mode.GAME_SWAPPOSITIONACTIONCARD))
+        {
+          // line 95 "../../../../../TileOControllerStates.ump"
+          doPlaySwapPositionActionCard(t);
+          setControllerStateGame(ControllerStateGame.StartOfTurn);
+          wasEventProcessed = true;
+          break;
+        }
+        break;
+      default:
+        // Other states do respond to this event
+    }
+
+    return wasEventProcessed;
+  }
+
   private void exitControllerState()
   {
     switch(controllerState)
@@ -919,6 +944,31 @@ public class TileOController
 	  	}
   }
 
+  public void doPlaySwapPositionActionCard(Tile t) throws InvalidInputException{
+    Game currentGame = TileOApplication.getTileO().getCurrentGame();
+    Player currentPlayer = currentGame.getCurrentPlayer();
+    ArrayList<Player> otherPlayers= new ArrayList<Player>();
+    for(Player p:currentGame.getPlayers()){
+      if(p!=currentPlayer) otherPlayers.add(p);
+    }
+    currentGame.setMode(Game.Mode.GAME_SWAPPOSITIONACTIONCARD);
+    Deck gameDeck = currentGame.getDeck();
+    ActionCard currentCard= gameDeck.getCurrentCard();
+    boolean wasSwapped= false;
+    if(currentCard instanceof SwapPositionActionCard){
+      SwapPositionActionCard playCard = (SwapPositionActionCard) currentCard;
+      wasSwapped = playCard.play(t,otherPlayers, currentPlayer);
+    }
+    if(wasSwapped){
+      currentGame.setNextPlayer();
+      currentGame.setNextCard();
+      currentGame.setMode(Game.Mode.GAME);
+    }
+    else{
+      throw new InvalidInputException("Not a Player");
+    }
+  }
+
 
   /**
    * Controls
@@ -972,6 +1022,7 @@ public class TileOController
         	case GAME_TURNINACTIVEACTIONCARD:
         	case GAME_REVEALTILEACTIONCARD:
         	case GAME_SENDBACKTOSTARTACTIONCARD:
+            case GAME_SWAPPOSITIONACTIONCARD:
         	case GAME_CHOOSEADDITIONALMOVEACTIONCARD:
         		setControllerState(ControllerState.Game);
         		setControllerStateGame(ControllerStateGame.LandedAction);

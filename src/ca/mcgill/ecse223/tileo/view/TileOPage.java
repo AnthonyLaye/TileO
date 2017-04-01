@@ -951,6 +951,17 @@ public class TileOPage extends JFrame{
             		setWaitingFor("sendstart");
             	}
             	break;
+            case GAME_SWAPPOSITIONACTIONCARD:
+                actionTipLabel.setText("Choose a player");
+                actionStatusLabel.setText("Swap positions with another player");
+                if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+                    startComputerTurn(game);
+                }
+                else {
+                    board.setWaitForTile(true);
+                    setWaitingFor("swapplayer");
+                }
+                break;
             case DESIGN:
                 gameButtonsPanel.setVisible(true);
             	renderDesign(game);
@@ -1457,7 +1468,7 @@ public class TileOPage extends JFrame{
         revealTileCardSpinner.setValue(0);
         sendToStartCardSpinner.setValue(0);
         //winTileHintCardSpinner.setValue(0);
-        //swapPositionCardSpinner.setValue(0);
+        swapPositionCardSpinner.setValue(0);
     }
 
     private void fillDeck() {
@@ -1534,11 +1545,11 @@ public class TileOPage extends JFrame{
 	            sendToStartCardSpinner.setValue(n);
 	            nCardsLeft -= n;
 	        }
-	        //if (nSwap == 0 && nCardsLeft>0){
-	        //	n = rand.nextInt(nCardsLeft);
-	        //    swapPositionCardSpinner.setValue(n);
-	        //    nCardsLeft -= n;
-	        //}
+	        if (nSwap == 0 && nCardsLeft>0){
+	        	n = rand.nextInt(nCardsLeft);
+	            swapPositionCardSpinner.setValue(n);
+	            nCardsLeft -= n;
+	        }
         }
         while (nCardsLeft>0) {
             n = rand.nextInt(10);
@@ -1568,8 +1579,8 @@ public class TileOPage extends JFrame{
                 	
                 //case 10:
                 //	winTileHintCardSpinner.setValue((int)winTileHintCardSpinner.getValue()+1);
-                //case 11:
-                //	swapPositionCardSpinner.setValue((int)swapPositionCardSpinner.getValue()+1);
+                case 11:
+                	swapPositionCardSpinner.setValue((int)swapPositionCardSpinner.getValue()+1);
             }
             nCardsLeft--;
         }
@@ -1894,9 +1905,17 @@ public class TileOPage extends JFrame{
     		actionError.setText(err.getMessage());
     	}
     }
-    
-    private void swapPositionCardActionPerformed() {
-    	
+
+    private void swapPlayerPositionCardActionPerformed(Tile t) {
+        try {
+            toc.playSwapPositionActionCard(t);
+            setWaitingFor("");
+            actionError.setText("");
+            renderLayout(t.getGame());
+        }
+        catch (InvalidInputException err) {
+            actionError.setText(err.getMessage());
+        }
     }
     
     //controls 
@@ -1918,7 +1937,7 @@ public class TileOPage extends JFrame{
             revealTileCardSpinner.setValue(0);
             //winTileHintCardSpinner.setValue(0);
             sendToStartCardSpinner.setValue(0);
-            //swapPositionCardSpinner.setValue(0);
+            swapPositionCardSpinner.setValue(0);
             numberOfCardsLabel.setText("0/"+NumberOfCards);
             for (int i=0; i<nPlayers; ++i){
                 setComputerRadioButtons[i].setSelected(false);
@@ -2002,8 +2021,8 @@ public class TileOPage extends JFrame{
                 //winTileHintCardSpinner.setValue(n);
                 n = d.numberOfCardsForType(9);
                 sendToStartCardSpinner.setValue(n);
-                //n = d.numberOfCardsForType(11);
-                //swapPositionCardSpinner.setValue(n);
+                n = d.numberOfCardsForType(11);
+                swapPositionCardSpinner.setValue(n);
 
                 // select radio buttons for computers
                 for (int i=0; i<game.numberOfPlayers(); i++) {
@@ -2076,6 +2095,8 @@ public class TileOPage extends JFrame{
     			revealTile(t);
     		else if (waitingFor.equals("sendstart"))
     			sendBackToStartCardActionPerformed(t);
+            else if (waitingFor.equals("swapplayer"))
+                swapPlayerPositionCardActionPerformed(t);
     	}
     }
     

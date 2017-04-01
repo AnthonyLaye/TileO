@@ -64,9 +64,9 @@ public abstract class ComputerPlayer extends Player
             //case GAME_WINTILEHINTACTIONCARD:
             //	winTileHint();
             //	break;
-            //case GAME_SWAPPOSITIONACTIONCARD:
-            //	swapPosition();
-            //	break;
+            case GAME_SWAPPOSITIONACTIONCARD:
+            	swapPosition();
+            	break;
             default:
                 throw new RuntimeException("ERROR "+getGame().getMode()+": card not implemented for ai");
         }    

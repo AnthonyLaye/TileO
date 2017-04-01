@@ -1,12 +1,13 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
+/*This code was generated using the UMPLE 1.25.0-b818740 modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 51 "../../../../../TileOPersistence.ump"
-// line 497 "../../../../../TileO.ump"
+
+// line 607 "../../../../../../../../ump/tmp343778/model.ump"
+// line 1155 "../../../../../../../../ump/tmp343778/model.ump"
 public class Deck implements Serializable
 {
 
@@ -27,6 +28,7 @@ public class Deck implements Serializable
   private List<ChooseAdditionalMoveActionCard> chooseAdditionalMoveActionCards;
   private List<RevealTileActionCard> revealTileActionCards;
   private List<SendBackToStartActionCard> sendBackToStartActionCards;
+  private List<SwapPositionActionCard> swapPositionActionCards;
   private Game game;
 
   //------------------------
@@ -46,6 +48,7 @@ public class Deck implements Serializable
     chooseAdditionalMoveActionCards = new ArrayList<ChooseAdditionalMoveActionCard>();
     revealTileActionCards = new ArrayList<RevealTileActionCard>();
     sendBackToStartActionCards = new ArrayList<SendBackToStartActionCard>();
+    swapPositionActionCards = new ArrayList<SwapPositionActionCard>();
     if (aGame == null || aGame.getDeck() != null)
     {
       throw new RuntimeException("Unable to create Deck due to aGame");
@@ -66,6 +69,7 @@ public class Deck implements Serializable
     chooseAdditionalMoveActionCards = new ArrayList<ChooseAdditionalMoveActionCard>();
     revealTileActionCards = new ArrayList<RevealTileActionCard>();
     sendBackToStartActionCards = new ArrayList<SendBackToStartActionCard>();
+    swapPositionActionCards = new ArrayList<SwapPositionActionCard>();
     game = new Game(aCurrentConnectionPiecesForGame, this, aDieForGame);
   }
 
@@ -417,6 +421,36 @@ public class Deck implements Serializable
     return index;
   }
 
+  public SwapPositionActionCard getSwapPositionActionCard(int index)
+  {
+    SwapPositionActionCard aSwapPositionActionCard = swapPositionActionCards.get(index);
+    return aSwapPositionActionCard;
+  }
+
+  public List<SwapPositionActionCard> getSwapPositionActionCards()
+  {
+    List<SwapPositionActionCard> newSwapPositionActionCards = Collections.unmodifiableList(swapPositionActionCards);
+    return newSwapPositionActionCards;
+  }
+
+  public int numberOfSwapPositionActionCards()
+  {
+    int number = swapPositionActionCards.size();
+    return number;
+  }
+
+  public boolean hasSwapPositionActionCards()
+  {
+    boolean has = swapPositionActionCards.size() > 0;
+    return has;
+  }
+
+  public int indexOfSwapPositionActionCard(SwapPositionActionCard aSwapPositionActionCard)
+  {
+    int index = swapPositionActionCards.indexOf(aSwapPositionActionCard);
+    return index;
+  }
+
   public Game getGame()
   {
     return game;
@@ -432,7 +466,8 @@ public class Deck implements Serializable
     return 32;
   }
 
-  /*public ActionCard addCard(String aInstructions)
+  /*
+  public ActionCard addCard(String aInstructions)
   {
     if (numberOfCards() >= maximumNumberOfCards())
     {
@@ -442,7 +477,8 @@ public class Deck implements Serializable
     {
       return new ActionCard(aInstructions, this);
     }
-  }*/
+  }
+  */
 
   public boolean addCard(ActionCard aCard)
   {
@@ -480,7 +516,7 @@ public class Deck implements Serializable
   }
 
   public boolean addCardAt(ActionCard aCard, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addCard(aCard))
     {
@@ -503,8 +539,8 @@ public class Deck implements Serializable
       cards.remove(aCard);
       cards.add(index, aCard);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addCardAt(aCard, index);
     }
@@ -545,7 +581,7 @@ public class Deck implements Serializable
   }
 
   public boolean addConnectTilesActionCardAt(ConnectTilesActionCard aConnectTilesActionCard, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addConnectTilesActionCard(aConnectTilesActionCard))
     {
@@ -568,8 +604,8 @@ public class Deck implements Serializable
       connectTilesActionCards.remove(aConnectTilesActionCard);
       connectTilesActionCards.add(index, aConnectTilesActionCard);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addConnectTilesActionCardAt(aConnectTilesActionCard, index);
     }
@@ -602,7 +638,7 @@ public class Deck implements Serializable
   }
 
   public boolean addLoseTurnActionCardAt(LoseTurnActionCard aLoseTurnActionCard, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addLoseTurnActionCard(aLoseTurnActionCard))
     {
@@ -625,8 +661,8 @@ public class Deck implements Serializable
       loseTurnActionCards.remove(aLoseTurnActionCard);
       loseTurnActionCards.add(index, aLoseTurnActionCard);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addLoseTurnActionCardAt(aLoseTurnActionCard, index);
     }
@@ -659,7 +695,7 @@ public class Deck implements Serializable
   }
 
   public boolean addRemoveConnectionActionCardAt(RemoveConnectionActionCard aRemoveConnectionActionCard, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addRemoveConnectionActionCard(aRemoveConnectionActionCard))
     {
@@ -682,8 +718,8 @@ public class Deck implements Serializable
       removeConnectionActionCards.remove(aRemoveConnectionActionCard);
       removeConnectionActionCards.add(index, aRemoveConnectionActionCard);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addRemoveConnectionActionCardAt(aRemoveConnectionActionCard, index);
     }
@@ -716,7 +752,7 @@ public class Deck implements Serializable
   }
 
   public boolean addRemoveRandomTileActionCardAt(RemoveRandomTileActionCard aRemoveRandomTileActionCard, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addRemoveRandomTileActionCard(aRemoveRandomTileActionCard))
     {
@@ -739,8 +775,8 @@ public class Deck implements Serializable
       removeRandomTileActionCards.remove(aRemoveRandomTileActionCard);
       removeRandomTileActionCards.add(index, aRemoveRandomTileActionCard);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addRemoveRandomTileActionCardAt(aRemoveRandomTileActionCard, index);
     }
@@ -773,7 +809,7 @@ public class Deck implements Serializable
   }
 
   public boolean addRollDieActionCardAt(RollDieActionCard aRollDieActionCard, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addRollDieActionCard(aRollDieActionCard))
     {
@@ -796,8 +832,8 @@ public class Deck implements Serializable
       rollDieActionCards.remove(aRollDieActionCard);
       rollDieActionCards.add(index, aRollDieActionCard);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addRollDieActionCardAt(aRollDieActionCard, index);
     }
@@ -830,7 +866,7 @@ public class Deck implements Serializable
   }
 
   public boolean addTeleportActionCardAt(TeleportActionCard aTeleportActionCard, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addTeleportActionCard(aTeleportActionCard))
     {
@@ -853,8 +889,8 @@ public class Deck implements Serializable
       teleportActionCards.remove(aTeleportActionCard);
       teleportActionCards.add(index, aTeleportActionCard);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addTeleportActionCardAt(aTeleportActionCard, index);
     }
@@ -887,7 +923,7 @@ public class Deck implements Serializable
   }
 
   public boolean addTurnInactiveActionCardAt(TurnInactiveActionCard aTurnInactiveActionCard, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addTurnInactiveActionCard(aTurnInactiveActionCard))
     {
@@ -910,8 +946,8 @@ public class Deck implements Serializable
       turnInactiveActionCards.remove(aTurnInactiveActionCard);
       turnInactiveActionCards.add(index, aTurnInactiveActionCard);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addTurnInactiveActionCardAt(aTurnInactiveActionCard, index);
     }
@@ -944,7 +980,7 @@ public class Deck implements Serializable
   }
 
   public boolean addChooseAdditionalMoveActionCardAt(ChooseAdditionalMoveActionCard aChooseAdditionalMoveActionCard, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addChooseAdditionalMoveActionCard(aChooseAdditionalMoveActionCard))
     {
@@ -967,8 +1003,8 @@ public class Deck implements Serializable
       chooseAdditionalMoveActionCards.remove(aChooseAdditionalMoveActionCard);
       chooseAdditionalMoveActionCards.add(index, aChooseAdditionalMoveActionCard);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addChooseAdditionalMoveActionCardAt(aChooseAdditionalMoveActionCard, index);
     }
@@ -1001,7 +1037,7 @@ public class Deck implements Serializable
   }
 
   public boolean addRevealTileActionCardAt(RevealTileActionCard aRevealTileActionCard, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addRevealTileActionCard(aRevealTileActionCard))
     {
@@ -1024,8 +1060,8 @@ public class Deck implements Serializable
       revealTileActionCards.remove(aRevealTileActionCard);
       revealTileActionCards.add(index, aRevealTileActionCard);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addRevealTileActionCardAt(aRevealTileActionCard, index);
     }
@@ -1058,7 +1094,7 @@ public class Deck implements Serializable
   }
 
   public boolean addSendBackToStartActionCardAt(SendBackToStartActionCard aSendBackToStartActionCard, int index)
-  {  
+  {
     boolean wasAdded = false;
     if(addSendBackToStartActionCard(aSendBackToStartActionCard))
     {
@@ -1081,10 +1117,67 @@ public class Deck implements Serializable
       sendBackToStartActionCards.remove(aSendBackToStartActionCard);
       sendBackToStartActionCards.add(index, aSendBackToStartActionCard);
       wasAdded = true;
-    } 
-    else 
+    }
+    else
     {
       wasAdded = addSendBackToStartActionCardAt(aSendBackToStartActionCard, index);
+    }
+    return wasAdded;
+  }
+
+  public static int minimumNumberOfSwapPositionActionCards()
+  {
+    return 0;
+  }
+
+  public boolean addSwapPositionActionCard(SwapPositionActionCard aSwapPositionActionCard)
+  {
+    boolean wasAdded = false;
+    if (swapPositionActionCards.contains(aSwapPositionActionCard)) { return false; }
+    swapPositionActionCards.add(aSwapPositionActionCard);
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeSwapPositionActionCard(SwapPositionActionCard aSwapPositionActionCard)
+  {
+    boolean wasRemoved = false;
+    if (swapPositionActionCards.contains(aSwapPositionActionCard))
+    {
+      swapPositionActionCards.remove(aSwapPositionActionCard);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+
+  public boolean addSwapPositionActionCardAt(SwapPositionActionCard aSwapPositionActionCard, int index)
+  {
+    boolean wasAdded = false;
+    if(addSwapPositionActionCard(aSwapPositionActionCard))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfSwapPositionActionCards()) { index = numberOfSwapPositionActionCards() - 1; }
+      swapPositionActionCards.remove(aSwapPositionActionCard);
+      swapPositionActionCards.add(index, aSwapPositionActionCard);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveSwapPositionActionCardAt(SwapPositionActionCard aSwapPositionActionCard, int index)
+  {
+    boolean wasAdded = false;
+    if(swapPositionActionCards.contains(aSwapPositionActionCard))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfSwapPositionActionCards()) { index = numberOfSwapPositionActionCards() - 1; }
+      swapPositionActionCards.remove(aSwapPositionActionCard);
+      swapPositionActionCards.add(index, aSwapPositionActionCard);
+      wasAdded = true;
+    }
+    else
+    {
+      wasAdded = addSwapPositionActionCardAt(aSwapPositionActionCard, index);
     }
     return wasAdded;
   }
@@ -1097,7 +1190,7 @@ public class Deck implements Serializable
       aCard.delete();
       cards.remove(aCard);
     }
-    
+
     currentCard = null;
     connectTilesActionCards.clear();
     loseTurnActionCards.clear();
@@ -1109,6 +1202,7 @@ public class Deck implements Serializable
     chooseAdditionalMoveActionCards.clear();
     revealTileActionCards.clear();
     sendBackToStartActionCards.clear();
+    swapPositionActionCards.clear();
     Game existingGame = game;
     game = null;
     if (existingGame != null)
@@ -1117,22 +1211,18 @@ public class Deck implements Serializable
     }
   }
 
-
-  /**
-   * 1 -> * SwapPositionActionCard;
-   */
-  // line 515 "../../../../../TileO.ump"
-   public void shuffle(){
+  // line 1173 "../../../../../../../../ump/tmp343778/model.ump"
+  public void shuffle(){
     Random rand = new Random();
     for (int i=0; i<100; ++i){
-        ActionCard card = getCard(0);
-        addOrMoveCardAt(card, rand.nextInt(Game.NumberOfActionCards));
+      ActionCard card = getCard(0);
+      addOrMoveCardAt(card, rand.nextInt(Game.NumberOfActionCards));
     }
     setCurrentCard(getCard(0));
   }
 
-  // line 524 "../../../../../TileO.ump"
-   public void print(){
+  // line 1182 "../../../../../../../../ump/tmp343778/model.ump"
+  public void print(){
     System.out.println("~~~ DECK ~~~~");
     System.out.println("RollDieActionCard: "+numberOfCardsForType(0));
     System.out.println("ConnectTilesActionCard: "+numberOfCardsForType(1));
@@ -1145,189 +1235,192 @@ public class Deck implements Serializable
     System.out.println("RevealTileActionCard: "+numberOfCardsForType(8));
     //System.out.println("WinTileHintActionCard: "+numberOfCardsForType(10));
     System.out.println("SendToStartActionCard: "+numberOfCardsForType(9));
-    //System.out.println("SwapPoisitionActionCard: "+numberOfCardsForType(11));
+    System.out.println("SwapPoisitionActionCard: "+numberOfCardsForType(11));
     System.out.println("");
   }
 
-  // line 541 "../../../../../TileO.ump"
-   public int numberOfCardsForType(int type){
+  // line 1199 "../../../../../../../../ump/tmp343778/model.ump"
+  public int numberOfCardsForType(int type){
     switch (type) {
-	   		case 0:
-	   			return numberOfRollDieActionCards();
-	   		case 1:
-	   			return numberOfConnectTilesActionCards();
-	   		case 2:
-	   			return numberOfRemoveConnectionActionCards();
-	   		case 3:
-	   			return numberOfTeleportActionCards();
-	   		case 4:
-	   			return numberOfLoseTurnActionCards();
-	   		case 5:
-	   			return numberOfRemoveRandomTileActionCards();
-	   		case 6:
-	   			return numberOfTurnInactiveActionCards();
-	   		case 7:
-	   			return numberOfChooseAdditionalMoveActionCards();
-	   		case 8:
-	   			return numberOfRevealTileActionCards();
-	   		//case 10:
-	   		//	return numberOfWinTileHintActionCards();
-	   		case 9:
-                return numberOfSendBackToStartActionCards();
-	   		//case 11:
-	   		//	return numberOfSwapPositionActionCards();
-	   		default:
-	   			throw new RuntimeException("Card type not supported");
-     }
+      case 0:
+        return numberOfRollDieActionCards();
+      case 1:
+        return numberOfConnectTilesActionCards();
+      case 2:
+        return numberOfRemoveConnectionActionCards();
+      case 3:
+        return numberOfTeleportActionCards();
+      case 4:
+        return numberOfLoseTurnActionCards();
+      case 5:
+        return numberOfRemoveRandomTileActionCards();
+      case 6:
+        return numberOfTurnInactiveActionCards();
+      case 7:
+        return numberOfChooseAdditionalMoveActionCards();
+      case 8:
+        return numberOfRevealTileActionCards();
+      //case 10:
+      //	return numberOfWinTileHintActionCards();
+      case 9:
+        return numberOfSendBackToStartActionCards();
+      case 11:
+      	return numberOfSwapPositionActionCards();
+      default:
+        throw new RuntimeException("Card type not supported");
+    }
   }
 
-  // line 572 "../../../../../TileO.ump"
-   public void addCards(int n, int cardType){
+  // line 1230 "../../../../../../../../ump/tmp343778/model.ump"
+  public void addCards(int n, int cardType){
     n = n%maximumNumberOfCards();
-	if (numberOfCards() + n > maximumNumberOfCards()) n = maximumNumberOfCards() - n;
+    if (numberOfCards() + n > maximumNumberOfCards()) n = maximumNumberOfCards() - n;
     switch (cardType) {
-	        case 0:
-	            // ROLL
-	            for (int i=0; i<n; ++i)
-	                addRollDieActionCard(new RollDieActionCard("Roll the die for an extra turn", this));
-	            break;
-	        case 1:
-	            // CONN
-	    		for (int i=0;i<n;++i)
-	                addConnectTilesActionCard(new ConnectTilesActionCard("Connect two tiles", this));
-	            break;
-	        case 2:
-	            // RMCONN
-	    		for (int i=0;i<n;++i)
-	    		    addRemoveConnectionActionCard(new RemoveConnectionActionCard("Remove a connection", this));
-	            break;
-	        case 3:
-	            // TELE
-	    		for (int i=0;i<n;++i)
-	    		    addTeleportActionCard(new TeleportActionCard("Move your piece to a new tile", this));
-	            break;
-	        case 4:
-	            // LOSE
-	    		for (int i=0;i<n;++i)
-	    		    addLoseTurnActionCard(new LoseTurnActionCard("Lose your next turn", this));
-	            break;
-	        case 5:
-	            // RMRANDOM
-	    		for (int i=0;i<n;++i)
-	    		    addRemoveRandomTileActionCard(new RemoveRandomTileActionCard("Remove a random tile", this));
-	            break;
-	        case 6:
-	            // TURNINACTIVE
-	    		for (int i=0;i<n;++i)
-	    		    addTurnInactiveActionCard(new TurnInactiveActionCard("Turns all action tile inactive", this));
-	            break;
-	        case 7:
-	            // CHOOSEADDMOVE
-	    		for (int i=0;i<n;++i)
-	    		    addChooseAdditionalMoveActionCard(new ChooseAdditionalMoveActionCard("Choose additional move", this));
-	            break;
-	        case 8:
-	        	// REVEAL
-	        	for (int i=0;i<n;++i) 
-	        		addRevealTileActionCard(new RevealTileActionCard("Reveal a tile", this));
-	        	break;
-	        //case 10:
-	        	// WINHINT
-	        //	for (int i=0;i<n;++i) 
-	        //		addWinTileHintActionCard(new WinTileHintActionCard("Win tile hint", this));
-	        //	break;
-	        case 9:
-	        	// START
-                for (int i=0;i<n;++i) 
-                    addSendBackToStartActionCard(new SendBackToStartActionCard("Send other player to start", this));
-                break;
-	        //case 11:
-	        	// SWAP
-	        //	for (int i=0;i<n;++i) 
-	        //		addSwapPositionActionCard(new SwapPositionActionCard("Swap position", this));
-	        //	break;
-	        default:
-	        	throw new RuntimeException("Card type not implemented");
-	    }
+      case 0:
+        // ROLL
+        for (int i=0; i<n; ++i)
+          addRollDieActionCard(new RollDieActionCard("Roll the die for an extra turn", this));
+        break;
+      case 1:
+        // CONN
+        for (int i=0;i<n;++i)
+          addConnectTilesActionCard(new ConnectTilesActionCard("Connect two tiles", this));
+        break;
+      case 2:
+        // RMCONN
+        for (int i=0;i<n;++i)
+          addRemoveConnectionActionCard(new RemoveConnectionActionCard("Remove a connection", this));
+        break;
+      case 3:
+        // TELE
+        for (int i=0;i<n;++i)
+          addTeleportActionCard(new TeleportActionCard("Move your piece to a new tile", this));
+        break;
+      case 4:
+        // LOSE
+        for (int i=0;i<n;++i)
+          addLoseTurnActionCard(new LoseTurnActionCard("Lose your next turn", this));
+        break;
+      case 5:
+        // RMRANDOM
+        for (int i=0;i<n;++i)
+          addRemoveRandomTileActionCard(new RemoveRandomTileActionCard("Remove a random tile", this));
+        break;
+      case 6:
+        // TURNINACTIVE
+        for (int i=0;i<n;++i)
+          addTurnInactiveActionCard(new TurnInactiveActionCard("Turns all action tile inactive", this));
+        break;
+      case 7:
+        // CHOOSEADDMOVE
+        for (int i=0;i<n;++i)
+          addChooseAdditionalMoveActionCard(new ChooseAdditionalMoveActionCard("Choose additional move", this));
+        break;
+      case 8:
+        // REVEAL
+        for (int i=0;i<n;++i)
+          addRevealTileActionCard(new RevealTileActionCard("Reveal a tile", this));
+        break;
+      //case 10:
+      // WINHINT
+      //	for (int i=0;i<n;++i)
+      //		addWinTileHintActionCard(new WinTileHintActionCard("Win tile hint", this));
+      //	break;
+      case 9:
+        // START
+        for (int i=0;i<n;++i)
+          addSendBackToStartActionCard(new SendBackToStartActionCard("Send other player to start", this));
+        break;
+      case 11:
+      // SWAP
+      	for (int i=0;i<n;++i)
+      		addSwapPositionActionCard(new SwapPositionActionCard("Swap position", this));
+      	break;
+      default:
+        throw new RuntimeException("Card type not implemented");
+    }
   }
 
-  // line 641 "../../../../../TileO.ump"
-   public void rmCards(int toRm, int cardType){
+  // line 1299 "../../../../../../../../ump/tmp343778/model.ump"
+  public void rmCards(int toRm, int cardType){
     ActionCard c;
-	   for (int i=0; i<toRm; ++i) {	
-		   switch (cardType) {
-		   		case 0:
-		   			c = getRollDieActionCard(0);
-		   			removeRollDieActionCard((RollDieActionCard)c);
-		   			c.delete();
-		   			break;
-		   		case 1:
-		   			c = getConnectTilesActionCard(0);
-		   			removeConnectTilesActionCard((ConnectTilesActionCard)c);
-		   			c.delete();
-		   			break;
-		   		case 2:
-		   			c = getRemoveConnectionActionCard(0);
-		   			removeRemoveConnectionActionCard((RemoveConnectionActionCard)c);
-		   			c.delete();
-		   			break;
-		   		case 3:
-		   			c = getTeleportActionCard(0);
-		   			removeTeleportActionCard((TeleportActionCard)c);
-		   			c.delete();
-		   			break;
-		   		case 4:
-		   			c = getLoseTurnActionCard(0);
-		   			removeLoseTurnActionCard((LoseTurnActionCard)c);
-		   			c.delete();
-		   			break;
-		   		case 5:
-		   			c = getRemoveRandomTileActionCard(0);
-		   			removeRemoveRandomTileActionCard((RemoveRandomTileActionCard)c);
-		   			c.delete();
-		   			break;
-		   		case 6:
-		   			c = getTurnInactiveActionCard(0);
-		   			removeTurnInactiveActionCard((TurnInactiveActionCard)c);
-		   			c.delete();
-		   			break;
-		   		case 7:
-		   			c = getChooseAdditionalMoveActionCard(0);
-		   			removeChooseAdditionalMoveActionCard((ChooseAdditionalMoveActionCard)c);
-		   			c.delete();
-		   			break;
-		   		case 8:
-		   			c = getRevealTileActionCard(0);
-		   			removeRevealTileActionCard((RevealTileActionCard)c);
-		   			c.delete();
-		   			break;
-		   		//case 10:
-		   		//	c = getWinTileHintActionCard(0);
-		   		//	removeWinTileHintActionCard((WinTileHintActionCard)c);
-		   		//	c.delete();
-		   		//	break;
-		   		case 9:
-		   			c = getSendBackToStartActionCard(0);
-		   			removeSendBackToStartActionCard((SendBackToStartActionCard)c);
-		   			c.delete();
-		   			break;
-		   		//case 11:
-		   		//	c = getSwapPositionActionCard(0);
-		   		//	removeSwapPositionActionCard((SwapPositionActionCard)c);
-		   		//	c.delete();
-		   		//	break;
-		   		default:
-		   			throw new RuntimeException("Card type not supported");
-		   	}
-	   }
+    for (int i=0; i<toRm; ++i) {
+      switch (cardType) {
+        case 0:
+          c = getRollDieActionCard(0);
+          removeRollDieActionCard((RollDieActionCard)c);
+          c.delete();
+          break;
+        case 1:
+          c = getConnectTilesActionCard(0);
+          removeConnectTilesActionCard((ConnectTilesActionCard)c);
+          c.delete();
+          break;
+        case 2:
+          c = getRemoveConnectionActionCard(0);
+          removeRemoveConnectionActionCard((RemoveConnectionActionCard)c);
+          c.delete();
+          break;
+        case 3:
+          c = getTeleportActionCard(0);
+          removeTeleportActionCard((TeleportActionCard)c);
+          c.delete();
+          break;
+        case 4:
+          c = getLoseTurnActionCard(0);
+          removeLoseTurnActionCard((LoseTurnActionCard)c);
+          c.delete();
+          break;
+        case 5:
+          c = getRemoveRandomTileActionCard(0);
+          removeRemoveRandomTileActionCard((RemoveRandomTileActionCard)c);
+          c.delete();
+          break;
+        case 6:
+          c = getTurnInactiveActionCard(0);
+          removeTurnInactiveActionCard((TurnInactiveActionCard)c);
+          c.delete();
+          break;
+        case 7:
+          c = getChooseAdditionalMoveActionCard(0);
+          removeChooseAdditionalMoveActionCard((ChooseAdditionalMoveActionCard)c);
+          c.delete();
+          break;
+        case 8:
+          c = getRevealTileActionCard(0);
+          removeRevealTileActionCard((RevealTileActionCard)c);
+          c.delete();
+          break;
+        //case 10:
+        //	c = getWinTileHintActionCard(0);
+        //	removeWinTileHintActionCard((WinTileHintActionCard)c);
+        //	c.delete();
+        //	break;
+        case 9:
+          c = getSendBackToStartActionCard(0);
+          removeSendBackToStartActionCard((SendBackToStartActionCard)c);
+          c.delete();
+          break;
+        case 11:
+        	c = getSwapPositionActionCard(0);
+        	removeSwapPositionActionCard((SwapPositionActionCard)c);
+        	c.delete();
+        	break;
+        default:
+          throw new RuntimeException("Card type not supported");
+      }
+    }
   }
-  
+
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
-  
-  // line 54 ../../../../../TileOPersistence.ump
+
+  // line 610 ../../../../../../../../ump/tmp343778/model.ump
   private static final long serialVersionUID = 1693774402081599849L ;
 
-  
+
 }
+
+
+

@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a1d84f45-8c3c-435a-a989-5c6b3528f362" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/computer/ComputerPlayer.java" afterPath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/computer/ComputerPlayer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/controller/TileOController.java" afterPath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/controller/TileOController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Deck.java" afterPath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Deck.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Game.java" afterPath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Game.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/view/TileOPage.java" afterPath="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/view/TileOPage.java" />
     </list>
@@ -24,87 +25,73 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="600">
-      <file leaf-file-name="TileOPage.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TileOPage.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/view/TileOPage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-45891">
-              <caret line="326" column="29" lean-forward="false" selection-start-line="326" selection-start-column="22" selection-end-line="326" selection-end-column="29" />
-              <folding>
-                <element signature="e#6776#6777#0" expanded="true" />
-                <element signature="e#6824#6825#0" expanded="true" />
-                <element signature="e#6988#6989#0" expanded="true" />
-                <element signature="e#7039#7040#0" expanded="true" />
-                <element signature="e#7201#7202#0" expanded="true" />
-                <element signature="e#7250#7251#0" expanded="true" />
-                <element signature="e#7407#7408#0" expanded="true" />
-                <element signature="e#7444#7445#0" expanded="true" />
-                <element signature="e#13606#13607#0" expanded="true" />
-                <element signature="e#13663#13664#0" expanded="true" />
-                <element signature="e#13909#13910#0" expanded="true" />
-                <element signature="e#13962#13963#0" expanded="true" />
-                <element signature="e#14175#14176#0" expanded="true" />
-                <element signature="e#14236#14237#0" expanded="true" />
-                <element signature="e#14474#14475#0" expanded="true" />
-                <element signature="e#14534#14535#0" expanded="true" />
-                <element signature="e#16350#16351#0" expanded="true" />
-                <element signature="e#16423#16424#0" expanded="true" />
-                <element signature="e#16590#16591#0" expanded="true" />
-                <element signature="e#16636#16637#0" expanded="true" />
-                <element signature="e#19918#19919#0" expanded="true" />
-                <element signature="e#19965#19966#0" expanded="true" />
-                <element signature="e#20170#20171#0" expanded="true" />
-                <element signature="e#20212#20213#0" expanded="true" />
-                <element signature="e#20418#20419#0" expanded="true" />
-                <element signature="e#20461#20462#0" expanded="true" />
-                <element signature="e#21312#21313#0" expanded="true" />
-                <element signature="e#21366#21367#0" expanded="true" />
-                <element signature="e#21525#21526#0" expanded="true" />
-                <element signature="e#21566#21567#0" expanded="true" />
-                <element signature="e#21728#21729#0" expanded="true" />
-                <element signature="e#21785#21786#0" expanded="true" />
-                <element signature="e#21947#21948#0" expanded="true" />
-                <element signature="e#22004#22005#0" expanded="true" />
-                <element signature="e#22168#22169#0" expanded="true" />
-                <element signature="e#22227#22228#0" expanded="true" />
-                <element signature="e#22393#22394#0" expanded="true" />
-                <element signature="e#22454#22455#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Tile.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Tile.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="567">
-              <caret line="331" column="29" lean-forward="false" selection-start-line="331" selection-start-column="29" selection-end-line="331" selection-end-column="29" />
-              <folding>
-                <element signature="e#1471#1472#0" expanded="true" />
-                <element signature="e#1489#1490#0" expanded="true" />
-                <element signature="e#1514#1515#0" expanded="true" />
-                <element signature="e#1532#1533#0" expanded="true" />
-                <element signature="e#1574#1575#0" expanded="true" />
-                <element signature="e#1605#1606#0" expanded="true" />
-                <element signature="e#1646#1647#0" expanded="true" />
-                <element signature="e#1677#1678#0" expanded="true" />
-                <element signature="e#2330#2331#0" expanded="true" />
-                <element signature="e#2351#2352#0" expanded="true" />
-                <element signature="e#2405#2406#0" expanded="true" />
-                <element signature="e#2423#2424#0" expanded="true" />
-                <element signature="e#2477#2478#0" expanded="true" />
-                <element signature="e#2495#2496#0" expanded="true" />
-                <element signature="e#4878#4890#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TemplatePlayer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/computer/TemplatePlayer.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+            <state relative-caret-position="428">
+              <caret line="1740" column="16" lean-forward="false" selection-start-line="1740" selection-start-column="8" selection-end-line="1740" selection-end-column="16" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Deck.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Deck.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="490">
+              <caret line="480" column="4" lean-forward="false" selection-start-line="480" selection-start-column="4" selection-end-line="480" selection-end-column="4" />
+              <folding>
+                <element signature="e#0#44971#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#3991#3992#0" expanded="true" />
+                <element signature="e#4019#4020#0" expanded="true" />
+                <element signature="e#13913#13914#0" expanded="true" />
+                <element signature="e#13934#13935#0" expanded="true" />
+                <element signature="e#13982#13983#0" expanded="true" />
+                <element signature="e#14000#14001#0" expanded="true" />
+                <element signature="e#14048#14049#0" expanded="true" />
+                <element signature="e#14067#14068#0" expanded="true" />
+                <element signature="e#16024#16025#0" expanded="true" />
+                <element signature="e#16042#16043#0" expanded="true" />
+                <element signature="e#17910#17911#0" expanded="true" />
+                <element signature="e#17928#17929#0" expanded="true" />
+                <element signature="e#19652#19653#0" expanded="true" />
+                <element signature="e#19670#19671#0" expanded="true" />
+                <element signature="e#21698#21699#0" expanded="true" />
+                <element signature="e#21716#21717#0" expanded="true" />
+                <element signature="e#23735#23736#0" expanded="true" />
+                <element signature="e#23753#23754#0" expanded="true" />
+                <element signature="e#25431#25432#0" expanded="true" />
+                <element signature="e#25449#25450#0" expanded="true" />
+                <element signature="e#27169#27170#0" expanded="true" />
+                <element signature="e#27187#27188#0" expanded="true" />
+                <element signature="e#29067#29068#0" expanded="true" />
+                <element signature="e#29085#29086#0" expanded="true" />
+                <element signature="e#31259#31260#0" expanded="true" />
+                <element signature="e#31277#31278#0" expanded="true" />
+                <element signature="e#33076#33077#0" expanded="true" />
+                <element signature="e#33094#33095#0" expanded="true" />
+                <element signature="e#35080#35081#0" expanded="true" />
+                <element signature="e#35098#35099#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SwapPositionActionCard.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/SwapPositionActionCard.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="952">
+              <caret line="43" column="13" lean-forward="true" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
+              <folding>
+                <element signature="e#0#1281#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#575#576#0" expanded="true" />
+                <element signature="e#618#619#0" expanded="true" />
+                <element signature="e#726#727#0" expanded="true" />
+                <element signature="e#756#757#0" expanded="true" />
+                <element signature="e#800#801#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -112,43 +99,52 @@
       <file leaf-file-name="ComputerPlayer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/computer/ComputerPlayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2528">
-              <caret line="54" column="40" lean-forward="false" selection-start-line="54" selection-start-column="40" selection-end-line="54" selection-end-column="40" />
+            <state relative-caret-position="2200">
+              <caret line="68" column="12" lean-forward="false" selection-start-line="68" selection-start-column="12" selection-end-line="68" selection-end-column="12" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StupidPlayer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/computer/StupidPlayer.java">
+      <file leaf-file-name="RemoveRandomTileActionCard.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/RemoveRandomTileActionCard.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="552">
-              <caret line="53" column="17" lean-forward="true" selection-start-line="53" selection-start-column="17" selection-end-line="53" selection-end-column="17" />
+            <state relative-caret-position="846">
+              <caret line="41" column="2" lean-forward="true" selection-start-line="41" selection-start-column="2" selection-end-line="41" selection-end-column="2" />
               <folding>
-                <element signature="e#1245#1251#0" expanded="true" />
+                <element signature="e#900#901#0" expanded="true" />
+                <element signature="e#948#949#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GodPlayer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/computer/GodPlayer.java">
+      <file leaf-file-name="TileOController.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/controller/TileOController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1920">
-              <caret line="43" column="25" lean-forward="true" selection-start-line="43" selection-start-column="25" selection-end-line="43" selection-end-column="25" />
+            <state relative-caret-position="1800">
+              <caret line="68" column="65" lean-forward="true" selection-start-line="68" selection-start-column="65" selection-end-line="68" selection-end-column="65" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HackerPlayer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/computer/HackerPlayer.java">
+      <file leaf-file-name="SendBackToStartActionCard.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/SendBackToStartActionCard.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="520">
-              <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-              <folding>
-                <element signature="e#1822#1828#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="1032">
+              <caret line="46" column="3" lean-forward="true" selection-start-line="38" selection-start-column="3" selection-end-line="46" selection-end-column="3" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ActionTileState.ump" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ActionTileState.ump">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="880">
+              <caret line="22" column="1" lean-forward="true" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -166,42 +162,10 @@
       <file leaf-file-name="Game.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="31589">
-              <caret line="798" column="46" lean-forward="true" selection-start-line="798" selection-start-column="46" selection-end-line="798" selection-end-column="46" />
+            <state relative-caret-position="1325">
+              <caret line="798" column="39" lean-forward="false" selection-start-line="798" selection-start-column="39" selection-end-line="798" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3287#3288#0" expanded="true" />
-                <element signature="e#3327#3328#0" expanded="true" />
-                <element signature="e#3362#3363#0" expanded="true" />
-                <element signature="e#3387#3388#0" expanded="true" />
-                <element signature="e#3515#3516#0" expanded="true" />
-                <element signature="e#3536#3537#0" expanded="true" />
-                <element signature="e#5308#5309#0" expanded="true" />
-                <element signature="e#5329#5330#0" expanded="true" />
-                <element signature="e#5356#5357#0" expanded="true" />
-                <element signature="e#5376#5377#0" expanded="true" />
-                <element signature="e#5416#5417#0" expanded="true" />
-                <element signature="e#5446#5447#0" expanded="true" />
-                <element signature="e#5583#5584#0" expanded="true" />
-                <element signature="e#5607#5608#0" expanded="true" />
-                <element signature="e#6480#6481#0" expanded="true" />
-                <element signature="e#6502#6503#0" expanded="true" />
-                <element signature="e#6741#6742#0" expanded="true" />
-                <element signature="e#6759#6760#0" expanded="true" />
-                <element signature="e#6809#6810#0" expanded="true" />
-                <element signature="e#6827#6828#0" expanded="true" />
-                <element signature="e#8898#8899#0" expanded="true" />
-                <element signature="e#8916#8917#0" expanded="true" />
-                <element signature="e#10448#10449#0" expanded="true" />
-                <element signature="e#10466#10467#0" expanded="true" />
-                <element signature="e#10507#10508#0" expanded="true" />
-                <element signature="e#10544#10545#0" expanded="true" />
-                <element signature="e#12563#12564#0" expanded="true" />
-                <element signature="e#12581#12582#0" expanded="true" />
-                <element signature="e#19724#19725#0" expanded="true" />
-                <element signature="e#19757#19758#0" expanded="true" />
-                <element signature="e#20132#20138#0" expanded="true" />
-                <marker date="1490293582857" expanded="true" signature="158:187" ph="..." />
               </folding>
             </state>
           </provider>
@@ -218,10 +182,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getConn</find>
-      <find>init</find>
-      <find>die</find>
-      <find>loa</find>
       <find>start</find>
       <find>load</find>
       <find>addC</find>
@@ -248,6 +208,10 @@
       <find>class Tile</find>
       <find>swap</find>
       <find>setText</find>
+      <find>sendBack</find>
+      <find>send</find>
+      <find>possible</find>
+      <find>setposs</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -274,13 +238,15 @@
         <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Player.java" />
         <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/view/BoardVisualizer.java" />
         <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/application/TileOApplication.java" />
-        <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/controller/TileOController.java" />
         <option value="$PROJECT_DIR$/src/TileO.ump" />
         <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Tile.java" />
         <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Game.java" />
-        <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/view/TileOPage.java" />
         <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/computer/HackerPlayer.java" />
+        <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Deck.java" />
+        <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/SwapPositionActionCard.java" />
+        <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/controller/TileOController.java" />
         <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/computer/ComputerPlayer.java" />
+        <option value="$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/view/TileOPage.java" />
       </list>
     </option>
   </component>
@@ -305,9 +271,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -508,6 +471,9 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -792,7 +758,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3051613" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -821,51 +787,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/ActionCard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3840">
-          <caret line="103" column="48" lean-forward="false" selection-start-line="103" selection-start-column="48" selection-end-line="103" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/controller/TileOController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1490292777752" expanded="true" signature="25437:26002" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/ActionTile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1240">
-          <caret line="33" column="28" lean-forward="true" selection-start-line="32" selection-start-column="14" selection-end-line="33" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/ActionCard.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3840">
-          <caret line="104" column="11" lean-forward="true" selection-start-line="104" selection-start-column="11" selection-end-line="104" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/application/TileOApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="12" column="59" lean-forward="false" selection-start-line="12" selection-start-column="59" selection-end-line="12" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/WinTile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1480">
-          <caret line="45" column="28" lean-forward="false" selection-start-line="45" selection-start-column="28" selection-end-line="45" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Tile.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2360">
@@ -891,9 +812,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="760">
           <caret line="19" column="26" lean-forward="false" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
-          <folding>
-            <marker date="1490292777752" expanded="true" signature="25437:26002" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -915,9 +834,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="429">
           <caret line="19" column="26" lean-forward="true" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
-          <folding>
-            <marker date="1490292777752" expanded="true" signature="25437:26002" ph="{...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -989,13 +906,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="349">
           <caret line="900" column="0" lean-forward="false" selection-start-line="900" selection-start-column="0" selection-end-line="900" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Deck.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="9" column="13" lean-forward="false" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -1100,16 +1010,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/controller/TileOController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2028">
-          <caret line="520" column="25" lean-forward="false" selection-start-line="520" selection-start-column="25" selection-end-line="520" selection-end-column="25" />
-          <folding>
-            <marker date="1490292777752" expanded="true" signature="25437:26002" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/WinTile.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1240">
@@ -1118,34 +1018,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/TileO.ump">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2858">
-          <caret line="362" column="0" lean-forward="false" selection-start-line="362" selection-start-column="0" selection-end-line="362" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Tile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="567">
-          <caret line="331" column="29" lean-forward="false" selection-start-line="331" selection-start-column="29" selection-end-line="331" selection-end-column="29" />
+        <state relative-caret-position="12400">
+          <caret line="331" column="0" lean-forward="false" selection-start-line="331" selection-start-column="0" selection-end-line="331" selection-end-column="0" />
           <folding>
-            <element signature="e#1471#1472#0" expanded="true" />
-            <element signature="e#1489#1490#0" expanded="true" />
-            <element signature="e#1514#1515#0" expanded="true" />
-            <element signature="e#1532#1533#0" expanded="true" />
-            <element signature="e#1574#1575#0" expanded="true" />
-            <element signature="e#1605#1606#0" expanded="true" />
-            <element signature="e#1646#1647#0" expanded="true" />
-            <element signature="e#1677#1678#0" expanded="true" />
-            <element signature="e#2330#2331#0" expanded="true" />
-            <element signature="e#2351#2352#0" expanded="true" />
-            <element signature="e#2405#2406#0" expanded="true" />
-            <element signature="e#2423#2424#0" expanded="true" />
-            <element signature="e#2477#2478#0" expanded="true" />
-            <element signature="e#2495#2496#0" expanded="true" />
-            <element signature="e#4878#4890#0" expanded="true" />
+            <element signature="e#1556#1557#0" expanded="false" />
+            <element signature="e#1574#1575#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1158,52 +1037,153 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/RemoveRandomTileActionCard.java">
+    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/computer/GodPlayer.java" />
+    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/computer/StupidPlayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-208">
-          <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        <state relative-caret-position="1640">
+          <caret line="53" column="17" lean-forward="false" selection-start-line="53" selection-start-column="17" selection-end-line="53" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#619#620#0" expanded="false" />
+            <element signature="e#654#655#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/computer/HackerPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="760">
+          <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#625#626#0" expanded="false" />
+            <element signature="e#660#661#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TileO.ump">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="466">
+          <caret line="506" column="32" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="844" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/PlayerState.ump">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="440">
+          <caret line="11" column="2" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="11" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TileOControllerStates.ump">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="800">
+          <caret line="20" column="52" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="517" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TileOPersistence.ump">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="840">
+          <caret line="21" column="32" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="100" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ActionTileState.ump">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="880">
+          <caret line="22" column="1" lean-forward="true" selection-start-line="22" selection-start-column="1" selection-end-line="22" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31589">
-          <caret line="798" column="46" lean-forward="true" selection-start-line="798" selection-start-column="46" selection-end-line="798" selection-end-column="46" />
+        <state relative-caret-position="1325">
+          <caret line="798" column="39" lean-forward="false" selection-start-line="798" selection-start-column="39" selection-end-line="798" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3287#3288#0" expanded="true" />
-            <element signature="e#3327#3328#0" expanded="true" />
-            <element signature="e#3362#3363#0" expanded="true" />
-            <element signature="e#3387#3388#0" expanded="true" />
-            <element signature="e#3515#3516#0" expanded="true" />
-            <element signature="e#3536#3537#0" expanded="true" />
-            <element signature="e#5308#5309#0" expanded="true" />
-            <element signature="e#5329#5330#0" expanded="true" />
-            <element signature="e#5356#5357#0" expanded="true" />
-            <element signature="e#5376#5377#0" expanded="true" />
-            <element signature="e#5416#5417#0" expanded="true" />
-            <element signature="e#5446#5447#0" expanded="true" />
-            <element signature="e#5583#5584#0" expanded="true" />
-            <element signature="e#5607#5608#0" expanded="true" />
-            <element signature="e#6480#6481#0" expanded="true" />
-            <element signature="e#6502#6503#0" expanded="true" />
-            <element signature="e#6741#6742#0" expanded="true" />
-            <element signature="e#6759#6760#0" expanded="true" />
-            <element signature="e#6809#6810#0" expanded="true" />
-            <element signature="e#6827#6828#0" expanded="true" />
-            <element signature="e#8898#8899#0" expanded="true" />
-            <element signature="e#8916#8917#0" expanded="true" />
-            <element signature="e#10448#10449#0" expanded="true" />
-            <element signature="e#10466#10467#0" expanded="true" />
-            <element signature="e#10507#10508#0" expanded="true" />
-            <element signature="e#10544#10545#0" expanded="true" />
-            <element signature="e#12563#12564#0" expanded="true" />
-            <element signature="e#12581#12582#0" expanded="true" />
-            <element signature="e#19724#19725#0" expanded="true" />
-            <element signature="e#19757#19758#0" expanded="true" />
-            <element signature="e#20132#20138#0" expanded="true" />
-            <marker date="1490293582857" expanded="true" signature="158:187" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/Deck.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="490">
+          <caret line="480" column="4" lean-forward="false" selection-start-line="480" selection-start-column="4" selection-end-line="480" selection-end-column="4" />
+          <folding>
+            <element signature="e#0#44971#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#3991#3992#0" expanded="true" />
+            <element signature="e#4019#4020#0" expanded="true" />
+            <element signature="e#13913#13914#0" expanded="true" />
+            <element signature="e#13934#13935#0" expanded="true" />
+            <element signature="e#13982#13983#0" expanded="true" />
+            <element signature="e#14000#14001#0" expanded="true" />
+            <element signature="e#14048#14049#0" expanded="true" />
+            <element signature="e#14067#14068#0" expanded="true" />
+            <element signature="e#16024#16025#0" expanded="true" />
+            <element signature="e#16042#16043#0" expanded="true" />
+            <element signature="e#17910#17911#0" expanded="true" />
+            <element signature="e#17928#17929#0" expanded="true" />
+            <element signature="e#19652#19653#0" expanded="true" />
+            <element signature="e#19670#19671#0" expanded="true" />
+            <element signature="e#21698#21699#0" expanded="true" />
+            <element signature="e#21716#21717#0" expanded="true" />
+            <element signature="e#23735#23736#0" expanded="true" />
+            <element signature="e#23753#23754#0" expanded="true" />
+            <element signature="e#25431#25432#0" expanded="true" />
+            <element signature="e#25449#25450#0" expanded="true" />
+            <element signature="e#27169#27170#0" expanded="true" />
+            <element signature="e#27187#27188#0" expanded="true" />
+            <element signature="e#29067#29068#0" expanded="true" />
+            <element signature="e#29085#29086#0" expanded="true" />
+            <element signature="e#31259#31260#0" expanded="true" />
+            <element signature="e#31277#31278#0" expanded="true" />
+            <element signature="e#33076#33077#0" expanded="true" />
+            <element signature="e#33094#33095#0" expanded="true" />
+            <element signature="e#35080#35081#0" expanded="true" />
+            <element signature="e#35098#35099#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/SendBackToStartActionCard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1032">
+          <caret line="46" column="3" lean-forward="true" selection-start-line="38" selection-start-column="3" selection-end-line="46" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/RemoveRandomTileActionCard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="846">
+          <caret line="41" column="2" lean-forward="true" selection-start-line="41" selection-start-column="2" selection-end-line="41" selection-end-column="2" />
+          <folding>
+            <element signature="e#900#901#0" expanded="true" />
+            <element signature="e#948#949#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/model/SwapPositionActionCard.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="952">
+          <caret line="43" column="13" lean-forward="true" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#1281#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#575#576#0" expanded="true" />
+            <element signature="e#618#619#0" expanded="true" />
+            <element signature="e#726#727#0" expanded="true" />
+            <element signature="e#756#757#0" expanded="true" />
+            <element signature="e#800#801#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1216,86 +1196,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/computer/GodPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1920">
-          <caret line="43" column="25" lean-forward="true" selection-start-line="43" selection-start-column="25" selection-end-line="43" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/computer/ComputerPlayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2528">
-          <caret line="54" column="40" lean-forward="false" selection-start-line="54" selection-start-column="40" selection-end-line="54" selection-end-column="40" />
+        <state relative-caret-position="2200">
+          <caret line="68" column="12" lean-forward="false" selection-start-line="68" selection-start-column="12" selection-end-line="68" selection-end-column="12" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/computer/StupidPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="552">
-          <caret line="53" column="17" lean-forward="true" selection-start-line="53" selection-start-column="17" selection-end-line="53" selection-end-column="17" />
-          <folding>
-            <element signature="e#1245#1251#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/computer/HackerPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
-          <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-          <folding>
-            <element signature="e#1822#1828#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/view/TileOPage.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-45891">
-          <caret line="326" column="29" lean-forward="false" selection-start-line="326" selection-start-column="22" selection-end-line="326" selection-end-column="29" />
-          <folding>
-            <element signature="e#6776#6777#0" expanded="true" />
-            <element signature="e#6824#6825#0" expanded="true" />
-            <element signature="e#6988#6989#0" expanded="true" />
-            <element signature="e#7039#7040#0" expanded="true" />
-            <element signature="e#7201#7202#0" expanded="true" />
-            <element signature="e#7250#7251#0" expanded="true" />
-            <element signature="e#7407#7408#0" expanded="true" />
-            <element signature="e#7444#7445#0" expanded="true" />
-            <element signature="e#13606#13607#0" expanded="true" />
-            <element signature="e#13663#13664#0" expanded="true" />
-            <element signature="e#13909#13910#0" expanded="true" />
-            <element signature="e#13962#13963#0" expanded="true" />
-            <element signature="e#14175#14176#0" expanded="true" />
-            <element signature="e#14236#14237#0" expanded="true" />
-            <element signature="e#14474#14475#0" expanded="true" />
-            <element signature="e#14534#14535#0" expanded="true" />
-            <element signature="e#16350#16351#0" expanded="true" />
-            <element signature="e#16423#16424#0" expanded="true" />
-            <element signature="e#16590#16591#0" expanded="true" />
-            <element signature="e#16636#16637#0" expanded="true" />
-            <element signature="e#19918#19919#0" expanded="true" />
-            <element signature="e#19965#19966#0" expanded="true" />
-            <element signature="e#20170#20171#0" expanded="true" />
-            <element signature="e#20212#20213#0" expanded="true" />
-            <element signature="e#20418#20419#0" expanded="true" />
-            <element signature="e#20461#20462#0" expanded="true" />
-            <element signature="e#21312#21313#0" expanded="true" />
-            <element signature="e#21366#21367#0" expanded="true" />
-            <element signature="e#21525#21526#0" expanded="true" />
-            <element signature="e#21566#21567#0" expanded="true" />
-            <element signature="e#21728#21729#0" expanded="true" />
-            <element signature="e#21785#21786#0" expanded="true" />
-            <element signature="e#21947#21948#0" expanded="true" />
-            <element signature="e#22004#22005#0" expanded="true" />
-            <element signature="e#22168#22169#0" expanded="true" />
-            <element signature="e#22227#22228#0" expanded="true" />
-            <element signature="e#22393#22394#0" expanded="true" />
-            <element signature="e#22454#22455#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="428">
+          <caret line="1740" column="16" lean-forward="false" selection-start-line="1740" selection-start-column="8" selection-end-line="1740" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ca/mcgill/ecse223/tileo/controller/TileOController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1800">
+          <caret line="68" column="65" lean-forward="true" selection-start-line="68" selection-start-column="65" selection-end-line="68" selection-end-column="65" />
+          <folding />
         </state>
       </provider>
     </entry>
