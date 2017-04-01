@@ -37,7 +37,7 @@ class Game {
   depend ca.mcgill.ecse223.tileo.computer.HackerPlayer;
   depend ca.mcgill.ecse223.tileo.util.Cloner;
   
-  mode { DESIGN{} GAME{} GAME_WON{} GAME_ROLLDIEACTIONCARD{} GAME_CONNECTTILESACTIONCARD{} GAME_REMOVECONNECTIONACTIONCARD{} GAME_TELEPORTACTIONCARD{} GAME_LOSETURNACTIONCARD{} GAME_REMOVERANDOMTILEACTIONCARD{} GAME_TURNINACTIVEACTIONCARD{} GAME_CHOOSEADDITIONALMOVEACTIONCARD{} GAME_REVEALTILEACTIONCARD{} GAME_SENDBACKTOSTARTACTIONCARD{} }
+  mode { DESIGN{} GAME{} GAME_WON{} GAME_ROLLDIEACTIONCARD{} GAME_CONNECTTILESACTIONCARD{} GAME_REMOVECONNECTIONACTIONCARD{} GAME_TELEPORTACTIONCARD{} GAME_LOSETURNACTIONCARD{} GAME_REMOVERANDOMTILEACTIONCARD{} GAME_TURNINACTIVEACTIONCARD{} GAME_CHOOSEADDITIONALMOVEACTIONCARD{} GAME_REVEALTILEACTIONCARD{} GAME_SENDBACKTOSTARTACTIONCARD{} GAME_SWAPPOSITIONACTIONCARD{} }
   1 <@>- 2..4 Player players;
   1 <@>- * Tile tiles;
   1 <@>- * Connection connections;
@@ -509,7 +509,7 @@ class Deck {
   1 -> * RevealTileActionCard;
   //1 -> * WinTileHintActionCard;
   1-> * SendBackToStartActionCard;
-  //1 -> * SwapPositionActionCard;
+  1 -> * SwapPositionActionCard;
   
   public void shuffle() {
     Random rand = new Random();
@@ -533,7 +533,7 @@ class Deck {
     System.out.println("RevealTileActionCard: "+numberOfCardsForType(8));
     //System.out.println("WinTileHintActionCard: "+numberOfCardsForType(10));
     System.out.println("SendToStartActionCard: "+numberOfCardsForType(9));
-    //System.out.println("SwapPoisitionActionCard: "+numberOfCardsForType(11));
+    System.out.println("SwapPoisitionActionCard: "+numberOfCardsForType(11));
     System.out.println("");
   }
 
@@ -561,8 +561,8 @@ class Deck {
 	   		//	return numberOfWinTileHintActionCards();
 	   		case 9:
                 return numberOfSendBackToStartActionCards();
-	   		//case 11:
-	   		//	return numberOfSwapPositionActionCards();
+	   		case 11:
+	   			return numberOfSwapPositionActionCards();
 	   		default:
 	   			throw new RuntimeException("Card type not supported");
      }
@@ -627,11 +627,11 @@ class Deck {
                 for (int i=0;i<n;++i) 
                     addSendBackToStartActionCard(new SendBackToStartActionCard("Send other player to start", this));
                 break;
-	        //case 11:
+	        case 11:
 	        	// SWAP
-	        //	for (int i=0;i<n;++i) 
-	        //		addSwapPositionActionCard(new SwapPositionActionCard("Swap position", this));
-	        //	break;
+	        	for (int i=0;i<n;++i) 
+	        		addSwapPositionActionCard(new SwapPositionActionCard("Swap position", this));
+	        	break;
 	        default:
 	        	throw new RuntimeException("Card type not implemented");
 	    }
@@ -831,6 +831,27 @@ class SendBackToStartActionCard {
                 return true;
             }
         }
+        return false;
+    }
+}
+
+class SwapPositionActionCard {
+	isA ActionCard;
+	depend java.util.ArrayList;
+	
+	public Game.Mode getActionCardMode() {
+		return Game.Mode.GAME_SWAPPOSITIONACTIONCARD;
+	}
+	
+	public boolean play(Tile t, ArrayList<Player> otherPlayers, Player currentPlayer) {
+    	for (Player p : otherPlayers) {
+        	if (t == p.getCurrentTile()) {
+         		Tile firstTile = currentPlayer.getCurrentTile();
+            	p.setCurrentTile(firstTile);
+            	currentPlayer.setCurrentTile(t);
+            	return true;
+            }
+         }
         return false;
     }
 }

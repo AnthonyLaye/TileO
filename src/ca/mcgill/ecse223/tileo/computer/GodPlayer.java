@@ -106,7 +106,7 @@ public class GodPlayer extends ComputerPlayer implements Serializable
 
         return connection;
     }
-    @Override
+    /*@Override
     protected void sendBackToStart(){
     	System.out.println("God is thinking of who to send back...");
     	ArrayList<Player> otherPlayers = new ArrayList<Player>();
@@ -123,7 +123,7 @@ public class GodPlayer extends ComputerPlayer implements Serializable
     	getGame().setNextPlayer();
     	getGame().setMode(Game.Mode.GAME);
     	
-    }	
+    }*/	
     protected Tile sendPlayer(ArrayList<Player> otherPlayers){
     	Tile closest= otherPlayers.get(0).getCurrentTile();
     	Tile win = getGame().getWinTile();

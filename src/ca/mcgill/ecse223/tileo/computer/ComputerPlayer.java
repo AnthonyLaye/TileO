@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Random;
 
 public abstract class ComputerPlayer extends Player
 {

@@ -21,6 +21,7 @@ class TileOController {
 	depend ca.mcgill.ecse223.tileo.model.RemoveRandomTileActionCard;
 	depend ca.mcgill.ecse223.tileo.model.RevealTileActionCard;
 	depend ca.mcgill.ecse223.tileo.model.SendBackToStartActionCard;
+	depend ca.mcgill.ecse223.tileo.model.SwapPositionActionCard;
 
 	depend java.util.ArrayList;
 	depend java.util.List;
@@ -94,6 +95,10 @@ class TileOController {
       			playSendBackToStartActionCard(Tile t)
       			[verifyGameMode(Game.Mode.GAME_SENDBACKTOSTARTACTIONCARD)] / {
                     doPlaySendBackToStartActionCard(t);
+      			} -> StartOfTurn;
+      			playSwapPositionActionCard(Tile t) 
+      			[verifyGameMode(Game.Mode.GAME_SWAPPOSITIONACTIONCARD)] / {
+      				doPlaySwapPositionActionCard(t);
       			} -> StartOfTurn;
 	        }
 	    }
@@ -455,6 +460,31 @@ class TileOController {
 	  		throw new InvalidInputException("Not a Player");
 	  	}
     }
+    
+	public void doPlaySwapPositionActionCard(Tile t) throws InvalidInputException{
+		Game currentGame = TileOApplication.getTileO().getCurrentGame();
+     	Player currentPlayer = currentGame.getCurrentPlayer();
+     	ArrayList<Player> otherPlayers= new ArrayList<Player>();
+     	for(Player p:currentGame.getPlayers()){
+       		if(p!=currentPlayer) otherPlayers.add(p);
+     	}
+     	currentGame.setMode(Game.Mode.GAME_SWAPPOSITIONACTIONCARD);
+     	Deck gameDeck = currentGame.getDeck();
+     	ActionCard currentCard= gameDeck.getCurrentCard();
+    	boolean wasSwapped= false;
+     	if(currentCard instanceof SwapPositionActionCard){
+       		SwapPositionActionCard playCard = (SwapPositionActionCard) currentCard;
+       		wasSwapped = playCard.play(t,otherPlayers, currentPlayer);
+     	}
+     	if(wasSwapped){
+       		currentGame.setNextPlayer();
+       		currentGame.setNextCard();
+ 			currentGame.setMode(Game.Mode.GAME);
+ 		}
+ 		else{
+ 			throw new InvalidInputException("Not a Player");
+ 		}
+ 	}
 
     
     // Controls
@@ -506,6 +536,7 @@ class TileOController {
         	case GAME_REVEALTILEACTIONCARD:
         	case GAME_SENDBACKTOSTARTACTIONCARD:
         	case GAME_CHOOSEADDITIONALMOVEACTIONCARD:
+        	case GAME_SWAPPOSITIONACTIONCARD:
         		setControllerState(ControllerState.Game);
         		setControllerStateGame(ControllerStateGame.LandedAction);
         		break;	

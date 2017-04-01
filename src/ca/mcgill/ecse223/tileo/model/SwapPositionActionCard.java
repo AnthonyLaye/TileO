@@ -1,51 +1,51 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.25.0-b818740 modeling language!*/
+/*This code was generated using the UMPLE 1.25.0-9e8af9e modeling language!*/
 
 package ca.mcgill.ecse223.tileo.model;
-import java.util.*;
-import ca.mcgill.ecse223.tileo.controller.*;
+import java.util.ArrayList;
 
-// line 1496 "../../../../../../../../ump/tmp343778/model.ump"
-public class SwapPositionActionCard extends ActionCard {
+// line 838 "../../../../../TileO.ump"
+public class SwapPositionActionCard extends ActionCard
+{
 
-    //------------------------
-    // MEMBER VARIABLES
-    //------------------------
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
 
-    //------------------------
-    // CONSTRUCTOR
-    //------------------------
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
 
-    public SwapPositionActionCard(String aInstructions, Deck aDeck) {
-        super(aInstructions, aDeck);
-    }
+  public SwapPositionActionCard(String aInstructions, Deck aDeck)
+  {
+    super(aInstructions, aDeck);
+  }
 
-    //------------------------
-    // INTERFACE
-    //------------------------
+  //------------------------
+  // INTERFACE
+  //------------------------
 
-    public void delete() {
-        super.delete();
-    }
+  public void delete()
+  {
+    super.delete();
+  }
 
-    public Game.Mode getActionCardMode() {
-        return Game.Mode.GAME_SWAPPOSITIONACTIONCARD;
-    }
+  // line 843 "../../../../../TileO.ump"
+   public Game.Mode getActionCardMode(){
+    return Game.Mode.GAME_SWAPPOSITIONACTIONCARD;
+  }
 
-    public boolean play(Tile t, ArrayList<Player> otherPlayers, Player currentPlayer) {
-        for (Player p : otherPlayers) {
-            if (t == p.getCurrentTile()) {
-
-                Tile firstTile = currentPlayer.getCurrentTile();
-
-                p.setCurrentTile(firstTile);
-                currentPlayer.setCurrentTile(t);
-                return true;
+  // line 847 "../../../../../TileO.ump"
+   public boolean play(Tile t, ArrayList<Player> otherPlayers, Player currentPlayer){
+    for (Player p : otherPlayers) {
+        	if (t == p.getCurrentTile()) {
+         		Tile firstTile = currentPlayer.getCurrentTile();
+            	p.setCurrentTile(firstTile);
+            	currentPlayer.setCurrentTile(t);
+            	return true;
             }
-        }
+         }
         return false;
-    }
+  }
+
 }
-
-
-

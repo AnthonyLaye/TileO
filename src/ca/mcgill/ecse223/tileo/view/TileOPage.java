@@ -1575,7 +1575,7 @@ public class TileOPage extends JFrame{
                 case 9:
                 	sendToStartCardSpinner.setValue((int)sendToStartCardSpinner.getValue()+1);
                 
-                // ~~~~~~~~~~~~ update the ten above in n
+                // ~~~~~~~~~~~~ update the ten above in n for 12
                 	
                 //case 10:
                 //	winTileHintCardSpinner.setValue((int)winTileHintCardSpinner.getValue()+1);
