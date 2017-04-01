@@ -191,7 +191,43 @@ public abstract class ComputerPlayer extends Player
     }
     
     private void sendBackToStart() {
-    	throw new RuntimeException("Method not implemented for computer player");
+    	System.out.println("Computer is thinking of a player to send back...");
+		Tile t;
+		Tile closest=this.getCurrentTile();
+		Tile win= getGame().getWinTile();
+		for(Player p: getGame().getPlayers()){
+			if(this!=p){
+				t= p.getCurrentTile();
+				if(Math.abs(t.getX()+t.getY()-win.getX()-win.getY())
+				  <Math.abs(closest.getX()+closest.getY()-closest.getY())){
+					closest=t;
+					
+				}
+			}
+		}
+		if(this.getCurrentTile()==closest){
+			closest=this.getStartingTile();
+			for(Player p: getGame().getPlayers()){
+				if(this!=p){
+					t= p.getCurrentTile();
+					if(Math.abs(t.getX()+t.getY()-win.getX()-win.getY())
+					  <Math.abs(closest.getX()+closest.getY()-closest.getY())){
+						closest=t;
+						
+					}
+				}
+			}
+		}
+		for(Player p: getGame().getPlayers()){
+			if(p!=this&&p.getCurrentTile()==closest){
+				p.setCurrentTile(p.getStartingTile());
+				getGame().setNextCard();
+				getGame().setNextPlayer();
+				getGame().setMode(Game.Mode.GAME);
+				
+			}
+		}
+		
     }
     
     private void swapPosition() {
