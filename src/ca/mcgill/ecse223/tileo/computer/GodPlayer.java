@@ -106,7 +106,37 @@ public class GodPlayer extends ComputerPlayer implements Serializable
 
         return connection;
     }
-
+    @Override
+    protected void sendBackToStart(){
+    	System.out.println("God is thinking of who to send back...");
+    	ArrayList<Player> otherPlayers = new ArrayList<Player>();
+    	for(Player p: getGame().getPlayers()) {
+    		if(p!=this) otherPlayers.add(p);
+    	}
+    	Tile closest=sendPlayer(otherPlayers);
+    	for(Player p:otherPlayers){
+    		if(p.getCurrentTile()==closest){
+    			p.setCurrentTile(p.getStartingTile());
+    		}
+    	}
+    	getGame().setNextCard();
+    	getGame().setNextPlayer();
+    	getGame().setMode(Game.Mode.GAME);
+    	
+    }	
+    protected Tile sendPlayer(ArrayList<Player> otherPlayers){
+    	Tile closest= otherPlayers.get(0).getCurrentTile();
+    	Tile win = getGame().getWinTile();
+    	for(Player p: otherPlayers){
+    		Tile t= p.getCurrentTile();
+    		if(Math.abs(t.getX()+t.getY()-win.getX()-win.getY())
+					  <Math.abs(closest.getX()+closest.getY()-closest.getY())){
+    			closest = t;
+    		}
+    	}
+		return closest;
+    	
+    }
     protected Connection deleteConnection() {
         /*
             Return a connection object that will be deleted
@@ -131,8 +161,6 @@ public class GodPlayer extends ComputerPlayer implements Serializable
         return game.getConnection(rand.nextInt(game.numberOfConnections()));
     }
 
-	protected Player choosePlayer(List<Player> players) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
+	
 }
