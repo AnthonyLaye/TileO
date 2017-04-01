@@ -191,6 +191,7 @@ public abstract class ComputerPlayer extends Player
     }
     
     private void sendBackToStart() {
+    //will work on ways of improving functionality later
     	System.out.println("Computer is thinking of a player to send back...");
 		Tile t;
 		Tile closest=this.getCurrentTile();
