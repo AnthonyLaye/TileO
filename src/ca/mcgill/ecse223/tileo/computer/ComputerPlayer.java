@@ -194,14 +194,14 @@ public abstract class ComputerPlayer extends Player
     //will work on ways of improving functionality later
     	System.out.println("Computer is thinking of a player to send back...");
 	Random rand = new Random();
-		Player randomPlayer = getGame().getPlayers().get(rand.nextInt(getGame().numberOfPlayers()-1));
-		while(randomPlayer==this){
-			randomPlayer=getGame().getPlayers().get(rand.nextInt(getGame().numberOfPlayers()-1));
-		}
-		randomPlayer.setCurrentTile(randomPlayer.getStartingTile());
-		getGame().setNextCard();
-		getGame().setNextPlayer();
-		getGame().setMode(Game.Mode.GAME);
+	Player randomPlayer = getGame().getPlayers().get(rand.nextInt(getGame().numberOfPlayers()-1));
+	while(randomPlayer==this){
+		randomPlayer=getGame().getPlayers().get(rand.nextInt(getGame().numberOfPlayers()-1));
+	}
+	randomPlayer.setCurrentTile(randomPlayer.getStartingTile());
+	getGame().setNextCard();
+	getGame().setNextPlayer();
+	getGame().setMode(Game.Mode.GAME);
 		/*Tile t;
 		Tile closest=this.getCurrentTile();
 		Tile win= getGame().getWinTile();
