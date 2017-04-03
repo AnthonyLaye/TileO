@@ -91,7 +91,34 @@ public class Game implements Serializable
     wasSet = true;
     return wasSet;
   }
-
+  public void setStartingFormat(){
+	  this.startingDeck= this.getDeck();
+	  this.startingTiles= this.getTiles();
+	  this.startingConnections = this.getConnections();
+  }
+  public void setStartingFormat(){
+	  this.startingDeck= this.getDeck();
+	  this.startingTiles= this.getTiles();
+	  this.startingConnections = this.getConnections();
+  }
+  public void setTiles(List<Tile> tiles){
+	  this.tiles= tiles;
+  }
+  public void setConnections(List<Connection> connections){
+	  this.connections= connections;
+  }
+  public void setDeck (Deck aDeck){
+	  this.deck= aDeck;
+  }
+  public List<Connection> getStartingConnections(){
+	  return startingConnections;
+  }
+  public List<Tile> getStartingTiles(){
+	  return startingTiles;
+  }
+  public Deck getStartingDeck(){
+	  return startingDeck;
+  }
   public boolean setFilename(String aFilename)
   {
     boolean wasSet = false;
