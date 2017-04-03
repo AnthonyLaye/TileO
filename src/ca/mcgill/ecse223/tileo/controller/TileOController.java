@@ -121,7 +121,51 @@ public class TileOController
 
     return wasEventProcessed;
   }
-
+  public Game restart(Game currentGame){
+		  setControllerState(ControllerState.Design);
+		  setControllerStateGame(ControllerStateGame.Null);
+		  List<Tile> tiles = currentGame.getStartingTiles();
+		  List<Connection> connections= new ArrayList<Connection>();
+		  for(Tile t:tiles){
+			  if(t.hasConnections()) {
+				  for(int c=0; c<t.numberOfConnections();c++){
+					  boolean isUnique=true;
+					  if(connections.size()!=0){
+						  for(int it=0; it<connections.size();it++){
+							  if(t.getConnection(c)!=connections.get(it)) continue;
+							  else isUnique= false;
+						  }
+						  if(isUnique){
+							 connections.add(t.getConnection(c));
+					  }
+						  else continue;
+					 
+					 }
+					  else connections.add(t.getConnection(c));
+					 
+				  }
+			  }
+		  }
+		  List<Player> players = currentGame.getPlayers();
+		  //List<Connection> connections= currentGame.getStartingConnections();
+		  Deck gameDeck = currentGame.getStartingDeck();
+		  currentGame.setTiles(tiles);
+		  currentGame.setConnections(connections);
+		  currentGame.setDeck(gameDeck);
+		  currentGame.setCurrentPlayer(players.get(0));
+		  for(Tile t: tiles){
+			  t.setHasBeenVisited(false);
+			  if(t instanceof ActionTile){
+				  ((ActionTile) t).setInactivityStatus(InactivityStatus.Active);
+			  }
+			  
+		  }
+		  for(Player p: players){
+			  p.setCurrentTile(p.getStartingTile());
+			  p.getCurrentTile().setHasBeenVisited(true);
+		  }
+		  return currentGame;
+	  }
   private boolean enterGame()
   {
     boolean wasEventProcessed = false;
