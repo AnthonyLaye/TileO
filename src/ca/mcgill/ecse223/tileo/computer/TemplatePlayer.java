@@ -3,6 +3,7 @@ package ca.mcgill.ecse223.tileo.computer;
 import ca.mcgill.ecse223.tileo.model.Tile;
 import ca.mcgill.ecse223.tileo.model.ActionTile;
 import ca.mcgill.ecse223.tileo.model.NormalTile;
+import ca.mcgill.ecse223.tileo.model.Player;
 import ca.mcgill.ecse223.tileo.model.WinTile;
 import ca.mcgill.ecse223.tileo.model.Connection;
 import ca.mcgill.ecse223.tileo.model.Game;
@@ -45,4 +46,12 @@ public class TemplatePlayer extends ComputerPlayer implements Serializable
         */
         throw new RuntimeException("Delete connection not implemented"); 
     }
+    
+    protected Player choosePlayer(ArrayList<Player> players) {
+		/*
+		 * Return a player that the computer wants to send back to its 
+		 * starting position
+		 * */
+    	throw new RuntimeException("Choose player not implemented");
+	}
 }

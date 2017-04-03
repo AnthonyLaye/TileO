@@ -3,6 +3,7 @@ package ca.mcgill.ecse223.tileo.computer;
 import ca.mcgill.ecse223.tileo.model.Tile;
 import ca.mcgill.ecse223.tileo.model.ActionTile;
 import ca.mcgill.ecse223.tileo.model.NormalTile;
+import ca.mcgill.ecse223.tileo.model.Player;
 import ca.mcgill.ecse223.tileo.model.WinTile;
 import ca.mcgill.ecse223.tileo.model.Connection;
 import ca.mcgill.ecse223.tileo.model.Game;
@@ -64,4 +65,11 @@ public class StupidPlayer extends ComputerPlayer implements Serializable
         Random rand = new Random();
         return getGame().getConnection(rand.nextInt(getGame().numberOfConnections()));
     }
+    
+    protected Player choosePlayer(ArrayList<Player> players) {
+    	System.out.println("Stupid is thinking to send a player back to its starting position...");
+    	Random rand = new Random();
+    	Player randomPlayer = players.get(rand.nextInt(players.size()));
+		return randomPlayer;
+	}
 }

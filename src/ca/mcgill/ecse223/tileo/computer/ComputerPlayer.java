@@ -62,9 +62,9 @@ public abstract class ComputerPlayer extends Player
             case GAME_SENDBACKTOSTARTACTIONCARD:
             	sendBackToStart();
             	break;
-            //case GAME_WINTILEHINTACTIONCARD:
-            //	winTileHint();
-            //	break;
+            case GAME_WINTILEHINTACTIONCARD:
+            	winTileHint();
+            	break;
             case GAME_SWAPPOSITIONACTIONCARD:
             	swapPosition();
             	break;
@@ -192,53 +192,17 @@ public abstract class ComputerPlayer extends Player
     }
     
     private void sendBackToStart() {
-    //will work on ways of improving functionality later
-    	System.out.println("Computer is thinking of a player to send back...");
-	Random rand = new Random();
-	Player randomPlayer = getGame().getPlayers().get(rand.nextInt(getGame().numberOfPlayers()-1));
-	while(randomPlayer==this){
-		randomPlayer=getGame().getPlayers().get(rand.nextInt(getGame().numberOfPlayers()-1));
-	}
-	randomPlayer.setCurrentTile(randomPlayer.getStartingTile());
-	getGame().setNextCard();
-	getGame().setNextPlayer();
-	getGame().setMode(Game.Mode.GAME);
-		/*Tile t;
-		Tile closest=this.getCurrentTile();
-		Tile win= getGame().getWinTile();
-		for(Player p: getGame().getPlayers()){
-			if(this!=p){
-				t= p.getCurrentTile();
-				if(Math.abs(t.getX()+t.getY()-win.getX()-win.getY())
-				  <Math.abs(closest.getX()+closest.getY()-closest.getY())){
-					closest=t;
-					
-				}
-			}
+	    System.out.println("Computer plays SendBackToStartActionCard");
+		ArrayList<Player> players = new ArrayList<Player>();
+		for (Player p: getGame().getPlayers()) {
+			if (! (this == p)) players.add(p);
 		}
-		if(this.getCurrentTile()==closest){
-			closest=this.getStartingTile();
-			for(Player p: getGame().getPlayers()){
-				if(this!=p){
-					t= p.getCurrentTile();
-					if(Math.abs(t.getX()+t.getY()-win.getX()-win.getY())
-					  <Math.abs(closest.getX()+closest.getY()-closest.getY())){
-						closest=t;
-						
-					}
-				}
-			}
-		}
-		for(Player p: getGame().getPlayers()){
-			if(p!=this&&p.getCurrentTile()==closest){
-				p.setCurrentTile(p.getStartingTile());
-				getGame().setNextCard();
-				getGame().setNextPlayer();
-				getGame().setMode(Game.Mode.GAME);
-				
-			}
-		}
-		*/
+		Player p = this.choosePlayer(players);
+	    p.setCurrentTile(p.getStartingTile());
+	    System.out.println("Computer sent player "+p.getNumber()+" to its starting position\n");
+	    getGame().setNextCard();
+    	getGame().setNextPlayer();
+    	getGame().setMode(Game.Mode.GAME);
     }
     
     private void swapPosition() {
@@ -273,5 +237,6 @@ public abstract class ComputerPlayer extends Player
     protected abstract Tile chooseTile(List<Tile> possibleTiles);
     protected abstract ArrayList<Tile> newConnection();
     protected abstract Connection deleteConnection();
+    protected abstract Player choosePlayer(ArrayList<Player> players);
     
 }

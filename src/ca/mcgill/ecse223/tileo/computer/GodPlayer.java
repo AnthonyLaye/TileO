@@ -106,8 +106,8 @@ public class GodPlayer extends ComputerPlayer implements Serializable
 
         return connection;
     }
-    /*@Override
-    protected void sendBackToStart(){
+
+    /*protected void sendBackToStart(){
     	System.out.println("God is thinking of who to send back...");
     	ArrayList<Player> otherPlayers = new ArrayList<Player>();
     	for(Player p: getGame().getPlayers()) {
@@ -123,7 +123,7 @@ public class GodPlayer extends ComputerPlayer implements Serializable
     	getGame().setNextPlayer();
     	getGame().setMode(Game.Mode.GAME);
     	
-    }*/	
+    }
     protected Tile sendPlayer(ArrayList<Player> otherPlayers){
     	Tile closest= otherPlayers.get(0).getCurrentTile();
     	Tile win = getGame().getWinTile();
@@ -136,7 +136,8 @@ public class GodPlayer extends ComputerPlayer implements Serializable
     	}
 		return closest;
     	
-    }
+    }*/
+    
     protected Connection deleteConnection() {
         /*
             Return a connection object that will be deleted
@@ -161,6 +162,47 @@ public class GodPlayer extends ComputerPlayer implements Serializable
         return game.getConnection(rand.nextInt(game.numberOfConnections()));
     }
 
-	
+	protected Player choosePlayer(ArrayList<Player> players) {
+		Random rand = new Random();
+		Player randomPlayer = players.get(rand.nextInt(players.size()));
+		return randomPlayer;
+		
+		/*Tile t;
+		Tile closest=this.getCurrentTile();
+		Tile win= getGame().getWinTile();
+		for(Player p: getGame().getPlayers()){
+			if(this!=p){
+				t= p.getCurrentTile();
+				if(Math.abs(t.getX()+t.getY()-win.getX()-win.getY())
+				  <Math.abs(closest.getX()+closest.getY()-closest.getY())){
+					closest=t;
+					
+				}
+			}
+		}
+		if(this.getCurrentTile()==closest){
+			closest=this.getStartingTile();
+			for(Player p: getGame().getPlayers()){
+				if(this!=p){
+					t= p.getCurrentTile();
+					if(Math.abs(t.getX()+t.getY()-win.getX()-win.getY())
+					  <Math.abs(closest.getX()+closest.getY()-closest.getY())){
+						closest=t;
+						
+					}
+				}
+			}
+		}
+		for(Player p: getGame().getPlayers()){
+			if(p!=this&&p.getCurrentTile()==closest){
+				p.setCurrentTile(p.getStartingTile());
+				getGame().setNextCard();
+				getGame().setNextPlayer();
+				getGame().setMode(Game.Mode.GAME);
+				
+			}
+		}
+		*/
+	}
 	
 }

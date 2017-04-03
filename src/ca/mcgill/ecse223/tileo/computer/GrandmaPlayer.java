@@ -172,4 +172,18 @@ public class GrandmaPlayer extends ComputerPlayer implements Serializable
         else 
         	return game.getConnection(rand.nextInt(game.numberOfConnections()));
     }
+    
+    protected Player choosePlayer(ArrayList<Player> players) {
+    	System.out.println("Grandma is thinking to send a player back to its starting position...");
+    	Player minPlayer = players.get(0);
+    	int min = 999;
+    	for (Player p: players) {
+    		int pathSize = p.getCurrentTile().getShortestPathToWin().size();
+    		if (pathSize != 0 && pathSize<min) {
+    			min = pathSize;
+    			minPlayer = p;
+    		}
+    	}
+    	return minPlayer;
+	}
 }
