@@ -48,7 +48,7 @@ public class TileOPage extends JFrame{
     private JSpinner welBoardSizeSpinner;
     private JLabel welBoardSizeLabel;
     private JLabel tileOLabel;
-    private JScrollPane scrollBar;
+    private JButton welContinueButton;
     
     // mode
     private JLabel modeLabel;
@@ -200,6 +200,9 @@ public class TileOPage extends JFrame{
         welBoardSizeLabel = new JLabel("Board size");
 
         tileOLabel = new JLabel("Tile-O");
+        
+        welContinueButton = new JButton();
+        welContinueButton.setText("Continue");
 
         playerColour = new JPanel();
         playerColour.setOpaque(true);
@@ -222,6 +225,18 @@ public class TileOPage extends JFrame{
         welExitButton.addActionListener(new java.awt.event.ActionListener(){
         	public void actionPerformed(java.awt.event.ActionEvent e){
         		System.exit(0);
+        	}
+        });
+        welContinueButton.addActionListener(new java.awt.event.ActionListener() {
+        	public void actionPerformed(java.awt.event.ActionEvent e) {
+        		Game game = TileOApplication.getTileO().getCurrentGame();
+        		if (game != null) {
+        			initGameLayout();
+        			renderLayout(game);
+        		}
+        		else {
+        			welError.setText("No current game to continue");
+        		}
         	}
         });
         
@@ -604,11 +619,6 @@ public class TileOPage extends JFrame{
     	JPanel center = new JPanel();
 
     	getContentPane().setLayout(new GridBagLayout());
-    	
-    	scrollBar = new JScrollPane();
-    	scrollBar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-    	scrollBar.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-    	add(scrollBar);
 
         add(center);
         center.add(tileOLabel);
@@ -616,6 +626,7 @@ public class TileOPage extends JFrame{
         center.add(welBoardSizeLabel);
         center.add(welLoadDesignButton);
         center.add(welLoadGameButton);
+        center.add(welContinueButton);
         center.add(welExitButton);
         center.add(welNewGameButton);
         center.add(numberOfPlayerSpinner);
@@ -635,6 +646,7 @@ public class TileOPage extends JFrame{
         welLoadGameButton.setFont(new Font("Serif", Font.PLAIN, 45));
         welExitButton.setFont(new Font("Serif", Font.PLAIN, 45));
         welNewGameButton.setFont(new Font("Serif", Font.PLAIN, 45));
+        welContinueButton.setFont(new Font("Serif", Font.PLAIN, 45));
 
         numberOfPlayerSpinner.setFont(new Font("Serif", Font.PLAIN, 80));
         welBoardSizeSpinner.setFont(new Font("Serif", Font.PLAIN, 80));
@@ -655,6 +667,7 @@ public class TileOPage extends JFrame{
             	.addComponent(welNewGameButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(welLoadDesignButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(welLoadGameButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addComponent(welContinueButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(welExitButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addComponent(welError, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             )
@@ -663,12 +676,12 @@ public class TileOPage extends JFrame{
         layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[]
                 {numberOfPlayerLabel, numberOfPlayerSpinner, welNewGameButton,
                 welLoadDesignButton, welLoadGameButton, welExitButton, welBoardSizeLabel,
-                welBoardSizeSpinner, welError});
+                welBoardSizeSpinner, welError, welContinueButton});
 
         layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[]
                 {numberOfPlayerLabel, numberOfPlayerSpinner, welNewGameButton,
                 welLoadDesignButton, welLoadGameButton, welExitButton,
-                welBoardSizeSpinner, welBoardSizeLabel, welError});
+                welBoardSizeSpinner, welBoardSizeLabel, welError, welContinueButton});
 
         
         layout.setVerticalGroup(
@@ -685,6 +698,7 @@ public class TileOPage extends JFrame{
             )
            	.addComponent(welLoadDesignButton,GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             .addComponent(welLoadGameButton,GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
+            .addComponent(welContinueButton, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             .addComponent(welExitButton,GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
             .addComponent(welError, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
         );
@@ -695,6 +709,8 @@ public class TileOPage extends JFrame{
         actionTipLabel.setText("");
         actionError.setText("");
         setWaitingFor("");
+        if (TileOApplication.getTileO().getCurrentGame() == null) welContinueButton.setVisible(false);
+        else welContinueButton.setVisible(true);
     }
 
     // Create basic game layout
@@ -736,14 +752,14 @@ public class TileOPage extends JFrame{
                 .addComponent(actionError)
                 .addComponent(actionTipLabel)
                 .addComponent(newGameButton)
-                .addComponent(restartButton)
+                //.addComponent(restartButton)
                 .addComponent(saveButton)
                 .addComponent(menuButton)
             )
         );
 
         layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[]
-        {newGameButton, saveButton, restartButton, menuButton, gameButtonsPanel, actionStatusLabel, actionTipLabel, revealTileCardButton, winTileHintCardButton});
+        {newGameButton, saveButton, /*restartButton,*/ menuButton, gameButtonsPanel, actionStatusLabel, actionTipLabel, revealTileCardButton, winTileHintCardButton});
         
 
         layout.setVerticalGroup(
@@ -769,7 +785,7 @@ public class TileOPage extends JFrame{
                     .addComponent(actionTipLabel)
                     .addComponent(actionError)
                     .addComponent(newGameButton)
-                    .addComponent(restartButton)
+                    //.addComponent(restartButton)
                     .addComponent(saveButton)
                     .addComponent(menuButton)
                 )

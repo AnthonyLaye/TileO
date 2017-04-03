@@ -632,6 +632,7 @@ public class TileOController
     	}
     	game.setMode(Game.Mode.DESIGN);
     	setControllerState(ControllerState.Design);
+    	setControllerStateGame(ControllerStateGame.Null);
     	tileo.setCurrentGame(game);
     	return game;
   }
@@ -721,11 +722,12 @@ public class TileOController
   // line 229 "../../../../../TileOControllerStates.ump"
    private void cloneGame(Game game){
     TileO tileo = TileOApplication.getTileO();
+    	if (game.getFilename() == null || game.getFilename() == "") return; // if you never saved this design dont clone it
     	Game cloned = game.clone();
-    	game.setFilename(null);
     	tileo.addGame(cloned);
     	tileo.setCurrentGame(cloned);
-    	saveGame("");
+    	saveGame(""); // will use the current name for the design
+    	game.setFilename(null); // make sure it's saved under a new name
     	tileo.setCurrentGame(game);
   }
 
