@@ -1765,6 +1765,14 @@ public class TileOPage extends JFrame{
         	actionError.setText(err.getMessage());
         }
     }
+	private void restartActionPerformed(java.awt.event.ActionEvent e) {
+		Game restartedGame= toc.restart(TileOApplication.getTileO().getCurrentGame());
+		actionError.setText("");
+		toc.startGame(restartedGame);
+		board.setGame(restartedGame);
+		initGameLayout();
+		renderLayout(restartedGame);
+    }
 
     private void startComputerTurn(Game game) {
         CompThread t = new CompThread();
