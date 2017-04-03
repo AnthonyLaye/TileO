@@ -221,7 +221,7 @@ public class BoardVisualizer extends JPanel {
             g2d.setColor(Color.WHITE);
             if (tile instanceof WinTile){
             	if (game.getMode() == Game.Mode.DESIGN || game.getMode()==Game.Mode.GAME_WON)
-            		g2d.setColor(Color.GREEN);
+            		g2d.setColor(Color.MAGENTA);
             }
             if (tile instanceof ActionTile){
             	if (game.getMode() == Game.Mode.DESIGN)
