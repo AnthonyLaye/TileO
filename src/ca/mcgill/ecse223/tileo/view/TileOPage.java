@@ -69,6 +69,7 @@ public class TileOPage extends JFrame{
             private JButton turnInactiveCardButton;
             private JSpinner chooseAdditionalMoveCardSpinner;
             private JButton revealTileCardButton;
+            private JButton winTileHintCardButton;
         // design
         private JTabbedPane designTabbedPane;
             // tile
@@ -150,7 +151,7 @@ public class TileOPage extends JFrame{
     private JLabel currentPlayerLabel;
     private JLabel currentPlayerNameLabel;
     private JLabel connectionsLeftLabel;
-    private BoardVisualizer board;
+    public BoardVisualizer board;
     
 
 
@@ -242,6 +243,7 @@ public class TileOPage extends JFrame{
                 turnInactiveCardButton = new JButton();
                 chooseAdditionalMoveCardSpinner = new JSpinner(new SpinnerNumberModel(1,1,6,1));
                 revealTileCardButton = new JButton();
+                winTileHintCardButton = new JButton();
            // design
                 // tile
                 addRegularTileButton = new JButton();
@@ -403,6 +405,12 @@ public class TileOPage extends JFrame{
         revealTileCardButton.addActionListener(new java.awt.event.ActionListener() {
         	public void actionPerformed(java.awt.event.ActionEvent e) {
         		revealTileCardActionPerformed();
+        	}
+        });
+        winTileHintCardButton.setText("End turn");
+        winTileHintCardButton.addActionListener(new java.awt.event.ActionListener() {
+        	public void actionPerformed(java.awt.event.ActionEvent e) {
+        		winTileHintCardActionPerformed();
         	}
         });
 
@@ -722,6 +730,7 @@ public class TileOPage extends JFrame{
             	.addComponent(actionLabel)
                 .addComponent(rollDieButton)
                 .addComponent(revealTileCardButton)
+                .addComponent(winTileHintCardButton)
                 .addComponent(gameButtonsPanel)
                 .addComponent(actionStatusLabel)
                 .addComponent(actionError)
@@ -734,7 +743,7 @@ public class TileOPage extends JFrame{
         );
 
         layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[]
-        {newGameButton, saveButton, restartButton, menuButton, gameButtonsPanel, actionStatusLabel, actionTipLabel, revealTileCardButton});
+        {newGameButton, saveButton, restartButton, menuButton, gameButtonsPanel, actionStatusLabel, actionTipLabel, revealTileCardButton, winTileHintCardButton});
         
 
         layout.setVerticalGroup(
@@ -754,6 +763,7 @@ public class TileOPage extends JFrame{
                 	.addComponent(actionLabel)
                     .addComponent(rollDieButton)
                     .addComponent(revealTileCardButton)
+                    .addComponent(winTileHintCardButton)
                     .addComponent(gameButtonsPanel)
                     .addComponent(actionStatusLabel)
                     .addComponent(actionTipLabel)
@@ -766,6 +776,7 @@ public class TileOPage extends JFrame{
             )
         );
         revealTileCardButton.setVisible(false);
+        winTileHintCardButton.setVisible(false);
         pack();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
@@ -962,6 +973,17 @@ public class TileOPage extends JFrame{
                     setWaitingFor("swapplayer");
                 }
                 break;
+            case GAME_WINTILEHINTACTIONCARD:
+            	actionStatusLabel.setText("See if a tile or its neighbours is the win tile");
+            	actionTipLabel.setText("Choose a tile");
+            	if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+            		startComputerTurn(game);
+            	}
+            	else {
+            		board.setWaitForTile(true);
+            		setWaitingFor("winhint");
+            	}
+            	break;
             case DESIGN:
                 gameButtonsPanel.setVisible(true);
             	renderDesign(game);
@@ -1467,7 +1489,7 @@ public class TileOPage extends JFrame{
         chooseAdditionalCardSpinner.setValue(0);
         revealTileCardSpinner.setValue(0);
         sendToStartCardSpinner.setValue(0);
-        //winTileHintCardSpinner.setValue(0);
+        winTileHintCardSpinner.setValue(0);
         swapPositionCardSpinner.setValue(0);
     }
 
@@ -1535,11 +1557,11 @@ public class TileOPage extends JFrame{
 	            revealTileCardSpinner.setValue(n);
 	            nCardsLeft -= n;
 	        }
-	        //if (nHint == 0 && nCardsLeft>0){
-	        //	n = rand.nextInt(nCardsLeft);
-	        //    winTileHintCardSpinner.setValue(n);
-	        //    nCardsLeft -= n;
-	        //}
+	        if (nHint == 0 && nCardsLeft>0){
+	        	n = rand.nextInt(nCardsLeft);
+	            winTileHintCardSpinner.setValue(n);
+	            nCardsLeft -= n;
+	        }
 	        if (nStart == 0 && nCardsLeft>0){
 	        	n = rand.nextInt(nCardsLeft);
 	            sendToStartCardSpinner.setValue(n);
@@ -1552,7 +1574,7 @@ public class TileOPage extends JFrame{
 	        }
         }
         while (nCardsLeft>0) {
-            n = rand.nextInt(10);
+            n = rand.nextInt(12);
             switch (n) {
                 case 0:
                     extraTurnCardSpinner.setValue((int)extraTurnCardSpinner.getValue()+1);
@@ -1573,12 +1595,9 @@ public class TileOPage extends JFrame{
                 case 8:
                 	revealTileCardSpinner.setValue((int)revealTileCardSpinner.getValue()+1);
                 case 9:
-                	sendToStartCardSpinner.setValue((int)sendToStartCardSpinner.getValue()+1);
-                
-                // ~~~~~~~~~~~~ update the ten above in n for 12
-                	
-                //case 10:
-                //	winTileHintCardSpinner.setValue((int)winTileHintCardSpinner.getValue()+1);
+                	sendToStartCardSpinner.setValue((int)sendToStartCardSpinner.getValue()+1);                	
+                case 10:
+                	winTileHintCardSpinner.setValue((int)winTileHintCardSpinner.getValue()+1);
                 case 11:
                 	swapPositionCardSpinner.setValue((int)swapPositionCardSpinner.getValue()+1);
             }
@@ -1890,8 +1909,29 @@ public class TileOPage extends JFrame{
     	renderLayout(TileOApplication.getTileO().getCurrentGame());
     }
     
+    private void winTileHint(Tile t) {
+    	try {
+    		boolean hint = toc.winTileHint(t);
+    		ArrayList<Tile> tmp = new ArrayList<Tile>();
+        	tmp.add(t);
+        	board.setPossibleTiles(tmp);
+        	setWaitingFor("");
+        	actionTipLabel.setText("");
+        	if (hint) actionStatusLabel.setText("Win tile hint is positive");
+        	else actionStatusLabel.setText("Win tile hint is negative");
+        	winTileHintCardButton.setVisible(true);
+    	}
+    	catch (InvalidInputException err) {
+    		actionError.setText(err.getMessage());
+    	}
+    }
+    
     private void winTileHintCardActionPerformed() {
-    	
+    	board.setPossibleTiles(null);
+    	winTileHintCardButton.setVisible(false);
+    	actionStatusLabel.setText("");
+    	toc.playWinTileHintActionCard();
+    	renderLayout(TileOApplication.getTileO().getCurrentGame());
     }
     
     private void sendBackToStartCardActionPerformed(Tile t) {
@@ -1935,7 +1975,7 @@ public class TileOPage extends JFrame{
             turnInactiveCardSpinner.setValue(0);
             chooseAdditionalCardSpinner.setValue(0);
             revealTileCardSpinner.setValue(0);
-            //winTileHintCardSpinner.setValue(0);
+            winTileHintCardSpinner.setValue(0);
             sendToStartCardSpinner.setValue(0);
             swapPositionCardSpinner.setValue(0);
             numberOfCardsLabel.setText("0/"+NumberOfCards);
@@ -2017,8 +2057,8 @@ public class TileOPage extends JFrame{
                 chooseAdditionalCardSpinner.setValue(n);
                 n = d.numberOfCardsForType(8);
                 revealTileCardSpinner.setValue(n);
-                //n = d.numberOfCardsForType(10);
-                //winTileHintCardSpinner.setValue(n);
+                n = d.numberOfCardsForType(10);
+                winTileHintCardSpinner.setValue(n);
                 n = d.numberOfCardsForType(9);
                 sendToStartCardSpinner.setValue(n);
                 n = d.numberOfCardsForType(11);
@@ -2097,6 +2137,8 @@ public class TileOPage extends JFrame{
     			sendBackToStartCardActionPerformed(t);
             else if (waitingFor.equals("swapplayer"))
                 swapPlayerPositionCardActionPerformed(t);
+            else if (waitingFor.equals("winhint"))
+            	winTileHint(t);
     	}
     }
     

@@ -22,6 +22,7 @@ class TileOController {
 	depend ca.mcgill.ecse223.tileo.model.RevealTileActionCard;
 	depend ca.mcgill.ecse223.tileo.model.SendBackToStartActionCard;
 	depend ca.mcgill.ecse223.tileo.model.SwapPositionActionCard;
+	depend ca.mcgill.ecse223.tileo.model.WinTileHintActionCard;
 
 	depend java.util.ArrayList;
 	depend java.util.List;
@@ -99,6 +100,10 @@ class TileOController {
       			playSwapPositionActionCard(Tile t) 
       			[verifyGameMode(Game.Mode.GAME_SWAPPOSITIONACTIONCARD)] / {
       				doPlaySwapPositionActionCard(t);
+      			} -> StartOfTurn;
+      			playWinTileHintActionCard()
+      			[verifyGameMode(Game.Mode.GAME_WINTILEHINTACTIONCARD)] / {
+      				doPlayWinTileHintActionCard();
       			} -> StartOfTurn;
 	        }
 	    }
@@ -436,7 +441,7 @@ class TileOController {
   	return "";
   }
   
-    public void doPlaySendBackToStartActionCard(Tile t) throws InvalidInputException{
+    private void doPlaySendBackToStartActionCard(Tile t) throws InvalidInputException{
         Game currentGame = TileOApplication.getTileO().getCurrentGame();
 	  	Player currentPlayer = currentGame.getCurrentPlayer();
 	  	ArrayList<Player> otherPlayers= new ArrayList<Player>();
@@ -461,7 +466,7 @@ class TileOController {
 	  	}
     }
     
-	public void doPlaySwapPositionActionCard(Tile t) throws InvalidInputException{
+	private void doPlaySwapPositionActionCard(Tile t) throws InvalidInputException{
 		Game currentGame = TileOApplication.getTileO().getCurrentGame();
      	Player currentPlayer = currentGame.getCurrentPlayer();
      	ArrayList<Player> otherPlayers= new ArrayList<Player>();
@@ -484,6 +489,23 @@ class TileOController {
  		else{
  			throw new InvalidInputException("Not a Player");
  		}
+ 	}
+ 	
+ 	public boolean winTileHint(Tile t) throws InvalidInputException {
+ 		Game game = t.getGame();
+ 		Deck deck = game.getDeck();
+ 		ActionCard card = deck.getCurrentCard();
+ 		
+ 		if (!(card instanceof WinTileHintActionCard))
+ 			throw new InvalidInputException("Card does not match");
+		return ((WinTileHintActionCard)card).play(t); 		
+ 	}
+ 	
+ 	private void doPlayWinTileHintActionCard() {
+ 		Game game = TileOApplication.getTileO().getCurrentGame();
+  		game.setNextPlayer();
+  		game.setNextCard();
+  		game.setMode(Game.Mode.GAME);
  	}
 
     
@@ -537,6 +559,7 @@ class TileOController {
         	case GAME_SENDBACKTOSTARTACTIONCARD:
         	case GAME_CHOOSEADDITIONALMOVEACTIONCARD:
         	case GAME_SWAPPOSITIONACTIONCARD:
+        	case GAME_WINTILEHINTACTIONCARD:
         		setControllerState(ControllerState.Game);
         		setControllerStateGame(ControllerStateGame.LandedAction);
         		break;	

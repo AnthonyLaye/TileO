@@ -24,7 +24,7 @@ import ca.mcgill.ecse223.tileo.model.Player;
 import ca.mcgill.ecse223.tileo.model.Game;
 import ca.mcgill.ecse223.tileo.model.Connection;
 
-class BoardVisualizer extends JPanel {
+public class BoardVisualizer extends JPanel {
 	private static final long serialVersionUID = 5603047513304210547L;
 	
     

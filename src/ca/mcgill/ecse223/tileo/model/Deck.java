@@ -26,6 +26,7 @@ public class Deck implements Serializable
   private List<TurnInactiveActionCard> turnInactiveActionCards;
   private List<ChooseAdditionalMoveActionCard> chooseAdditionalMoveActionCards;
   private List<RevealTileActionCard> revealTileActionCards;
+  private List<WinTileHintActionCard> winTileHintActionCards;
   private List<SendBackToStartActionCard> sendBackToStartActionCards;
   private List<SwapPositionActionCard> swapPositionActionCards;
   private Game game;
@@ -46,6 +47,7 @@ public class Deck implements Serializable
     turnInactiveActionCards = new ArrayList<TurnInactiveActionCard>();
     chooseAdditionalMoveActionCards = new ArrayList<ChooseAdditionalMoveActionCard>();
     revealTileActionCards = new ArrayList<RevealTileActionCard>();
+    winTileHintActionCards = new ArrayList<WinTileHintActionCard>();
     sendBackToStartActionCards = new ArrayList<SendBackToStartActionCard>();
     swapPositionActionCards = new ArrayList<SwapPositionActionCard>();
     if (aGame == null || aGame.getDeck() != null)
@@ -67,6 +69,7 @@ public class Deck implements Serializable
     turnInactiveActionCards = new ArrayList<TurnInactiveActionCard>();
     chooseAdditionalMoveActionCards = new ArrayList<ChooseAdditionalMoveActionCard>();
     revealTileActionCards = new ArrayList<RevealTileActionCard>();
+    winTileHintActionCards = new ArrayList<WinTileHintActionCard>();
     sendBackToStartActionCards = new ArrayList<SendBackToStartActionCard>();
     swapPositionActionCards = new ArrayList<SwapPositionActionCard>();
     game = new Game(aCurrentConnectionPiecesForGame, this, aDieForGame);
@@ -387,15 +390,42 @@ public class Deck implements Serializable
     return index;
   }
 
+  public WinTileHintActionCard getWinTileHintActionCard(int index)
+  {
+    WinTileHintActionCard aWinTileHintActionCard = winTileHintActionCards.get(index);
+    return aWinTileHintActionCard;
+  }
+
+  public List<WinTileHintActionCard> getWinTileHintActionCards()
+  {
+    List<WinTileHintActionCard> newWinTileHintActionCards = Collections.unmodifiableList(winTileHintActionCards);
+    return newWinTileHintActionCards;
+  }
+
+  public int numberOfWinTileHintActionCards()
+  {
+    int number = winTileHintActionCards.size();
+    return number;
+  }
+
+  public boolean hasWinTileHintActionCards()
+  {
+    boolean has = winTileHintActionCards.size() > 0;
+    return has;
+  }
+
+  public int indexOfWinTileHintActionCard(WinTileHintActionCard aWinTileHintActionCard)
+  {
+    int index = winTileHintActionCards.indexOf(aWinTileHintActionCard);
+    return index;
+  }
+
   public SendBackToStartActionCard getSendBackToStartActionCard(int index)
   {
     SendBackToStartActionCard aSendBackToStartActionCard = sendBackToStartActionCards.get(index);
     return aSendBackToStartActionCard;
   }
 
-  /**
-   * 1 -> * WinTileHintActionCard;
-   */
   public List<SendBackToStartActionCard> getSendBackToStartActionCards()
   {
     List<SendBackToStartActionCard> newSendBackToStartActionCards = Collections.unmodifiableList(sendBackToStartActionCards);
@@ -1065,6 +1095,63 @@ public class Deck implements Serializable
     return wasAdded;
   }
 
+  public static int minimumNumberOfWinTileHintActionCards()
+  {
+    return 0;
+  }
+
+  public boolean addWinTileHintActionCard(WinTileHintActionCard aWinTileHintActionCard)
+  {
+    boolean wasAdded = false;
+    if (winTileHintActionCards.contains(aWinTileHintActionCard)) { return false; }
+    winTileHintActionCards.add(aWinTileHintActionCard);
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeWinTileHintActionCard(WinTileHintActionCard aWinTileHintActionCard)
+  {
+    boolean wasRemoved = false;
+    if (winTileHintActionCards.contains(aWinTileHintActionCard))
+    {
+      winTileHintActionCards.remove(aWinTileHintActionCard);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+
+  public boolean addWinTileHintActionCardAt(WinTileHintActionCard aWinTileHintActionCard, int index)
+  {  
+    boolean wasAdded = false;
+    if(addWinTileHintActionCard(aWinTileHintActionCard))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfWinTileHintActionCards()) { index = numberOfWinTileHintActionCards() - 1; }
+      winTileHintActionCards.remove(aWinTileHintActionCard);
+      winTileHintActionCards.add(index, aWinTileHintActionCard);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveWinTileHintActionCardAt(WinTileHintActionCard aWinTileHintActionCard, int index)
+  {
+    boolean wasAdded = false;
+    if(winTileHintActionCards.contains(aWinTileHintActionCard))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfWinTileHintActionCards()) { index = numberOfWinTileHintActionCards() - 1; }
+      winTileHintActionCards.remove(aWinTileHintActionCard);
+      winTileHintActionCards.add(index, aWinTileHintActionCard);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addWinTileHintActionCardAt(aWinTileHintActionCard, index);
+    }
+    return wasAdded;
+  }
+
   public static int minimumNumberOfSendBackToStartActionCards()
   {
     return 0;
@@ -1198,6 +1285,7 @@ public class Deck implements Serializable
     turnInactiveActionCards.clear();
     chooseAdditionalMoveActionCards.clear();
     revealTileActionCards.clear();
+    winTileHintActionCards.clear();
     sendBackToStartActionCards.clear();
     swapPositionActionCards.clear();
     Game existingGame = game;
@@ -1230,7 +1318,7 @@ public class Deck implements Serializable
     System.out.println("TurnInactiveActionCard: "+numberOfCardsForType(6));
     System.out.println("ChooseAdditionalMoveActionCard: "+numberOfCardsForType(7));
     System.out.println("RevealTileActionCard: "+numberOfCardsForType(8));
-    //System.out.println("WinTileHintActionCard: "+numberOfCardsForType(10));
+    System.out.println("WinTileHintActionCard: "+numberOfCardsForType(10));
     System.out.println("SendToStartActionCard: "+numberOfCardsForType(9));
     System.out.println("SwapPoisitionActionCard: "+numberOfCardsForType(11));
     System.out.println("");
@@ -1257,8 +1345,8 @@ public class Deck implements Serializable
 	   			return numberOfChooseAdditionalMoveActionCards();
 	   		case 8:
 	   			return numberOfRevealTileActionCards();
-	   		//case 10:
-	   		//	return numberOfWinTileHintActionCards();
+	   		case 10:
+	   			return numberOfWinTileHintActionCards();
 	   		case 9:
                 return numberOfSendBackToStartActionCards();
 	   		case 11:
@@ -1318,11 +1406,11 @@ public class Deck implements Serializable
 	        	for (int i=0;i<n;++i) 
 	        		addRevealTileActionCard(new RevealTileActionCard("Reveal a tile", this));
 	        	break;
-	        //case 10:
+	        case 10:
 	        	// WINHINT
-	        //	for (int i=0;i<n;++i) 
-	        //		addWinTileHintActionCard(new WinTileHintActionCard("Win tile hint", this));
-	        //	break;
+	        	for (int i=0;i<n;++i) 
+	        		addWinTileHintActionCard(new WinTileHintActionCard("Win tile hint", this));
+	        	break;
 	        case 9:
 	        	// START
                 for (int i=0;i<n;++i) 
@@ -1388,21 +1476,21 @@ public class Deck implements Serializable
 		   			removeRevealTileActionCard((RevealTileActionCard)c);
 		   			c.delete();
 		   			break;
-		   		//case 10:
-		   		//	c = getWinTileHintActionCard(0);
-		   		//	removeWinTileHintActionCard((WinTileHintActionCard)c);
-		   		//	c.delete();
-		   		//	break;
+		   		case 10:
+		   			c = getWinTileHintActionCard(0);
+		   			removeWinTileHintActionCard((WinTileHintActionCard)c);
+		   			c.delete();
+		   			break;
 		   		case 9:
 		   			c = getSendBackToStartActionCard(0);
 		   			removeSendBackToStartActionCard((SendBackToStartActionCard)c);
 		   			c.delete();
 		   			break;
-		   		//case 11:
-		   		//	c = getSwapPositionActionCard(0);
-		   		//	removeSwapPositionActionCard((SwapPositionActionCard)c);
-		   		//	c.delete();
-		   		//	break;
+		   		case 11:
+		   			c = getSwapPositionActionCard(0);
+		   			removeSwapPositionActionCard((SwapPositionActionCard)c);
+		   			c.delete();
+		   			break;
 		   		default:
 		   			throw new RuntimeException("Card type not supported");
 		   	}
