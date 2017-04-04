@@ -7,7 +7,7 @@ import ca.mcgill.ecse223.tileo.util.Node;
 import java.util.*;
 
 // line 21 "../../../../../TileOPersistence.ump"
-// line 271 "../../../../../TileO.ump"
+// line 270 "../../../../../TileO.ump"
 public abstract class Tile implements Serializable
 {
 
@@ -256,7 +256,7 @@ public abstract class Tile implements Serializable
   }
 
    public abstract void land();
-  // line 283 "../../../../../TileO.ump"
+  // line 282 "../../../../../TileO.ump"
    public boolean isConnectedWith(Tile t){
     boolean isConnected = false;
 	  for (Connection conn: getConnections()) {
@@ -268,7 +268,7 @@ public abstract class Tile implements Serializable
 	  return isConnected;
   }
 
-  // line 294 "../../../../../TileO.ump"
+  // line 293 "../../../../../TileO.ump"
    public ArrayList<Tile> getDisconnectedNeighbors(){
     ArrayList<Tile> neigbors = new ArrayList<Tile>();
     Tile t;
@@ -311,7 +311,7 @@ public abstract class Tile implements Serializable
     return neigbors;
   }
 
-  // line 337 "../../../../../TileO.ump"
+  // line 336 "../../../../../TileO.ump"
    public ArrayList<Tile> getNeighbours(int boardsize){
     ArrayList<Tile> neigbours = new ArrayList<Tile>();
 
@@ -339,7 +339,7 @@ public abstract class Tile implements Serializable
     return neigbours;
   }
 
-  // line 364 "../../../../../TileO.ump"
+  // line 363 "../../../../../TileO.ump"
    public ArrayList<Tile> getPossibleMovesFrom(int depth){
     // Depth first search with limited depth, Iterate over the possible children
 	      // Cannot go back but loops are allowed
@@ -373,7 +373,7 @@ public abstract class Tile implements Serializable
 	      return new ArrayList<Tile>(possibleTiles);
   }
 
-  // line 397 "../../../../../TileO.ump"
+  // line 396 "../../../../../TileO.ump"
    public ArrayList<Tile> getShortestPathToWin(){
     Deque<Tile> path = new ArrayDeque<Tile>(); 
 	   
@@ -405,7 +405,7 @@ public abstract class Tile implements Serializable
 	   return new ArrayList<Tile>(path);
   }
 
-  // line 428 "../../../../../TileO.ump"
+  // line 427 "../../../../../TileO.ump"
    public int manhattanToWin(){
     int dx = getX() - getGame().getWinTile().getX();
 	   int dy = getY() - getGame().getWinTile().getY();

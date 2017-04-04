@@ -17,7 +17,6 @@ public class TileO implements Serializable
   //TileO Associations
   private List<Game> games;
   private Game currentGame;
-  private Game currentGameClone;
 
   //------------------------
   // CONSTRUCTOR
@@ -70,17 +69,6 @@ public class TileO implements Serializable
   public boolean hasCurrentGame()
   {
     boolean has = currentGame != null;
-    return has;
-  }
-
-  public Game getCurrentGameClone()
-  {
-    return currentGameClone;
-  }
-
-  public boolean hasCurrentGameClone()
-  {
-    boolean has = currentGameClone != null;
     return has;
   }
 
@@ -149,37 +137,28 @@ public class TileO implements Serializable
     return wasSet;
   }
 
-  public boolean setCurrentGameClone(Game aNewCurrentGameClone)
-  {
-    boolean wasSet = false;
-    currentGameClone = aNewCurrentGameClone;
-    wasSet = true;
-    return wasSet;
-  }
-
   public void delete()
   {
     games.clear();
     currentGame = null;
-    currentGameClone = null;
   }
 
-  // line 16 "../../../../../TileO.ump"
+  // line 15 "../../../../../TileO.ump"
    public NormalTile addNormalTile(int x, int y, Game game){
     return new NormalTile(x, y, game);
   }
 
-  // line 19 "../../../../../TileO.ump"
+  // line 18 "../../../../../TileO.ump"
    public ActionTile addActionTile(int x, int y, Game game, int inactivtyPeriod){
     return new ActionTile(x, y, game, inactivtyPeriod);
   }
 
-  // line 22 "../../../../../TileO.ump"
+  // line 21 "../../../../../TileO.ump"
    public WinTile addWinTile(int x, int y, Game game){
     return new WinTile(x, y, game);
   }
 
-  // line 25 "../../../../../TileO.ump"
+  // line 24 "../../../../../TileO.ump"
    public boolean removeTile(Tile tile){
     boolean wasRemoved = false;
 

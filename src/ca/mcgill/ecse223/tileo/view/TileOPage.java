@@ -145,7 +145,7 @@ public class TileOPage extends JFrame{
         private JButton clearDesignButton;
         // game
         private JButton newGameButton;
-        private JButton restartButton;
+        //private JButton restartButton;
     
     // board
     private JLabel currentPlayerLabel;
@@ -355,7 +355,7 @@ public class TileOPage extends JFrame{
             clearDesignButton = new JButton();
             // game
             newGameButton = new JButton();
-            restartButton = new JButton();
+            //restartButton = new JButton();
     
         // board
         currentPlayerLabel = new JLabel();
@@ -573,7 +573,7 @@ public class TileOPage extends JFrame{
         saveButton.setText("Save");
         menuButton.setText("Menu");
         newGameButton.setText("New game");
-        restartButton.setText("Restart game");
+        //restartButton.setText("Restart game");
         startGameButton.setText("Start game");
         clearDesignButton.setText("Clear");
         saveButton.addActionListener(new java.awt.event.ActionListener() {
@@ -591,11 +591,11 @@ public class TileOPage extends JFrame{
                 newGameActionPerformed(e);
             }
         });
-        restartButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent e) {
-                restartActionPerformed(e);
-            }
-        });
+        //restartButton.addActionListener(new java.awt.event.ActionListener() {
+        //    public void actionPerformed(java.awt.event.ActionEvent e) {
+        //        restartActionPerformed(e);
+        //    }
+        //});
         startGameButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 startGameActionPerformed(e);
@@ -752,14 +752,14 @@ public class TileOPage extends JFrame{
                 .addComponent(actionError)
                 .addComponent(actionTipLabel)
                 .addComponent(newGameButton)
-                .addComponent(restartButton)
+                //.addComponent(restartButton)
                 .addComponent(saveButton)
                 .addComponent(menuButton)
             )
         );
 
         layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[]
-        {newGameButton, saveButton, restartButton, menuButton, gameButtonsPanel, actionStatusLabel, actionTipLabel, revealTileCardButton, winTileHintCardButton});
+        {newGameButton, saveButton, /*restartButton,*/ menuButton, gameButtonsPanel, actionStatusLabel, actionTipLabel, revealTileCardButton, winTileHintCardButton});
         
 
         layout.setVerticalGroup(
@@ -785,7 +785,7 @@ public class TileOPage extends JFrame{
                     .addComponent(actionTipLabel)
                     .addComponent(actionError)
                     .addComponent(newGameButton)
-                    .addComponent(restartButton)
+                    //.addComponent(restartButton)
                     .addComponent(saveButton)
                     .addComponent(menuButton)
                 )
@@ -2098,7 +2098,7 @@ public class TileOPage extends JFrame{
     		}
     	}
     }
-    private void restartActionPerformed(java.awt.event.ActionEvent e) {
+    /*private void restartActionPerformed(java.awt.event.ActionEvent e) {
         System.out.println("Restarting the game");
     	try {
         	toc.restartGame();
@@ -2107,7 +2107,7 @@ public class TileOPage extends JFrame{
         	System.out.println("Error restarting the game: "+err.getMessage());
         	actionError.setText(err.getMessage());
         }
-    }
+    }*/
     
     private void clearDesignActionPerformed(java.awt.event.ActionEvent e) {
         /* Sets the board size to 0, which clears everything on board thanks to the check in

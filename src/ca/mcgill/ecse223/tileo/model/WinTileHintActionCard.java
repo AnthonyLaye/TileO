@@ -6,7 +6,7 @@ import ca.mcgill.ecse223.tileo.view.BoardVisualizer;
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
 import java.util.List;
 
-// line 860 "../../../../../TileO.ump"
+// line 859 "../../../../../TileO.ump"
 public class WinTileHintActionCard extends ActionCard
 {
 
@@ -32,12 +32,12 @@ public class WinTileHintActionCard extends ActionCard
     super.delete();
   }
 
-  // line 867 "../../../../../TileO.ump"
+  // line 866 "../../../../../TileO.ump"
    public Game.Mode getActionCardMode(){
     return Game.Mode.GAME_WINTILEHINTACTIONCARD;
   }
 
-  // line 871 "../../../../../TileO.ump"
+  // line 870 "../../../../../TileO.ump"
    public boolean play(Tile tile){
     List<Tile> neighbours = tile.getNeighbours(TileOApplication.getTileOPage().board.getBoardSize());
 	  if(tile instanceof WinTile){

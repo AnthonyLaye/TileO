@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse223.tileo.model;
 
-// line 806 "../../../../../TileO.ump"
+// line 805 "../../../../../TileO.ump"
 public class RevealTileActionCard extends ActionCard
 {
 
@@ -29,12 +29,12 @@ public class RevealTileActionCard extends ActionCard
     super.delete();
   }
 
-  // line 810 "../../../../../TileO.ump"
+  // line 809 "../../../../../TileO.ump"
    public Game.Mode getActionCardMode(){
     return Game.Mode.GAME_REVEALTILEACTIONCARD;
   }
 
-  // line 814 "../../../../../TileO.ump"
+  // line 813 "../../../../../TileO.ump"
    public String play(Tile t){
     if (t instanceof NormalTile) return "Normal";
 		else if (t instanceof ActionTile) return "Action";

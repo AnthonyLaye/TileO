@@ -10,7 +10,7 @@ import ca.mcgill.ecse223.tileo.util.Cloner;
 import java.util.*;
 
 // line 9 "../../../../../TileOPersistence.ump"
-// line 35 "../../../../../TileO.ump"
+// line 34 "../../../../../TileO.ump"
 public class Game implements Serializable
 {
 
@@ -644,18 +644,18 @@ public class Game implements Serializable
     inactiveActionTiles.clear();
   }
 
-  // line 57 "../../../../../TileO.ump"
+  // line 56 "../../../../../TileO.ump"
    public Game clone(){
     return (Game) Cloner.clone(this);
   }
 
-  // line 61 "../../../../../TileO.ump"
+  // line 60 "../../../../../TileO.ump"
    public void changeDie(){
     die = null;
     die = new Die(this);
   }
 
-  // line 66 "../../../../../TileO.ump"
+  // line 65 "../../../../../TileO.ump"
    public int getMaxSize(){
     int max=0;
 	  for (Tile aTile: tiles){
@@ -667,7 +667,7 @@ public class Game implements Serializable
 	  return max+1; // index starts at 0
   }
 
-  // line 77 "../../../../../TileO.ump"
+  // line 76 "../../../../../TileO.ump"
    public boolean connectTiles(Tile t1, Tile t2){
     boolean wasAdded = false;
 	int dx = t1.getX() - t2.getX();
@@ -682,7 +682,7 @@ public class Game implements Serializable
   	return wasAdded;
   }
 
-  // line 91 "../../../../../TileO.ump"
+  // line 90 "../../../../../TileO.ump"
    public boolean disconnectTiles(Tile t1, Tile t2){
     Connection conn = null;
 	boolean wasDeleted = false;
@@ -704,7 +704,7 @@ public class Game implements Serializable
   	return wasDeleted;
   }
 
-  // line 112 "../../../../../TileO.ump"
+  // line 111 "../../../../../TileO.ump"
    public ArrayList<Tile> rollDie(){
     int n = getDie().roll();
 	dieNumber = Integer.toString(n);
@@ -712,7 +712,7 @@ public class Game implements Serializable
   	return possibleTiles;
   }
 
-  // line 119 "../../../../../TileO.ump"
+  // line 118 "../../../../../TileO.ump"
    public void setNextPlayer(){
     while (true) {
   	  setCurrentPlayer(getPlayer((indexOfPlayer(getCurrentPlayer()) + 1)%numberOfPlayers()));
@@ -732,7 +732,7 @@ public class Game implements Serializable
   	}
   }
 
-  // line 138 "../../../../../TileO.ump"
+  // line 137 "../../../../../TileO.ump"
    public void setNextCard(){
     Deck currentDeck = getDeck();
   	ActionCard currentCard = currentDeck.getCurrentCard();
@@ -745,7 +745,7 @@ public class Game implements Serializable
     }
   }
 
-  // line 150 "../../../../../TileO.ump"
+  // line 149 "../../../../../TileO.ump"
    public void swapPlayerForComputer(int playerNum, String type){
     Player p = getPlayer(playerNum);
     Tile t = p.getStartingTile();
@@ -777,7 +777,7 @@ public class Game implements Serializable
         throw new RuntimeException("Type not implemented");
   }
 
-  // line 182 "../../../../../TileO.ump"
+  // line 181 "../../../../../TileO.ump"
    public void swapComputerForPlayer(int compNum){
     Player cp = getPlayer(compNum);
     Tile t = cp.getStartingTile();
@@ -788,12 +788,12 @@ public class Game implements Serializable
     addOrMovePlayerAt(p, p.getNumber());
   }
 
-  // line 192 "../../../../../TileO.ump"
+  // line 191 "../../../../../TileO.ump"
    public void forceRemovePlayer(Player aPlayer){
     players.remove(aPlayer);
   }
 
-  // line 196 "../../../../../TileO.ump"
+  // line 195 "../../../../../TileO.ump"
    public Tile getTileAtXY(int x, int y){
     for (Tile t: getTiles()) {
         if (t.getX()==x && t.getY()==y)
@@ -802,7 +802,7 @@ public class Game implements Serializable
     return null;
   }
 
-  // line 204 "../../../../../TileO.ump"
+  // line 203 "../../../../../TileO.ump"
    public void removeRandomTile(){
     Tile t;
     Random rand = new Random();
@@ -850,7 +850,7 @@ public class Game implements Serializable
   
   // line 12 ../../../../../TileOPersistence.ump
   private static final long serialVersionUID = -4871491228092496389L ;
-// line 54 ../../../../../TileO.ump
+// line 53 ../../../../../TileO.ump
   public  String dieNumber ;
 
   
