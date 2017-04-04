@@ -146,6 +146,7 @@ class TileOController {
     	setControllerState(ControllerState.Design);
     	setControllerStateGame(ControllerStateGame.Null);
     	tileo.setCurrentGame(game);
+    	tileo.setCurrentGameClone(null);
     	return game;
     }
     
@@ -228,17 +229,29 @@ class TileOController {
     // Game
     private void cloneGame(Game game) {
     	TileO tileo = TileOApplication.getTileO();
-    	if (game.getFilename() == null || game.getFilename() == "") return; // if you never saved this design dont clone it
-    	Game cloned = game.clone();
-    	tileo.addGame(cloned);
-    	tileo.setCurrentGame(cloned);
-    	saveGame(""); // will use the current name for the design
-    	game.setFilename(null); // make sure it's saved under a new name
-    	tileo.setCurrentGame(game);
+    	if (game.getMode() == Game.Mode.DESIGN) {
+	    	if (game.getFilename() == null || game.getFilename() == "") return; // if you never saved this design dont clone it
+	    	Game cloned = game.clone();
+	    	tileo.addGame(cloned);
+	    	tileo.setCurrentGame(cloned);
+	    	saveGame(""); // will use the current name for the design
+	    	game.setFilename(null); // make sure it's saved under a new name
+	    	tileo.setCurrentGame(game);
+    	}
+    	else {
+    		Game clone = game.clone();
+    		clone.setFilename(null);
+    		tileo.addGame(clone);
+    		if (game != tileo.getCurrentGameClone()) // if you're not restarting
+    			tileo.setCurrentGameClone(clone);
+    		else { // if you're restarting
+    			tileo.setCurrentGame(clone);
+    		}
+    	}
     }
     
-    private void doStartGame(Game selectedGame) throws InvalidInputException {
-        /* Starts the selected game if it respects the rules */   
+    private void doStartGame(Game selectedGame) throws InvalidInputException{
+    /* Starts the selected game if it respects the rules */   
         
         String error = "";
         Deck deck = selectedGame.getDeck();
@@ -269,7 +282,8 @@ class TileOController {
         selectedGame.setCurrentPlayer(selectedGame.getPlayers().get(0));
         selectedGame.setCurrentConnectionPieces(Game.SpareConnectionPieces);
         selectedGame.setMode(Game.Mode.GAME);
-    }
+        cloneGame(selectedGame); // for restarting purpose
+  }
     
     private void doRollDie() {
     	Game game = TileOApplication.getTileO().getCurrentGame();
@@ -512,9 +526,35 @@ class TileOController {
 
     
     // Controls
+    public void restartGame() throws InvalidInputException {
+	   	Game currentGameClone = TileOApplication.getTileO().getCurrentGameClone();
+	   	if (currentGameClone == null) {
+		   throw new InvalidInputException("No base game");
+	   	}
+	   	cloneGame(currentGameClone);
+	   	setControllerState(ControllerState.Game);
+	   	setControllerStateGame(ControllerStateGame.StartOfTurn);
+   	}
+    
+    
     public String saveGame(String filename) {
-        TileOApplication.save(filename);
-        return TileOApplication.getTileO().getCurrentGame().getFilename();
+       TileO tileo = TileOApplication.getTileO();
+	   Game currentGame = tileo.getCurrentGame();
+	   
+	   // save the clone if needed
+	   if (currentGame.getMode() != Game.Mode.DESIGN  && currentGame.getFilename()==null) {
+		   Game currentGameClone = tileo.getCurrentGameClone();
+		   TileOApplication.save(filename, false);
+		   String gameName = currentGame.getFilename();
+		   String cloneName = gameName.split("/")[1].split("\\.")[0] + "_clone";
+		   tileo.setCurrentGame(currentGameClone);
+		   TileOApplication.save(cloneName, true);
+		   tileo.setCurrentGame(currentGame);
+	   }
+	   else {
+		   TileOApplication.save(filename, false);
+	   }
+       return TileOApplication.getTileO().getCurrentGame().getFilename();
     }
 
     public Game loadGame(String filename) throws InvalidInputException {
@@ -541,6 +581,7 @@ class TileOController {
         	case DESIGN:
         		setControllerState(ControllerState.Design);
         		setControllerStateGame(ControllerStateGame.Null);
+        		tileo.setCurrentGameClone(null);
         		break;
         	case GAME_WON:
         		setControllerState(ControllerState.Game);
@@ -565,6 +606,14 @@ class TileOController {
         		setControllerState(ControllerState.Game);
         		setControllerStateGame(ControllerStateGame.LandedAction);
         		break;	
+        }
+        
+        // load its clone
+        if (loadedGame.getMode() != Game.Mode.DESIGN) {
+        	Game clone = TileOApplication.load(TileOApplication.CloneFolder + loadedGame.getFilename().split("/")[1].split("\\.")[0]+"_clone.game");
+    		if (clone!=null) System.out.println("Successfuly loaded clone game");
+    		else System.out.println("Error loading clone game");
+    		tileo.setCurrentGameClone(clone);
         }
 
         return loadedGame;

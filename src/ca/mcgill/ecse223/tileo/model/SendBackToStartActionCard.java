@@ -4,7 +4,7 @@
 package ca.mcgill.ecse223.tileo.model;
 import java.util.*;
 
-// line 819 "../../../../../TileO.ump"
+// line 820 "../../../../../TileO.ump"
 public class SendBackToStartActionCard extends ActionCard
 {
 
@@ -30,12 +30,12 @@ public class SendBackToStartActionCard extends ActionCard
     super.delete();
   }
 
-  // line 824 "../../../../../TileO.ump"
+  // line 825 "../../../../../TileO.ump"
    public Game.Mode getActionCardMode(){
     return Game.Mode.GAME_SENDBACKTOSTARTACTIONCARD;
   }
 
-  // line 828 "../../../../../TileO.ump"
+  // line 829 "../../../../../TileO.ump"
    public boolean play(Tile t, ArrayList<Player> otherPlayers){
     for(Player p: otherPlayers){
             if(t==p.getCurrentTile()){

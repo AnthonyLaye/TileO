@@ -13,6 +13,7 @@ public class TileOApplication {
     private static TileO tileo;
     private static TileOPage page;
     public static final String SavedFolder = "savedGames/";
+    public static final String CloneFolder = SavedFolder+"savedClones/";
     public static final int SLEEP_TIME = 1000; // in milliseconds
 
     public static void main(String args[]) {
@@ -40,9 +41,11 @@ public class TileOApplication {
         tileo.setCurrentGame(aGame);
     }
 
-    public static void save(String filename) {
+    public static void save(String filename, boolean clone) {
     	Game game = tileo.getCurrentGame();
-    	initDir();
+    	
+    	if (clone) initDir(CloneFolder);
+    	else initDir(SavedFolder);
         
         if (filename.equals("")) {
             if (game.getFilename() == null){ // first time this game is saved
@@ -55,12 +58,15 @@ public class TileOApplication {
             game.setFilename(filename);
         }
         
+        if (clone) filename = CloneFolder + filename.split("/")[1];
+        
         PersistenceObjectStream.setFilename(filename);
         PersistenceObjectStream.serialize(game);
     }
 
     public static Game load(String filename) {
-    	initDir();
+    	initDir(SavedFolder);
+    	initDir(CloneFolder);
         PersistenceObjectStream.setFilename(filename);
         Game game = (Game) PersistenceObjectStream.deserialize();
         return game;
@@ -96,15 +102,15 @@ public class TileOApplication {
         }
     }
     
-    public static void initDir() {
-    	File f = new File(SavedFolder);
+    public static void initDir(String folderName) {
+    	File f = new File(folderName);
     	if (!f.exists()) {
     		try {
     			f.mkdir();
-    			System.out.println("SavedGames folder created");
+    			System.out.println(folderName +" folder created");
     		}
     		catch (SecurityException err) {
-    			System.out.println("Could not create savedGames folder");
+    			System.out.println("Could not create "+folderName+" folder");
     		}
     	}
     }

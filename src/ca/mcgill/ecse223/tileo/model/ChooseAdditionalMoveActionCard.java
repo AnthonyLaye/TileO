@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse223.tileo.model;
 
-// line 797 "../../../../../TileO.ump"
+// line 798 "../../../../../TileO.ump"
 public class ChooseAdditionalMoveActionCard extends ActionCard
 {
 
@@ -29,7 +29,7 @@ public class ChooseAdditionalMoveActionCard extends ActionCard
     super.delete();
   }
 
-  // line 801 "../../../../../TileO.ump"
+  // line 802 "../../../../../TileO.ump"
    public Game.Mode getActionCardMode(){
     return Game.Mode.GAME_CHOOSEADDITIONALMOVEACTIONCARD;
   }

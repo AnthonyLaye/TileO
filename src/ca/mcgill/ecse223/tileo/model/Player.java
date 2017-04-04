@@ -8,7 +8,7 @@ import java.util.*;
 
 // line 15 "../../../../../TileOPersistence.ump"
 // line 3 "../../../../../PlayerState.ump"
-// line 231 "../../../../../TileO.ump"
+// line 232 "../../../../../TileO.ump"
 public class Player implements Serializable
 {
 
@@ -230,7 +230,7 @@ public class Player implements Serializable
     placeholderGame.removePlayer(this);
   }
 
-  // line 242 "../../../../../TileO.ump"
+  // line 243 "../../../../../TileO.ump"
    public void setColorByNumber(){
     switch (number) {
   		case 0:
@@ -248,12 +248,12 @@ public class Player implements Serializable
   	}
   }
 
-  // line 259 "../../../../../TileO.ump"
+  // line 260 "../../../../../TileO.ump"
    public ArrayList<Tile> getPossibleMoves(int depth){
     return currentTile.getPossibleMovesFrom(depth);
   }
 
-  // line 262 "../../../../../TileO.ump"
+  // line 263 "../../../../../TileO.ump"
    public void forceDelete(){
     startingTile = null;
     currentTile = null;

@@ -4,7 +4,7 @@
 package ca.mcgill.ecse223.tileo.model;
 
 // line 93 "../../../../../TileOPersistence.ump"
-// line 776 "../../../../../TileO.ump"
+// line 777 "../../../../../TileO.ump"
 public class RemoveRandomTileActionCard extends ActionCard
 {
 
@@ -30,12 +30,12 @@ public class RemoveRandomTileActionCard extends ActionCard
     super.delete();
   }
 
-  // line 780 "../../../../../TileO.ump"
+  // line 781 "../../../../../TileO.ump"
    public Game.Mode getActionCardMode(){
     return Game.Mode.GAME_REMOVERANDOMTILEACTIONCARD;
   }
 
-  // line 784 "../../../../../TileO.ump"
+  // line 785 "../../../../../TileO.ump"
    public void play(){
     getDeck().getGame().removeRandomTile();
   }

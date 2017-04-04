@@ -752,14 +752,14 @@ public class TileOPage extends JFrame{
                 .addComponent(actionError)
                 .addComponent(actionTipLabel)
                 .addComponent(newGameButton)
-                //.addComponent(restartButton)
+                .addComponent(restartButton)
                 .addComponent(saveButton)
                 .addComponent(menuButton)
             )
         );
 
         layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[]
-        {newGameButton, saveButton, /*restartButton,*/ menuButton, gameButtonsPanel, actionStatusLabel, actionTipLabel, revealTileCardButton, winTileHintCardButton});
+        {newGameButton, saveButton, restartButton, menuButton, gameButtonsPanel, actionStatusLabel, actionTipLabel, revealTileCardButton, winTileHintCardButton});
         
 
         layout.setVerticalGroup(
@@ -785,7 +785,7 @@ public class TileOPage extends JFrame{
                     .addComponent(actionTipLabel)
                     .addComponent(actionError)
                     .addComponent(newGameButton)
-                    //.addComponent(restartButton)
+                    .addComponent(restartButton)
                     .addComponent(saveButton)
                     .addComponent(menuButton)
                 )
@@ -1765,14 +1765,6 @@ public class TileOPage extends JFrame{
         	actionError.setText(err.getMessage());
         }
     }
-	private void restartActionPerformed(java.awt.event.ActionEvent e) {
-		Game restartedGame= toc.restart(TileOApplication.getTileO().getCurrentGame());
-		actionError.setText("");
-		toc.startGame(restartedGame);
-		board.setGame(restartedGame);
-		initGameLayout();
-		renderLayout(restartedGame);
-    }
 
     private void startComputerTurn(Game game) {
         CompThread t = new CompThread();
@@ -2024,7 +2016,7 @@ public class TileOPage extends JFrame{
     	}
     }
     private void loadGameActionPerformed(java.awt.event.ActionEvent e){
-    	TileOApplication.initDir();
+    	TileOApplication.initDir(TileOApplication.SavedFolder);
     	FileDialog fd = new FileDialog(this, "Choose a game", FileDialog.LOAD);
     	String savedFolder = TileOApplication.SavedFolder;
     	fd.setDirectory(savedFolder);
@@ -2043,7 +2035,7 @@ public class TileOPage extends JFrame{
     	}
     }
     private void loadDesignActionPerformed(java.awt.event.ActionEvent e){
-    	TileOApplication.initDir();
+    	TileOApplication.initDir(TileOApplication.SavedFolder);
     	FileDialog fd = new FileDialog(this, "Choose a design", FileDialog.LOAD);
     	String savedFolder = TileOApplication.SavedFolder;
     	fd.setDirectory(savedFolder);
@@ -2107,9 +2099,16 @@ public class TileOPage extends JFrame{
     	}
     }
     private void restartActionPerformed(java.awt.event.ActionEvent e) {
-
-        //actionError.setText("not implemented");
+        System.out.println("Restarting the game");
+    	try {
+        	toc.restartGame();
+        	renderLayout(TileOApplication.getTileO().getCurrentGame());
+        } catch (InvalidInputException err) {
+        	System.out.println("Error restarting the game: "+err.getMessage());
+        	actionError.setText(err.getMessage());
+        }
     }
+    
     private void clearDesignActionPerformed(java.awt.event.ActionEvent e) {
         /* Sets the board size to 0, which clears everything on board thanks to the check in
            setBoardSize. BoardSize is then quickly reset to what it originally was. */

@@ -10,6 +10,7 @@ use PlayerState.ump;
 class TileO {
   1 -> * Game games;
   1 -> 0..1 Game currentGame;
+  1 -> 0..1 Game currentGameClone;
   
   public NormalTile addNormalTile(int x, int y, Game game){
     return new NormalTile(x, y, game);
