@@ -3,6 +3,8 @@
 
 package ca.mcgill.ecse223.tileo.controller;
 import ca.mcgill.ecse223.tileo.application.TileOApplication;
+import ca.mcgill.ecse223.tileo.controller.TileOController.ControllerState;
+import ca.mcgill.ecse223.tileo.controller.TileOController.ControllerStateGame;
 import ca.mcgill.ecse223.tileo.exception.InvalidInputException;
 import ca.mcgill.ecse223.tileo.model.TileO;
 import ca.mcgill.ecse223.tileo.model.Game;
@@ -25,6 +27,7 @@ import ca.mcgill.ecse223.tileo.model.SendBackToStartActionCard;
 import ca.mcgill.ecse223.tileo.model.SwapPositionActionCard;
 import ca.mcgill.ecse223.tileo.model.WinTileHintActionCard;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 // line 3 "../../../../../TileOControllerStates.ump"
@@ -34,7 +37,8 @@ public class TileOController
   //------------------------
   // MEMBER VARIABLES
   //------------------------
-
+  private HashMap<Game,Game> gameMap= new HashMap<Game,Game>();
+  private Game startedGame;
   //TileOController Attributes
   private Tile currentTile;
   private ArrayList<Tile> possibleTiles;
@@ -122,49 +126,9 @@ public class TileOController
     return wasEventProcessed;
   }
   public Game restart(Game currentGame){
-		  setControllerState(ControllerState.Design);
-		  setControllerStateGame(ControllerStateGame.Null);
-		  List<Tile> tiles = currentGame.getStartingTiles();
-		  List<Connection> connections= new ArrayList<Connection>();
-		  for(Tile t:tiles){
-			  if(t.hasConnections()) {
-				  for(int c=0; c<t.numberOfConnections();c++){
-					  boolean isUnique=true;
-					  if(connections.size()!=0){
-						  for(int it=0; it<connections.size();it++){
-							  if(t.getConnection(c)!=connections.get(it)) continue;
-							  else isUnique= false;
-						  }
-						  if(isUnique){
-							 connections.add(t.getConnection(c));
-					  }
-						  else continue;
-					 
-					 }
-					  else connections.add(t.getConnection(c));
-					 
-				  }
-			  }
-		  }
-		  List<Player> players = currentGame.getPlayers();
-		  //List<Connection> connections= currentGame.getStartingConnections();
-		  Deck gameDeck = currentGame.getStartingDeck();
-		  currentGame.setTiles(tiles);
-		  currentGame.setConnections(connections);
-		  currentGame.setDeck(gameDeck);
-		  currentGame.setCurrentPlayer(players.get(0));
-		  for(Tile t: tiles){
-			  t.setHasBeenVisited(false);
-			  if(t instanceof ActionTile){
-				  ((ActionTile) t).setInactivityStatus(InactivityStatus.Active);
-			  }
-			  
-		  }
-		  for(Player p: players){
-			  p.setCurrentTile(p.getStartingTile());
-			  p.getCurrentTile().setHasBeenVisited(true);
-		  }
-		  return currentGame;
+	  setControllerState(ControllerState.Design);
+	  setControllerStateGame(ControllerStateGame.Null);
+   	  return getGameAtStart(currentGame);
 	  }
   private boolean enterGame()
   {
@@ -774,7 +738,13 @@ public class TileOController
     	game.setFilename(null); // make sure it's saved under a new name
     	tileo.setCurrentGame(game);
   }
-
+   private void setGameAtStart(Game aGame){
+		  startedGame= aGame;
+		  gameMap.put(aGame,startedGame);
+	   }
+   private Game getGameAtStart(Game aGame){
+	   return gameMap.get(aGame);
+   }
   // line 239 "../../../../../TileOControllerStates.ump"
    private void doStartGame(Game selectedGame) throws InvalidInputException{
     /* Starts the selected game if it respects the rules */   
@@ -805,6 +775,7 @@ public class TileOController
             aPlayer.setCurrentTile(aPlayer.getStartingTile());
             aPlayer.getCurrentTile().setHasBeenVisited(true);
         }
+        setGameAtStart(selectedGame);
         selectedGame.setCurrentPlayer(selectedGame.getPlayers().get(0));
         selectedGame.setCurrentConnectionPieces(Game.SpareConnectionPieces);
         selectedGame.setMode(Game.Mode.GAME);
