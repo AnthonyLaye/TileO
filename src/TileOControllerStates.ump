@@ -448,6 +448,7 @@ class TileOController {
     private void doPlaySendBackToStartActionCard(Tile t) throws InvalidInputException{
         Game currentGame = TileOApplication.getTileO().getCurrentGame();
 	  	Player currentPlayer = currentGame.getCurrentPlayer();
+		if(currentPlayer.getCurrentTile()==t) throw new InvalidInputException ("Can't choose self");
 	  	ArrayList<Player> otherPlayers= new ArrayList<Player>();
 	  	for(Player p:currentGame.getPlayers()){
 	  		if(p!=currentPlayer) otherPlayers.add(p);
@@ -466,13 +467,14 @@ class TileOController {
 	         currentGame.setMode(Game.Mode.GAME);
 	  	}
 	  	else{
-	  		throw new InvalidInputException("Not a Player");
+	  		throw new InvalidInputException("Choose a player");
 	  	}
     }
     
 	private void doPlaySwapPositionActionCard(Tile t) throws InvalidInputException{
 		Game currentGame = TileOApplication.getTileO().getCurrentGame();
      	Player currentPlayer = currentGame.getCurrentPlayer();
+	if(currentPlayer.getCurrentTile()==t) throw new InvalidInputException("Can't choose self");
      	ArrayList<Player> otherPlayers= new ArrayList<Player>();
      	for(Player p:currentGame.getPlayers()){
        		if(p!=currentPlayer) otherPlayers.add(p);
@@ -491,7 +493,7 @@ class TileOController {
  			currentGame.setMode(Game.Mode.GAME);
  		}
  		else{
- 			throw new InvalidInputException("Not a Player");
+ 			throw new InvalidInputException("Choose a player");
  		}
  	}
  	

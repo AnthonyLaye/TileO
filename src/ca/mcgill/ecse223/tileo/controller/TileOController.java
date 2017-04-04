@@ -950,8 +950,9 @@ public class TileOController
 
   // line 450 "../../../../../TileOControllerStates.ump"
    private void doPlaySendBackToStartActionCard(Tile t) throws InvalidInputException{
-    Game currentGame = TileOApplication.getTileO().getCurrentGame();
-	  	Player currentPlayer = currentGame.getCurrentPlayer();
+	    Game currentGame = TileOApplication.getTileO().getCurrentGame();
+		Player currentPlayer = currentGame.getCurrentPlayer();
+		if(currentPlayer.getCurrentTile()==t) throw new InvalidInputException("Can't choose self");
 	  	ArrayList<Player> otherPlayers= new ArrayList<Player>();
 	  	for(Player p:currentGame.getPlayers()){
 	  		if(p!=currentPlayer) otherPlayers.add(p);
@@ -970,7 +971,7 @@ public class TileOController
 	         currentGame.setMode(Game.Mode.GAME);
 	  	}
 	  	else{
-	  		throw new InvalidInputException("Not a Player");
+	  		throw new InvalidInputException("Choose a player");
 	  	}
   }
 
@@ -978,6 +979,7 @@ public class TileOController
    private void doPlaySwapPositionActionCard(Tile t) throws InvalidInputException{
     Game currentGame = TileOApplication.getTileO().getCurrentGame();
      	Player currentPlayer = currentGame.getCurrentPlayer();
+     	if(currentPlayer.getCurrentTile()==t) throw new InvalidInputException("Can't choose self");
      	ArrayList<Player> otherPlayers= new ArrayList<Player>();
      	for(Player p:currentGame.getPlayers()){
        		if(p!=currentPlayer) otherPlayers.add(p);
@@ -996,7 +998,7 @@ public class TileOController
  			currentGame.setMode(Game.Mode.GAME);
  		}
  		else{
- 			throw new InvalidInputException("Not a Player");
+ 			throw new InvalidInputException("Choose a player");
  		}
   }
 
