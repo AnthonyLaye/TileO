@@ -25,6 +25,7 @@ import ca.mcgill.ecse223.tileo.model.SendBackToStartActionCard;
 import ca.mcgill.ecse223.tileo.model.SwapPositionActionCard;
 import ca.mcgill.ecse223.tileo.model.WinTileHintActionCard;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 // line 3 "../../../../../TileOControllerStates.ump"
@@ -34,7 +35,6 @@ public class TileOController
   //------------------------
   // MEMBER VARIABLES
   //------------------------
-
   //TileOController Attributes
   private Tile currentTile;
   private ArrayList<Tile> possibleTiles;
@@ -744,7 +744,6 @@ public class TileOController
     	}
   }
 
-  // line 253 "../../../../../TileOControllerStates.ump"
    private void doStartGame(Game selectedGame) throws InvalidInputException{
     /* Starts the selected game if it respects the rules */   
         
