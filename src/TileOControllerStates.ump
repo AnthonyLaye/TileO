@@ -479,7 +479,7 @@ class TileOController {
 	         currentGame.setMode(Game.Mode.GAME);
 	  	}
 	  	else{
-	  		throw new InvalidInputException("Not a Player");
+	  		throw new InvalidInputException("Choose a player");
 	  	}
     }
     
@@ -505,7 +505,7 @@ class TileOController {
  			currentGame.setMode(Game.Mode.GAME);
  		}
  		else{
- 			throw new InvalidInputException("Not a Player");
+ 			throw new InvalidInputException("Choose a player");
  		}
  	}
  	
