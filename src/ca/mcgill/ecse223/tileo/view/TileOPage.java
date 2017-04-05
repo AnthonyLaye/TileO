@@ -1740,9 +1740,13 @@ public class TileOPage extends JFrame{
             Tile t;
             while (!selected) {
                 t = game.getTile(rand.nextInt(game.numberOfTiles()));
-                if (!(t instanceof WinTile)) {
+                if (!(t instanceof WinTile)&&(t.getConnections().size()!=0)) {
                     p.setStartingTile(t);
                     selected = true;
+                }
+                else if((t instanceof ActionTile)){
+                	p.setStartingTile(t);
+                	selected= true;
                 }
             }
         }
