@@ -1940,8 +1940,12 @@ public class TileOPage extends JFrame{
         	board.setPossibleTiles(tmp);
         	setWaitingFor("");
         	actionTipLabel.setText("");
-        	if (hint) actionStatusLabel.setText("Win tile hint is positive");
-        	else actionStatusLabel.setText("Win tile hint is negative");
+        	if (hint){ 
+        		actionStatusLabel.setText("Win tile hint is positive");
+        	}
+        	else{
+        		actionStatusLabel.setText("Win tile hint is negative");
+        	}
         	winTileHintCardButton.setVisible(true);
     	}
     	catch (InvalidInputException err) {
