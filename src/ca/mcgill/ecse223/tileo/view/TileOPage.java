@@ -176,16 +176,16 @@ public class TileOPage extends JFrame{
         
 
     	welNewGameButton = new JButton("New game");
-        welNewGameButton.setBorder((new LineBorder(Color.BLACK)));
+        //welNewGameButton.setBorder((new LineBorder(Color.BLACK)));
 
         welLoadDesignButton = new JButton("Load a design");
-        welLoadDesignButton.setBorder((new LineBorder(Color.BLACK)));
+        //welLoadDesignButton.setBorder((new LineBorder(Color.BLACK)));
 
         welLoadGameButton = new JButton("Load a game");
-        welLoadGameButton.setBorder((new LineBorder(Color.BLACK)));
+        //welLoadGameButton.setBorder((new LineBorder(Color.BLACK)));
 
         welExitButton = new JButton("Exit");
-        welExitButton.setBorder((new LineBorder(Color.BLACK)));
+        //welExitButton.setBorder((new LineBorder(Color.BLACK)));
         
         welError = new JLabel();
         welError.setText("");
@@ -264,6 +264,7 @@ public class TileOPage extends JFrame{
                 addRegularTileButton = new JButton();
                 addActionTileButton = new JButton();
                 addHiddenTileButton = new JButton();
+                
                 addConnectionButton = new JButton();
                 removeTileButton = new JButton();
                 removeConnectionButton = new JButton();
@@ -433,7 +434,9 @@ public class TileOPage extends JFrame{
 
         addRegularTileButton.setText("Add tile");
         addActionTileButton.setText("Add action tile");
-        addHiddenTileButton.setText("Add hidden tile");
+        addHiddenTileButton.setText(
+        "<html><font><b>Add </b></font><font color=#db02db><b>hidden button</b></font></html>"
+        );
         addConnectionButton.setText("Add connection");
         removeTileButton.setText("Remove tile");
         removeConnectionButton.setText("Remove connection");
