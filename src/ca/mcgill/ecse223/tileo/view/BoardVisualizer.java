@@ -71,7 +71,7 @@ public class BoardVisualizer extends JPanel {
         pieceColors.put(Player.Color.BLUE, Color.BLUE);
         pieceColors.put(Player.Color.GREEN, Color.GREEN);
         pieceColors.put(Player.Color.RED, Color.RED);
-        pieceColors.put(Player.Color.YELLOW, Color.YELLOW);
+        pieceColors.put(Player.Color.YELLOW, Color.ORANGE);
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e){
