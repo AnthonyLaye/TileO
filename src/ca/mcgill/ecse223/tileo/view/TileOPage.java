@@ -174,7 +174,10 @@ public class TileOPage extends JFrame{
         getContentPane().setBackground(Color.CYAN);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); //Makes game  fullscreen
         
-
+	// Remove welNewGameButton.setBorder((new LineBorder(Color.BLACK))); due to 
+	// compatibility on Mac OS, buttons not rendered correctly
+	// ToDo: verify the updated view on windows  
+	    
     	welNewGameButton = new JButton("New game");
         //welNewGameButton.setBorder((new LineBorder(Color.BLACK)));
 
