@@ -33,6 +33,15 @@ public class TileOPage extends JFrame{
     
 	private static final long serialVersionUID = -6882114745313007613L;
     private static final int NumberOfCards = Game.NumberOfActionCards;
+    private static final Font font60 = new Font("Rockwell", Font.PLAIN, 60);
+    private static final Font font45 = new Font("Rockwell", Font.PLAIN, 45);
+    private static final Font font150 = new Font("Rockwell", Font.PLAIN, 150);
+    private static final Font font80 = new Font("Rockwell", Font.PLAIN, 80);
+    private static final Font font50 = new Font("Rockwell", Font.PLAIN, 50);
+    private static final Font font20 = new Font("Rockwell", Font.PLAIN, 15);
+    private static final Font font30 = new Font("Rockwell", Font.PLAIN, 25);
+    
+    
     
     TileOController toc;
     
@@ -372,7 +381,6 @@ public class TileOPage extends JFrame{
 
         // basic game actions
         actionLabel.setText("Actions");
-        actionLabel.setFont(new Font("Serif", Font.PLAIN, 60));
         actionError.setForeground(Color.RED);
 
         playerColour.setPreferredSize(new Dimension(20, 20));
@@ -574,7 +582,6 @@ public class TileOPage extends JFrame{
         saveButton.setText("Save");
         menuButton.setText("Menu");
         newGameButton.setText("New game");
-        //restartButton.setText("Restart game");
         startGameButton.setText("Start game");
         clearDesignButton.setText("Clear");
         saveButton.addActionListener(new java.awt.event.ActionListener() {
@@ -604,7 +611,95 @@ public class TileOPage extends JFrame{
         });
 
         // board
-        currentPlayerLabel.setText("Current player: ");     
+        currentPlayerLabel.setText("Current player: ");    
+        
+        
+        
+        
+        // set all the fonts
+        tileOLabel.setFont(font150);
+        numberOfPlayerLabel.setFont(font45);
+        welBoardSizeLabel.setFont(font45);
+        welLoadDesignButton.setFont(font45);
+        welLoadGameButton.setFont(font45);
+        welExitButton.setFont(font45);
+        welNewGameButton.setFont(font45);
+        welContinueButton.setFont(font45);
+        numberOfPlayerSpinner.setFont(font80);
+        welBoardSizeSpinner.setFont(font80);
+        
+        modeLabel.setFont(font45);
+        
+        actionLabel.setFont(font45);
+        actionStatusLabel.setFont(font20);
+        actionTipLabel.setFont(font20);
+        actionError.setFont(font20);
+        
+        rollDieButton.setFont(font20);
+        loseTurnCardButton.setFont(font20);
+        removeRandomTileCardButton.setFont(font20);
+        turnInactiveCardButton.setFont(font20);
+        chooseAdditionalMoveCardSpinner.setFont(font20);
+        revealTileCardButton.setFont(font20);
+        winTileHintCardButton.setFont(font20);
+        
+        addRegularTileButton.setFont(font20);
+        addActionTileButton.setFont(font20);
+        addHiddenTileButton.setFont(font20);
+        addConnectionButton.setFont(font20);
+        removeTileButton.setFont(font20);
+        removeConnectionButton.setFont(font20);
+        inactivitySpinner.setFont(font20);
+        inactivityLabel.setFont(font20);
+        randomDesignButton.setFont(font20);
+        
+        setStartingTile1Button.setFont(font20);
+        setStartingTile2Button.setFont(font20);
+        setStartingTile3Button.setFont(font20);
+        setStartingTile4Button.setFont(font20);
+        computerType1ComboBox.setFont(font20);
+        computerType2ComboBox.setFont(font20);
+        computerType3ComboBox.setFont(font20);
+        computerType4ComboBox.setFont(font20);
+        setComputer1RadioButton.setFont(font20);
+        setComputer2RadioButton.setFont(font20);
+        setComputer3RadioButton.setFont(font20);
+        setComputer4RadioButton.setFont(font20);
+        
+        extraTurnCardLabel.setFont(font20);
+        newConnectionCardLabel.setFont(font20);
+        removeConnectionCardLabel.setFont(font20);
+        teleportCardLabel.setFont(font20);
+        loseTurnCardLabel.setFont(font20);
+        removeRandomTileCardLabel.setFont(font20);
+        turnInactiveCardLabel.setFont(font20);
+        chooseAdditionalCardLabel.setFont(font20);
+        revealTileCardLabel.setFont(font20);
+        winTileHintCardLabel.setFont(font20);
+        sendToStartCardLabel.setFont(font20);
+        swapPositionCardLabel.setFont(font20);
+        totalCardLabel.setFont(font20);
+        numberOfCardsLabel.setFont(font20);
+        randomCardsButton.setFont(font20);
+        fillCardsButton.setFont(font20);
+        resetDeckButton.setFont(font20);
+        for (int i=0; i<spinners.length; ++i)
+        	spinners[i].setFont(font20);
+        
+        boardSizeLabel.setFont(font20);
+        boardSizeSpinner.setFont(font20);
+        
+        saveButton.setFont(font30);
+        menuButton.setFont(font30);
+        startGameButton.setFont(font30);
+        clearDesignButton.setFont(font30);
+        newGameButton.setFont(font30);
+        
+        currentPlayerLabel.setFont(font60);
+        currentPlayerNameLabel.setFont(font60);
+        connectionsLeftLabel.setFont(font50);
+
+        
     }
     
     
@@ -634,18 +729,6 @@ public class TileOPage extends JFrame{
         center.setLayout(layout);
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
-
-        tileOLabel.setFont(new Font("Serif", Font.PLAIN, 150));
-        numberOfPlayerLabel.setFont(new Font("Serif", Font.PLAIN, 45));
-        welBoardSizeLabel.setFont(new Font("Serif", Font.PLAIN, 45));
-        welLoadDesignButton.setFont(new Font("Serif", Font.PLAIN, 45));
-        welLoadGameButton.setFont(new Font("Serif", Font.PLAIN, 45));
-        welExitButton.setFont(new Font("Serif", Font.PLAIN, 45));
-        welNewGameButton.setFont(new Font("Serif", Font.PLAIN, 45));
-        welContinueButton.setFont(new Font("Serif", Font.PLAIN, 45));
-
-        numberOfPlayerSpinner.setFont(new Font("Serif", Font.PLAIN, 80));
-        welBoardSizeSpinner.setFont(new Font("Serif", Font.PLAIN, 80));
 
 
         layout.setHorizontalGroup(
@@ -713,11 +796,7 @@ public class TileOPage extends JFrame{
     private void initGameLayout(){
 
     	getContentPane().removeAll();
-
-        currentPlayerLabel.setFont(new Font("Serif", Font.PLAIN, 65));
-        currentPlayerNameLabel.setFont(new Font("Serif", Font.PLAIN, 65));
-        connectionsLeftLabel.setFont(new Font("Serif", Font.PLAIN, 50));
-
+		
         connectionsLeftLabel.setText("Connections left: " + TileOApplication.getTileO().getCurrentGame().getCurrentConnectionPieces());
 
         GroupLayout layout = new GroupLayout(getContentPane());
@@ -982,12 +1061,7 @@ public class TileOPage extends JFrame{
         currentPlayerNameLabel.setText("Designer");
         playerColour.setBackground(Color.CYAN);
 
-        inactivityLabel.setFont(new Font("Serif", Font.PLAIN, 20));
         inactivityLabel.setText("Inactivity Period: ");
-
-        modeLabel.setFont(new Font("Serif", Font.PLAIN, 30));
-        currentPlayerNameLabel.setFont(new Font("Serif", Font.PLAIN, 65));
-        currentPlayerLabel.setFont(new Font("Serif", Font.PLAIN, 65));
         
         designTabbedPane = makeDesignPane(game.numberOfPlayers());
 
