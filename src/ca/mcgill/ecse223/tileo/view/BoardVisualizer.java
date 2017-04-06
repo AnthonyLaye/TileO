@@ -65,13 +65,13 @@ public class BoardVisualizer extends JPanel {
         tiles = new HashMap<Rectangle2D, Tile>();
         selectedTile = null;
 
-        setBackground(Color.YELLOW);
+        setBackground(Color.decode("#f2f2f2"));
 
         pieceColors = new HashMap<Player.Color, Color>();
-        pieceColors.put(Player.Color.BLUE, Color.BLUE);
-        pieceColors.put(Player.Color.GREEN, Color.GREEN);
-        pieceColors.put(Player.Color.RED, Color.RED);
-        pieceColors.put(Player.Color.YELLOW, Color.ORANGE);
+        pieceColors.put(Player.Color.BLUE, Color.decode("#1565c0"));
+        pieceColors.put(Player.Color.GREEN, Color.decode("#2e7d32"));
+        pieceColors.put(Player.Color.RED, Color.decode("#c62828"));
+        pieceColors.put(Player.Color.YELLOW, Color.decode("#ffa000"));
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e){
@@ -221,20 +221,37 @@ public class BoardVisualizer extends JPanel {
             g2d.setColor(Color.WHITE);
             if (tile instanceof WinTile){
             	if (game.getMode() == Game.Mode.DESIGN || game.getMode()==Game.Mode.GAME_WON)
-            		g2d.setColor(Color.MAGENTA);
+            		g2d.setColor(Color.decode("#cc00ff")); // magenta
             }
             if (tile instanceof ActionTile){
             	if (game.getMode() == Game.Mode.DESIGN)
-            		g2d.setColor(Color.RED);
+            		g2d.setColor(Color.decode("#66ffff")); // cyan
             }
             if (tile.getHasBeenVisited())
             	g2d.setColor(Color.LIGHT_GRAY);
             
             if (possibleTiles!=null && possibleTiles.contains(tile)) {
-            	if (!tile.getHasBeenVisited())
-                    g2d.setColor(Color.ORANGE);
+            	if (!tile.getHasBeenVisited()) {
+                    switch (TileOApplication.getTileO().getCurrentGame().getCurrentPlayer().getNumber()) {
+                    case 0:
+                    	g2d.setColor(Color.decode("#c62828"));
+                    	break;
+                    case 1:
+                    	g2d.setColor(Color.decode("#1565c0"));
+                    	break;
+                    case 2:
+                    	g2d.setColor(Color.decode("#2e7d32"));
+                    	break;
+                    case 3:
+                    	g2d.setColor(Color.decode("#ffa000"));
+                    	break;
+                    
+                    }
+                    
+                    
+            	}
                 else
-                    g2d.setColor(Color.CYAN);
+                    g2d.setColor(Color.decode("#66ffff"));
             }
             
             g2d.fill(rect);
@@ -244,7 +261,7 @@ public class BoardVisualizer extends JPanel {
             // Add inactivityPeriod for actionTile in designMode
             if (tile instanceof ActionTile){
             	if (game.getMode() == Game.Mode.DESIGN) {
-            		g2d.setColor(Color.WHITE);
+            		g2d.setColor(Color.BLACK);
             		g2d.drawString(
             			new Integer(((ActionTile) tile).getInactivityPeriod()).toString(),
             			LINEX+x*(TILEW+SPACING)+TILEW/2,

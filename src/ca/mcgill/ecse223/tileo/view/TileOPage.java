@@ -59,7 +59,7 @@ public class TileOPage extends JFrame{
     private JLabel actionTipLabel;
     private JLabel actionError;
         // game
-    	private JPanel gameButtonsPanel;
+    	
         private JButton rollDieButton;
         private JPanel playerColour;
             // card
@@ -170,7 +170,7 @@ public class TileOPage extends JFrame{
     	toc = new TileOController();
 
     	// welcome
-        getContentPane().setBackground(Color.CYAN);
+        getContentPane().setBackground(Color.WHITE); // white
         this.setExtendedState(JFrame.MAXIMIZED_BOTH); //Makes game  fullscreen
         
 	// Remove welNewGameButton.setBorder((new LineBorder(Color.BLACK))); due to 
@@ -251,7 +251,6 @@ public class TileOPage extends JFrame{
         actionTipLabel = new JLabel();
         actionError = new JLabel();
             // game
-        	gameButtonsPanel = new JPanel();
             rollDieButton = new JButton();
                 // card
             	loseTurnCardButton = new JButton();
@@ -364,8 +363,6 @@ public class TileOPage extends JFrame{
         currentPlayerNameLabel = new JLabel();
         connectionsLeftLabel = new JLabel();
         board = new BoardVisualizer();
-        
-        
         
 
         // global settings and listeners
@@ -631,7 +628,7 @@ public class TileOPage extends JFrame{
         center.add(numberOfPlayerSpinner);
         center.add(welBoardSizeSpinner);
 
-        center.setBackground(Color.YELLOW);
+        center.setBackground(Color.decode("#c62828")); // red
 
         GroupLayout layout = new GroupLayout(center);
         center.setLayout(layout);
@@ -744,9 +741,13 @@ public class TileOPage extends JFrame{
             .addGroup(layout.createParallelGroup()
             	.addComponent(actionLabel)
                 .addComponent(rollDieButton)
+                .addComponent(loseTurnCardButton)
+                .addComponent(rollDieCardButton)
+                .addComponent(removeRandomTileCardButton)
+                .addComponent(turnInactiveCardButton)
+                .addComponent(chooseAdditionalMoveCardSpinner)
                 .addComponent(revealTileCardButton)
                 .addComponent(winTileHintCardButton)
-                .addComponent(gameButtonsPanel)
                 .addComponent(actionStatusLabel)
                 .addComponent(actionError)
                 .addComponent(actionTipLabel)
@@ -757,8 +758,12 @@ public class TileOPage extends JFrame{
         );
 
         layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[]
-        {newGameButton, saveButton, menuButton, gameButtonsPanel, actionStatusLabel, actionTipLabel, revealTileCardButton, winTileHintCardButton});
+        {newGameButton, saveButton, menuButton, actionStatusLabel, actionTipLabel, revealTileCardButton, winTileHintCardButton,
+        loseTurnCardButton, rollDieCardButton, removeRandomTileCardButton, turnInactiveCardButton, chooseAdditionalMoveCardSpinner});
         
+        layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {
+        newGameButton, chooseAdditionalMoveCardSpinner // so that the spinner isnt ridiculously big
+        });
 
         layout.setVerticalGroup(
             layout.createSequentialGroup()
@@ -776,9 +781,13 @@ public class TileOPage extends JFrame{
                 .addGroup(layout.createSequentialGroup()
                 	.addComponent(actionLabel)
                     .addComponent(rollDieButton)
+                    .addComponent(loseTurnCardButton)
+                    .addComponent(rollDieCardButton)
+                    .addComponent(removeRandomTileCardButton)
+                    .addComponent(turnInactiveCardButton)
+                    .addComponent(chooseAdditionalMoveCardSpinner)
                     .addComponent(revealTileCardButton)
                     .addComponent(winTileHintCardButton)
-                    .addComponent(gameButtonsPanel)
                     .addComponent(actionStatusLabel)
                     .addComponent(actionTipLabel)
                     .addComponent(actionError)
@@ -801,25 +810,23 @@ public class TileOPage extends JFrame{
         modeLabel.setText(game.getMode().toString());
         currentPlayerNameLabel.setText("Player "+ (game.indexOfPlayer(game.getCurrentPlayer())+ 1));
         connectionsLeftLabel.setText("Connections left: " + TileOApplication.getTileO().getCurrentGame().getCurrentConnectionPieces());
-        gameButtonsPanel.removeAll();
         board.setGame(game);
 
         if(game.hasCurrentPlayer()){
             String colour = String.valueOf(game.getCurrentPlayer().getColor());
             if(colour.equals("RED"))
-                playerColour.setBackground(Color.RED);
+                playerColour.setBackground(Color.decode("#c62828"));
             if(colour.equals("BLUE"))
-                playerColour.setBackground(Color.BLUE);
+                playerColour.setBackground(Color.decode("#1565c0"));
             if(colour.equals("GREEN"))
-                playerColour.setBackground(Color.GREEN);
+                playerColour.setBackground(Color.decode("#2e7d32"));
             if(colour.equals("YELLOW"))
-                playerColour.setBackground(Color.YELLOW);
+                playerColour.setBackground(Color.decode("#ffa000"));
         }
         actionError.setText("");
         
         // set all button to invisible
         rollDieButton.setVisible(false);
-        gameButtonsPanel.setVisible(false);
         loseTurnCardButton.setVisible(false);
         rollDieCardButton.setVisible(false);
         removeRandomTileCardButton.setVisible(false);
@@ -849,8 +856,6 @@ public class TileOPage extends JFrame{
                 if (game.getCurrentPlayer() instanceof ComputerPlayer)
                     startComputerTurn(game);
                 else {
-            	    gameButtonsPanel.add(rollDieCardButton);
-                    gameButtonsPanel.setVisible(true);
             	    rollDieCardButton.setVisible(true);
                 }
                 break;
@@ -890,8 +895,6 @@ public class TileOPage extends JFrame{
                 if (game.getCurrentPlayer() instanceof ComputerPlayer) 
                     startComputerTurn(game);
             	else {
-                    gameButtonsPanel.add(loseTurnCardButton);
-            	    gameButtonsPanel.setVisible(true);
             	    loseTurnCardButton.setVisible(true);
             	}
                 break;
@@ -901,8 +904,6 @@ public class TileOPage extends JFrame{
                 if (game.getCurrentPlayer() instanceof ComputerPlayer) 
                     startComputerTurn(game);
                 else {
-            	    gameButtonsPanel.add(removeRandomTileCardButton);
-                    gameButtonsPanel.setVisible(true);
             	    removeRandomTileCardButton.setVisible(true);
                 }
                 break;
@@ -912,8 +913,6 @@ public class TileOPage extends JFrame{
                 if (game.getCurrentPlayer() instanceof ComputerPlayer) 
                     startComputerTurn(game);
                 else {
-            	    gameButtonsPanel.add(turnInactiveCardButton);
-                    gameButtonsPanel.setVisible(true);
                     turnInactiveCardButton.setVisible(true);
                 }
                 break;
@@ -923,8 +922,6 @@ public class TileOPage extends JFrame{
                 if (game.getCurrentPlayer() instanceof ComputerPlayer)
                 	startComputerTurn(game);
                 else {
-                	gameButtonsPanel.add(chooseAdditionalMoveCardSpinner);
-                	gameButtonsPanel.setVisible(true);
                 	chooseAdditionalMoveCardSpinner.setVisible(true);
                 	chooseAdditionalMoveCardSpinner.setValue(2); // so it changes and display the tiles
                 	chooseAdditionalMoveCardSpinner.setValue(1);
@@ -971,7 +968,6 @@ public class TileOPage extends JFrame{
             	}
             	break;
             case DESIGN:
-                gameButtonsPanel.setVisible(true);
             	renderDesign(game);
             	break;
         }
