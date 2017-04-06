@@ -1428,7 +1428,7 @@ public class Deck implements Serializable
 	    }
   }
 
-  // line 641 "../../../../../TileO.ump"
+  // line 643 "../../../../../TileO.ump"
    public void rmCards(int toRm, int cardType){
     ActionCard c;
 	   for (int i=0; i<toRm; ++i) {	

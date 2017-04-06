@@ -3,9 +3,9 @@
 
 package ca.mcgill.ecse223.tileo.model;
 import java.io.Serializable;
-import ca.mcgill.ecse223.tileo.computer.StupidPlayer;
-import ca.mcgill.ecse223.tileo.computer.GrandmaPlayer;
 import ca.mcgill.ecse223.tileo.computer.HackerPlayer;
+import ca.mcgill.ecse223.tileo.computer.GrandmaPlayer;
+import ca.mcgill.ecse223.tileo.computer.RandomPlayer;
 import ca.mcgill.ecse223.tileo.util.Cloner;
 import java.util.*;
 
@@ -752,8 +752,8 @@ public class Game implements Serializable
     p.forceDelete();
     // Add your type here, make sure to check your spelling
 
-    if (type.equals("Stupid")) {
-        StupidPlayer cp = new StupidPlayer(playerNum, this);
+    if (type.equals("Random")) {
+        RandomPlayer cp = new RandomPlayer(playerNum, this);
         System.out.println("Making player "+playerNum+" -> "+type);
         cp.setColorByNumber();
         cp.setStartingTile(t);

@@ -32,9 +32,9 @@ class TileO {
 }
 
 class Game {
-  depend ca.mcgill.ecse223.tileo.computer.StupidPlayer;
-  depend ca.mcgill.ecse223.tileo.computer.GrandmaPlayer;
   depend ca.mcgill.ecse223.tileo.computer.HackerPlayer;
+  depend ca.mcgill.ecse223.tileo.computer.GrandmaPlayer;
+  depend ca.mcgill.ecse223.tileo.computer.RandomPlayer;
   depend ca.mcgill.ecse223.tileo.util.Cloner;
   
   mode { DESIGN{} GAME{} GAME_WON{} GAME_ROLLDIEACTIONCARD{} GAME_CONNECTTILESACTIONCARD{} GAME_REMOVECONNECTIONACTIONCARD{} GAME_TELEPORTACTIONCARD{} GAME_LOSETURNACTIONCARD{} GAME_REMOVERANDOMTILEACTIONCARD{} GAME_TURNINACTIVEACTIONCARD{} GAME_CHOOSEADDITIONALMOVEACTIONCARD{} GAME_REVEALTILEACTIONCARD{} GAME_SENDBACKTOSTARTACTIONCARD{} GAME_SWAPPOSITIONACTIONCARD{} GAME_WINTILEHINTACTIONCARD{} }
@@ -151,8 +151,8 @@ class Game {
     p.forceDelete();
     // Add your type here, make sure to check your spelling
 
-    if (type.equals("Stupid")) {
-        StupidPlayer cp = new StupidPlayer(playerNum, this);
+    if (type.equals("Random")) {
+        RandomPlayer cp = new RandomPlayer(playerNum, this);
         System.out.println("Making player "+playerNum+" -> "+type);
         cp.setColorByNumber();
         cp.setStartingTile(t);

@@ -105,7 +105,7 @@ public class TileOPage extends JFrame{
             private JRadioButton setComputer3RadioButton;
             private JRadioButton setComputer4RadioButton;
             private JRadioButton[] setComputerRadioButtons;
-            private String[] computerTypes = {"Stupid", "Grandma", "Hacker"};
+            private String[] computerTypes = {"Random", "Grandma", "Hacker"};
             private JComboBox computerType1ComboBox;
             private JComboBox computerType2ComboBox;
             private JComboBox computerType3ComboBox;

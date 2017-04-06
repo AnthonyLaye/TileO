@@ -4,7 +4,7 @@
 package ca.mcgill.ecse223.tileo.model;
 import java.util.ArrayList;
 
-// line 838 "../../../../../TileO.ump"
+// line 840 "../../../../../TileO.ump"
 public class SwapPositionActionCard extends ActionCard
 {
 
@@ -30,12 +30,12 @@ public class SwapPositionActionCard extends ActionCard
     super.delete();
   }
 
-  // line 843 "../../../../../TileO.ump"
+  // line 845 "../../../../../TileO.ump"
    public Game.Mode getActionCardMode(){
     return Game.Mode.GAME_SWAPPOSITIONACTIONCARD;
   }
 
-  // line 847 "../../../../../TileO.ump"
+  // line 849 "../../../../../TileO.ump"
    public boolean play(Tile t, ArrayList<Player> otherPlayers, Player currentPlayer){
     for (Player p : otherPlayers) {
         	if (t == p.getCurrentTile()) {

@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class StupidPlayer extends ComputerPlayer implements Serializable
+public class RandomPlayer extends ComputerPlayer implements Serializable
 {
 	private static final long serialVersionUID = -7956850151322043897L;
 
-	public StupidPlayer (int number, Game game) {
+	public RandomPlayer (int number, Game game) {
         super(number, game);
     }
 
