@@ -116,7 +116,7 @@ public class GrandmaPlayer extends ComputerPlayer implements Serializable
             connection.add(shortestPathTile);
         }
 
-        else {
+        else { // make it look a path instead
             while (!wasConnected) {
                 t = game.getTile(rand.nextInt(game.numberOfTiles()));
                 if (t.numberOfConnections() < 4) {

@@ -1321,7 +1321,7 @@ public class Deck implements Serializable
     System.out.println("WinTileHintActionCard: "+numberOfCardsForType(10));
     System.out.println("SendToStartActionCard: "+numberOfCardsForType(9));
     System.out.println("SwapPoisitionActionCard: "+numberOfCardsForType(11));
-    System.out.println("");
+    System.out.println("Total: "+numberOfCards());
   }
 
   // line 541 "../../../../../TileO.ump"
@@ -1358,8 +1358,10 @@ public class Deck implements Serializable
 
   // line 572 "../../../../../TileO.ump"
    public void addCards(int n, int cardType){
-    n = n%maximumNumberOfCards();
-	if (numberOfCards() + n > maximumNumberOfCards()) n = maximumNumberOfCards() - n;
+    if (n > maximumNumberOfCards())
+    	n = n%maximumNumberOfCards();
+	if (numberOfCards() + n > maximumNumberOfCards()) 
+		n = maximumNumberOfCards() - n;
     switch (cardType) {
 	        case 0:
 	            // ROLL

@@ -145,7 +145,6 @@ public class TileOPage extends JFrame{
         private JButton clearDesignButton;
         // game
         private JButton newGameButton;
-        //private JButton restartButton;
     
     // board
     private JLabel currentPlayerLabel;
@@ -355,7 +354,6 @@ public class TileOPage extends JFrame{
             clearDesignButton = new JButton();
             // game
             newGameButton = new JButton();
-            //restartButton = new JButton();
     
         // board
         currentPlayerLabel = new JLabel();
@@ -591,11 +589,6 @@ public class TileOPage extends JFrame{
                 newGameActionPerformed(e);
             }
         });
-        //restartButton.addActionListener(new java.awt.event.ActionListener() {
-        //    public void actionPerformed(java.awt.event.ActionEvent e) {
-        //        restartActionPerformed(e);
-        //    }
-        //});
         startGameButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
                 startGameActionPerformed(e);
@@ -704,7 +697,7 @@ public class TileOPage extends JFrame{
         );
 
         pack();
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+      //  this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         actionStatusLabel.setText("");
         actionTipLabel.setText("");
         actionError.setText("");
@@ -752,14 +745,13 @@ public class TileOPage extends JFrame{
                 .addComponent(actionError)
                 .addComponent(actionTipLabel)
                 .addComponent(newGameButton)
-                //.addComponent(restartButton)
                 .addComponent(saveButton)
                 .addComponent(menuButton)
             )
         );
 
         layout.linkSize(SwingConstants.HORIZONTAL, new java.awt.Component[]
-        {newGameButton, saveButton, /*restartButton,*/ menuButton, gameButtonsPanel, actionStatusLabel, actionTipLabel, revealTileCardButton, winTileHintCardButton});
+        {newGameButton, saveButton, menuButton, gameButtonsPanel, actionStatusLabel, actionTipLabel, revealTileCardButton, winTileHintCardButton});
         
 
         layout.setVerticalGroup(
@@ -785,16 +777,16 @@ public class TileOPage extends JFrame{
                     .addComponent(actionTipLabel)
                     .addComponent(actionError)
                     .addComponent(newGameButton)
-                    //.addComponent(restartButton)
                     .addComponent(saveButton)
                     .addComponent(menuButton)
                 )
             )
         );
+        
         revealTileCardButton.setVisible(false);
         winTileHintCardButton.setVisible(false);
         pack();
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+       // this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     
@@ -818,38 +810,38 @@ public class TileOPage extends JFrame{
                 playerColour.setBackground(Color.YELLOW);
         }
         actionError.setText("");
+        
+        // set all button to invisible
+        rollDieButton.setVisible(false);
+        gameButtonsPanel.setVisible(false);
+        loseTurnCardButton.setVisible(false);
+        rollDieCardButton.setVisible(false);
+        removeRandomTileCardButton.setVisible(false);
+        turnInactiveCardButton.setVisible(false);
+        chooseAdditionalMoveCardSpinner.setVisible(false);
+        revealTileCardButton.setVisible(false);
+        winTileHintCardButton.setVisible(false);
 
         switch (game.getMode()) {      
             case GAME:
             	actionTipLabel.setText("Roll the die !");
             	actionStatusLabel.setText("");
-                gameButtonsPanel.setVisible(false);
-                revealTileCardButton.setVisible(false);
-                if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+                if (game.getCurrentPlayer() instanceof ComputerPlayer)
                     startComputerTurn(game);
-                }
-                else {
+                else 
             	    rollDieButton.setVisible(true);
-                }
                 break;
             case GAME_WON:
             	modeLabel.setText("Game won !");
             	currentPlayerNameLabel.setText("None");
             	actionStatusLabel.setText("Player "+(game.indexOfPlayer(game.getCurrentPlayer())+ 1) +" won !");
                 actionTipLabel.setText("");
-                gameButtonsPanel.setVisible(false);
                 break;
             case GAME_ROLLDIEACTIONCARD:
             	actionTipLabel.setText("Roll the die");
             	actionStatusLabel.setText("Roll die action card");
-            	loseTurnCardButton.setVisible(false);
-            	rollDieButton.setVisible(false);
-            	turnInactiveCardButton.setVisible(false);
-            	removeRandomTileCardButton.setVisible(false);
-            	chooseAdditionalMoveCardSpinner.setVisible(false);
-                if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+                if (game.getCurrentPlayer() instanceof ComputerPlayer)
                     startComputerTurn(game);
-                }
                 else {
             	    gameButtonsPanel.add(rollDieCardButton);
                     gameButtonsPanel.setVisible(true);
@@ -859,9 +851,8 @@ public class TileOPage extends JFrame{
             case GAME_CONNECTTILESACTIONCARD:
             	actionTipLabel.setText("Select two tiles you want to connect");
             	actionStatusLabel.setText("Add a connection action card");
-                if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+                if (game.getCurrentPlayer() instanceof ComputerPlayer) 
                     startComputerTurn(game);
-                }
             	else {
                     board.setWaitForConn(true);
             	    setWaitingFor("newconncard");
@@ -870,9 +861,8 @@ public class TileOPage extends JFrame{
             case GAME_REMOVECONNECTIONACTIONCARD:
             	actionTipLabel.setText("Select two tiles you want to disconnect");
             	actionStatusLabel.setText("Remove a connection action card");
-                if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+                if (game.getCurrentPlayer() instanceof ComputerPlayer) 
                     startComputerTurn(game);
-                }
             	else {
                     board.setWaitForConn(true);
             	    setWaitingFor("rmconncard");
@@ -881,9 +871,8 @@ public class TileOPage extends JFrame{
             case GAME_TELEPORTACTIONCARD:
             	actionTipLabel.setText("Select a new tile");
             	actionStatusLabel.setText("Teleport action card");
-                if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+                if (game.getCurrentPlayer() instanceof ComputerPlayer) 
                     startComputerTurn(game);
-                }
             	else {
                     board.setWaitForTile(true);
             	    setWaitingFor("teleportcard");
@@ -892,13 +881,8 @@ public class TileOPage extends JFrame{
             case GAME_LOSETURNACTIONCARD:
             	actionTipLabel.setText("You lose your next turn");
             	actionStatusLabel.setText("Lose turn action card");
-            	rollDieCardButton.setVisible(false);
-            	removeRandomTileCardButton.setVisible(false);
-            	turnInactiveCardButton.setVisible(false);
-            	chooseAdditionalMoveCardSpinner.setVisible(false);
-                if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+                if (game.getCurrentPlayer() instanceof ComputerPlayer) 
                     startComputerTurn(game);
-                }
             	else {
                     gameButtonsPanel.add(loseTurnCardButton);
             	    gameButtonsPanel.setVisible(true);
@@ -908,13 +892,8 @@ public class TileOPage extends JFrame{
             case GAME_REMOVERANDOMTILEACTIONCARD:
             	actionTipLabel.setText("Click on the button");
             	actionStatusLabel.setText("Remove a random tile action card");
-            	loseTurnCardButton.setVisible(false);
-            	rollDieButton.setVisible(false);
-            	turnInactiveCardButton.setVisible(false);
-            	chooseAdditionalMoveCardSpinner.setVisible(false);
-                if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+                if (game.getCurrentPlayer() instanceof ComputerPlayer) 
                     startComputerTurn(game);
-                }
                 else {
             	    gameButtonsPanel.add(removeRandomTileCardButton);
                     gameButtonsPanel.setVisible(true);
@@ -924,13 +903,8 @@ public class TileOPage extends JFrame{
             case GAME_TURNINACTIVEACTIONCARD:
             	actionTipLabel.setText("Click on the button");
             	actionStatusLabel.setText("Make all action tiles inactive");
-            	loseTurnCardButton.setVisible(false);
-            	rollDieButton.setVisible(false);
-            	removeRandomTileCardButton.setVisible(false);
-            	chooseAdditionalMoveCardSpinner.setVisible(false);
-                if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+                if (game.getCurrentPlayer() instanceof ComputerPlayer) 
                     startComputerTurn(game);
-                }
                 else {
             	    gameButtonsPanel.add(turnInactiveCardButton);
                     gameButtonsPanel.setVisible(true);
@@ -940,13 +914,8 @@ public class TileOPage extends JFrame{
             case GAME_CHOOSEADDITIONALMOVEACTIONCARD:
             	actionTipLabel.setText("Select a number");
             	actionStatusLabel.setText("Move to a new tile");
-            	loseTurnCardButton.setVisible(false);
-            	rollDieButton.setVisible(false);
-            	removeRandomTileCardButton.setVisible(false);
-            	turnInactiveCardButton.setVisible(false);
-                if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+                if (game.getCurrentPlayer() instanceof ComputerPlayer)
                 	startComputerTurn(game);
-                }
                 else {
                 	gameButtonsPanel.add(chooseAdditionalMoveCardSpinner);
                 	gameButtonsPanel.setVisible(true);
@@ -958,11 +927,9 @@ public class TileOPage extends JFrame{
             case GAME_REVEALTILEACTIONCARD:
             	actionTipLabel.setText("Select a tile to see its type");
             	actionStatusLabel.setText("Reveal a tile");
-            	if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+            	if (game.getCurrentPlayer() instanceof ComputerPlayer)
             		startComputerTurn(game);
-            	}
             	else {
-            		gameButtonsPanel.setVisible(false);
             		board.setWaitForTile(true);
             		setWaitingFor("reveal");
             	}
@@ -970,9 +937,8 @@ public class TileOPage extends JFrame{
             case GAME_SENDBACKTOSTARTACTIONCARD:
             	actionTipLabel.setText("Choose a player");
             	actionStatusLabel.setText("Send a player back to their starting tile");
-            	if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+            	if (game.getCurrentPlayer() instanceof ComputerPlayer)
             		startComputerTurn(game);
-            	}
             	else {
             		board.setWaitForTile(true);
             		setWaitingFor("sendstart");
@@ -981,9 +947,8 @@ public class TileOPage extends JFrame{
             case GAME_SWAPPOSITIONACTIONCARD:
                 actionTipLabel.setText("Choose a player");
                 actionStatusLabel.setText("Swap positions with another player");
-                if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+                if (game.getCurrentPlayer() instanceof ComputerPlayer)
                     startComputerTurn(game);
-                }
                 else {
                     board.setWaitForTile(true);
                     setWaitingFor("swapplayer");
@@ -992,9 +957,8 @@ public class TileOPage extends JFrame{
             case GAME_WINTILEHINTACTIONCARD:
             	actionStatusLabel.setText("See if a tile or its neighbours is the win tile");
             	actionTipLabel.setText("Choose a tile");
-            	if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+            	if (game.getCurrentPlayer() instanceof ComputerPlayer)
             		startComputerTurn(game);
-            	}
             	else {
             		board.setWaitForTile(true);
             		setWaitingFor("winhint");
@@ -1084,7 +1048,7 @@ public class TileOPage extends JFrame{
         );
         
         pack();
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
     
     private JTabbedPane makeDesignPane(int nPlayers) {
@@ -2098,16 +2062,6 @@ public class TileOPage extends JFrame{
     		}
     	}
     }
-    /*private void restartActionPerformed(java.awt.event.ActionEvent e) {
-        System.out.println("Restarting the game");
-    	try {
-        	toc.restartGame();
-        	renderLayout(TileOApplication.getTileO().getCurrentGame());
-        } catch (InvalidInputException err) {
-        	System.out.println("Error restarting the game: "+err.getMessage());
-        	actionError.setText(err.getMessage());
-        }
-    }*/
     
     private void clearDesignActionPerformed(java.awt.event.ActionEvent e) {
         /* Sets the board size to 0, which clears everything on board thanks to the check in

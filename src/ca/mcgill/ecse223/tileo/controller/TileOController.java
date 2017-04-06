@@ -711,7 +711,6 @@ public class TileOController
     Game game = TileOApplication.getTileO().getCurrentGame();
     	Deck deck = game.getDeck();
     	int toAdd = numberOfCards - deck.numberOfCardsForType(cardType);
-    
     	if (toAdd>0) deck.addCards (toAdd, cardType);
     	else if (toAdd<0) deck.rmCards(toAdd*-1, cardType);
   }
