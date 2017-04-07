@@ -234,16 +234,16 @@ public class BoardVisualizer extends JPanel {
             	if (!tile.getHasBeenVisited()) {
                     switch (TileOApplication.getTileO().getCurrentGame().getCurrentPlayer().getNumber()) {
                     case 0:
-                    	g2d.setColor(Color.decode("#c62828"));
+                    	g2d.setColor(Color.decode("#e16b6b"));
                     	break;
                     case 1:
-                    	g2d.setColor(Color.decode("#1565c0"));
+                    	g2d.setColor(Color.decode("#75aef0"));
                     	break;
                     case 2:
-                    	g2d.setColor(Color.decode("#2e7d32"));
+                    	g2d.setColor(Color.decode("#8fd693"));
                     	break;
                     case 3:
-                    	g2d.setColor(Color.decode("#ffa000"));
+                    	g2d.setColor(Color.decode("#ffd080"));
                     	break;
                     
                     }

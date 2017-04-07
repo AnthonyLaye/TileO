@@ -783,7 +783,7 @@ public class TileOPage extends JFrame{
         );
 
         pack();
-      //  this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         actionStatusLabel.setText("");
         actionTipLabel.setText("");
         actionError.setText("");
@@ -880,7 +880,7 @@ public class TileOPage extends JFrame{
         revealTileCardButton.setVisible(false);
         winTileHintCardButton.setVisible(false);
         pack();
-       // this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     
@@ -1124,7 +1124,7 @@ public class TileOPage extends JFrame{
         );
         
         pack();
-        //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
     
     private JTabbedPane makeDesignPane(int nPlayers) {
