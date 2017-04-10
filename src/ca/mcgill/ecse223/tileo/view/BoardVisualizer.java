@@ -33,13 +33,13 @@ public class BoardVisualizer extends JPanel {
     private List<Rectangle2D> bgRectangles = new ArrayList<Rectangle2D>();
     private HashMap<Player.Color, Color> pieceColors;
     
-    private static final int LINEX = 30;
-    private static final int LINEY = 30;
-    private static final int TILEW = 40;
-    private static final int TILEH = 40;
-    private static final int SPACING = 20;
-    private static final int CONNW = 16; // WTF
-    private static final int CONNH = 5;
+    private static final int LINEX = 25;
+    private static final int LINEY = 25;
+    private static final int TILEW = 33;
+    private static final int TILEH = 33;
+    private static final int SPACING = 13;
+    private static final int CONNW = 13; // WTF
+    private static final int CONNH = 4;
 
 
 
