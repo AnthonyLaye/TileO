@@ -117,6 +117,18 @@ public class BoardVisualizer extends JPanel {
             }
         });
     }
+    
+    public void clear() {
+    	tiles = new HashMap<Rectangle2D, Tile>();
+    	game = null;
+        selectedTile = null;
+        waitForTile = false;
+        waitForConn = false;
+        waitForCoord = false;
+        tileForConn1 = null;
+        tileForConn2 = null;
+        possibleTiles = null;
+    }
 
     public void setBoardSize(int s) {
         size = s;
@@ -129,9 +141,12 @@ public class BoardVisualizer extends JPanel {
                     p.setStartingTile(null);
             }
         }
-        for(Tile tile: tiles.values() ){
+        if (tiles != null) {
+        	for(Tile tile: tiles.values() ){
             if(tile.getX() >= s || tile.getY() >= s)
                 tileOController.removeTile(tile, game);
+        
+        	}
         }
         repaint();
     }

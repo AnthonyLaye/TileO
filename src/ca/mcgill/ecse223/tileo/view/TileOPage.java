@@ -2028,7 +2028,9 @@ public class TileOPage extends JFrame{
         	int nPlayers = (int) numberOfPlayerSpinner.getValue();
             Game game = toc.newGame(nPlayers);
             actionStatusLabel.setText("");
+            board.clear();
             board.setBoardSize((int)welBoardSizeSpinner.getValue());
+            board.setGame(game);
             boardSizeSpinner.setValue((int)welBoardSizeSpinner.getValue());
             extraTurnCardSpinner.setValue(0);
             newConnectionCardSpinner.setValue(0);
