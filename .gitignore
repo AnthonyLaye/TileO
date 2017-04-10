@@ -6,5 +6,4 @@
 /bin/
 *.swp
 TODO
-*.game
-*.design
+/savedGames/

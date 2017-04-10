@@ -14,7 +14,7 @@ public class TileOApplication {
     private static TileOPage page;
     public static final String SavedFolder = "savedGames/";
     public static final String CloneFolder = SavedFolder+"savedClones/";
-    public static final int SLEEP_TIME = 1000; // in milliseconds
+    public static final int SLEEP_TIME = 1500; // in milliseconds
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

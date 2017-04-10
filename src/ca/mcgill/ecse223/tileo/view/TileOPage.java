@@ -697,7 +697,7 @@ public class TileOPage extends JFrame{
         
         currentPlayerLabel.setFont(font60);
         currentPlayerNameLabel.setFont(font60);
-        connectionsLeftLabel.setFont(font50);
+        connectionsLeftLabel.setFont(font30);
 
         
     }
